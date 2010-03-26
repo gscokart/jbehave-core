@@ -1,5 +1,0 @@
-1) Get rid of (totally remove) the super(..) obsession in constructors of JB2
-
-  1b) less inheratance, more composition
-
-2) rename of *Scenario to *Story as is more appropriate
