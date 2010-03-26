@@ -11,9 +11,9 @@ import java.util.List;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
-import org.jbehave.scenario.RunnableScenario;
-import org.jbehave.scenario.ScenarioClassLoader;
-import org.jbehave.scenario.parser.ScenarioClassNameFinder;
+import org.jbehave.core.RunnableScenario;
+import org.jbehave.core.ScenarioClassLoader;
+import org.jbehave.core.parser.ScenarioClassNameFinder;
 
 /**
  * Abstract task that holds all the configuration parameters to specify and load
@@ -53,12 +53,12 @@ public abstract class AbstractScenarioTask extends Task {
     private List<String> scenarioExcludes = new ArrayList<String>();
 
     /**
-     * The boolean flag to determined if class loader is injected in scenario class
+     * The boolean flag to determined if class loader is injected in core class
      */
     private boolean classLoaderInjected = true;
     
     /**
-     * The boolean flag to skip running scenario
+     * The boolean flag to skip running core
      */
     private boolean skip = false;
 
@@ -68,7 +68,7 @@ public abstract class AbstractScenarioTask extends Task {
     private boolean ignoreFailure = false;
 
     /**
-     * Used to find scenario class names
+     * Used to find core class names
      */
     private ScenarioClassNameFinder finder = new ScenarioClassNameFinder();
 
@@ -89,10 +89,10 @@ public abstract class AbstractScenarioTask extends Task {
     }
 
     private List<String> findScenarioClassNames() {
-        log("Searching for scenario class names including "+scenarioIncludes+" and excluding "+scenarioExcludes, MSG_DEBUG);
+        log("Searching for core class names including "+scenarioIncludes+" and excluding "+scenarioExcludes, MSG_DEBUG);
         List<String> scenarioClassNames = finder.listScenarioClassNames(rootSourceDirectory(), null, scenarioIncludes,
                 scenarioExcludes);
-        log("Found scenario class names: " + scenarioClassNames, MSG_DEBUG);
+        log("Found core class names: " + scenarioClassNames, MSG_DEBUG);
         return scenarioClassNames;
     }
 
@@ -132,7 +132,7 @@ public abstract class AbstractScenarioTask extends Task {
     }
 
     /**
-     * Returns the list of scenario instances, whose class names are either
+     * Returns the list of core instances, whose class names are either
      * specified via the parameter "scenarioClassNames" (which takes precedence)
      * or found using the parameters "scenarioIncludes" and "scenarioExcludes".
      * 
@@ -151,7 +151,7 @@ public abstract class AbstractScenarioTask extends Task {
         try {
             classLoader = createScenarioClassLoader();
         } catch (Exception e) {
-            throw new BuildException("Failed to create scenario class loader", e);
+            throw new BuildException("Failed to create core class loader", e);
         }
         List<RunnableScenario> scenarios = new ArrayList<RunnableScenario>();
         for (String name : names) {
@@ -160,7 +160,7 @@ public abstract class AbstractScenarioTask extends Task {
                     scenarios.add(scenarioFor(classLoader, name));
                 }
             } catch (Exception e) {
-                throw new BuildException("Failed to instantiate scenario '" + name + "'", e);
+                throw new BuildException("Failed to instantiate core '" + name + "'", e);
             }
         }
         return scenarios;

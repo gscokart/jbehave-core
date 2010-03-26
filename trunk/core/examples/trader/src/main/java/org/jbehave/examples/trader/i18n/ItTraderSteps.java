@@ -6,15 +6,15 @@ import static org.jbehave.Ensure.ensureThat;
 import java.util.Locale;
 
 import org.jbehave.examples.trader.model.Stock;
-import org.jbehave.scenario.annotations.Given;
-import org.jbehave.scenario.annotations.Named;
-import org.jbehave.scenario.annotations.Then;
-import org.jbehave.scenario.annotations.When;
-import org.jbehave.scenario.definition.KeyWords;
-import org.jbehave.scenario.i18n.I18nKeyWords;
-import org.jbehave.scenario.i18n.StringEncoder;
-import org.jbehave.scenario.steps.Steps;
-import org.jbehave.scenario.steps.StepsConfiguration;
+import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Named;
+import org.jbehave.core.annotations.Then;
+import org.jbehave.core.annotations.When;
+import org.jbehave.core.definition.KeyWords;
+import org.jbehave.core.i18n.I18nKeyWords;
+import org.jbehave.core.i18n.StringEncoder;
+import org.jbehave.core.steps.Steps;
+import org.jbehave.core.steps.StepsConfiguration;
 
 public class ItTraderSteps extends Steps {
 

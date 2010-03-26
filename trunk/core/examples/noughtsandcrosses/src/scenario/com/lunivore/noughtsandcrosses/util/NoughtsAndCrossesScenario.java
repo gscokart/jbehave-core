@@ -1,12 +1,12 @@
 package com.lunivore.noughtsandcrosses.util;
 
-import org.jbehave.scenario.PropertyBasedConfiguration;
-import org.jbehave.scenario.Scenario;
-import org.jbehave.scenario.parser.ClasspathScenarioDefiner;
-import org.jbehave.scenario.parser.PatternScenarioParser;
-import org.jbehave.scenario.parser.UnderscoredCamelCaseResolver;
-import org.jbehave.scenario.reporters.PrintStreamScenarioReporter;
-import org.jbehave.scenario.reporters.ScenarioReporter;
+import org.jbehave.core.PropertyBasedConfiguration;
+import org.jbehave.core.Scenario;
+import org.jbehave.core.parser.ClasspathScenarioDefiner;
+import org.jbehave.core.parser.PatternScenarioParser;
+import org.jbehave.core.parser.UnderscoredCamelCaseResolver;
+import org.jbehave.core.reporters.PrintStreamScenarioReporter;
+import org.jbehave.core.reporters.ScenarioReporter;
 
 import com.lunivore.noughtsandcrosses.steps.BeforeAndAfterSteps;
 import com.lunivore.noughtsandcrosses.steps.GridSteps;

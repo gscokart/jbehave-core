@@ -4,7 +4,7 @@ import static org.apache.tools.ant.Project.MSG_INFO;
 import static org.apache.tools.ant.Project.MSG_WARN;
 
 import org.apache.tools.ant.BuildException;
-import org.jbehave.scenario.RunnableScenario;
+import org.jbehave.core.RunnableScenario;
 
 /**
  * Ant task that generate stepdocs

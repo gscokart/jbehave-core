@@ -13,15 +13,15 @@ import org.jbehave.examples.trader.model.Stock;
 import org.jbehave.examples.trader.model.Trader;
 import org.jbehave.examples.trader.model.Stock.AlertStatus;
 import org.jbehave.examples.trader.service.TradingService;
-import org.jbehave.scenario.annotations.Alias;
-import org.jbehave.scenario.annotations.Aliases;
-import org.jbehave.scenario.annotations.Given;
-import org.jbehave.scenario.annotations.Named;
-import org.jbehave.scenario.annotations.Then;
-import org.jbehave.scenario.annotations.When;
-import org.jbehave.scenario.definition.ExamplesTable;
-import org.jbehave.scenario.steps.CandidateSteps;
-import org.jbehave.scenario.steps.StepsFactory;
+import org.jbehave.core.annotations.Alias;
+import org.jbehave.core.annotations.Aliases;
+import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Named;
+import org.jbehave.core.annotations.Then;
+import org.jbehave.core.annotations.When;
+import org.jbehave.core.definition.ExamplesTable;
+import org.jbehave.core.steps.CandidateSteps;
+import org.jbehave.core.steps.StepsFactory;
 
 /**
  * POJO holding the candidate steps for the trader example.  

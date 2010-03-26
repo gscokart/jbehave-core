@@ -3,8 +3,8 @@ package org.jbehave.examples.trader;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.jbehave.Ensure.ensureThat;
 
-import org.jbehave.scenario.annotations.Given;
-import org.jbehave.scenario.annotations.Then;
+import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Then;
 
 public class PriorityMatchingSteps {
 

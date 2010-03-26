@@ -1,32 +1,32 @@
 package org.jbehave.examples.trader.scenarios;
 
-import static org.jbehave.scenario.reporters.ScenarioReporterBuilder.Format.CONSOLE;
-import static org.jbehave.scenario.reporters.ScenarioReporterBuilder.Format.HTML;
-import static org.jbehave.scenario.reporters.ScenarioReporterBuilder.Format.TXT;
-import static org.jbehave.scenario.reporters.ScenarioReporterBuilder.Format.XML;
+import static org.jbehave.core.reporters.ScenarioReporterBuilder.Format.CONSOLE;
+import static org.jbehave.core.reporters.ScenarioReporterBuilder.Format.HTML;
+import static org.jbehave.core.reporters.ScenarioReporterBuilder.Format.TXT;
+import static org.jbehave.core.reporters.ScenarioReporterBuilder.Format.XML;
 
 import java.util.Calendar;
 
 import org.jbehave.examples.trader.converters.CalendarConverter;
-import org.jbehave.scenario.JUnitScenario;
-import org.jbehave.scenario.PropertyBasedConfiguration;
-import org.jbehave.scenario.RunnableScenario;
-import org.jbehave.scenario.annotations.Given;
-import org.jbehave.scenario.annotations.Named;
-import org.jbehave.scenario.annotations.Then;
-import org.jbehave.scenario.parser.ClasspathScenarioDefiner;
-import org.jbehave.scenario.parser.PatternScenarioParser;
-import org.jbehave.scenario.parser.ScenarioDefiner;
-import org.jbehave.scenario.parser.ScenarioNameResolver;
-import org.jbehave.scenario.parser.UnderscoredCamelCaseResolver;
-import org.jbehave.scenario.reporters.FilePrintStreamFactory;
-import org.jbehave.scenario.reporters.ScenarioReporter;
-import org.jbehave.scenario.reporters.ScenarioReporterBuilder;
-import org.jbehave.scenario.steps.ParameterConverters;
-import org.jbehave.scenario.steps.SilentStepMonitor;
-import org.jbehave.scenario.steps.StepMonitor;
-import org.jbehave.scenario.steps.StepsConfiguration;
-import org.jbehave.scenario.steps.StepsFactory;
+import org.jbehave.core.JUnitScenario;
+import org.jbehave.core.PropertyBasedConfiguration;
+import org.jbehave.core.RunnableScenario;
+import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Named;
+import org.jbehave.core.annotations.Then;
+import org.jbehave.core.parser.ClasspathScenarioDefiner;
+import org.jbehave.core.parser.PatternScenarioParser;
+import org.jbehave.core.parser.ScenarioDefiner;
+import org.jbehave.core.parser.ScenarioNameResolver;
+import org.jbehave.core.parser.UnderscoredCamelCaseResolver;
+import org.jbehave.core.reporters.FilePrintStreamFactory;
+import org.jbehave.core.reporters.ScenarioReporter;
+import org.jbehave.core.reporters.ScenarioReporterBuilder;
+import org.jbehave.core.steps.ParameterConverters;
+import org.jbehave.core.steps.SilentStepMonitor;
+import org.jbehave.core.steps.StepMonitor;
+import org.jbehave.core.steps.StepsConfiguration;
+import org.jbehave.core.steps.StepsFactory;
 
 public class ClaimsWithNullCalendar extends JUnitScenario {
 

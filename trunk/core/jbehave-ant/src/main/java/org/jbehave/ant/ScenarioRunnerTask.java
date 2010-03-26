@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.tools.ant.BuildException;
-import org.jbehave.scenario.RunnableScenario;
+import org.jbehave.core.RunnableScenario;
 
 /**
  * Ant task that runs scenarios
@@ -31,10 +31,10 @@ public class ScenarioRunnerTask extends AbstractScenarioTask {
         for (RunnableScenario scenario : scenarios()) {
             String scenarioName = scenario.getClass().getName();
             try {
-                log("Running scenario " + scenarioName);
+                log("Running core " + scenarioName);
                 scenario.runScenario();
             } catch (Throwable e) {
-                String message = "Failure in running scenario " + scenarioName;
+                String message = "Failure in running core " + scenarioName;
                 if (batch) {
                     // collect and postpone decision to throw exception
                     failedScenarios.put(scenarioName, e);

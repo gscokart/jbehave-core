@@ -2,17 +2,17 @@ package org.jbehave.examples.trader.i18n;
 
 import java.util.Locale;
 
-import org.jbehave.scenario.JUnitScenario;
-import org.jbehave.scenario.PropertyBasedConfiguration;
-import org.jbehave.scenario.definition.KeyWords;
-import org.jbehave.scenario.i18n.I18nKeyWords;
-import org.jbehave.scenario.i18n.StringEncoder;
-import org.jbehave.scenario.parser.ClasspathScenarioDefiner;
-import org.jbehave.scenario.parser.PatternScenarioParser;
-import org.jbehave.scenario.parser.ScenarioDefiner;
-import org.jbehave.scenario.parser.UnderscoredCamelCaseResolver;
-import org.jbehave.scenario.reporters.PrintStreamScenarioReporter;
-import org.jbehave.scenario.reporters.ScenarioReporter;
+import org.jbehave.core.JUnitScenario;
+import org.jbehave.core.PropertyBasedConfiguration;
+import org.jbehave.core.definition.KeyWords;
+import org.jbehave.core.i18n.I18nKeyWords;
+import org.jbehave.core.i18n.StringEncoder;
+import org.jbehave.core.parser.ClasspathScenarioDefiner;
+import org.jbehave.core.parser.PatternScenarioParser;
+import org.jbehave.core.parser.ScenarioDefiner;
+import org.jbehave.core.parser.UnderscoredCamelCaseResolver;
+import org.jbehave.core.reporters.PrintStreamScenarioReporter;
+import org.jbehave.core.reporters.ScenarioReporter;
 
 public class ItTraderScenario extends JUnitScenario {
 
@@ -24,7 +24,7 @@ public class ItTraderScenario extends JUnitScenario {
 		super(new PropertyBasedConfiguration() {
 			@Override
 			public ScenarioDefiner forDefiningScenarios() {
-				// use underscored camel case scenario files with extension ".scenario"
+				// use underscored camel case core files with extension ".scenario"
 				return new ClasspathScenarioDefiner(
 						new UnderscoredCamelCaseResolver(".scenario"),
 						new PatternScenarioParser(keywords()), classLoader);

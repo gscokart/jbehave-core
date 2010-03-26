@@ -1,12 +1,12 @@
 package com.lunivore.gameoflife;
 
-import org.jbehave.scenario.PropertyBasedConfiguration;
-import org.jbehave.scenario.JUnitScenario;
-import org.jbehave.scenario.parser.PatternScenarioParser;
-import org.jbehave.scenario.parser.ClasspathScenarioDefiner;
-import org.jbehave.scenario.parser.UnderscoredCamelCaseResolver;
-import org.jbehave.scenario.reporters.PrintStreamScenarioReporter;
-import org.jbehave.scenario.reporters.ScenarioReporter;
+import org.jbehave.core.PropertyBasedConfiguration;
+import org.jbehave.core.JUnitScenario;
+import org.jbehave.core.parser.PatternScenarioParser;
+import org.jbehave.core.parser.ClasspathScenarioDefiner;
+import org.jbehave.core.parser.UnderscoredCamelCaseResolver;
+import org.jbehave.core.reporters.PrintStreamScenarioReporter;
+import org.jbehave.core.reporters.ScenarioReporter;
 
 import com.lunivore.gameoflife.steps.GridSteps;
 

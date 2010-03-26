@@ -3,10 +3,10 @@ package org.jbehave.examples.trader.guice;
 import org.jbehave.examples.trader.BeforeAfterSteps;
 import org.jbehave.examples.trader.TraderScenario;
 import org.jbehave.examples.trader.service.TradingService;
-import org.jbehave.scenario.RunnableScenario;
-import org.jbehave.scenario.steps.CandidateSteps;
-import org.jbehave.scenario.steps.StepsConfiguration;
-import org.jbehave.scenario.steps.guice.GuiceStepsFactory;
+import org.jbehave.core.RunnableScenario;
+import org.jbehave.core.steps.CandidateSteps;
+import org.jbehave.core.steps.StepsConfiguration;
+import org.jbehave.core.steps.guice.GuiceStepsFactory;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;

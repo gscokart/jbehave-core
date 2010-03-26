@@ -2,9 +2,9 @@ package org.jbehave.mojo;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.jbehave.scenario.RunnableScenario;
-import org.jbehave.scenario.ScenarioClassLoader;
-import org.jbehave.scenario.parser.ScenarioClassNameFinder;
+import org.jbehave.core.RunnableScenario;
+import org.jbehave.core.ScenarioClassLoader;
+import org.jbehave.core.parser.ScenarioClassNameFinder;
 
 import java.lang.reflect.Modifier;
 import java.net.MalformedURLException;
@@ -85,7 +85,7 @@ public abstract class AbstractScenarioMojo extends AbstractMojo {
     private List<String> testClasspathElements;
 
     /**
-     * The boolean flag to determined if class loader is injected in scenario class
+     * The boolean flag to determined if class loader is injected in core class
      * 
      * @parameter default-value="true"
      */
@@ -106,7 +106,7 @@ public abstract class AbstractScenarioMojo extends AbstractMojo {
     private boolean ignoreFailure;
     
     /**
-     * Used to find scenario class names
+     * Used to find core class names
      */
     private ScenarioClassNameFinder finder = new ScenarioClassNameFinder();
 
@@ -127,10 +127,10 @@ public abstract class AbstractScenarioMojo extends AbstractMojo {
     }
 
     private List<String> findScenarioClassNames() {
-        getLog().debug("Searching for scenario class names including "+scenarioIncludes+" and excluding "+scenarioExcludes);
+        getLog().debug("Searching for core class names including "+scenarioIncludes+" and excluding "+scenarioExcludes);
         List<String> scenarioClassNames = finder.listScenarioClassNames(rootSourceDirectory(), null, scenarioIncludes,
                 scenarioExcludes);
-        getLog().debug("Found scenario class names: " + scenarioClassNames);
+        getLog().debug("Found core class names: " + scenarioClassNames);
         return scenarioClassNames;
     }
 
@@ -172,7 +172,7 @@ public abstract class AbstractScenarioMojo extends AbstractMojo {
     }
     
     /**
-     * Returns the list of scenario instances, whose class names are either
+     * Returns the list of core instances, whose class names are either
      * specified via the parameter "scenarioClassNames" (which takes precedence)
      * or found using the parameters "scenarioIncludes" and "scenarioExcludes".
      * 
@@ -191,7 +191,7 @@ public abstract class AbstractScenarioMojo extends AbstractMojo {
         try {
             classLoader = createScenarioClassLoader();
         } catch (Exception e) {
-            throw new MojoExecutionException("Failed to create scenario class loader", e);
+            throw new MojoExecutionException("Failed to create core class loader", e);
         }
         List<RunnableScenario> scenarios = new ArrayList<RunnableScenario>();
         for (String name : names) {
@@ -200,7 +200,7 @@ public abstract class AbstractScenarioMojo extends AbstractMojo {
                     scenarios.add(scenarioFor(classLoader, name));
                 }
             } catch (Exception e) {
-                throw new MojoExecutionException("Failed to instantiate scenario '" + name + "'", e);
+                throw new MojoExecutionException("Failed to instantiate core '" + name + "'", e);
             }
         }
         return scenarios;

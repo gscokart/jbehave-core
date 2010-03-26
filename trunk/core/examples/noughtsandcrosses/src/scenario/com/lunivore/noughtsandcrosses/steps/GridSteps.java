@@ -10,10 +10,10 @@ import java.util.List;
 
 import javax.swing.JLabel;
 
-import org.jbehave.scenario.annotations.Given;
-import org.jbehave.scenario.annotations.Then;
-import org.jbehave.scenario.annotations.When;
-import org.jbehave.scenario.steps.Steps;
+import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Then;
+import org.jbehave.core.annotations.When;
+import org.jbehave.core.steps.Steps;
 
 import com.lunivore.noughtsandcrosses.NoughtsAndCrosses;
 import com.lunivore.noughtsandcrosses.util.OAndXUniverse;

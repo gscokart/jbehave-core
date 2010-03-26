@@ -38,7 +38,7 @@
       </dependency>
       <dependency>
         <!--
-          Optional as only required scenario class name finder, used by
+          Optional as only required core class name finder, used by
           Ant and Maven Plugin modules
         -->
         <groupId>org.apache.ant</groupId>
