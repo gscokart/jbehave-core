@@ -8,8 +8,8 @@ import static org.mockito.Mockito.verify;
 
 import java.util.List;
 
-import org.jbehave.core.definition.ExamplesTable;
-import org.jbehave.core.definition.StoryDefinition;
+import org.jbehave.core.model.ExamplesTable;
+import org.jbehave.core.model.Story;
 import org.junit.Test;
 import org.mockito.InOrder;
 
@@ -22,7 +22,7 @@ public class PassSilentlyDecoratorBehaviour {
         List<String> givenScenarios = asList("path/to/scenario1", "path/to/scenario2");
         ExamplesTable examplesTable = new ExamplesTable("|one|two|\n|1|2|\n");
         IllegalArgumentException anException = new IllegalArgumentException();
-        StoryDefinition story = new StoryDefinition();        
+        Story story = new Story();
         boolean embeddedStory = false;
         
         decorator.beforeStory(story, embeddedStory);

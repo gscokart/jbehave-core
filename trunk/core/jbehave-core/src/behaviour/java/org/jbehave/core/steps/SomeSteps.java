@@ -7,7 +7,7 @@ import java.beans.MethodDescriptor;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import org.jbehave.core.definition.ExamplesTable;
+import org.jbehave.core.model.ExamplesTable;
 
 public class SomeSteps extends Steps {
 

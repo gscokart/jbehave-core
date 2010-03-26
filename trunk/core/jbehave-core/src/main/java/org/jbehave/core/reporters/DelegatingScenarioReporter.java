@@ -7,9 +7,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.jbehave.core.definition.Blurb;
-import org.jbehave.core.definition.ExamplesTable;
-import org.jbehave.core.definition.StoryDefinition;
+import org.jbehave.core.model.Description;
+import org.jbehave.core.model.ExamplesTable;
+import org.jbehave.core.model.Story;
 
 /**
  * Reporter which collects other {@link ScenarioReporter}s and delegates all
@@ -63,15 +63,15 @@ public class DelegatingScenarioReporter implements ScenarioReporter {
         }
     }
 
-    public void beforeStory(StoryDefinition story, boolean embeddedStory) {
+    public void beforeStory(Story story, boolean embeddedStory) {
         for (ScenarioReporter reporter : delegates) {
             reporter.beforeStory(story, embeddedStory);
         }
     }
 
-    public void beforeStory(Blurb blurb) {
+    public void beforeStory(Description description) {
         for (ScenarioReporter reporter : delegates) {
-            reporter.beforeStory(blurb);
+            reporter.beforeStory(description);
         }
     }
 

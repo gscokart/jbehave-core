@@ -8,10 +8,10 @@ import static org.jbehave.Ensure.ensureThat;
 
 import java.util.List;
 
-import org.jbehave.core.definition.ExamplesTable;
-import org.jbehave.core.definition.Narrative;
-import org.jbehave.core.definition.ScenarioDefinition;
-import org.jbehave.core.definition.StoryDefinition;
+import org.jbehave.core.model.ExamplesTable;
+import org.jbehave.core.model.Narrative;
+import org.jbehave.core.model.Scenario;
+import org.jbehave.core.model.Story;
 import org.jbehave.core.i18n.I18nKeyWords;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -24,7 +24,7 @@ public class PatternScenarioParserBehaviour {
 
     @Test
     public void shouldExtractGivensWhensAndThensFromSimpleScenarios() {
-        StoryDefinition story = parser.defineStoryFrom(
+        Story story = parser.defineStoryFrom(
                 "Given a core" + NL +
                 "!-- ignore me" + NL + 
                 "When I parse it" + NL + 
@@ -39,7 +39,7 @@ public class PatternScenarioParserBehaviour {
     
     @Test
     public void shouldExtractGivensWhensAndThensFromSimpleScenariosContainingKeywordsAsPartOfTheContent() {
-        StoryDefinition story = parser.defineStoryFrom(
+        Story story = parser.defineStoryFrom(
                 "Given a core Givenly" + NL +
                 "When I parse it to Whenever" + NL +
                 "And I parse it to Anderson" + NL +
@@ -64,7 +64,7 @@ public class PatternScenarioParserBehaviour {
             "Then I should get steps" + NL +
             "without worrying about lines" + NL +
             "or extra white space between or after steps" + NL + NL;
-        StoryDefinition story = parser.defineStoryFrom(wholeStory, null);
+        Story story = parser.defineStoryFrom(wholeStory, null);
 
         List<String> steps = story.getScenarios().get(0).getSteps();
         
@@ -85,7 +85,7 @@ public class PatternScenarioParserBehaviour {
             "When I run the core" + NL +
             "Then I should see this in the output";
         
-        StoryDefinition story = parser.defineStoryFrom(wholeStory, null);
+        Story story = parser.defineStoryFrom(wholeStory, null);
         
         ensureThat(story.getScenarios().get(0).getTitle(), equalTo("A title\n that is spread across\n multiple lines"));
     }
@@ -97,7 +97,7 @@ public class PatternScenarioParserBehaviour {
             "Given my core" + NL + NL +
             "Scenario: the second core" + NL + NL +
             "Given my second core";
-        StoryDefinition story = parser.defineStoryFrom(wholeStory, null);
+        Story story = parser.defineStoryFrom(wholeStory, null);
         
         ensureThat(story.getScenarios().get(0).getTitle(), equalTo("the first core"));
         ensureThat(story.getScenarios().get(0).getSteps(), equalTo(asList("Given my core")));
@@ -107,7 +107,7 @@ public class PatternScenarioParserBehaviour {
     
     @Test
     public void shouldParseNarrativeFromStory() {
-        StoryDefinition story = parser.defineStoryFrom(
+        Story story = parser.defineStoryFrom(
                 "Narrative: This bit of text is ignored" + NL + 
                 "In order to renovate my house" + NL + 
                 "As a customer" + NL + 
@@ -147,9 +147,9 @@ public class PatternScenarioParserBehaviour {
             "Then I should see this in the output" + NL +
             "And I should see this in the output" + NL;
         
-        StoryDefinition story = parser.defineStoryFrom(wholeStory, null);
+        Story story = parser.defineStoryFrom(wholeStory, null);
         
-        ensureThat(story.getBlurb().asString(), equalTo("Story: I can output narratives"));
+        ensureThat(story.getDescription().asString(), equalTo("Story: I can output narratives"));
         
         ensureThat(story.getNarrative().inOrderTo(), equalTo("see what we're not delivering"));
         ensureThat(story.getNarrative().asA(), equalTo("developer"));
@@ -222,9 +222,9 @@ public class PatternScenarioParserBehaviour {
 			wholeStory.append(aScenario).append(NL);
 		}
             
-		StoryDefinition story = parser.defineStoryFrom(wholeStory.toString(), null);
+		Story story = parser.defineStoryFrom(wholeStory.toString(), null);
         ensureThat(story.getScenarios().size(), equalTo(numberOfScenarios));
-        for ( ScenarioDefinition scenario : story.getScenarios() ){
+        for ( Scenario scenario : story.getScenarios() ){
         	ensureThat(scenario.getSteps().size(), equalTo(numberOfGivenWhenThensPerScenario*3));        	
         }
 	}
@@ -242,9 +242,9 @@ public class PatternScenarioParserBehaviour {
 	            "|a|b|c|" + NL +
 	            "|d|e|f|";
 		
-        StoryDefinition story = parser.defineStoryFrom(wholeStory, null);
+        Story story = parser.defineStoryFrom(wholeStory, null);
         
-        ScenarioDefinition scenario = story.getScenarios().get(0);
+        Scenario scenario = story.getScenarios().get(0);
         ensureThat(scenario.getTitle(), equalTo("A template core with table values"));
         ensureThat(scenario.getGivenScenarios().size(), equalTo(0));
         ensureThat(scenario.getSteps(), equalTo(asList(
@@ -277,9 +277,9 @@ public class PatternScenarioParserBehaviour {
 	            "When I run the core of name <two>" + NL +
 	            "Then I should see <three> in the output";
 		
-        StoryDefinition story = parser.defineStoryFrom(wholeStory, null);
+        Story story = parser.defineStoryFrom(wholeStory, null);
         
-        ScenarioDefinition scenario = story.getScenarios().get(0);
+        Scenario scenario = story.getScenarios().get(0);
         ensureThat(scenario.getTitle(), equalTo("A core with given scenarios"));
         ensureThat(scenario.getGivenScenarios(), equalTo(asList(
                 "path/to/one",

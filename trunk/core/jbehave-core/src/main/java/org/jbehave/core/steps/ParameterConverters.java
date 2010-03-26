@@ -11,7 +11,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jbehave.core.definition.ExamplesTable;
+import org.jbehave.core.model.ExamplesTable;
 
 /**
  * Facade responsible for converting parameter values to Java objects.

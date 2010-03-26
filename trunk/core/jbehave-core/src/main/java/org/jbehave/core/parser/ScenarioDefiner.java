@@ -1,7 +1,7 @@
 package org.jbehave.core.parser;
 
 import org.jbehave.core.RunnableScenario;
-import org.jbehave.core.definition.StoryDefinition;
+import org.jbehave.core.model.Story;
 
 /**
  * <p>
@@ -10,8 +10,8 @@ import org.jbehave.core.definition.StoryDefinition;
  */
 public interface ScenarioDefiner {
 
-    StoryDefinition loadScenarioDefinitionsFor(Class<? extends RunnableScenario> scenarioClass);
+    Story loadScenarioDefinitionsFor(Class<? extends RunnableScenario> scenarioClass);
 
-    StoryDefinition loadScenarioDefinitionsFor(String scenarioPath);
+    Story loadScenarioDefinitionsFor(String scenarioPath);
 
 }

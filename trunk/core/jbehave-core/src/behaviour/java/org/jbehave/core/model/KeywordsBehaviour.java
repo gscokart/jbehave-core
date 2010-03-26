@@ -1,12 +1,12 @@
-package org.jbehave.core.definition;
+package org.jbehave.core.model;
 
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.util.HashMap;
 
-import org.jbehave.core.definition.KeyWords.InsufficientKeywordsException;
-import org.jbehave.core.definition.KeyWords.KeywordNotFoundException;
+import org.jbehave.core.model.KeyWords.InsufficientKeywordsException;
+import org.jbehave.core.model.KeyWords.KeywordNotFoundException;
 import org.junit.Test;
 
 public class KeywordsBehaviour {

@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.jbehave.core.definition.Blurb;
-import org.jbehave.core.definition.ExamplesTable;
-import org.jbehave.core.definition.StoryDefinition;
+import org.jbehave.core.model.Description;
+import org.jbehave.core.model.ExamplesTable;
+import org.jbehave.core.model.Story;
 
 /**
  * <p>
@@ -59,12 +59,12 @@ public class StatisticsScenarioReporter implements ScenarioReporter {
         count("stepsFailed");
     }
 
-    public void beforeStory(StoryDefinition story, boolean embeddedStory) {
+    public void beforeStory(Story story, boolean embeddedStory) {
         resetData();
     }
 
-    public void beforeStory(Blurb blurb) {
-        beforeStory(new StoryDefinition(blurb), false);
+    public void beforeStory(Description description) {
+        beforeStory(new Story(description), false);
     }
 
     public void afterStory(boolean embeddedStory) {

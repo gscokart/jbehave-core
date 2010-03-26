@@ -25,7 +25,7 @@ import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.jbehave.core.annotations.AfterScenario.Outcome;
-import org.jbehave.core.definition.KeyWords;
+import org.jbehave.core.model.KeyWords;
 import org.jbehave.core.errors.BeforeOrAfterException;
 import org.jbehave.core.parser.StepPatternBuilder;
 import org.jbehave.core.reporters.ScenarioReporter;
@@ -33,7 +33,7 @@ import org.jbehave.core.reporters.ScenarioReporter;
 /**
  * <p>
  * Default implementation of {@link CandidateSteps} which provides access to the
- * definition of candidate steps that match the core you want to run.
+ * model of candidate steps that match the core you want to run.
  * </p>
  * <p>
  * To provide your candidate steps method, you can either extend the
@@ -64,7 +64,7 @@ import org.jbehave.core.reporters.ScenarioReporter;
  * 
  * </p>
  * <p>
- * When the step is perfomed, the parameters in the core definition will be
+ * When the step is perfomed, the parameters in the core model will be
  * passed to the class, so in this case the effect will be
  * 
  * <pre>

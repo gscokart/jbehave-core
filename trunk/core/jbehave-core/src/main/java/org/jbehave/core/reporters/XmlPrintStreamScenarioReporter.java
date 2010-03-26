@@ -3,7 +3,7 @@ package org.jbehave.core.reporters;
 import java.io.PrintStream;
 import java.util.Properties;
 
-import org.jbehave.core.definition.KeyWords;
+import org.jbehave.core.model.KeyWords;
 
 /**
  * <p>

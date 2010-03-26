@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.jbehave.core.definition.Blurb;
-import org.jbehave.core.definition.ExamplesTable;
-import org.jbehave.core.definition.StoryDefinition;
+import org.jbehave.core.model.Description;
+import org.jbehave.core.model.ExamplesTable;
+import org.jbehave.core.model.Story;
 
 /**
  * Swallows the reports from all scenarios that pass, providing output only for
@@ -33,7 +33,7 @@ public class PassSilentlyDecorator implements ScenarioReporter {
         afterStoryState.report();
     }
 
-    public void beforeStory(final StoryDefinition story, final boolean embeddedStory) {
+    public void beforeStory(final Story story, final boolean embeddedStory) {
         this.embeddedStory = embeddedStory;
         beforeStoryState = new State() {
             public void report() {
@@ -43,8 +43,8 @@ public class PassSilentlyDecorator implements ScenarioReporter {
         };
     }
     
-    public void beforeStory(final Blurb blurb) {
-        beforeStory(new StoryDefinition(blurb), false);
+    public void beforeStory(final Description description) {
+        beforeStory(new Story(description), false);
     };
     
     public void ignorable(final String step) {

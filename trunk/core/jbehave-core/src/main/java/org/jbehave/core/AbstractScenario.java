@@ -5,7 +5,7 @@ import static java.util.Arrays.asList;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jbehave.core.definition.KeyWords;
+import org.jbehave.core.model.KeyWords;
 import org.jbehave.core.parser.ScenarioNameResolver;
 import org.jbehave.core.steps.CandidateSteps;
 import org.jbehave.core.steps.Stepdoc;

@@ -10,7 +10,7 @@ import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Named;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
-import org.jbehave.core.definition.KeyWords;
+import org.jbehave.core.model.KeyWords;
 import org.jbehave.core.i18n.I18nKeyWords;
 import org.jbehave.core.i18n.StringEncoder;
 import org.jbehave.core.steps.Steps;

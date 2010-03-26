@@ -1,6 +1,6 @@
 package org.jbehave.core.parser;
 
-import org.jbehave.core.definition.StoryDefinition;
+import org.jbehave.core.model.Story;
 
 /**
  * <p>
@@ -13,18 +13,18 @@ public interface ScenarioParser {
      * Defines story from its textual representation
      * 
      * @param storyAsText the textual representation
-     * @return The StoryDefinition
+     * @return The Story
      */
-    StoryDefinition defineStoryFrom(String storyAsText);
+    Story defineStoryFrom(String storyAsText);
     
     /**
      * Defines story from its textual representation and (optional) story path
      * 
      * @param storyAsText the textual representation
      * @param storyPath the story path, may be <code>null</code>
-     * @return The StoryDefinition
+     * @return The Story
      * @since 2.4
      */
-    StoryDefinition defineStoryFrom(String storyAsText, String storyPath);
+    Story defineStoryFrom(String storyAsText, String storyPath);
 
 }

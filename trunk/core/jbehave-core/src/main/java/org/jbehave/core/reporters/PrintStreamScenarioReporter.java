@@ -19,11 +19,8 @@ import java.util.Properties;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Transformer;
 import org.apache.commons.lang.ArrayUtils;
-import org.jbehave.core.definition.Blurb;
-import org.jbehave.core.definition.ExamplesTable;
-import org.jbehave.core.definition.KeyWords;
-import org.jbehave.core.definition.Narrative;
-import org.jbehave.core.definition.StoryDefinition;
+import org.jbehave.core.model.*;
+import org.jbehave.core.model.Story;
 import org.jbehave.core.i18n.I18nKeyWords;
 
 /**
@@ -133,8 +130,8 @@ public class PrintStreamScenarioReporter implements ScenarioReporter {
         print(format("failed", "{0} ({1})\n", step, keywords.failed()));
     }
 
-    public void beforeStory(StoryDefinition story, boolean embeddedStory) {
-        print(format("beforeStory", "{0}\n({1})\n", story.getBlurb().asString(), story.getPath()));            
+    public void beforeStory(Story story, boolean embeddedStory) {
+        print(format("beforeStory", "{0}\n({1})\n", story.getDescription().asString(), story.getPath()));
         if (!story.getNarrative().isEmpty()) {
             Narrative narrative = story.getNarrative();
             print(format("narrative", "{0}\n{1} {2}\n{3} {4}\n{5} {6}\n", keywords.narrative(), keywords.inOrderTo(),
@@ -142,8 +139,8 @@ public class PrintStreamScenarioReporter implements ScenarioReporter {
         }
     }
 
-    public void beforeStory(Blurb blurb) {
-        beforeStory(new StoryDefinition(blurb), false);
+    public void beforeStory(Description description) {
+        beforeStory(new Story(description), false);
     }
 
     public void afterStory(boolean embeddedStory) {

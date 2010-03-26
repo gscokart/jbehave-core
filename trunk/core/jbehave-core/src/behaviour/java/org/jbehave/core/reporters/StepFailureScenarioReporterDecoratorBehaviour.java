@@ -12,7 +12,7 @@ import static org.mockito.Mockito.verify;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.jbehave.core.definition.StoryDefinition;
+import org.jbehave.core.model.Story;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;
@@ -31,7 +31,7 @@ public class StepFailureScenarioReporterDecoratorBehaviour {
 	@Test
 	public void shouldJustDelegateAllReportingMethodsOtherThanFailure() {
 		// Given
-	    StoryDefinition story = new StoryDefinition();		
+	    Story story = new Story();
 		boolean embeddedStory = false;
 		
         // When

@@ -9,12 +9,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.jbehave.core.Configuration;
-import org.jbehave.core.definition.Blurb;
-import org.jbehave.core.definition.ExamplesTable;
-import org.jbehave.core.definition.KeyWords;
-import org.jbehave.core.definition.Narrative;
-import org.jbehave.core.definition.ScenarioDefinition;
-import org.jbehave.core.definition.StoryDefinition;
+import org.jbehave.core.model.*;
+import org.jbehave.core.model.Scenario;
 import org.jbehave.core.i18n.I18nKeyWords;
 
 /**
@@ -42,25 +38,25 @@ public class PatternScenarioParser implements ScenarioParser {
 	    this(configuration.keywords());
 	}
 
-    public StoryDefinition defineStoryFrom(String wholeStoryAsText) {
+    public Story defineStoryFrom(String wholeStoryAsText) {
         return defineStoryFrom(wholeStoryAsText, null);
     }
     
-	public StoryDefinition defineStoryFrom(String wholeStoryAsText, String storyPath) {
-		Blurb blurb = parseBlurbFrom(wholeStoryAsText);
+	public Story defineStoryFrom(String wholeStoryAsText, String storyPath) {
+		Description description = parseBlurbFrom(wholeStoryAsText);
         Narrative narrative = parseNarrativeFrom(wholeStoryAsText);
-		List<ScenarioDefinition> scenarioDefinitions = parseScenariosFrom(wholeStoryAsText);
-        return new StoryDefinition(blurb, narrative, storyPath, scenarioDefinitions);
+		List<Scenario> scenarios = parseScenariosFrom(wholeStoryAsText);
+        return new Story(description, narrative, storyPath, scenarios);
 	}
 
-    private Blurb parseBlurbFrom(String wholeStoryAsString) {
+    private Description parseBlurbFrom(String wholeStoryAsString) {
         String concatenatedKeywords = concatenateWithOr(keywords.narrative(), keywords.scenario());
         Pattern findBlurb = compile("(.*?)(" + concatenatedKeywords + ").*", DOTALL);
         Matcher findingBlurb = findBlurb.matcher(wholeStoryAsString);
         if (findingBlurb.matches()) {
-            return new Blurb(findingBlurb.group(1).trim());
+            return new Description(findingBlurb.group(1).trim());
         }
-        return Blurb.EMPTY;
+        return Description.EMPTY;
     }
 
     private Narrative parseNarrativeFrom(String wholeStoryAsString) {
@@ -85,19 +81,18 @@ public class PatternScenarioParser implements ScenarioParser {
         return Narrative.EMPTY;
     }
 
-    private List<ScenarioDefinition> parseScenariosFrom(
+    private List<Scenario> parseScenariosFrom(
 			String wholeStoryAsString) {
-		List<ScenarioDefinition> scenarioDefinitions = new ArrayList<ScenarioDefinition>();
+		List<Scenario> parsed = new ArrayList<Scenario>();
 		List<String> scenarios = splitScenarios(wholeStoryAsString);
 		for (String scenario : scenarios) {
 			String title = findTitle(scenario);
 			ExamplesTable table = findTable(scenario);
 			List<String> givenScenarios = findGivenScenarios(scenario);
 			List<String> steps = findSteps(scenario);
-			scenarioDefinitions
-					.add(new ScenarioDefinition(title, givenScenarios, table, steps));
+			parsed.add(new Scenario(title, givenScenarios, table, steps));
 		}
-		return scenarioDefinitions;
+		return parsed;
 	}
 
 	private String findTitle(String scenario) {

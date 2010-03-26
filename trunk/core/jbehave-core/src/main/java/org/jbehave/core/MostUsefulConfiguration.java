@@ -1,6 +1,6 @@
 package org.jbehave.core;
 
-import org.jbehave.core.definition.KeyWords;
+import org.jbehave.core.model.KeyWords;
 import org.jbehave.core.errors.ErrorStrategy;
 import org.jbehave.core.errors.ErrorStrategyInWhichWeTrustTheReporter;
 import org.jbehave.core.errors.PendingErrorStrategy;
@@ -55,7 +55,7 @@ public class MostUsefulConfiguration implements Configuration {
 	 * Handles errors by rethrowing them.
 	 * 
 	 * <p>
-	 * If there are multiple scenarios in a single story definition, this could
+	 * If there are multiple scenarios in a single story model, this could
 	 * cause the story to stop after the first failing core.
 	 * 
 	 * <p>

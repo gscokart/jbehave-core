@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.jbehave.core.definition.Blurb;
-import org.jbehave.core.definition.ExamplesTable;
-import org.jbehave.core.definition.StoryDefinition;
+import org.jbehave.core.model.Description;
+import org.jbehave.core.model.ExamplesTable;
+import org.jbehave.core.model.Story;
 import org.jbehave.core.errors.StepFailure;
 
 /**
@@ -47,11 +47,11 @@ public class StepFailureScenarioReporterDecorator implements ScenarioReporter {
 		delegate.beforeScenario(title);
 	}
 
-	public void beforeStory(Blurb blurb) {
-	    beforeStory(new StoryDefinition(blurb), false);
+	public void beforeStory(Description description) {
+	    beforeStory(new Story(description), false);
 	}
 
-    public void beforeStory(StoryDefinition story, boolean embeddedStory) {
+    public void beforeStory(Story story, boolean embeddedStory) {
         failure = null;
         delegate.beforeStory(story, embeddedStory);
     }

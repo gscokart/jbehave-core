@@ -4,7 +4,7 @@ import java.util.Locale;
 
 import org.jbehave.core.JUnitScenario;
 import org.jbehave.core.PropertyBasedConfiguration;
-import org.jbehave.core.definition.KeyWords;
+import org.jbehave.core.model.KeyWords;
 import org.jbehave.core.i18n.I18nKeyWords;
 import org.jbehave.core.i18n.StringEncoder;
 import org.jbehave.core.parser.ClasspathScenarioDefiner;

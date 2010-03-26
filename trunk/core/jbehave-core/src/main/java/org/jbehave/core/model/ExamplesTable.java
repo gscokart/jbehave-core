@@ -1,4 +1,4 @@
-package org.jbehave.core.definition;
+package org.jbehave.core.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;

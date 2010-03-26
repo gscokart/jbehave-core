@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.jbehave.core.definition.ExamplesTable;
+import org.jbehave.core.model.ExamplesTable;
 import org.jbehave.core.steps.ParameterConverters.ExamplesTableConverter;
 import org.jbehave.core.steps.ParameterConverters.NumberListConverter;
 import org.junit.Test;

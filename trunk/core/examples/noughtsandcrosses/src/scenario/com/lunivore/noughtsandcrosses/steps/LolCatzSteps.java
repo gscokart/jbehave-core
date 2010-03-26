@@ -2,7 +2,7 @@ package com.lunivore.noughtsandcrosses.steps;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.jbehave.Ensure.ensureThat;
-import static org.jbehave.core.definition.KeyWords.*;
+import static org.jbehave.core.model.KeyWords.*;
 
 import java.awt.Component;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import javax.swing.JLabel;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
-import org.jbehave.core.definition.KeyWords;
+import org.jbehave.core.model.KeyWords;
 import org.jbehave.core.steps.Steps;
 
 import com.lunivore.noughtsandcrosses.NoughtsAndCrosses;

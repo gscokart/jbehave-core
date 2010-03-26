@@ -2,7 +2,7 @@ package com.lunivore.noughtsandcrosses;
 
 import org.jbehave.core.MostUsefulConfiguration;
 import org.jbehave.core.JUnitScenario;
-import org.jbehave.core.definition.KeyWords;
+import org.jbehave.core.model.KeyWords;
 import org.jbehave.core.parser.PatternScenarioParser;
 import org.jbehave.core.parser.ClasspathScenarioDefiner;
 import org.jbehave.core.parser.UnderscoredCamelCaseResolver;

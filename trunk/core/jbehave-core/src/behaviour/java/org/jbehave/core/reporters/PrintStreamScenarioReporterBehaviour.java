@@ -20,11 +20,8 @@ import java.util.Properties;
 
 import org.apache.commons.io.IOUtils;
 import org.jbehave.core.JUnitScenario;
-import org.jbehave.core.definition.Blurb;
-import org.jbehave.core.definition.ExamplesTable;
-import org.jbehave.core.definition.Narrative;
-import org.jbehave.core.definition.ScenarioDefinition;
-import org.jbehave.core.definition.StoryDefinition;
+import org.jbehave.core.model.*;
+import org.jbehave.core.model.Description;
 import org.jbehave.core.i18n.I18nKeyWords;
 import org.jbehave.core.parser.ScenarioNameResolver;
 import org.jbehave.core.parser.UnderscoredCamelCaseResolver;
@@ -212,8 +209,8 @@ public class PrintStreamScenarioReporterBehaviour {
     }
 
     private void narrateAnInterestingStory(ScenarioReporter reporter) {
-        StoryDefinition story = new StoryDefinition(new Blurb("An interesting story"),
-                new Narrative("renovate my house", "customer", "get a loan"), "/path/to/story", new ArrayList<ScenarioDefinition>());
+        Story story = new Story(new Description("An interesting story"),
+                new Narrative("renovate my house", "customer", "get a loan"), "/path/to/story", new ArrayList<Scenario>());
         boolean embeddedStory = true;
         reporter.beforeStory(story, embeddedStory);
         String title = "I ask for a loan";

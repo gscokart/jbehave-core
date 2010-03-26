@@ -5,12 +5,12 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.jbehave.core.RunnableScenario;
-import org.jbehave.core.definition.StoryDefinition;
+import org.jbehave.core.model.Story;
 import org.jbehave.core.errors.InvalidScenarioResourceException;
 import org.jbehave.core.errors.ScenarioNotFoundException;
 
 /**
- * Loads core definition from classpath resources, which are handled by the
+ * Loads core model from classpath resources, which are handled by the
  * {@link ScenarioParser}. Names of resources are resolved via the
  * {@link ScenarioNameResolver}.
  */
@@ -43,13 +43,13 @@ public class ClasspathScenarioDefiner implements ScenarioDefiner {
         this.classLoader = classLoader;
     }
 
-    public StoryDefinition loadScenarioDefinitionsFor(Class<? extends RunnableScenario> scenarioClass) {
+    public Story loadScenarioDefinitionsFor(Class<? extends RunnableScenario> scenarioClass) {
         String storyPath = resolver.resolve(scenarioClass);
         String wholeStoryAsString = asString(loadInputStreamFor(storyPath));
         return parser.defineStoryFrom(wholeStoryAsString, storyPath);
     }
 
-	public StoryDefinition loadScenarioDefinitionsFor(String storyPath) {
+	public Story loadScenarioDefinitionsFor(String storyPath) {
         String wholeStoryAsString = asString(loadInputStreamFor(storyPath));
         return parser.defineStoryFrom(wholeStoryAsString, storyPath);
 	}

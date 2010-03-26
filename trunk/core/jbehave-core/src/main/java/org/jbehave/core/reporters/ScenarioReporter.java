@@ -3,9 +3,9 @@ package org.jbehave.core.reporters;
 import java.util.List;
 import java.util.Map;
 
-import org.jbehave.core.definition.Blurb;
-import org.jbehave.core.definition.ExamplesTable;
-import org.jbehave.core.definition.StoryDefinition;
+import org.jbehave.core.model.Description;
+import org.jbehave.core.model.ExamplesTable;
+import org.jbehave.core.model.Story;
 
 /**
  * Allows the runner to report the state of running scenarios
@@ -15,12 +15,12 @@ import org.jbehave.core.definition.StoryDefinition;
  */
 public interface ScenarioReporter {
 
-    void beforeStory(StoryDefinition story, boolean embeddedStory);
+    void beforeStory(Story story, boolean embeddedStory);
 
     /**
-     * @deprecated Use beforeStory(StoryDefinition, boolean)
+     * @deprecated Use beforeStory(Story, boolean)
      */
-    void beforeStory(Blurb blurb);
+    void beforeStory(Description description);
 
     void afterStory(boolean embeddedStory);
     

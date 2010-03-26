@@ -8,15 +8,15 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-import org.jbehave.core.definition.ScenarioDefinition;
-import org.jbehave.core.definition.StoryDefinition;
+import org.jbehave.core.model.Scenario;
+import org.jbehave.core.model.Story;
 
 /**
  * StepCreator that marks unmatched steps as {@link StepResult.Pending}
  */
 public class UnmatchedToPendingStepCreator implements StepCreator {
 
-    public Step[] createStepsFrom(StoryDefinition storyDefinition, Stage stage, boolean embeddedStory, CandidateSteps... candidateSteps) {
+    public Step[] createStepsFrom(Story story, Stage stage, boolean embeddedStory, CandidateSteps... candidateSteps) {
         List<Step> steps = new ArrayList<Step>();
         for (CandidateSteps candidates : candidateSteps) {
             switch (stage) {
@@ -33,7 +33,7 @@ public class UnmatchedToPendingStepCreator implements StepCreator {
         return steps.toArray(new Step[steps.size()]);
     }
 
-    public Step[] createStepsFrom(ScenarioDefinition scenario, Map<String, String> tableRow,
+    public Step[] createStepsFrom(Scenario scenario, Map<String, String> tableRow,
             CandidateSteps... candidateSteps) {
         List<Step> steps = new ArrayList<Step>();
 
@@ -53,10 +53,10 @@ public class UnmatchedToPendingStepCreator implements StepCreator {
         }
     }
 
-    private void addMatchedScenarioSteps(ScenarioDefinition scenarioDefinition, List<Step> steps,
+    private void addMatchedScenarioSteps(Scenario scenario, List<Step> steps,
             Map<String, String> tableRow, CandidateSteps... candidateSteps) {
         List<CandidateStep> prioritised = prioritise(candidateSteps);
-        for (String stringStep : scenarioDefinition.getSteps()) {
+        for (String stringStep : scenario.getSteps()) {
             Step step = new PendingStep(stringStep);
             for (CandidateStep candidate : prioritised) {
                 if (candidate.ignore(stringStep)) { // ignorable steps are added

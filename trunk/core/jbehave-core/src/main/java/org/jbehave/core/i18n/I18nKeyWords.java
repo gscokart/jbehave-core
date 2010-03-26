@@ -9,7 +9,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import org.jbehave.core.ScenarioClassLoader;
-import org.jbehave.core.definition.KeyWords;
+import org.jbehave.core.model.KeyWords;
 
 /**
  * Add i18n support to Keywords, allowing to read the keywords from resource

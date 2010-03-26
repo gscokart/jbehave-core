@@ -9,7 +9,7 @@ import static org.jbehave.core.steps.StepType.WHEN;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.jbehave.core.definition.KeyWords;
+import org.jbehave.core.model.KeyWords;
 import org.jbehave.core.i18n.I18nKeyWords;
 import org.jbehave.core.i18n.StringEncoder;
 import org.jbehave.core.parser.PrefixCapturingPatternBuilder;
