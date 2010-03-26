@@ -11,17 +11,17 @@ import java.util.List;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
-import org.jbehave.core.RunnableScenario;
-import org.jbehave.core.ScenarioClassLoader;
-import org.jbehave.core.parser.ScenarioClassNameFinder;
+import org.jbehave.core.RunnableStory;
+import org.jbehave.core.StoryClassLoader;
+import org.jbehave.core.parser.StoryClassNameFinder;
 
 /**
  * Abstract task that holds all the configuration parameters to specify and load
- * scenarios.
+ * stories.
  * 
  * @author Mauro Talevi
  */
-public abstract class AbstractScenarioTask extends Task {
+public abstract class AbstractStoryTask extends Task {
 
     private static final String TEST_SCOPE = "test";
 
@@ -36,21 +36,21 @@ public abstract class AbstractScenarioTask extends Task {
 
     /**
      * Scenario class names, if specified take precedence over the names
-     * specificed via the "scenarioIncludes" and "scenarioExcludes" parameters
+     * specificed via the "storyIncludes" and "storyExcludes" parameters
      */
-    private List<String> scenarioClassNames = new ArrayList<String>();
+    private List<String> storyClassNames = new ArrayList<String>();
 
     /**
      * Scenario include filters, relative to the root source directory
      * determined by the scope
      */
-    private List<String> scenarioIncludes = new ArrayList<String>();
+    private List<String> storyIncludes = new ArrayList<String>();
 
     /**
      * Scenario exclude filters, relative to the root source directory
      * determined by the scope
      */
-    private List<String> scenarioExcludes = new ArrayList<String>();
+    private List<String> storyExcludes = new ArrayList<String>();
 
     /**
      * The boolean flag to determined if class loader is injected in core class
@@ -70,7 +70,7 @@ public abstract class AbstractScenarioTask extends Task {
     /**
      * Used to find core class names
      */
-    private ScenarioClassNameFinder finder = new ScenarioClassNameFinder();
+    private StoryClassNameFinder finder = new StoryClassNameFinder();
 
     /**
      * Determines if the scope of the source directory is "test"
@@ -89,9 +89,9 @@ public abstract class AbstractScenarioTask extends Task {
     }
 
     private List<String> findScenarioClassNames() {
-        log("Searching for core class names including "+scenarioIncludes+" and excluding "+scenarioExcludes, MSG_DEBUG);
-        List<String> scenarioClassNames = finder.listScenarioClassNames(rootSourceDirectory(), null, scenarioIncludes,
-                scenarioExcludes);
+        log("Searching for core class names including "+ storyIncludes +" and excluding "+ storyExcludes, MSG_DEBUG);
+        List<String> scenarioClassNames = finder.listStoryClassNames(rootSourceDirectory(), null, storyIncludes,
+                storyExcludes);
         log("Found core class names: " + scenarioClassNames, MSG_DEBUG);
         return scenarioClassNames;
     }
@@ -100,11 +100,11 @@ public abstract class AbstractScenarioTask extends Task {
      * Creates the Scenario ClassLoader with the classpath element of the
      * selected scope
      * 
-     * @return A ScenarioClassLoader
+     * @return A StoryClassLoader
      * @throws MalformedURLException
      */
-    private ScenarioClassLoader createScenarioClassLoader() throws MalformedURLException {
-        return new ScenarioClassLoader(classpathElements());
+    private StoryClassLoader createScenarioClassLoader() throws MalformedURLException {
+        return new StoryClassLoader(classpathElements());
     }
 
     private List<String> classpathElements() {
@@ -123,9 +123,9 @@ public abstract class AbstractScenarioTask extends Task {
     }
 
     /**
-     * Indicates if scenarios should be skipped
+     * Indicates if stories should be skipped
      * 
-     * @return A boolean flag, <code>true</code> if scenarios are skipped
+     * @return A boolean flag, <code>true</code> if stories are skipped
      */
     protected boolean skipScenarios() {
         return skip;
@@ -133,47 +133,47 @@ public abstract class AbstractScenarioTask extends Task {
 
     /**
      * Returns the list of core instances, whose class names are either
-     * specified via the parameter "scenarioClassNames" (which takes precedence)
-     * or found using the parameters "scenarioIncludes" and "scenarioExcludes".
+     * specified via the parameter "storyClassNames" (which takes precedence)
+     * or found using the parameters "storyIncludes" and "storyExcludes".
      * 
      * @return A List of Scenarios
      * @throws BuildException
      */
-    protected List<RunnableScenario> scenarios() throws BuildException {
-        List<String> names = scenarioClassNames;
+    protected List<RunnableStory> stories() throws BuildException {
+        List<String> names = storyClassNames;
         if (names == null || names.isEmpty()) {
             names = findScenarioClassNames();
         }
         if (names.isEmpty()) {
-            log("No scenarios to run.", MSG_INFO);
+            log("No stories to run.", MSG_INFO);
         }
-        ScenarioClassLoader classLoader = null;
+        StoryClassLoader classLoader = null;
         try {
             classLoader = createScenarioClassLoader();
         } catch (Exception e) {
             throw new BuildException("Failed to create core class loader", e);
         }
-        List<RunnableScenario> scenarios = new ArrayList<RunnableScenario>();
+        List<RunnableStory> stories = new ArrayList<RunnableStory>();
         for (String name : names) {
             try {
                 if (!isScenarioAbstract(classLoader, name)) {
-                    scenarios.add(scenarioFor(classLoader, name));
+                    stories.add(scenarioFor(classLoader, name));
                 }
             } catch (Exception e) {
                 throw new BuildException("Failed to instantiate core '" + name + "'", e);
             }
         }
-        return scenarios;
+        return stories;
     }
 
-    private boolean isScenarioAbstract(ScenarioClassLoader classLoader, String name) throws ClassNotFoundException {
+    private boolean isScenarioAbstract(StoryClassLoader classLoader, String name) throws ClassNotFoundException {
         return Modifier.isAbstract(classLoader.loadClass(name).getModifiers());
     }
     
-    private RunnableScenario scenarioFor(ScenarioClassLoader classLoader, String name) {
+    private RunnableStory scenarioFor(StoryClassLoader classLoader, String name) {
         if ( classLoaderInjected ){
             try {
-                return classLoader.newScenario(name, ClassLoader.class);
+                return classLoader.newStory(name, ClassLoader.class);
             } catch (RuntimeException e) {
                 throw new RuntimeException("JBehave is trying to instantiate your Scenario class '"
                         + name + "' with a ClassLoader as a parameter.  " +
@@ -181,7 +181,7 @@ public abstract class AbstractScenarioTask extends Task {
                         "<classLoaderInjected>false</classLoaderInjected>" , e);
             }
         }
-        return classLoader.newScenario(name);
+        return classLoader.newStory(name);
     }
 
     // Setters used by Task to inject dependencies
@@ -197,16 +197,16 @@ public abstract class AbstractScenarioTask extends Task {
         this.scope = scope;
     }
 
-    public void setScenarioClassNames(String scenarioClassNamesCSV) {
-        this.scenarioClassNames = asList(scenarioClassNamesCSV.split(","));
+    public void setStoryClassNames(String classNamesCSV) {
+        this.storyClassNames = asList(classNamesCSV.split(","));
     }
 
-    public void setScenarioIncludes(String scenarioIncludesCSV) {
-        this.scenarioIncludes = asList(scenarioIncludesCSV.split(","));
+    public void setStoryIncludes(String includesCSV) {
+        this.storyIncludes = asList(includesCSV.split(","));
     }
 
-    public void setScenarioExcludes(String scenarioExcludesCSV) {
-        this.scenarioExcludes = asList(scenarioExcludesCSV.split(","));
+    public void setStoryExcludes(String excludesCSV) {
+        this.storyExcludes = asList(excludesCSV.split(","));
     }
     
     public void setclassLoaderInjected(boolean classLoaderInjected) {
@@ -220,7 +220,6 @@ public abstract class AbstractScenarioTask extends Task {
     public void setIgnoreFailure(boolean ignoreFailure) {
         this.ignoreFailure = ignoreFailure;
     }
-
 
 
 }

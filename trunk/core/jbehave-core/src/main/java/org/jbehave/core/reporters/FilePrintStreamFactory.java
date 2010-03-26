@@ -1,7 +1,7 @@
 package org.jbehave.core.reporters;
 
-import org.jbehave.core.RunnableScenario;
-import org.jbehave.core.parser.ScenarioNameResolver;
+import org.jbehave.core.RunnableStory;
+import org.jbehave.core.parser.StoryNameResolver;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,22 +15,22 @@ import java.io.PrintStream;
 public class FilePrintStreamFactory implements PrintStreamFactory {
 
     private PrintStream printStream;
-    private Class<? extends RunnableScenario> scenarioClass;
-    private ScenarioNameResolver scenarioNameResolver;
+    private Class<? extends RunnableStory> scenarioClass;
+    private StoryNameResolver storyNameResolver;
     private FileConfiguration configuration;
     private File outputFile;
 
-    public FilePrintStreamFactory(Class<? extends RunnableScenario> scenarioClass,
-            ScenarioNameResolver scenarioNameResolver) {
-        this(scenarioClass, scenarioNameResolver, new FileConfiguration());
+    public FilePrintStreamFactory(Class<? extends RunnableStory> scenarioClass,
+            StoryNameResolver storyNameResolver) {
+        this(scenarioClass, storyNameResolver, new FileConfiguration());
     }
 
-    public FilePrintStreamFactory(Class<? extends RunnableScenario> scenarioClass,
-            ScenarioNameResolver scenarioNameResolver, FileConfiguration configuration) {
+    public FilePrintStreamFactory(Class<? extends RunnableStory> scenarioClass,
+            StoryNameResolver storyNameResolver, FileConfiguration configuration) {
         this.scenarioClass = scenarioClass;
-        this.scenarioNameResolver = scenarioNameResolver;
+        this.storyNameResolver = storyNameResolver;
         this.configuration = configuration;
-        this.outputFile = outputFile(scenarioClass, scenarioNameResolver, this.configuration);
+        this.outputFile = outputFile(scenarioClass, storyNameResolver, this.configuration);
     }
 
     public FilePrintStreamFactory(File outputFile) {        
@@ -53,25 +53,25 @@ public class FilePrintStreamFactory implements PrintStreamFactory {
 
     public void useConfiguration(FileConfiguration configuration) {
         this.configuration = configuration;
-        this.outputFile = outputFile(scenarioClass, scenarioNameResolver, configuration);        
+        this.outputFile = outputFile(scenarioClass, storyNameResolver, configuration);
     }
 
-    protected File outputFile(Class<? extends RunnableScenario> scenarioClass, ScenarioNameResolver scenarioNameResolver,
+    protected File outputFile(Class<? extends RunnableStory> scenarioClass, StoryNameResolver storyNameResolver,
             FileConfiguration configuration) {
         File outputDirectory = outputDirectory(scenarioClass, configuration);
-        String fileName = fileName(scenarioClass, scenarioNameResolver, configuration);
+        String fileName = fileName(scenarioClass, storyNameResolver, configuration);
         return new File(outputDirectory, fileName);
     }
 
-    protected File outputDirectory(Class<? extends RunnableScenario> scenarioClass, FileConfiguration configuration) {
+    protected File outputDirectory(Class<? extends RunnableStory> scenarioClass, FileConfiguration configuration) {
         String classesDir = scenarioClass.getProtectionDomain().getCodeSource().getLocation().getFile();        
         File targetDirectory = new File(classesDir).getParentFile();
         return new File(targetDirectory, configuration.getDirectory());
     }
 
-    protected String fileName(Class<? extends RunnableScenario> scenarioClass, ScenarioNameResolver scenarioNameResolver,
+    protected String fileName(Class<? extends RunnableStory> scenarioClass, StoryNameResolver storyNameResolver,
             FileConfiguration configuration) {
-        String scenarioName = scenarioNameResolver.resolve(scenarioClass).replace('/', '.');
+        String scenarioName = storyNameResolver.resolve(scenarioClass).replace('/', '.');
         String name = scenarioName.substring(0, scenarioName.lastIndexOf("."));
         return name + "." + configuration.getExtension();
     }

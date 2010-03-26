@@ -3,7 +3,7 @@ package org.jbehave.core.parser;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.jbehave.Ensure.ensureThat;
 
-import org.jbehave.core.JUnitScenario;
+import org.jbehave.core.JUnitStory;
 import org.junit.Test;
 
 public class CasePreservingResolverBehaviour {
@@ -24,11 +24,11 @@ public class CasePreservingResolverBehaviour {
 
     }
 
-    static class CamelCase extends JUnitScenario {
+    static class CamelCase extends JUnitStory {
         
     }
     
-    static class CamelCaseWith3Dates extends JUnitScenario {
+    static class CamelCaseWith3Dates extends JUnitStory {
         
     }
 }

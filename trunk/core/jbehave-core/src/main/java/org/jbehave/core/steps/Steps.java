@@ -94,7 +94,7 @@ public class Steps implements CandidateSteps {
      * keywords
      * 
      * @param keywords the KeyWords which hold the words with which we expect
-     *            steps in the scenarios to start
+     *            steps in the stories to start
      */
     public Steps(KeyWords keywords) {
         this(new StepsConfiguration(keywords));
@@ -105,7 +105,7 @@ public class Steps implements CandidateSteps {
      * keywords
      * 
      * @param startingWords the words with which we expect steps in the
-     *            scenarios to start
+     *            stories to start
      * @deprecated Use Steps(KeyWords)
      */
     public Steps(String... startingWords) {

@@ -19,11 +19,11 @@ import java.util.Locale;
 import java.util.Properties;
 
 import org.apache.commons.io.IOUtils;
-import org.jbehave.core.JUnitScenario;
+import org.jbehave.core.JUnitStory;
 import org.jbehave.core.model.*;
 import org.jbehave.core.model.Description;
 import org.jbehave.core.i18n.I18nKeyWords;
-import org.jbehave.core.parser.ScenarioNameResolver;
+import org.jbehave.core.parser.StoryNameResolver;
 import org.jbehave.core.parser.UnderscoredCamelCaseResolver;
 import org.jbehave.core.reporters.FilePrintStreamFactory.FileConfiguration;
 import org.jbehave.core.reporters.FreemarkerReportRenderer.RenderingFailedException;
@@ -342,8 +342,8 @@ public class PrintStreamScenarioReporterBehaviour {
     public void shouldCreateAndWriteToFilePrintStreamForScenarioClass() throws IOException {
 
         // Given
-        Class<MyScenario> scenarioClass = MyScenario.class;
-        ScenarioNameResolver converter = new UnderscoredCamelCaseResolver(".core");
+        Class<MyStory> scenarioClass = MyStory.class;
+        StoryNameResolver converter = new UnderscoredCamelCaseResolver(".core");
         FilePrintStreamFactory factory = new FilePrintStreamFactory(scenarioClass, converter);
         File file = factory.getOutputFile();
         file.delete();
@@ -360,8 +360,8 @@ public class PrintStreamScenarioReporterBehaviour {
 
     @Test
     public void shouldReportEventsToFilePrintStreamsAndRenderAggregatedIndex() throws IOException {
-        Class<MyScenario> scenarioClass = MyScenario.class;
-        ScenarioNameResolver nameResolver = new UnderscoredCamelCaseResolver();
+        Class<MyStory> scenarioClass = MyStory.class;
+        StoryNameResolver nameResolver = new UnderscoredCamelCaseResolver();
         FilePrintStreamFactory printStreamFactory = new FilePrintStreamFactory(scenarioClass, nameResolver);
         ScenarioReporter reporter = new ScenarioReporterBuilder(printStreamFactory).with(HTML).with(TXT)
                 .build();
@@ -378,8 +378,8 @@ public class PrintStreamScenarioReporterBehaviour {
 
     @Test
     public void shouldBuildPrintStreamReportersAndOverrideDefaultForAGivenFormat() throws IOException {
-        Class<MyScenario> scenarioClass = MyScenario.class;
-        ScenarioNameResolver nameResolver = new UnderscoredCamelCaseResolver();
+        Class<MyStory> scenarioClass = MyStory.class;
+        StoryNameResolver nameResolver = new UnderscoredCamelCaseResolver();
         FilePrintStreamFactory factory = new FilePrintStreamFactory(scenarioClass, nameResolver);
         ScenarioReporter reporter = new ScenarioReporterBuilder(factory){
                public ScenarioReporter reporterFor(Format format){
@@ -418,7 +418,7 @@ public class PrintStreamScenarioReporterBehaviour {
         // Then ... fail as expected
     }
 
-    private static class MyScenario extends JUnitScenario {
+    private static class MyStory extends JUnitStory {
 
     }
 }

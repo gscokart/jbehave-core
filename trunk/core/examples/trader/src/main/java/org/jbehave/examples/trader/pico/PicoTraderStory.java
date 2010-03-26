@@ -1,10 +1,10 @@
 package org.jbehave.examples.trader.pico;
 
+import org.jbehave.core.RunnableStory;
 import org.jbehave.examples.trader.BeforeAfterSteps;
-import org.jbehave.examples.trader.TraderScenario;
+import org.jbehave.examples.trader.TraderStory;
 import org.jbehave.examples.trader.TraderSteps;
 import org.jbehave.examples.trader.service.TradingService;
-import org.jbehave.core.RunnableScenario;
 import org.jbehave.core.steps.CandidateSteps;
 import org.jbehave.core.steps.StepsConfiguration;
 import org.jbehave.core.steps.pico.PicoStepsFactory;
@@ -15,9 +15,9 @@ import org.picocontainer.PicoContainer;
 import org.picocontainer.behaviors.Caching;
 import org.picocontainer.injectors.ConstructorInjection;
 
-public class PicoTraderScenario extends TraderScenario {
+public class PicoTraderStory extends TraderStory {
 
-    public PicoTraderScenario(Class<? extends RunnableScenario> scenarioClass) {
+    public PicoTraderStory(Class<? extends RunnableStory> scenarioClass) {
         super(scenarioClass);
     }
 

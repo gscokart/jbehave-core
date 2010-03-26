@@ -7,18 +7,15 @@ import static org.jbehave.core.reporters.ScenarioReporterBuilder.Format.XML;
 
 import java.util.Calendar;
 
+import org.jbehave.core.parser.*;
 import org.jbehave.examples.trader.converters.CalendarConverter;
-import org.jbehave.core.JUnitScenario;
+import org.jbehave.core.JUnitStory;
 import org.jbehave.core.PropertyBasedConfiguration;
-import org.jbehave.core.RunnableScenario;
+import org.jbehave.core.RunnableStory;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Named;
 import org.jbehave.core.annotations.Then;
-import org.jbehave.core.parser.ClasspathScenarioDefiner;
-import org.jbehave.core.parser.PatternScenarioParser;
-import org.jbehave.core.parser.ScenarioDefiner;
-import org.jbehave.core.parser.ScenarioNameResolver;
-import org.jbehave.core.parser.UnderscoredCamelCaseResolver;
+import org.jbehave.core.parser.PatternStoryParser;
 import org.jbehave.core.reporters.FilePrintStreamFactory;
 import org.jbehave.core.reporters.ScenarioReporter;
 import org.jbehave.core.reporters.ScenarioReporterBuilder;
@@ -28,19 +25,19 @@ import org.jbehave.core.steps.StepMonitor;
 import org.jbehave.core.steps.StepsConfiguration;
 import org.jbehave.core.steps.StepsFactory;
 
-public class ClaimsWithNullCalendar extends JUnitScenario {
+public class ClaimsWithNullCalendar extends JUnitStory {
 
-    private static ScenarioNameResolver converter = new UnderscoredCamelCaseResolver(".scenario");
+    private static StoryNameResolver converter = new UnderscoredCamelCaseResolver(".scenario");
 
     public ClaimsWithNullCalendar(){
         this(ClaimsWithNullCalendar.class);
     }
 
-    public ClaimsWithNullCalendar(final Class<? extends RunnableScenario> scenarioClass) {
+    public ClaimsWithNullCalendar(final Class<? extends RunnableStory> scenarioClass) {
         super(new PropertyBasedConfiguration() {
             @Override
             public ScenarioDefiner forDefiningScenarios() {
-                return new ClasspathScenarioDefiner(converter, new PatternScenarioParser(keywords()));
+                return new ClasspathScenarioDefiner(converter, new PatternStoryParser(keywords()));
             }
 
             @Override

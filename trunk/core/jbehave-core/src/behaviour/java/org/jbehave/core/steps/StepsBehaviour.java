@@ -144,14 +144,14 @@ public class StepsBehaviour {
     	List<Step> executableSteps = steps.runAfterScenario();
     	
     	executableSteps.get(0).doNotPerform();
-    	ensureThat(steps.afterAny); // @AfterScenario is run after scenarios of any outcome 
+    	ensureThat(steps.afterAny); // @AfterScenario is run after stories of any outcome
     	
 		executableSteps.get(1).doNotPerform();
-		ensureThat(!steps.afterSuccess); // @AfterScenario(uponOutcome=SUCCESS) is run after successful scenarios
+		ensureThat(!steps.afterSuccess); // @AfterScenario(uponOutcome=SUCCESS) is run after successful stories
 		
 		
 		executableSteps.get(2).perform();
-		ensureThat(!steps.afterFailure); // @AfterScenario(uponOutcome=FAILURE) is run after unsuccessful scenarios
+		ensureThat(!steps.afterFailure); // @AfterScenario(uponOutcome=FAILURE) is run after unsuccessful stories
 	
     }
 

@@ -4,52 +4,52 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.jbehave.core.RunnableScenario;
+import org.jbehave.core.RunnableStory;
 import org.jbehave.core.model.Story;
 import org.jbehave.core.errors.InvalidScenarioResourceException;
 import org.jbehave.core.errors.ScenarioNotFoundException;
 
 /**
  * Loads core model from classpath resources, which are handled by the
- * {@link ScenarioParser}. Names of resources are resolved via the
- * {@link ScenarioNameResolver}.
+ * {@link StoryParser}. Names of resources are resolved via the
+ * {@link StoryNameResolver}.
  */
 public class ClasspathScenarioDefiner implements ScenarioDefiner {
 
-    private final ScenarioNameResolver resolver;
-    private final ScenarioParser parser;
+    private final StoryNameResolver resolver;
+    private final StoryParser parser;
     private final ClassLoader classLoader;
 
     public ClasspathScenarioDefiner() {
-        this(new UnderscoredCamelCaseResolver(), new PatternScenarioParser(), Thread.currentThread()
+        this(new UnderscoredCamelCaseResolver(), new PatternStoryParser(), Thread.currentThread()
                 .getContextClassLoader());
     }
 
-    public ClasspathScenarioDefiner(ScenarioParser parser) {
+    public ClasspathScenarioDefiner(StoryParser parser) {
         this(new UnderscoredCamelCaseResolver(), parser, Thread.currentThread().getContextClassLoader());
     }
 
-    public ClasspathScenarioDefiner(ScenarioNameResolver converter, ScenarioParser parser) {
+    public ClasspathScenarioDefiner(StoryNameResolver converter, StoryParser parser) {
         this(converter, parser, Thread.currentThread().getContextClassLoader());
     }
 
-    public ClasspathScenarioDefiner(ScenarioNameResolver converter, ClassLoader classLoader) {
-        this(converter, new PatternScenarioParser(), classLoader);
+    public ClasspathScenarioDefiner(StoryNameResolver converter, ClassLoader classLoader) {
+        this(converter, new PatternStoryParser(), classLoader);
     }
 
-    public ClasspathScenarioDefiner(ScenarioNameResolver resolver, ScenarioParser parser, ClassLoader classLoader) {
+    public ClasspathScenarioDefiner(StoryNameResolver resolver, StoryParser parser, ClassLoader classLoader) {
         this.resolver = resolver;
         this.parser = parser;
         this.classLoader = classLoader;
     }
 
-    public Story loadScenarioDefinitionsFor(Class<? extends RunnableScenario> scenarioClass) {
+    public Story loadStory(Class<? extends RunnableStory> scenarioClass) {
         String storyPath = resolver.resolve(scenarioClass);
         String wholeStoryAsString = asString(loadInputStreamFor(storyPath));
         return parser.defineStoryFrom(wholeStoryAsString, storyPath);
     }
 
-	public Story loadScenarioDefinitionsFor(String storyPath) {
+	public Story loadStory(String storyPath) {
         String wholeStoryAsString = asString(loadInputStreamFor(storyPath));
         return parser.defineStoryFrom(wholeStoryAsString, storyPath);
 	}

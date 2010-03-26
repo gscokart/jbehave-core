@@ -4,7 +4,7 @@ import static java.util.regex.Pattern.compile;
 
 import java.util.regex.Matcher;
 
-import org.jbehave.core.RunnableScenario;
+import org.jbehave.core.RunnableStory;
 
 /**
  * <p>
@@ -29,7 +29,7 @@ import org.jbehave.core.RunnableScenario;
  * "org/jbehave/core/i_can_login_to_1_site"
  * </p>
  */
-public class UnderscoredCamelCaseResolver extends AbstractScenarioNameResolver {
+public class UnderscoredCamelCaseResolver extends AbstractStoryNameResolver {
 
 	public static final String NUMBERS_AS_LOWER_CASE_LETTERS_PATTERN = "([A-Z].*?)([A-Z]|\\z)";
 	public static final String NUMBERS_AS_UPPER_CASE_LETTERS_PATTERN = "([A-Z0-9].*?)([A-Z0-9]|\\z)";
@@ -53,7 +53,7 @@ public class UnderscoredCamelCaseResolver extends AbstractScenarioNameResolver {
 
 	@Override
 	protected String resolveFileName(
-			Class<? extends RunnableScenario> scenarioClass) {
+			Class<? extends RunnableStory> scenarioClass) {
         String simpleName = scenarioClass.getSimpleName();
         simpleName = simpleName.replace(wordToRemove, "");
         Matcher matcher = compile(resolutionPattern).matcher(
@@ -68,7 +68,7 @@ public class UnderscoredCamelCaseResolver extends AbstractScenarioNameResolver {
 		return builder.substring(0, builder.length() - 1);
 	}
 
-    public ScenarioNameResolver removeFromClassname(String toStripOff) {
+    public StoryNameResolver removeFromClassname(String toStripOff) {
         this.wordToRemove = toStripOff;
         return this;
     }

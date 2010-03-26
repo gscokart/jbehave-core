@@ -1,6 +1,6 @@
 package org.jbehave.core.parser;
 
-import org.jbehave.core.JUnitScenario;
+import org.jbehave.core.JUnitStory;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -11,32 +11,32 @@ public class UnderscoredCamelCaseResolverBehaviour {
 
     @Test
     public void shouldResolveCamelCasedClassNameToUnderscoredName() {
-    	ScenarioNameResolver resolver = new UnderscoredCamelCaseResolver();
-        ensureThat(resolver.resolve(CamelCaseScenario.class),
-                equalTo("org/jbehave/core/parser/camel_case_scenario"));
+    	StoryNameResolver resolver = new UnderscoredCamelCaseResolver();
+        ensureThat(resolver.resolve(CamelCaseStory.class),
+                equalTo("org/jbehave/core/parser/camel_case_story"));
     }
         
     @Test
     public void shouldResolveCamelCasedClassNameToUnderscoredNameWithExtension() {
-    	ScenarioNameResolver resolver = new UnderscoredCamelCaseResolver(".core");
+    	StoryNameResolver resolver = new UnderscoredCamelCaseResolver(".story");
         ensureThat(resolver.resolve(CamelCase.class),
-                equalTo("org/jbehave/core/parser/camel_case.core"));
+                equalTo("org/jbehave/core/parser/camel_case.story"));
     }
-    
-    @Test
+
     /**
-     * Some teams are not going to have /scenarios/ directories,
-     * they are going to co-mingle with tests and match in Maven land with *Scenario
+     * Some teams are not going to have /stories/ directories,
+     * they are going to co-mingle with tests and match in Maven land with *Story
      */
+    @Test
     public void shouldResolveCamelCasedClassNameToUnderscoredNameWithExtensionStrippingExtraneousWord() {
-    	ScenarioNameResolver resolver = new UnderscoredCamelCaseResolver(".core").removeFromClassname("Scenario");
-        ensureThat(resolver.resolve(CamelCaseScenario.class),
-                equalTo("org/jbehave/core/parser/camel_case.core"));
+    	StoryNameResolver resolver = new UnderscoredCamelCaseResolver(".story").removeFromClassname("Story");
+        ensureThat(resolver.resolve(CamelCaseStory.class),
+                equalTo("org/jbehave/core/parser/camel_case.story"));
     }
 
     @Test
     public void shouldResolveCamelCasedClassNameWithNumbersTreatedAsLowerCaseLetters() {
-    	ScenarioNameResolver resolver = new UnderscoredCamelCaseResolver();
+    	StoryNameResolver resolver = new UnderscoredCamelCaseResolver();
         ensureThat(resolver.resolve(CamelCaseWithA3Qualifier.class),
                 equalTo("org/jbehave/core/parser/camel_case_with_a3_qualifier"));
         ensureThat(resolver.resolve(CamelCaseWithA33Qualifier.class),
@@ -45,26 +45,26 @@ public class UnderscoredCamelCaseResolverBehaviour {
         
     @Test
     public void shouldResolveCamelCasedClassNameWithNumbersTreatedAsUpperCaseLetters() {
-    	ScenarioNameResolver resolver = new UnderscoredCamelCaseResolver("", NUMBERS_AS_UPPER_CASE_LETTERS_PATTERN);
+    	StoryNameResolver resolver = new UnderscoredCamelCaseResolver("", NUMBERS_AS_UPPER_CASE_LETTERS_PATTERN);
         ensureThat(resolver.resolve(CamelCaseWithA3Qualifier.class),
                 equalTo("org/jbehave/core/parser/camel_case_with_a_3_qualifier"));
         ensureThat(resolver.resolve(CamelCaseWithA33Qualifier.class),
                 equalTo("org/jbehave/core/parser/camel_case_with_a_3_3_qualifier"));
     }
     
-    static class CamelCaseScenario extends JUnitScenario {
+    static class CamelCaseStory extends JUnitStory {
         
     }
 
-    static class CamelCase extends JUnitScenario {
+    static class CamelCase extends JUnitStory {
         
     }
     
-    static class CamelCaseWithA3Qualifier extends JUnitScenario {
+    static class CamelCaseWithA3Qualifier extends JUnitStory {
         
     }
     
-    static class CamelCaseWithA33Qualifier extends JUnitScenario {
+    static class CamelCaseWithA33Qualifier extends JUnitStory {
         
     }
 }

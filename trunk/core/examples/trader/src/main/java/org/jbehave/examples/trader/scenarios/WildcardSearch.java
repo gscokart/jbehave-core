@@ -1,8 +1,8 @@
 package org.jbehave.examples.trader.scenarios;
 
-import org.jbehave.examples.trader.TraderScenario;
+import org.jbehave.examples.trader.TraderStory;
 
-public class WildcardSearch extends TraderScenario {
+public class WildcardSearch extends TraderStory {
 
     public WildcardSearch() {
         super(WildcardSearch.class);

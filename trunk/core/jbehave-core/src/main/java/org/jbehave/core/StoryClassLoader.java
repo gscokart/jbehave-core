@@ -12,52 +12,52 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Extends URLClassLoader to instantiate scenarios.
+ * Extends URLClassLoader to instantiate {@link RunnableStory} instances.
  * 
  * @author Mauro Talevi
  */
-public class ScenarioClassLoader extends URLClassLoader {
+public class StoryClassLoader extends URLClassLoader {
 
-    public ScenarioClassLoader(List<String> classpathElements) throws MalformedURLException {
-        super(classpathURLs(classpathElements), RunnableScenario.class.getClassLoader());
+    public StoryClassLoader(List<String> classpathElements) throws MalformedURLException {
+        super(classpathURLs(classpathElements), RunnableStory.class.getClassLoader());
     }
 
-    public ScenarioClassLoader(List<String> classpathElements, ClassLoader parent) throws MalformedURLException {
+    public StoryClassLoader(List<String> classpathElements, ClassLoader parent) throws MalformedURLException {
         super(classpathURLs(classpathElements), parent);
     }
 
     /**
-     * Loads and instantiates a runnable core class
+     * Loads and instantiates a runnable story class
      * 
-     * @param scenarioClassName the name of the core class
+     * @param storyClassName the name of the story class
      * @param parameterTypes the types of the constructor used to instantiate
      *            core class
-     * @return A RunnableScenario instance
+     * @return A RunnableStory instance
      */
-    public RunnableScenario newScenario(String scenarioClassName, Class<?>... parameterTypes) {
+    public RunnableStory newStory(String storyClassName, Class<?>... parameterTypes) {
         try {
-            Class<?> scenarioClass = loadClass(scenarioClassName, true);
-            RunnableScenario scenario = newInstance(scenarioClass, parameterTypes);
+            Class<?> storyClass = loadClass(storyClassName, true);
+            RunnableStory story = newInstance(storyClass, parameterTypes);
             Thread.currentThread().setContextClassLoader(this);
-            return scenario;
+            return story;
         } catch (ClassCastException e) {
-            String message = "The core '" + scenarioClassName + "' must be of type '"
-                    + RunnableScenario.class.getName() + "'";
+            String message = "The story '" + storyClassName + "' must be of type '"
+                    + RunnableStory.class.getName() + "'";
             throw new RuntimeException(message, e);
         } catch (Exception e) {
-            String message = "The core '" + scenarioClassName + "' could not be instantiated with parameter types '"
+            String message = "The story '" + storyClassName + "' could not be instantiated with parameter types '"
                     + asList(parameterTypes) + "' and class loader '" + this + "'";
             throw new RuntimeException(message, e);
         }
     }
 
-    private RunnableScenario newInstance(Class<?> scenarioClass, Class<?>... parameterTypes)
+    private RunnableStory newInstance(Class<?> storyClass, Class<?>... parameterTypes)
             throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
         if ( parameterTypes != null && parameterTypes.length > 0 ){
-            Constructor<?> constructor = scenarioClass.getConstructor(parameterTypes);
-            return (RunnableScenario) constructor.newInstance(this);            
+            Constructor<?> constructor = storyClass.getConstructor(parameterTypes);
+            return (RunnableStory) constructor.newInstance(this);
         }
-        return (RunnableScenario) scenarioClass.newInstance();
+        return (RunnableStory) storyClass.newInstance();
     }
 
     private List<String> asShortPaths(URL[] urls) {
@@ -93,6 +93,6 @@ public class ScenarioClassLoader extends URLClassLoader {
 
     @Override
     public String toString() {
-        return "[" + ScenarioClassLoader.class.getName() + " urls=" + asShortPaths(getURLs()) + "]";
+        return "[" + StoryClassLoader.class.getName() + " urls=" + asShortPaths(getURLs()) + "]";
     }
 }

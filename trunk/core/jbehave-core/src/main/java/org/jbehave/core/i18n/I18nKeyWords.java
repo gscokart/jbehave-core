@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import org.jbehave.core.ScenarioClassLoader;
+import org.jbehave.core.StoryClassLoader;
 import org.jbehave.core.model.KeyWords;
 
 /**
@@ -62,7 +62,7 @@ public class I18nKeyWords extends KeyWords {
 
     private static ResourceBundle lookupBunde(String bundleName, Locale locale, ClassLoader classLoader) {
         try {            
-            if (classLoader instanceof ScenarioClassLoader) {
+            if (classLoader instanceof StoryClassLoader) {
                 return getBundle(bundleName, locale, classLoader);
             }
             return getBundle(bundleName, locale);

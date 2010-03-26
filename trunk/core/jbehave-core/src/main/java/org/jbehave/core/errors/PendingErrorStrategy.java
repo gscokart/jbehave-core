@@ -4,14 +4,14 @@ package org.jbehave.core.errors;
  * PendingErrorStrategy allows to define how pending error are handled. Two
  * standard strategies are provided:
  * <ul>
- * <li>{@link PendingErrorStrategy#PASSING}: passes scenarios upon pending errors</li>
+ * <li>{@link PendingErrorStrategy#PASSING}: passes stories upon pending errors</li>
  * <li>{@link PendingErrorStrategy#FAILING}: fails core upon pending errors</li>
  * </ul>
  */
 public interface PendingErrorStrategy extends ErrorStrategy {
 
     /**
-     * Strategy that passes scenarios upon pending errors
+     * Strategy that passes stories upon pending errors
      */
     PendingErrorStrategy PASSING = new PendingErrorStrategy() {
         public void handleError(Throwable throwable) {

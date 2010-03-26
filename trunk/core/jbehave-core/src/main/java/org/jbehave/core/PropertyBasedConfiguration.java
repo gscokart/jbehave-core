@@ -38,8 +38,8 @@ public class PropertyBasedConfiguration implements Configuration {
      * otherwise uses the default ScenarioReporter.
      * 
      * Setting org.jbehave.outputall will allow you
-     * to see the steps for all scenarios, regardless
-     * of whether the scenarios fail.
+     * to see the steps for all stories, regardless
+     * of whether the stories fail.
      */
     public ScenarioReporter forReportingScenarios() {
         if (System.getProperty(OUTPUT_ALL) == null) {

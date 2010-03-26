@@ -1,17 +1,17 @@
 package org.jbehave.core.parser;
 
-import org.jbehave.core.RunnableScenario;
+import org.jbehave.core.RunnableStory;
 import org.jbehave.core.model.Story;
 
 /**
  * <p>
- * Loads scenarios contained in a story from a given core class.
+ * Loads {@link Story} from a given {@link RunnableStory} class or story path.
  * </p>
  */
 public interface ScenarioDefiner {
 
-    Story loadScenarioDefinitionsFor(Class<? extends RunnableScenario> scenarioClass);
+    Story loadStory(Class<? extends RunnableStory> storyClass);
 
-    Story loadScenarioDefinitionsFor(String scenarioPath);
+    Story loadStory(String storyPath);
 
 }

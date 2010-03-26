@@ -17,10 +17,10 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 
-public class PatternScenarioParserBehaviour {
+public class PatternStoryParserBehaviour {
 
     private static final String NL = "\n";
-    private ScenarioParser parser = new PatternScenarioParser(new I18nKeyWords());
+    private StoryParser parser = new PatternStoryParser(new I18nKeyWords());
 
     @Test
     public void shouldExtractGivensWhensAndThensFromSimpleScenarios() {
@@ -137,7 +137,7 @@ public class PatternScenarioParserBehaviour {
             "Then I should see this in the output" + NL +
 
             "Scenario: A passing core" + NL +
-            "Given I'm not reporting passing scenarios" + NL +
+            "Given I'm not reporting passing stories" + NL +
             "When I run the core" + NL +
             "Then this should not be in the output" + NL +
     
@@ -167,7 +167,7 @@ public class PatternScenarioParserBehaviour {
         ensureThat(story.getScenarios().get(1).getTitle(), equalTo("A passing core"));
 		ensureThat(story.getScenarios().get(1).getGivenScenarios().size(), equalTo(0));
         ensureThat(story.getScenarios().get(1).getSteps(), equalTo(asList(
-                "Given I'm not reporting passing scenarios",
+                "Given I'm not reporting passing stories",
                 "When I run the core",
                 "Then this should not be in the output"
         )));
@@ -190,7 +190,7 @@ public class PatternScenarioParserBehaviour {
     @Test
     @Ignore("on Windows, it should fail due to regex stack overflow")
     public void shouldParseLongStoryWithPatternSplitScenarios() {
-        ScenarioParser parser = new PatternScenarioParser(new I18nKeyWords()){
+        StoryParser parser = new PatternStoryParser(new I18nKeyWords()){
 
 			@Override
 			protected List<String> splitScenarios(String allScenariosInFile) {
@@ -201,7 +201,7 @@ public class PatternScenarioParserBehaviour {
     	ensureLongStoryCanBeParsed(parser);        
     }
 
-	private void ensureLongStoryCanBeParsed(ScenarioParser parser) {
+	private void ensureLongStoryCanBeParsed(StoryParser parser) {
 		String aGivenWhenThen = 
         "Given a step" + NL +
         "When I run it" + NL +
@@ -271,7 +271,7 @@ public class PatternScenarioParserBehaviour {
 	@Test
 	public void shouldParseStoryWithGivenScenarios() {
 		String wholeStory =
-				"Scenario: A core with given scenarios" + NL + NL +
+				"Scenario: A core with given stories" + NL + NL +
 	            "GivenScenarios: path/to/one,path/to/two" + NL + NL +
 	            "Given a step with a <one>" + NL +
 	            "When I run the core of name <two>" + NL +
@@ -280,7 +280,7 @@ public class PatternScenarioParserBehaviour {
         Story story = parser.defineStoryFrom(wholeStory, null);
         
         Scenario scenario = story.getScenarios().get(0);
-        ensureThat(scenario.getTitle(), equalTo("A core with given scenarios"));
+        ensureThat(scenario.getTitle(), equalTo("A core with given stories"));
         ensureThat(scenario.getGivenScenarios(), equalTo(asList(
                 "path/to/one",
                 "path/to/two")));   

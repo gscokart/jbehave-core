@@ -19,13 +19,13 @@ import org.jbehave.core.steps.StepResult;
 import org.jbehave.core.steps.StepCreator.Stage;
 
 /**
- * Runs the steps of each core in a story and describes the results to the {@link ScenarioReporter}.
+ * Allow to run a story and describe the results to the {@link ScenarioReporter}.
  * 
  * @author Elizabeth Keogh
  * @author Mauro Talevi
  * @author Paul Hammant
  */
-public class ScenarioRunner {
+public class StoryRunner {
 
     private State state = new FineSoFar();
     private ErrorStrategy currentStrategy;
@@ -35,16 +35,16 @@ public class ScenarioRunner {
     private Throwable throwable;
     private StepCreator stepCreator;
 
-    public void run(Class<? extends RunnableScenario> scenarioClass, Configuration configuration, CandidateSteps... candidateSteps) throws Throwable {
-		Story story = configuration.forDefiningScenarios().loadScenarioDefinitionsFor(scenarioClass);
-		story.namedAs(scenarioClass.getSimpleName());
+    public void run(Class<? extends RunnableStory> storyClass, Configuration configuration, CandidateSteps... candidateSteps) throws Throwable {
+		Story story = configuration.forDefiningScenarios().loadStory(storyClass);
+		story.namedAs(storyClass.getSimpleName());
 	    // always start in a non-embedded mode
         run(story, configuration, false, candidateSteps);
     }
 
-    public void run(String scenarioPath, Configuration configuration, boolean embeddedStory, CandidateSteps... candidateSteps) throws Throwable {
-		Story story = configuration.forDefiningScenarios().loadScenarioDefinitionsFor(scenarioPath);
-        story.namedAs(new File(scenarioPath).getName());
+    public void run(String storyPath, Configuration configuration, boolean embeddedStory, CandidateSteps... candidateSteps) throws Throwable {
+		Story story = configuration.forDefiningScenarios().loadStory(storyPath);
+        story.namedAs(new File(storyPath).getName());
 		run(story, configuration, embeddedStory, candidateSteps);
     }    
 
@@ -60,7 +60,7 @@ public class ScenarioRunner {
         runStorySteps(story, embeddedStory, StepCreator.Stage.BEFORE, candidateSteps);
         for (Scenario scenario : story.getScenarios()) {
     		reporter.beforeScenario(scenario.getTitle());
-        	runGivenScenarios(configuration, scenario, candidateSteps); // first run any given scenarios, if any
+        	runGivenScenarios(configuration, scenario, candidateSteps); // first run any given stories, if any
         	if ( isExamplesTableScenario(scenario) ){ // run examples table core
         		runExamplesTableScenario(configuration, scenario, candidateSteps);
         	} else { // run plain old core
@@ -79,9 +79,9 @@ public class ScenarioRunner {
 		List<String> givenScenarios = scenario.getGivenScenarios();
 		if ( givenScenarios.size() > 0 ){
 			reporter.givenScenarios(givenScenarios);
-			for ( String scenarioPath : givenScenarios ){
+			for ( String storyPath : givenScenarios ){
 			    // run in embedded mode
-				run(scenarioPath, configuration, true, candidateSteps);
+				run(storyPath, configuration, true, candidateSteps);
 			}
 		}
 	}

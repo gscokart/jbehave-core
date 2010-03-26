@@ -15,26 +15,26 @@ import org.jbehave.core.i18n.I18nKeyWords;
 
 /**
  * Pattern-based core parser, which uses the keywords provided to find the
- * steps in the text scenarios.
+ * steps in the text stories.
  */
-public class PatternScenarioParser implements ScenarioParser {
+public class PatternStoryParser implements StoryParser {
 
 	private static final String NONE = "";
 	private static final String COMMA = ",";
 	private final KeyWords keywords;
 
-	public PatternScenarioParser() {
+	public PatternStoryParser() {
 		this(new I18nKeyWords());
 	}
 
-	public PatternScenarioParser(KeyWords keywords) {
+	public PatternStoryParser(KeyWords keywords) {
 		this.keywords = keywords;
 	}
 
 	/**
-	 * @deprecated Since 2.4, use PatternScenarioParser(KeyWords)
+	 * @deprecated Since 2.4, use PatternStoryParser(KeyWords)
 	 */
-	public PatternScenarioParser(Configuration configuration) {
+	public PatternStoryParser(Configuration configuration) {
 	    this(configuration.keywords());
 	}
 
@@ -153,7 +153,7 @@ public class PatternScenarioParser implements ScenarioParser {
 		int keywordIndex = allScenariosInFile.indexOf(scenarioKeyword);
 		if (keywordIndex != -1) {
 			allScenarios = allScenariosInFile.substring(keywordIndex);
-		} else { // use all scenarios in file
+		} else { // use all stories in file
 			allScenarios = allScenariosInFile;
 		}
 
@@ -185,7 +185,7 @@ public class PatternScenarioParser implements ScenarioParser {
 		} catch (StackOverflowError e) {
 			// TODO - wish we had the core file name here.
 			throw new InvalidPatternException(
-					"Failed to parse scenarios (see http://jbehave.org/documentation/known-issues/regex-stack-overflow-errors): "
+					"Failed to parse stories (see http://jbehave.org/documentation/known-issues/regex-stack-overflow-errors): "
 							+ allScenariosInFile, e);
 		}
 		return scenarios;

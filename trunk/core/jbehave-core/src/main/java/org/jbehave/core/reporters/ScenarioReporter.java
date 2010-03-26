@@ -8,7 +8,7 @@ import org.jbehave.core.model.ExamplesTable;
 import org.jbehave.core.model.Story;
 
 /**
- * Allows the runner to report the state of running scenarios
+ * Allows the runner to report the state of running stories
  * 
  * @author Elizabeth Keogh
  * @author Mauro Talevi

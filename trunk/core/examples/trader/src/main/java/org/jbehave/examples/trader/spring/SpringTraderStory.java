@@ -1,16 +1,16 @@
 package org.jbehave.examples.trader.spring;
 
-import org.jbehave.examples.trader.TraderScenario;
-import org.jbehave.core.RunnableScenario;
+import org.jbehave.core.RunnableStory;
+import org.jbehave.examples.trader.TraderStory;
 import org.jbehave.core.steps.CandidateSteps;
 import org.jbehave.core.steps.StepsConfiguration;
 import org.jbehave.core.steps.spring.SpringApplicationContextFactory;
 import org.jbehave.core.steps.spring.SpringStepsFactory;
 import org.springframework.beans.factory.ListableBeanFactory;
 
-public class SpringTraderScenario extends TraderScenario {
+public class SpringTraderStory extends TraderStory {
 
-    public SpringTraderScenario(Class<? extends RunnableScenario> scenarioClass) {
+    public SpringTraderStory(Class<? extends RunnableStory> scenarioClass) {
         super(scenarioClass);
     }
 

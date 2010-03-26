@@ -4,10 +4,10 @@ import org.jbehave.core.model.Story;
 
 /**
  * <p>
- * Parses the scenarios contained in a story from a textual representation.
+ * Parses the stories contained in a story from a textual representation.
  * </p>
  */
-public interface ScenarioParser {
+public interface StoryParser {
 
     /**
      * Defines story from its textual representation

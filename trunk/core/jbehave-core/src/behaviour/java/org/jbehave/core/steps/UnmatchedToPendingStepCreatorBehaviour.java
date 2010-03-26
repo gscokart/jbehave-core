@@ -65,7 +65,7 @@ public class UnmatchedToPendingStepCreatorBehaviour {
     @Test
     public void shouldPrependBeforeScenarioAndAppendAfterScenarioAnnotatedSteps() {
         // Given some steps classes which run different steps before and after
-        // scenarios
+        // stories
         CandidateSteps steps1 = mock(Steps.class);
         CandidateSteps steps2 = mock(Steps.class);
         Step stepBefore1 = mock(Step.class);

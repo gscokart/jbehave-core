@@ -2,9 +2,9 @@ package org.jbehave.mojo;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.jbehave.core.RunnableScenario;
-import org.jbehave.core.ScenarioClassLoader;
-import org.jbehave.core.parser.ScenarioClassNameFinder;
+import org.jbehave.core.RunnableStory;
+import org.jbehave.core.StoryClassLoader;
+import org.jbehave.core.parser.StoryClassNameFinder;
 
 import java.lang.reflect.Modifier;
 import java.net.MalformedURLException;
@@ -13,11 +13,11 @@ import java.util.List;
 
 /**
  * Abstract mojo that holds all the configuration parameters to specify and load
- * scenarios.
+ * stories.
  * 
  * @author Mauro Talevi
  */
-public abstract class AbstractScenarioMojo extends AbstractMojo {
+public abstract class AbstractStoryMojo extends AbstractMojo {
 
     private static final String TEST_SCOPE = "test";
 
@@ -43,20 +43,20 @@ public abstract class AbstractScenarioMojo extends AbstractMojo {
     private String scope;
 
     /**
-     * Scenario class names, if specified take precedence over the names
-     * specificed via the "scenarioIncludes" and "scenarioExcludes" parameters
+     * Story class names, if specified take precedence over the names
+     * specified via the "scenarioIncludes" and "scenarioExcludes" parameters
      * 
      * @parameter
      */
-    private List<String> scenarioClassNames;
+    private List<String> storyClassNames;
 
     /**
-     * Scenario include filters, relative to the root source directory
+     * Story include filters, relative to the root source directory
      * determined by the scope
      * 
      * @parameter
      */
-    private List<String> scenarioIncludes;
+    private List<String> storyIncludes;
 
     /**
      * Scenario exclude filters, relative to the root source directory
@@ -64,7 +64,7 @@ public abstract class AbstractScenarioMojo extends AbstractMojo {
      * 
      * @parameter
      */
-    private List<String> scenarioExcludes;
+    private List<String> storyExcludes;
 
     /**
      * Compile classpath.
@@ -92,7 +92,7 @@ public abstract class AbstractScenarioMojo extends AbstractMojo {
     private boolean classLoaderInjected;
     
     /**
-     * The boolean flag to skip scenarios
+     * The boolean flag to skip stories
      * 
      * @parameter default-value="false"
      */
@@ -108,7 +108,7 @@ public abstract class AbstractScenarioMojo extends AbstractMojo {
     /**
      * Used to find core class names
      */
-    private ScenarioClassNameFinder finder = new ScenarioClassNameFinder();
+    private StoryClassNameFinder finder = new StoryClassNameFinder();
 
     /**
      * Determines if the scope of the mojo classpath is "test"
@@ -126,23 +126,23 @@ public abstract class AbstractScenarioMojo extends AbstractMojo {
         return sourceDirectory;
     }
 
-    private List<String> findScenarioClassNames() {
-        getLog().debug("Searching for core class names including "+scenarioIncludes+" and excluding "+scenarioExcludes);
-        List<String> scenarioClassNames = finder.listScenarioClassNames(rootSourceDirectory(), null, scenarioIncludes,
-                scenarioExcludes);
-        getLog().debug("Found core class names: " + scenarioClassNames);
-        return scenarioClassNames;
+    private List<String> findstoryClassNames() {
+        getLog().debug("Searching for core class names including "+storyIncludes+" and excluding "+storyExcludes);
+        List<String> storyClassNames = finder.listStoryClassNames(rootSourceDirectory(), null, storyIncludes,
+                storyExcludes);
+        getLog().debug("Found core class names: " + storyClassNames);
+        return storyClassNames;
     }
 
     /**
      * Creates the Scenario ClassLoader with the classpath element of the
      * selected scope
      * 
-     * @return A ScenarioClassLoader
+     * @return A StoryClassLoader
      * @throws MalformedURLException
      */
-    private ScenarioClassLoader createScenarioClassLoader() throws MalformedURLException {
-        return new ScenarioClassLoader(classpathElements());
+    private StoryClassLoader createStoryClassLoader() throws MalformedURLException {
+        return new StoryClassLoader(classpathElements());
     }
 
     private List<String> classpathElements() {
@@ -163,64 +163,64 @@ public abstract class AbstractScenarioMojo extends AbstractMojo {
     }
 
     /**
-     * Indicates if scenarios should be skipped
+     * Indicates if stories should be skipped
      * 
-     * @return A boolean flag, <code>true</code> if scenarios are skipped
+     * @return A boolean flag, <code>true</code> if stories are skipped
      */
     protected boolean skipScenarios() {
         return skip;
     }
     
     /**
-     * Returns the list of core instances, whose class names are either
-     * specified via the parameter "scenarioClassNames" (which takes precedence)
-     * or found using the parameters "scenarioIncludes" and "scenarioExcludes".
+     * Returns the list of runnable stories, whose class names are either
+     * specified via the parameter "storyClassNames" (which takes precedence)
+     * or found using the parameters "storyIncludes" and "storyExcludes".
      * 
-     * @return A List of Scenarios
+     * @return A List of RunnableStory
      * @throws MojoExecutionException
      */
-    protected List<RunnableScenario> scenarios() throws MojoExecutionException {
-        List<String> names = scenarioClassNames;
+    protected List<RunnableStory> stories() throws MojoExecutionException {
+        List<String> names = storyClassNames;
         if (names == null || names.isEmpty()) {
-            names = findScenarioClassNames();
+            names = findstoryClassNames();
         }
         if (names.isEmpty()) {
-            getLog().info("No scenarios to run.");
+            getLog().info("No stories to run.");
         }
-        ScenarioClassLoader classLoader = null;
+        StoryClassLoader classLoader = null;
         try {
-            classLoader = createScenarioClassLoader();
+            classLoader = createStoryClassLoader();
         } catch (Exception e) {
-            throw new MojoExecutionException("Failed to create core class loader", e);
+            throw new MojoExecutionException("Failed to create story class loader", e);
         }
-        List<RunnableScenario> scenarios = new ArrayList<RunnableScenario>();
+        List<RunnableStory> stories = new ArrayList<RunnableStory>();
         for (String name : names) {
             try {
-                if (!isScenarioAbstract(classLoader, name)) {
-                    scenarios.add(scenarioFor(classLoader, name));
+                if (!isStoryAbstract(classLoader, name)) {
+                    stories.add(storyFor(classLoader, name));
                 }
             } catch (Exception e) {
-                throw new MojoExecutionException("Failed to instantiate core '" + name + "'", e);
+                throw new MojoExecutionException("Failed to instantiate story '" + name + "'", e);
             }
         }
-        return scenarios;
+        return stories;
     }
 
-    private boolean isScenarioAbstract(ScenarioClassLoader classLoader, String name) throws ClassNotFoundException {
+    private boolean isStoryAbstract(StoryClassLoader classLoader, String name) throws ClassNotFoundException {
         return Modifier.isAbstract(classLoader.loadClass(name).getModifiers());
     }
 
-    private RunnableScenario scenarioFor(ScenarioClassLoader classLoader, String name) {
+    private RunnableStory storyFor(StoryClassLoader classLoader, String name) {
         if ( classLoaderInjected ){
             try {
-                return classLoader.newScenario(name, ClassLoader.class);
+                return classLoader.newStory(name, ClassLoader.class);
             } catch (RuntimeException e) {
-                throw new RuntimeException("JBehave is trying to instantiate your Scenario class '" 
+                throw new RuntimeException("JBehave is trying to instantiate your RunnableStory class '" 
                         + name + "' with a ClassLoader as a parameter.  " +
                         "If this is wrong, change the Maven configuration for the plugin to include " +
                         "<classLoaderInjected>false</classLoaderInjected>" , e);
             }
         }
-        return classLoader.newScenario(name);
+        return classLoader.newStory(name);
     }
 }

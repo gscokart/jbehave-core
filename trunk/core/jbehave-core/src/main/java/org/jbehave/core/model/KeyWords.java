@@ -9,7 +9,7 @@ import java.util.Map;
 import org.jbehave.core.i18n.StringEncoder;
 
 /**
- * Provides the keywords which allow parsers to find steps in scenarios and
+ * Provides the keywords which allow parsers to find steps in stories and
  * match those steps with candidates through the annotations (Given, When and
  * Then) or though other keywords (And, "!--"). It also provides keywords used
  * in reporting.

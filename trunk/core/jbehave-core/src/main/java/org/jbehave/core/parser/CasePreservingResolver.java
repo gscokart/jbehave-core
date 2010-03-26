@@ -1,6 +1,6 @@
 package org.jbehave.core.parser;
 
-import org.jbehave.core.RunnableScenario;
+import org.jbehave.core.RunnableStory;
 
 
 /**
@@ -14,7 +14,7 @@ import org.jbehave.core.RunnableScenario;
  * "org/jbehave/core/ICanLogin.core".
  * </p>
  */
-public class CasePreservingResolver extends AbstractScenarioNameResolver {
+public class CasePreservingResolver extends AbstractStoryNameResolver {
 
     public CasePreservingResolver() {
         super();
@@ -25,7 +25,7 @@ public class CasePreservingResolver extends AbstractScenarioNameResolver {
     }
 
 	@Override
-	protected String resolveFileName(Class<? extends RunnableScenario> scenarioClass) {
+	protected String resolveFileName(Class<? extends RunnableStory> scenarioClass) {
 		return scenarioClass.getSimpleName();
 	}
 

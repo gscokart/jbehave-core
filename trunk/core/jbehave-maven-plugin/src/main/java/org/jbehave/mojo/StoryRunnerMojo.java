@@ -2,18 +2,18 @@ package org.jbehave.mojo;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
-import org.jbehave.core.RunnableScenario;
+import org.jbehave.core.RunnableStory;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Mojo to run scenarios
+ * Mojo to run stories
  *
  * @author Mauro Talevi
- * @goal run-scenarios
+ * @goal run-stories
  */
-public class ScenarioRunnerMojo extends AbstractScenarioMojo {
+public class StoryRunnerMojo extends AbstractStoryMojo {
 
     /**
      * The boolean flag to run in batch mode
@@ -24,16 +24,16 @@ public class ScenarioRunnerMojo extends AbstractScenarioMojo {
 
     public void execute() throws MojoExecutionException, MojoFailureException {
         if (skipScenarios()) {
-            getLog().info("Skipped running scenarios");
+            getLog().info("Skipped running stories");
             return;
         }
 
         Map<String, Throwable> failedScenarios = new HashMap<String, Throwable>();
-        for (RunnableScenario scenario : scenarios()) {
-            String scenarioName = scenario.getClass().getName();
+        for (RunnableStory story : stories()) {
+            String scenarioName = story.getClass().getName();
             try {
                 getLog().info("Running core " + scenarioName);
-                scenario.runScenario();
+                story.runStory();
             } catch (Throwable e) {
                 String message = "Failure in running core " + scenarioName;
                 if (batch) {
@@ -50,7 +50,7 @@ public class ScenarioRunnerMojo extends AbstractScenarioMojo {
         }
 
         if (batch && failedScenarios.size() > 0) {
-            String message = "Failure in runing scenarios: " + format(failedScenarios);
+            String message = "Failure in runing stories: " + format(failedScenarios);
             if ( ignoreFailure() ){
                 getLog().warn(message);
             } else {

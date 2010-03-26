@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jbehave.core.model.KeyWords;
-import org.jbehave.core.parser.ScenarioNameResolver;
 import org.jbehave.core.steps.CandidateSteps;
 import org.jbehave.core.steps.Stepdoc;
 
@@ -19,8 +18,8 @@ import org.jbehave.core.steps.Stepdoc;
  * to be provided explicitly.
  * </p>
  * <p>
- * Typically, users will find it easier to extend decorator scenarios, such as
- * {@link JUnitScenario} which also provide support for test frameworks and also
+ * Typically, users will find it easier to extend decorator stories, such as
+ * {@link JUnitStory} which also provide support for test frameworks and also
  * provide the core class as the one being implemented by the user.
  * </p>
  * <p>
@@ -32,7 +31,7 @@ import org.jbehave.core.steps.Stepdoc;
  * class end in "Scenario" although you may choose to).</li>
  * <li>The core class should be in a matching text file in the same place,
  * eg "i_can_login" (this uses the default name resolution, although the it can
- * be configured via the {@link ScenarioNameResolver}).</li>
+ * be configured via the {@link org.jbehave.core.parser.StoryNameResolver}).</li>
  * <li>Write some steps in your text core, starting each new step with
  * Given, When, Then or And. The keywords can be configured via the
  * {@link KeyWords} class, eg they can be translated/localized to other
@@ -41,38 +40,38 @@ import org.jbehave.core.steps.Stepdoc;
  * for the steps defined in the text core.</li>
  * <ol>
  */
-public abstract class AbstractScenario implements RunnableScenario {
+public abstract class AbstractStory implements RunnableStory {
 
     private Configuration configuration;
-    private final ScenarioRunner scenarioRunner;
+    private final StoryRunner storyRunner;
     private final List<CandidateSteps> candidateSteps = new ArrayList<CandidateSteps>();
-    private final Class<? extends RunnableScenario> scenarioClass;
+    private final Class<? extends RunnableStory> scenarioClass;
 
-    public AbstractScenario(Class<? extends RunnableScenario> scenarioClass, CandidateSteps... candidateSteps) {
-        this(scenarioClass, new ScenarioRunner(), new PropertyBasedConfiguration(), candidateSteps);
+    public AbstractStory(Class<? extends RunnableStory> scenarioClass, CandidateSteps... candidateSteps) {
+        this(scenarioClass, new StoryRunner(), new PropertyBasedConfiguration(), candidateSteps);
     }
 
-    public AbstractScenario(Class<? extends RunnableScenario> scenarioClass, Configuration configuration,
+    public AbstractStory(Class<? extends RunnableStory> scenarioClass, Configuration configuration,
             CandidateSteps... candidateSteps) {
-        this(scenarioClass, new ScenarioRunner(), configuration, candidateSteps);
+        this(scenarioClass, new StoryRunner(), configuration, candidateSteps);
     }
 
-    public AbstractScenario(Class<? extends RunnableScenario> scenarioClass, ScenarioRunner scenarioRunner,
+    public AbstractStory(Class<? extends RunnableStory> scenarioClass, StoryRunner storyRunner,
             CandidateSteps... candidateSteps) {
-        this(scenarioClass, scenarioRunner, new PropertyBasedConfiguration(), candidateSteps);
+        this(scenarioClass, storyRunner, new PropertyBasedConfiguration(), candidateSteps);
     }
 
-    public AbstractScenario(Class<? extends RunnableScenario> scenarioClass, ScenarioRunner scenarioRunner,
+    public AbstractStory(Class<? extends RunnableStory> scenarioClass, StoryRunner storyRunner,
             Configuration configuration, CandidateSteps... candidateSteps) {
         this.scenarioClass = scenarioClass;
         this.configuration = configuration;
-        this.scenarioRunner = scenarioRunner;
+        this.storyRunner = storyRunner;
         this.candidateSteps.addAll(asList(candidateSteps));
     }
 
-    public void runScenario() throws Throwable {
+    public void runStory() throws Throwable {
         CandidateSteps[] steps = candidateSteps.toArray(new CandidateSteps[candidateSteps.size()]);
-        scenarioRunner.run(scenarioClass, configuration, steps);
+        storyRunner.run(scenarioClass, configuration, steps);
     }
     
     public void useConfiguration(Configuration configuration) {

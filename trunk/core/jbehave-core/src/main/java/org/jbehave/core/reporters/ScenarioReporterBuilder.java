@@ -19,7 +19,7 @@ import org.jbehave.core.reporters.FilePrintStreamFactory.FileConfiguration;
  * To build reporter with default delegates for given formats:
  * <pre>
  * Class&lt;MyScenario&gt; scenarioClass = MyScenario.class;
- * ScenarioNameResolver nameResolver = new UnderscoredCamelCaseResolver();
+ * StoryNameResolver nameResolver = new UnderscoredCamelCaseResolver();
  * FilePrintStreamFactory printStreamFactory = new FilePrintStreamFactory(scenarioClass, nameResolver);
  * ScenarioReporter reporter = new ScenarioReporterBuilder(printStreamFactory).with(HTML).with(TXT).build();
  * </pre> 

@@ -1,9 +1,9 @@
 package org.jbehave.examples.trader.guice;
 
+import org.jbehave.core.RunnableStory;
 import org.jbehave.examples.trader.BeforeAfterSteps;
-import org.jbehave.examples.trader.TraderScenario;
+import org.jbehave.examples.trader.TraderStory;
 import org.jbehave.examples.trader.service.TradingService;
-import org.jbehave.core.RunnableScenario;
 import org.jbehave.core.steps.CandidateSteps;
 import org.jbehave.core.steps.StepsConfiguration;
 import org.jbehave.core.steps.guice.GuiceStepsFactory;
@@ -13,9 +13,9 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Scopes;
 
-public class GuiceTraderScenario extends TraderScenario {
+public class GuiceTraderStory extends TraderStory {
 
-    public GuiceTraderScenario(Class<? extends RunnableScenario> scenarioClass) {
+    public GuiceTraderStory(Class<? extends RunnableStory> scenarioClass) {
         super(scenarioClass);
     }
 

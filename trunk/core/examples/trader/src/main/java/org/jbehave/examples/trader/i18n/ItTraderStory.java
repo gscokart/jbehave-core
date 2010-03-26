@@ -2,32 +2,32 @@ package org.jbehave.examples.trader.i18n;
 
 import java.util.Locale;
 
-import org.jbehave.core.JUnitScenario;
+import org.jbehave.core.JUnitStory;
 import org.jbehave.core.PropertyBasedConfiguration;
 import org.jbehave.core.model.KeyWords;
 import org.jbehave.core.i18n.I18nKeyWords;
 import org.jbehave.core.i18n.StringEncoder;
 import org.jbehave.core.parser.ClasspathScenarioDefiner;
-import org.jbehave.core.parser.PatternScenarioParser;
+import org.jbehave.core.parser.PatternStoryParser;
 import org.jbehave.core.parser.ScenarioDefiner;
 import org.jbehave.core.parser.UnderscoredCamelCaseResolver;
 import org.jbehave.core.reporters.PrintStreamScenarioReporter;
 import org.jbehave.core.reporters.ScenarioReporter;
 
-public class ItTraderScenario extends JUnitScenario {
+public class ItTraderStory extends JUnitStory {
 
-	public ItTraderScenario() {
+	public ItTraderStory() {
 		this(Thread.currentThread().getContextClassLoader());
 	}
 
-	public ItTraderScenario(final ClassLoader classLoader) {
+	public ItTraderStory(final ClassLoader classLoader) {
 		super(new PropertyBasedConfiguration() {
 			@Override
 			public ScenarioDefiner forDefiningScenarios() {
 				// use underscored camel case core files with extension ".scenario"
 				return new ClasspathScenarioDefiner(
 						new UnderscoredCamelCaseResolver(".scenario"),
-						new PatternScenarioParser(keywords()), classLoader);
+						new PatternStoryParser(keywords()), classLoader);
 			}
 
 			@Override

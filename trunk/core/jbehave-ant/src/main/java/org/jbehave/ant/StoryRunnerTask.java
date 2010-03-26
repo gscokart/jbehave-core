@@ -7,14 +7,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.tools.ant.BuildException;
-import org.jbehave.core.RunnableScenario;
+import org.jbehave.core.RunnableStory;
 
 /**
- * Ant task that runs scenarios
+ * Ant task that runs stories
  * 
  * @author Mauro Talevi
  */
-public class ScenarioRunnerTask extends AbstractScenarioTask {
+public class StoryRunnerTask extends AbstractStoryTask {
 
     /**
      * The boolean flag to run in batch mode
@@ -23,21 +23,21 @@ public class ScenarioRunnerTask extends AbstractScenarioTask {
 
     public void execute() throws BuildException {
         if (skipScenarios()) {
-            log("Skipped running scenarios", MSG_INFO);
+            log("Skipped running stories", MSG_INFO);
             return;
         }
 
         Map<String, Throwable> failedScenarios = new HashMap<String, Throwable>();
-        for (RunnableScenario scenario : scenarios()) {
-            String scenarioName = scenario.getClass().getName();
+        for (RunnableStory story : stories()) {
+            String storyName = story.getClass().getName();
             try {
-                log("Running core " + scenarioName);
-                scenario.runScenario();
+                log("Running core " + storyName);
+                story.runStory();
             } catch (Throwable e) {
-                String message = "Failure in running core " + scenarioName;
+                String message = "Failure in running story " + storyName;
                 if (batch) {
                     // collect and postpone decision to throw exception
-                    failedScenarios.put(scenarioName, e);
+                    failedScenarios.put(storyName, e);
                 } else {
                     if (ignoreFailure()) {
                         log(message, e, MSG_WARN);
@@ -48,7 +48,7 @@ public class ScenarioRunnerTask extends AbstractScenarioTask {
             }
         }
         if (batch && failedScenarios.size() > 0) {
-            String message = "Failure in runing scenarios: " + format(failedScenarios);
+            String message = "Failure in running stories: " + format(failedScenarios);
             if (ignoreFailure()) {
                 log(message, MSG_WARN);
             } else {

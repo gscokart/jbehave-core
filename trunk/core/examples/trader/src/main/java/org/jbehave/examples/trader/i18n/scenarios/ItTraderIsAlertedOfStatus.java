@@ -1,9 +1,9 @@
 package org.jbehave.examples.trader.i18n.scenarios;
 
-import org.jbehave.examples.trader.i18n.ItTraderScenario;
+import org.jbehave.examples.trader.i18n.ItTraderStory;
 
 
-public class ItTraderIsAlertedOfStatus extends ItTraderScenario {
+public class ItTraderIsAlertedOfStatus extends ItTraderStory {
 
     public ItTraderIsAlertedOfStatus() {
         this(Thread.currentThread().getContextClassLoader());

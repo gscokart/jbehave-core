@@ -1,9 +1,9 @@
 package com.lunivore.noughtsandcrosses;
 
 import org.jbehave.core.MostUsefulConfiguration;
-import org.jbehave.core.JUnitScenario;
+import org.jbehave.core.JUnitStory;
 import org.jbehave.core.model.KeyWords;
-import org.jbehave.core.parser.PatternScenarioParser;
+import org.jbehave.core.parser.PatternStoryParser;
 import org.jbehave.core.parser.ClasspathScenarioDefiner;
 import org.jbehave.core.parser.UnderscoredCamelCaseResolver;
 import org.jbehave.core.reporters.PrintStreamScenarioReporter;
@@ -14,10 +14,10 @@ import com.lunivore.noughtsandcrosses.steps.LolCatzSteps;
 import com.lunivore.noughtsandcrosses.util.OAndXUniverse;
 
 /**
- * Checks that we can support scenarios written in other languages,
+ * Checks that we can support stories written in other languages,
  * eg: lolcatz
  */
-public class PlayersCanHazTurns extends JUnitScenario {
+public class PlayersCanHazTurns extends JUnitStory {
 
     public PlayersCanHazTurns() {
     	this(new OAndXUniverse());
@@ -29,7 +29,7 @@ public class PlayersCanHazTurns extends JUnitScenario {
                 return LolCatzSteps.lolCatzKeywords();
             }
             public ClasspathScenarioDefiner forDefiningScenarios() {
-                return new ClasspathScenarioDefiner(new UnderscoredCamelCaseResolver(), new PatternScenarioParser(this));
+                return new ClasspathScenarioDefiner(new UnderscoredCamelCaseResolver(), new PatternStoryParser(this));
             }
             @Override
             public ScenarioReporter forReportingScenarios() {

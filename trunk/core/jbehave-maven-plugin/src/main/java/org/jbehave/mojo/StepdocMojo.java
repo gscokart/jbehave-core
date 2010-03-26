@@ -2,7 +2,7 @@ package org.jbehave.mojo;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
-import org.jbehave.core.RunnableScenario;
+import org.jbehave.core.RunnableStory;
 
 /**
  * Mojo to generate stepdocs
@@ -10,18 +10,18 @@ import org.jbehave.core.RunnableScenario;
  * @author Mauro Talevi
  * @goal stepdoc
  */
-public class StepdocMojo extends AbstractScenarioMojo {
+public class StepdocMojo extends AbstractStoryMojo {
 
     public void execute() throws MojoExecutionException, MojoFailureException {
         if (skipScenarios()) {
             getLog().info("Skipped generating stepdoc");
             return;
         }
-        for (RunnableScenario scenario : scenarios()) {
-            String scenarioName = scenario.getClass().getName();
+        for (RunnableStory story : stories()) {
+            String scenarioName = story.getClass().getName();
             try {
                 getLog().info("Generating stepdoc for " + scenarioName);
-                scenario.generateStepdoc();
+                story.generateStepdoc();
             } catch (Throwable e) {
                 String message = "Failed to generate stepdoc for " + scenarioName;
                 if (ignoreFailure()) {

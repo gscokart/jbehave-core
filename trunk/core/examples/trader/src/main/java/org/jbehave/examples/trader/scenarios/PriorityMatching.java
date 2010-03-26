@@ -5,30 +5,26 @@ import static org.jbehave.core.reporters.ScenarioReporterBuilder.Format.HTML;
 import static org.jbehave.core.reporters.ScenarioReporterBuilder.Format.TXT;
 import static org.jbehave.core.reporters.ScenarioReporterBuilder.Format.XML;
 
+import org.jbehave.core.JUnitStory;
+import org.jbehave.core.parser.*;
 import org.jbehave.examples.trader.PriorityMatchingSteps;
-import org.jbehave.core.JUnitScenario;
 import org.jbehave.core.MostUsefulConfiguration;
-import org.jbehave.core.parser.ClasspathScenarioDefiner;
-import org.jbehave.core.parser.PatternScenarioParser;
-import org.jbehave.core.parser.PrefixCapturingPatternBuilder;
-import org.jbehave.core.parser.ScenarioDefiner;
-import org.jbehave.core.parser.ScenarioNameResolver;
-import org.jbehave.core.parser.UnderscoredCamelCaseResolver;
+import org.jbehave.core.parser.PatternStoryParser;
 import org.jbehave.core.reporters.FilePrintStreamFactory;
 import org.jbehave.core.reporters.ScenarioReporter;
 import org.jbehave.core.reporters.ScenarioReporterBuilder;
 import org.jbehave.core.steps.StepsConfiguration;
 import org.jbehave.core.steps.StepsFactory;
 
-public class PriorityMatching extends JUnitScenario {
+public class PriorityMatching extends JUnitStory {
 
-    private static ScenarioNameResolver resolver = new UnderscoredCamelCaseResolver(".scenario");
+    private static StoryNameResolver resolver = new UnderscoredCamelCaseResolver(".scenario");
 
     public PriorityMatching() {
         super(new MostUsefulConfiguration() {
             @Override
             public ScenarioDefiner forDefiningScenarios() {
-                return new ClasspathScenarioDefiner(resolver, new PatternScenarioParser(keywords()));
+                return new ClasspathScenarioDefiner(resolver, new PatternStoryParser(keywords()));
             }
             
             @Override

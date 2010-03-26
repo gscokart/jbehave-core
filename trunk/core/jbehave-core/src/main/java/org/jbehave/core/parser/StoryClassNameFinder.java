@@ -5,14 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.tools.ant.DirectoryScanner;
-import org.jbehave.core.errors.InvalidScenarioClassPathException;
+import org.jbehave.core.errors.InvalidStoryClassPathException;
 
 /**
- * Finds core class names from a base directory using Ant's directory scanner.
+ * Finds story class names from a base directory using Ant's directory scanner.
  * 
  * @author Mauro Talevi
  */
-public class ScenarioClassNameFinder {
+public class StoryClassNameFinder {
 
     private static final String JAVA = ".java";
     private static final String EMPTY = "";
@@ -23,7 +23,7 @@ public class ScenarioClassNameFinder {
     private DirectoryScanner scanner = new DirectoryScanner();
 
     /**
-     * Lists core class names from a base directory, allowing for includes/excludes
+     * Lists story class names from a base directory, allowing for includes/excludes
      * 
      * @param basedir the base directory path
      * @param rootPath the root path prefixed to all paths found, or
@@ -34,7 +34,7 @@ public class ScenarioClassNameFinder {
      *            none
      * @return A List of paths
      */
-    public List<String> listScenarioClassNames(String basedir, String rootPath, List<String> includes,
+    public List<String> listStoryClassNames(String basedir, String rootPath, List<String> includes,
             List<String> excludes) {
         List<String> classNames = new ArrayList<String>();
         for (String path : listPaths(basedir, rootPath, includes, excludes)) {
@@ -50,7 +50,7 @@ public class ScenarioClassNameFinder {
             className = className.replaceAll(SLASH, DOT_REGEX); 
             return className.replaceAll(BACKSLASH, DOT_REGEX);            
         }
-        throw new InvalidScenarioClassPathException("Invalid core class path "+path);
+        throw new InvalidStoryClassPathException("Invalid story class path "+path);
     }
 
     private List<String> listPaths(String basedir, String rootPath, List<String> includes, List<String> excludes) {

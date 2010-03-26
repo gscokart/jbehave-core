@@ -1,9 +1,9 @@
 package org.jbehave.core.parser;
 
-import org.jbehave.core.RunnableScenario;
+import org.jbehave.core.RunnableStory;
 
-public abstract class AbstractScenarioNameResolver implements
-		ScenarioNameResolver {
+public abstract class AbstractStoryNameResolver implements
+        StoryNameResolver {
 
 	static final String DOT_REGEX = "\\.";
 	static final String SLASH = "/";
@@ -13,15 +13,15 @@ public abstract class AbstractScenarioNameResolver implements
 
 	private final String extension;
 
-	protected AbstractScenarioNameResolver() {
+	protected AbstractStoryNameResolver() {
 		this(DEFAULT_EXTENSION);
 	}
 
-	protected AbstractScenarioNameResolver(String extension) {
+	protected AbstractStoryNameResolver(String extension) {
 		this.extension = extension;
 	}
 
-	public String resolve(Class<? extends RunnableScenario> scenarioClass) {
+	public String resolve(Class<? extends RunnableStory> scenarioClass) {
 		String directoryName = resolveDirectoryName(scenarioClass);
 		String fileName = resolveFileName(scenarioClass);
 		return formatName(directoryName, fileName, extension);
@@ -41,7 +41,7 @@ public abstract class AbstractScenarioNameResolver implements
 	}
 
 	protected String resolveDirectoryName(
-			Class<? extends RunnableScenario> scenarioClass) {
+			Class<? extends RunnableStory> scenarioClass) {
 		Package scenarioPackage = scenarioClass.getPackage();
 		if (scenarioPackage != null) {
 			return scenarioPackage.getName().replaceAll(DOT_REGEX, SLASH);
@@ -50,6 +50,6 @@ public abstract class AbstractScenarioNameResolver implements
 	}
 
 	protected abstract String resolveFileName(
-			Class<? extends RunnableScenario> scenarioClass);
+			Class<? extends RunnableStory> scenarioClass);
 
 }

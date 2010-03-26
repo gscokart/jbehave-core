@@ -6,7 +6,7 @@ import org.jbehave.core.errors.ErrorStrategyInWhichWeTrustTheReporter;
 import org.jbehave.core.errors.PendingErrorStrategy;
 import org.jbehave.core.i18n.I18nKeyWords;
 import org.jbehave.core.parser.ClasspathScenarioDefiner;
-import org.jbehave.core.parser.PatternScenarioParser;
+import org.jbehave.core.parser.PatternStoryParser;
 import org.jbehave.core.parser.ScenarioDefiner;
 import org.jbehave.core.reporters.PassSilentlyDecorator;
 import org.jbehave.core.reporters.PrintStreamScenarioReporter;
@@ -19,12 +19,12 @@ import org.jbehave.core.steps.StepdocGenerator;
 import org.jbehave.core.steps.UnmatchedToPendingStepCreator;
 
 /**
- * The default configuration used by {@link ScenarioRunner}. Works for most
+ * The default configuration used by {@link StoryRunner}. Works for most
  * situations that users are likely to encounter. The default elements
  * configured are:
  * <ul>
  *   <li>{@link StepCreator}: new UnmatchedToPendingStepCreator()</li>
- *   <li>{@link ScenarioDefiner}: new ClasspathScenarioDefiner(new PatternScenarioParser(this))</li>
+ *   <li>{@link ScenarioDefiner}: new ClasspathScenarioDefiner(new PatternStoryParser(this))</li>
  *   <li>{@link ErrorStrategy}: ErrorStrategy.RETHROW</li>
  *   <li>{@link PendingErrorStrategy}: PendingErrorStrategy.PASSING</li>
  *   <li>{@link ScenarioReporter}: new PassSilentlyDecorator(new PrintStreamScenarioReporter())</li>
@@ -43,19 +43,19 @@ public class MostUsefulConfiguration implements Configuration {
 	}
 
 	/**
-	 * Defines scenarios by looking for a file named after the core and in
+	 * Defines stories by looking for a file named after the core and in
 	 * the same package, using lower-case underscored name in place of the
 	 * camel-cased name - so MyScenario.java maps to my_scenario.
 	 */
 	public ScenarioDefiner forDefiningScenarios() {
-		return new ClasspathScenarioDefiner(new PatternScenarioParser(keywords()));
+		return new ClasspathScenarioDefiner(new PatternStoryParser(keywords()));
 	}
 
 	/**
 	 * Handles errors by rethrowing them.
 	 * 
 	 * <p>
-	 * If there are multiple scenarios in a single story model, this could
+	 * If there are multiple stories in a single story model, this could
 	 * cause the story to stop after the first failing core.
 	 * 
 	 * <p>
@@ -80,8 +80,8 @@ public class MostUsefulConfiguration implements Configuration {
 	}
 
 	/**
-	 * Reports failing or pending scenarios to System.out, while silently
-	 * passing scenarios.
+	 * Reports failing or pending stories to System.out, while silently
+	 * passing stories.
 	 * 
 	 * <p>
 	 * If you want different behaviour, you might like to use the

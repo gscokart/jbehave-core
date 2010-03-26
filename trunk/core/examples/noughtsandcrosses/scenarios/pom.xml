@@ -34,17 +34,17 @@
         <artifactId>jbehave-maven-plugin</artifactId>
         <executions>
           <execution>
-            <id>run-scenarios-listed</id>
+            <id>run-stories-listed</id>
             <phase>integration-test</phase>
             <configuration>
-              <scenarioClassNames>
-                <scenarioClassName>com.lunivore.noughtsandcrosses.PlayersCanHazTurns</scenarioClassName>
-                <scenarioClassName>com.lunivore.noughtsandcrosses.PlayersCanTakeTurns</scenarioClassName>
-              </scenarioClassNames>
+              <storyClassNames>
+                <storyClassName>com.lunivore.noughtsandcrosses.PlayersCanHazTurns</storyClassName>
+                <storyClassName>com.lunivore.noughtsandcrosses.PlayersCanTakeTurns</storyClassName>
+              </storyClassNames>
               <classLoaderInjected>false</classLoaderInjected>
             </configuration>
             <goals>
-              <goal>run-scenarios</goal>
+              <goal>run-stories</goal>
             </goals>
           </execution>
         </executions>

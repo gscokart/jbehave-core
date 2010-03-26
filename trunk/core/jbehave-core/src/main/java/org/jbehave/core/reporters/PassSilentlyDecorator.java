@@ -9,8 +9,8 @@ import org.jbehave.core.model.ExamplesTable;
 import org.jbehave.core.model.Story;
 
 /**
- * Swallows the reports from all scenarios that pass, providing output only for
- * failing or pending scenarios.
+ * Swallows the reports from all stories that pass, providing output only for
+ * failing or pending stories.
  */
 public class PassSilentlyDecorator implements ScenarioReporter {
 

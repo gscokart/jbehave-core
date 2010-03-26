@@ -26,7 +26,7 @@ import org.jbehave.core.steps.StepsFactory;
 /**
  * POJO holding the candidate steps for the trader example.  
  * The {@link CandidateSteps} instance wrapping this are created via the {@link StepsFactory}
- * in the {@link TraderScenario}.
+ * in the {@link TraderStory}.
  */
 public class TraderSteps {
 

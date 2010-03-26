@@ -13,7 +13,7 @@ public class ErrorStrategyInWhichWeTrustTheReporterBehaviour {
         try {
             errorStrategy.handleError(null);
         } catch (AssertionError e) {
-            ensureThat(e.getMessage(), equalTo("An error occurred while running the scenarios; please check output for details."));
+            ensureThat(e.getMessage(), equalTo("An error occurred while running the stories; please check output for details."));
         }
         
     }
