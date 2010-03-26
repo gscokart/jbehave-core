@@ -19,7 +19,7 @@ import java.util.Locale;
 import java.util.Properties;
 
 import org.apache.commons.io.IOUtils;
-import org.jbehave.core.Scenario;
+import org.jbehave.core.JUnitScenario;
 import org.jbehave.core.definition.Blurb;
 import org.jbehave.core.definition.ExamplesTable;
 import org.jbehave.core.definition.Narrative;
@@ -421,7 +421,7 @@ public class PrintStreamScenarioReporterBehaviour {
         // Then ... fail as expected
     }
 
-    private static class MyScenario extends Scenario {
+    private static class MyScenario extends JUnitScenario {
 
     }
 }

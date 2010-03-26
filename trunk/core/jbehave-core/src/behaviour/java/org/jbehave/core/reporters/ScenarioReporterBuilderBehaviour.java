@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Properties;
 
-import org.jbehave.core.Scenario;
+import org.jbehave.core.JUnitScenario;
 import org.jbehave.core.i18n.I18nKeyWords;
 import org.jbehave.core.parser.ScenarioNameResolver;
 import org.jbehave.core.parser.UnderscoredCamelCaseResolver;
@@ -80,7 +80,7 @@ public class ScenarioReporterBuilderBehaviour {
         ensureThat(delegates.get(TXT), equalTo(txtReporter));
     }
 
-    private static class MyScenario extends Scenario {
+    private static class MyScenario extends JUnitScenario {
 
     }
 }
