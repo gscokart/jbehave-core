@@ -11,9 +11,9 @@ import org.jbehave.core.steps.Stepdoc;
 
 /**
  * <p>
- * Abstract implementation of Scenario which is primarily intended as a base
- * class for delegate implementations of Scenarios. As such, it has no explicit
- * supports for any test framework, ie it requires the {@link runScenario}
+ * Abstract implementation of RunnableStory which is primarily intended as a base
+ * class for delegate implementations of RunnableStory. As such, it has no explicit
+ * supports for any test framework, ie it requires the {@link runStory}
  * method to be invoked directly, and the class of the core being run needs
  * to be provided explicitly.
  * </p>
@@ -23,12 +23,12 @@ import org.jbehave.core.steps.Stepdoc;
  * provide the core class as the one being implemented by the user.
  * </p>
  * <p>
- * Whichever Scenario class one chooses to extends, the steps for running a
+ * Whichever Story class one chooses to extends, the steps for running a
  * core are the same:
  * <ol>
- * <li>Extend the chosen core class and name it after your core, eg
+ * <li>Extend the chosen RunnableStory class and name it after your story, eg
  * "ICanLogin.java" (note that there is no obligation to have the name of the
- * class end in "Scenario" although you may choose to).</li>
+ * class end in "Story" although you may choose to).</li>
  * <li>The core class should be in a matching text file in the same place,
  * eg "i_can_login" (this uses the default name resolution, although the it can
  * be configured via the {@link org.jbehave.core.parser.StoryNameResolver}).</li>
@@ -45,25 +45,25 @@ public abstract class AbstractStory implements RunnableStory {
     private Configuration configuration;
     private final StoryRunner storyRunner;
     private final List<CandidateSteps> candidateSteps = new ArrayList<CandidateSteps>();
-    private final Class<? extends RunnableStory> scenarioClass;
+    private final Class<? extends RunnableStory> storyClass;
 
-    public AbstractStory(Class<? extends RunnableStory> scenarioClass, CandidateSteps... candidateSteps) {
-        this(scenarioClass, new StoryRunner(), new PropertyBasedConfiguration(), candidateSteps);
+    public AbstractStory(Class<? extends RunnableStory> storyClass, CandidateSteps... candidateSteps) {
+        this(storyClass, new StoryRunner(), new PropertyBasedConfiguration(), candidateSteps);
     }
 
-    public AbstractStory(Class<? extends RunnableStory> scenarioClass, Configuration configuration,
+    public AbstractStory(Class<? extends RunnableStory> storyClass, Configuration configuration,
             CandidateSteps... candidateSteps) {
-        this(scenarioClass, new StoryRunner(), configuration, candidateSteps);
+        this(storyClass, new StoryRunner(), configuration, candidateSteps);
     }
 
-    public AbstractStory(Class<? extends RunnableStory> scenarioClass, StoryRunner storyRunner,
+    public AbstractStory(Class<? extends RunnableStory> storyClass, StoryRunner storyRunner,
             CandidateSteps... candidateSteps) {
-        this(scenarioClass, storyRunner, new PropertyBasedConfiguration(), candidateSteps);
+        this(storyClass, storyRunner, new PropertyBasedConfiguration(), candidateSteps);
     }
 
-    public AbstractStory(Class<? extends RunnableStory> scenarioClass, StoryRunner storyRunner,
+    public AbstractStory(Class<? extends RunnableStory> storyClass, StoryRunner storyRunner,
             Configuration configuration, CandidateSteps... candidateSteps) {
-        this.scenarioClass = scenarioClass;
+        this.storyClass = storyClass;
         this.configuration = configuration;
         this.storyRunner = storyRunner;
         this.candidateSteps.addAll(asList(candidateSteps));
@@ -71,7 +71,7 @@ public abstract class AbstractStory implements RunnableStory {
 
     public void runStory() throws Throwable {
         CandidateSteps[] steps = candidateSteps.toArray(new CandidateSteps[candidateSteps.size()]);
-        storyRunner.run(scenarioClass, configuration, steps);
+        storyRunner.run(storyClass, configuration, steps);
     }
     
     public void useConfiguration(Configuration configuration) {

@@ -22,22 +22,22 @@ public class StoryRunnerTask extends AbstractStoryTask {
     private boolean batch;
 
     public void execute() throws BuildException {
-        if (skipScenarios()) {
+        if (skipStories()) {
             log("Skipped running stories", MSG_INFO);
             return;
         }
 
         Map<String, Throwable> failedScenarios = new HashMap<String, Throwable>();
         for (RunnableStory story : stories()) {
-            String storyName = story.getClass().getName();
+            String name = story.getClass().getName();
             try {
-                log("Running core " + storyName);
+                log("Running story " + name);
                 story.runStory();
             } catch (Throwable e) {
-                String message = "Failure in running story " + storyName;
+                String message = "Failure in running story " + name;
                 if (batch) {
                     // collect and postpone decision to throw exception
-                    failedScenarios.put(storyName, e);
+                    failedScenarios.put(name, e);
                 } else {
                     if (ignoreFailure()) {
                         log(message, e, MSG_WARN);

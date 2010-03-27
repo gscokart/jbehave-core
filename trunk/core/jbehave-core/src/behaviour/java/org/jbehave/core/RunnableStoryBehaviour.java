@@ -15,14 +15,14 @@ public class RunnableStoryBehaviour {
         StoryRunner runner = mock(StoryRunner.class);
         Configuration configuration = mock(Configuration.class);
         CandidateSteps steps = mock(CandidateSteps.class);
-        Class<MyStory> scenarioClass = MyStory.class;
+        Class<MyStory> storyClass = MyStory.class;
 
         // When
         RunnableStory story = new MyStory(runner, configuration, steps);
         story.runStory();
 
         // Then
-        verify(runner).run(scenarioClass, configuration, steps);
+        verify(runner).run(storyClass, configuration, steps);
     }
     
     @Test
@@ -31,7 +31,7 @@ public class RunnableStoryBehaviour {
         StoryRunner runner = mock(StoryRunner.class);
         Configuration configuration = mock(Configuration.class);
         CandidateSteps steps = mock(CandidateSteps.class);
-        Class<MyStory> scenarioClass = MyStory.class;
+        Class<MyStory> storyClass = MyStory.class;
 
         // When
         RunnableStory story = new MyStory(runner, steps);
@@ -41,7 +41,7 @@ public class RunnableStoryBehaviour {
 
         // Then
         ensureThat(!(story.getConfiguration() instanceof PropertyBasedConfiguration));
-        verify(runner).run(scenarioClass, configuration, steps);
+        verify(runner).run(storyClass, configuration, steps);
     }
 
     
@@ -51,7 +51,7 @@ public class RunnableStoryBehaviour {
         StoryRunner runner = mock(StoryRunner.class);
         Configuration configuration = mock(Configuration.class);
         CandidateSteps steps = mock(CandidateSteps.class);
-        Class<MyStory> scenarioClass = MyStory.class;
+        Class<MyStory> storyClass = MyStory.class;
 
         // When
         RunnableStory story = new MyStory(runner, configuration);
@@ -59,7 +59,7 @@ public class RunnableStoryBehaviour {
         story.runStory();
 
         // Then
-        verify(runner).run(scenarioClass, configuration, steps);
+        verify(runner).run(storyClass, configuration, steps);
     }
 
     private class MyStory extends JUnitStory {

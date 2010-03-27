@@ -13,7 +13,7 @@ import org.jbehave.core.RunnableStory;
 public class StepdocMojo extends AbstractStoryMojo {
 
     public void execute() throws MojoExecutionException, MojoFailureException {
-        if (skipScenarios()) {
+        if (skipStories()) {
             getLog().info("Skipped generating stepdoc");
             return;
         }

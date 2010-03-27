@@ -23,7 +23,7 @@ public class StoryRunnerMojo extends AbstractStoryMojo {
     private boolean batch;
 
     public void execute() throws MojoExecutionException, MojoFailureException {
-        if (skipScenarios()) {
+        if (skipStories()) {
             getLog().info("Skipped running stories");
             return;
         }

@@ -51,7 +51,7 @@ public class PropertyBasedConfigurationBehaviour {
     }
     
     @Test
-    public void shouldSwallowOutputFromPassingScenariosByDefault() {
+    public void shouldSwallowOutputFromPassingScenariossByDefault() {
         System.clearProperty(PropertyBasedConfiguration.OUTPUT_ALL);
         ensureThat(new PropertyBasedConfiguration().forReportingStories(), is(PassSilentlyDecorator.class));
     }

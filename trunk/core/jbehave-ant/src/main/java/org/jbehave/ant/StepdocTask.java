@@ -14,17 +14,17 @@ import org.jbehave.core.RunnableStory;
 public class StepdocTask extends AbstractStoryTask {
 
     public void execute() throws BuildException {
-        if (skipScenarios()) {
+        if (skipStories()) {
             log("Skipped running stories", MSG_INFO);
             return;
         }
         for (RunnableStory story : stories()) {
-            String scenarioName = story.getClass().getName();
+            String name = story.getClass().getName();
             try {
-                log("Generating stepdoc for " + scenarioName);
+                log("Generating stepdoc for " + name);
                 story.generateStepdoc();
             } catch (Throwable e) {
-                String message = "Failed to generate stepdoc for " + scenarioName;
+                String message = "Failed to generate stepdoc for " + name;
                 if (ignoreFailure()) {
                     log(message, e, MSG_WARN);
                 } else {

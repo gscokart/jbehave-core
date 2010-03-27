@@ -167,7 +167,7 @@ public abstract class AbstractStoryMojo extends AbstractMojo {
      * 
      * @return A boolean flag, <code>true</code> if stories are skipped
      */
-    protected boolean skipScenarios() {
+    protected boolean skipStories() {
         return skip;
     }
     

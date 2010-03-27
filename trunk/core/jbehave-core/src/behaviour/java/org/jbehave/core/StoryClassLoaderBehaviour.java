@@ -11,20 +11,20 @@ import static org.junit.Assert.assertNotNull;
 public class StoryClassLoaderBehaviour {
 
     @Test
-    public void canInstantiateNewScenarioWithDefaultConstructor() throws MalformedURLException {
+    public void canInstantiateNewStoryWithDefaultConstructor() throws MalformedURLException {
         StoryClassLoader classLoader = new StoryClassLoader(Arrays.<String>asList());
         String storyClassName = MyStory.class.getName();
-        assertScenarioIsInstantiated(classLoader, storyClassName);
+        assertStoryIsInstantiated(classLoader, storyClassName);
     }
 
     @Test
-    public void canInstantiateNewScenarioWithClassLoader() throws MalformedURLException {
+    public void canInstantiateNewStoryWithClassLoader() throws MalformedURLException {
         StoryClassLoader classLoader = new StoryClassLoader(Arrays.<String>asList());
         String storyClassName = MyStory.class.getName();
-        assertScenarioIsInstantiated(classLoader, storyClassName, ClassLoader.class);
+        assertStoryIsInstantiated(classLoader, storyClassName, ClassLoader.class);
     }
 
-    private void assertScenarioIsInstantiated(StoryClassLoader classLoader, String storyClassName, Class<?>... parameterTypes) {
+    private void assertStoryIsInstantiated(StoryClassLoader classLoader, String storyClassName, Class<?>... parameterTypes) {
         RunnableStory story = classLoader.newStory(storyClassName);
         assertNotNull(story);
         assertEquals(storyClassName, story.getClass().getName());

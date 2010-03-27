@@ -42,7 +42,7 @@ public class MostUsefulConfiguration implements Configuration {
 	/**
 	 * Defines stories by looking for a file named after the core and in
 	 * the same package, using lower-case underscored name in place of the
-	 * camel-cased name - so MyScenario.java maps to my_scenario.
+	 * camel-cased name - so MyStory.java maps to my_story.
 	 */
 	public StoryDefiner forDefiningStories() {
 		return new ClasspathStoryDefiner(new PatternStoryParser(keywords()));
@@ -68,7 +68,7 @@ public class MostUsefulConfiguration implements Configuration {
 	 * 
 	 * <p>
 	 * If you want to spot pending steps, you might want to look at
-	 * {@link PendingStepStrategy.FAILING}, or alternatively at the
+	 * {@link PendingErrorStrategy.FAILING}, or alternatively at the
 	 * PropertyBasedConfiguration which provides a mechanism for altering this
 	 * behaviour in different environments.
 	 */

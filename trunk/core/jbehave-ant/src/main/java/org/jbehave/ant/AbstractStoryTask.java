@@ -35,19 +35,19 @@ public abstract class AbstractStoryTask extends Task {
     private String scope = "compile";
 
     /**
-     * Scenario class names, if specified take precedence over the names
+     * Story class names, if specified take precedence over the names
      * specificed via the "storyIncludes" and "storyExcludes" parameters
      */
     private List<String> storyClassNames = new ArrayList<String>();
 
     /**
-     * Scenario include filters, relative to the root source directory
+     * Story include filters, relative to the root source directory
      * determined by the scope
      */
     private List<String> storyIncludes = new ArrayList<String>();
 
     /**
-     * Scenario exclude filters, relative to the root source directory
+     * Story exclude filters, relative to the root source directory
      * determined by the scope
      */
     private List<String> storyExcludes = new ArrayList<String>();
@@ -88,8 +88,8 @@ public abstract class AbstractStoryTask extends Task {
         return sourceDirectory;
     }
 
-    private List<String> findScenarioClassNames() {
-        log("Searching for core class names including "+ storyIncludes +" and excluding "+ storyExcludes, MSG_DEBUG);
+    private List<String> findStoryClassNames() {
+        log("Searching for story class names including "+ storyIncludes +" and excluding "+ storyExcludes, MSG_DEBUG);
         List<String> scenarioClassNames = finder.listStoryClassNames(rootSourceDirectory(), null, storyIncludes,
                 storyExcludes);
         log("Found core class names: " + scenarioClassNames, MSG_DEBUG);
@@ -97,13 +97,13 @@ public abstract class AbstractStoryTask extends Task {
     }
 
     /**
-     * Creates the Scenario ClassLoader with the classpath element of the
+     * Creates the Story ClassLoader with the classpath element of the
      * selected scope
      * 
      * @return A StoryClassLoader
      * @throws MalformedURLException
      */
-    private StoryClassLoader createScenarioClassLoader() throws MalformedURLException {
+    private StoryClassLoader createStoryClassLoader() throws MalformedURLException {
         return new StoryClassLoader(classpathElements());
     }
 
@@ -127,7 +127,7 @@ public abstract class AbstractStoryTask extends Task {
      * 
      * @return A boolean flag, <code>true</code> if stories are skipped
      */
-    protected boolean skipScenarios() {
+    protected boolean skipStories() {
         return skip;
     }
 
@@ -136,27 +136,27 @@ public abstract class AbstractStoryTask extends Task {
      * specified via the parameter "storyClassNames" (which takes precedence)
      * or found using the parameters "storyIncludes" and "storyExcludes".
      * 
-     * @return A List of Scenarios
+     * @return A List of Storys
      * @throws BuildException
      */
     protected List<RunnableStory> stories() throws BuildException {
         List<String> names = storyClassNames;
         if (names == null || names.isEmpty()) {
-            names = findScenarioClassNames();
+            names = findStoryClassNames();
         }
         if (names.isEmpty()) {
             log("No stories to run.", MSG_INFO);
         }
         StoryClassLoader classLoader = null;
         try {
-            classLoader = createScenarioClassLoader();
+            classLoader = createStoryClassLoader();
         } catch (Exception e) {
-            throw new BuildException("Failed to create core class loader", e);
+            throw new BuildException("Failed to create story class loader", e);
         }
         List<RunnableStory> stories = new ArrayList<RunnableStory>();
         for (String name : names) {
             try {
-                if (!isScenarioAbstract(classLoader, name)) {
+                if (!isStoryAbstract(classLoader, name)) {
                     stories.add(scenarioFor(classLoader, name));
                 }
             } catch (Exception e) {
@@ -166,7 +166,7 @@ public abstract class AbstractStoryTask extends Task {
         return stories;
     }
 
-    private boolean isScenarioAbstract(StoryClassLoader classLoader, String name) throws ClassNotFoundException {
+    private boolean isStoryAbstract(StoryClassLoader classLoader, String name) throws ClassNotFoundException {
         return Modifier.isAbstract(classLoader.loadClass(name).getModifiers());
     }
     
@@ -175,7 +175,7 @@ public abstract class AbstractStoryTask extends Task {
             try {
                 return classLoader.newStory(name, ClassLoader.class);
             } catch (RuntimeException e) {
-                throw new RuntimeException("JBehave is trying to instantiate your Scenario class '"
+                throw new RuntimeException("JBehave is trying to instantiate your Story class '"
                         + name + "' with a ClassLoader as a parameter.  " +
                         "If this is wrong, change the Ant configuration for the plugin to include " +
                         "<classLoaderInjected>false</classLoaderInjected>" , e);
