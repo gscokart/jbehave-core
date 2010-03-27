@@ -1,4 +1,4 @@
-package org.jbehave.examples.trader.pico.scenarios;
+package org.jbehave.examples.trader.pico.stories;
 
 import org.jbehave.examples.trader.pico.PicoTraderStory;
 

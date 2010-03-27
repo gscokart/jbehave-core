@@ -1,4 +1,4 @@
-package org.jbehave.examples.trader.spring.scenarios;
+package org.jbehave.examples.trader.spring.stories;
 
 import org.jbehave.examples.trader.spring.SpringTraderStory;
 

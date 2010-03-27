@@ -1,4 +1,4 @@
-package org.jbehave.examples.trader.scenarios;
+package org.jbehave.examples.trader.stories;
 
 import org.jbehave.examples.trader.TraderStory;
 

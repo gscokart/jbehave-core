@@ -1,4 +1,4 @@
-package org.jbehave.examples.trader.scenarios;
+package org.jbehave.examples.trader.stories;
 
 import static org.jbehave.core.reporters.StoryReporterBuilder.Format.CONSOLE;
 import static org.jbehave.core.reporters.StoryReporterBuilder.Format.HTML;
@@ -27,7 +27,7 @@ import org.jbehave.core.steps.StepsFactory;
 
 public class ClaimsWithNullCalendar extends JUnitStory {
 
-    private static StoryNameResolver converter = new UnderscoredCamelCaseResolver(".scenario");
+    private static StoryNameResolver converter = new UnderscoredCamelCaseResolver(".story");
 
     public ClaimsWithNullCalendar(){
         this(ClaimsWithNullCalendar.class);

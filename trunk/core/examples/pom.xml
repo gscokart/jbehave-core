@@ -72,7 +72,7 @@
     </plugins>
   </build>
   <properties>
-    <story.includes>**/scenario/*.java</story.includes>
+    <story.includes>**/stories/*.java</story.includes>
     <jbehave.version>${pom.version}</jbehave.version>
   </properties>
   <profiles>

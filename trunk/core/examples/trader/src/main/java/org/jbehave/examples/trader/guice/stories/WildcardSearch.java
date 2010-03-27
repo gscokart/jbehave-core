@@ -1,4 +1,4 @@
-package org.jbehave.examples.trader.guice.scenarios;
+package org.jbehave.examples.trader.guice.stories;
 
 import org.jbehave.examples.trader.guice.GuiceTraderStory;
 

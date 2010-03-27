@@ -28,7 +28,7 @@ import org.jbehave.core.steps.StepsFactory;
 
 public class TraderStory extends JUnitStory {
 
-    private static StoryNameResolver resolver = new UnderscoredCamelCaseResolver(".scenario");
+    private static StoryNameResolver resolver = new UnderscoredCamelCaseResolver(".story");
 
     public TraderStory(final Class<? extends RunnableStory> scenarioClass) {
         super(new PropertyBasedConfiguration() {

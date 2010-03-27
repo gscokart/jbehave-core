@@ -1,4 +1,4 @@
-package org.jbehave.examples.trader.scenarios;
+package org.jbehave.examples.trader.stories;
 
 import static org.jbehave.core.reporters.StoryReporterBuilder.Format.CONSOLE;
 import static org.jbehave.core.reporters.StoryReporterBuilder.Format.HTML;
@@ -18,7 +18,7 @@ import org.jbehave.core.steps.StepsFactory;
 
 public class PriorityMatching extends JUnitStory {
 
-    private static StoryNameResolver resolver = new UnderscoredCamelCaseResolver(".scenario");
+    private static StoryNameResolver resolver = new UnderscoredCamelCaseResolver(".story");
 
     public PriorityMatching() {
         super(new MostUsefulConfiguration() {

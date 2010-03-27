@@ -39,10 +39,10 @@
             <phase>integration-test</phase>
             <configuration>
               <storyIncludes>
-                <storyInclude>**/scenarios/*.java</storyInclude>
+                <storyInclude>**/stories/*.java</storyInclude>
               </storyIncludes>
               <storyExcludes>
-                <storyExclude>**/i18n/scenarios/*.java</storyExclude>
+                <storyExclude>**/i18n/stories/*.java</storyExclude>
                 <storyExclude>**/*NonSuccessful.java</storyExclude>
               </storyExcludes>
               <skip>false</skip>
@@ -64,7 +64,7 @@
             <configuration>
               <tasks>
                 <taskdef name="storyRunner" classname="org.jbehave.ant.StoryRunnerTask" classpathref="maven.runtime.classpath" />
-                <storyRunner storyIncludes="org/jbehave/examples/trader/storys/*.java"
+                <storyRunner storyIncludes="**/stories/*.java"
                   storyExcludes="**/*Steps.java" skip="false" scope="test" />
               </tasks>
             </configuration>
