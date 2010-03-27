@@ -23,8 +23,7 @@
     </copy>
     <copy todir="target/classes">
       <fileset dir="src/main/java">
-        <include name="**/*.scenario" />
-        <include name="**/*.properties" />
+        <exclude name="**/*.java" />
       </fileset>
     </copy>
 

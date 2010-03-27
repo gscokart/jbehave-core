@@ -24,9 +24,9 @@ public class ItTraderStory extends JUnitStory {
 		super(new PropertyBasedConfiguration() {
 			@Override
 			public StoryDefiner forDefiningStories() {
-				// use underscored camel case core files with extension ".scenario"
+				// use underscored camel case stories with extension ".story"
 				return new ClasspathStoryDefiner(
-						new UnderscoredCamelCaseResolver(".scenario"),
+						new UnderscoredCamelCaseResolver(".story"),
 						new PatternStoryParser(keywords()), classLoader);
 			}
 
