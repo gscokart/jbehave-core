@@ -19,9 +19,9 @@ import org.jbehave.core.model.Story;
 import org.jbehave.core.errors.ErrorStrategy;
 import org.jbehave.core.errors.ErrorStrategyInWhichWeTrustTheReporter;
 import org.jbehave.core.errors.PendingErrorStrategy;
-import org.jbehave.core.parser.ClasspathScenarioDefiner;
-import org.jbehave.core.parser.ScenarioDefiner;
-import org.jbehave.core.reporters.ScenarioReporter;
+import org.jbehave.core.parser.ClasspathStoryDefiner;
+import org.jbehave.core.parser.StoryDefiner;
+import org.jbehave.core.reporters.StoryReporter;
 import org.jbehave.core.steps.CandidateStep;
 import org.jbehave.core.steps.CandidateSteps;
 import org.jbehave.core.steps.Step;
@@ -52,7 +52,7 @@ public class StoryRunnerBehaviour {
         Step step = mock(Step.class);
         StepResult result = mock(StepResult.class);
         when(step.perform()).thenReturn(result);
-        ScenarioReporter reporter = mock(ScenarioReporter.class);
+        StoryReporter reporter = mock(StoryReporter.class);
         StepCreator creator = mock(StepCreator.class);
         CandidateSteps mySteps = mock(Steps.class);
         when(mySteps.getSteps()).thenReturn(someCandidateSteps);
@@ -110,8 +110,8 @@ public class StoryRunnerBehaviour {
         StepResult result = mock(StepResult.class);
         when(step.perform()).thenReturn(result);
 
-        ScenarioDefiner scenarioDefiner = mock(ScenarioDefiner.class);
-        ScenarioReporter reporter = mock(ScenarioReporter.class);
+        StoryDefiner storyDefiner = mock(StoryDefiner.class);
+        StoryReporter reporter = mock(StoryReporter.class);
         StepCreator creator = mock(StepCreator.class);
         CandidateSteps mySteps = mock(Steps.class);
         when(mySteps.getSteps()).thenReturn(someCandidateSteps);
@@ -124,14 +124,14 @@ public class StoryRunnerBehaviour {
         givenStoryWithNoBeforeOrAfterSteps(story2, embeddedStory, creator, mySteps);
         when(creator.createStepsFrom(scenario2, tableRow, mySteps)).thenReturn(
                 new Step[] { anotherSuccessfulStep });
-        when(scenarioDefiner.loadStory("/path/to/given/scenario1")).thenReturn(story1);
+        when(storyDefiner.defineStory("/path/to/given/scenario1")).thenReturn(story1);
         givenStoryWithNoBeforeOrAfterSteps(story1, embeddedStory, creator, mySteps);
         givenStoryWithNoBeforeOrAfterSteps(story2, embeddedStory, creator, mySteps);
         ErrorStrategy errorStrategy = mock(ErrorStrategy.class);
 
         // When
         StoryRunner runner = new StoryRunner();
-        runner.run(story2, configurationWith(scenarioDefiner, reporter, creator, errorStrategy), embeddedStory,
+        runner.run(story2, configurationWith(storyDefiner, reporter, creator, errorStrategy), embeddedStory,
                 mySteps);
 
         // Then
@@ -147,7 +147,7 @@ public class StoryRunnerBehaviour {
     @Test
     public void shouldNotPerformStepsAfterStepsWhichShouldNotContinue() throws Throwable {
         // Given
-        ScenarioReporter reporter = mock(ScenarioReporter.class);
+        StoryReporter reporter = mock(StoryReporter.class);
         Step firstStepNormal = mock(Step.class);
         Step secondStepPending = mock(Step.class);
         Step thirdStepNormal = mock(Step.class);
@@ -185,7 +185,7 @@ public class StoryRunnerBehaviour {
     @Test
     public void shouldReportAnyThrowablesThenHandleAfterStoryIsFinished() throws Throwable {
         // Given
-        ScenarioReporter reporter = mock(ScenarioReporter.class);
+        StoryReporter reporter = mock(StoryReporter.class);
         Step firstStepExceptional = mock(Step.class);
         Step secondStepNotPerformed = mock(Step.class);
         StepResult failure = StepResult.failure("When I fail", new IllegalStateException());
@@ -222,7 +222,7 @@ public class StoryRunnerBehaviour {
     @Test
     public void shouldResetStateForEachSetOfSteps() throws Throwable {
         // Given
-        ScenarioReporter reporter = mock(ScenarioReporter.class);
+        StoryReporter reporter = mock(StoryReporter.class);
         Step pendingStep = mock(Step.class);
         Step secondStep = mock(Step.class);
         when(pendingStep.perform()).thenReturn(StepResult.pending("pendingStep"));
@@ -251,7 +251,7 @@ public class StoryRunnerBehaviour {
     @Test
     public void shouldRunBeforeAndAfterStorySteps() throws Throwable {
         // Given
-        ScenarioReporter reporter = mock(ScenarioReporter.class);
+        StoryReporter reporter = mock(StoryReporter.class);
         Step beforeStep = mock(Step.class);
         Step afterStep = mock(Step.class);
         when(beforeStep.perform()).thenReturn(StepResult.success("beforeStep"));
@@ -276,7 +276,7 @@ public class StoryRunnerBehaviour {
     @Test
     public void shouldHandlePendingStepsAccordingToStrategy() throws Throwable {
         // Given
-        ScenarioReporter reporter = mock(ScenarioReporter.class);
+        StoryReporter reporter = mock(StoryReporter.class);
         Step pendingStep = mock(Step.class);
         StepResult pendingResult = StepResult.pending("My step isn't defined!");
         when(pendingStep.perform()).thenReturn(pendingResult);
@@ -305,31 +305,31 @@ public class StoryRunnerBehaviour {
         when(creator.createStepsFrom(story, Stage.AFTER, embeddedStory, mySteps)).thenReturn(steps);
     }
 
-    private Configuration configurationWithPendingStrategy(StepCreator creator, ScenarioReporter reporter,
+    private Configuration configurationWithPendingStrategy(StepCreator creator, StoryReporter reporter,
             PendingErrorStrategy strategy) {
-        return configurationWith(new ClasspathScenarioDefiner(), reporter, creator,
+        return configurationWith(new ClasspathStoryDefiner(), reporter, creator,
                 new ErrorStrategyInWhichWeTrustTheReporter(), strategy);
     }
 
-    private Configuration configurationWith(final ScenarioReporter reporter, final StepCreator creator) {
+    private Configuration configurationWith(final StoryReporter reporter, final StepCreator creator) {
         return configurationWith(reporter, creator, new ErrorStrategyInWhichWeTrustTheReporter());
     }
 
-    private Configuration configurationWith(ScenarioReporter reporter, StepCreator creator, ErrorStrategy errorStrategy) {
-        return configurationWith(new ClasspathScenarioDefiner(), reporter, creator, errorStrategy);
+    private Configuration configurationWith(StoryReporter reporter, StepCreator creator, ErrorStrategy errorStrategy) {
+        return configurationWith(new ClasspathStoryDefiner(), reporter, creator, errorStrategy);
     }
 
-    private Configuration configurationWith(ScenarioDefiner definer, final ScenarioReporter reporter,
+    private Configuration configurationWith(StoryDefiner definer, final StoryReporter reporter,
             final StepCreator creator, final ErrorStrategy errorStrategy) {
         return configurationWith(definer, reporter, creator, errorStrategy, PendingErrorStrategy.PASSING);
     }
 
-    private Configuration configurationWith(final ScenarioDefiner definer, final ScenarioReporter reporter,
+    private Configuration configurationWith(final StoryDefiner definer, final StoryReporter reporter,
             final StepCreator creator, final ErrorStrategy errorStrategy, final PendingErrorStrategy pendingStrategy) {
 
         return new PropertyBasedConfiguration() {
             @Override
-            public ScenarioDefiner forDefiningScenarios() {
+            public StoryDefiner forDefiningStories() {
                 return definer;
             }
 
@@ -339,7 +339,7 @@ public class StoryRunnerBehaviour {
             }
 
             @Override
-            public ScenarioReporter forReportingScenarios() {
+            public StoryReporter forReportingStories() {
                 return reporter;
             }
 

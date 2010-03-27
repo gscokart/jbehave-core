@@ -20,7 +20,7 @@ import org.jbehave.core.model.Story;
  * output stream
  * </p>
  */
-public class StatisticsScenarioReporter implements ScenarioReporter {
+public class StatisticsStoryReporter implements StoryReporter {
 
     private final OutputStream output;
     private final Map<String, Integer> data = new HashMap<String, Integer>();
@@ -29,7 +29,7 @@ public class StatisticsScenarioReporter implements ScenarioReporter {
 
     private Throwable cause;
 
-    public StatisticsScenarioReporter(OutputStream output) {
+    public StatisticsStoryReporter(OutputStream output) {
         this.output = output;
     }
 

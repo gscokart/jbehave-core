@@ -10,46 +10,46 @@ import org.jbehave.core.errors.InvalidScenarioResourceException;
 import org.jbehave.core.errors.ScenarioNotFoundException;
 
 /**
- * Loads core model from classpath resources, which are handled by the
+ * Defines stories from classpath resources, which are handled by the
  * {@link StoryParser}. Names of resources are resolved via the
  * {@link StoryNameResolver}.
  */
-public class ClasspathScenarioDefiner implements ScenarioDefiner {
+public class ClasspathStoryDefiner implements StoryDefiner {
 
     private final StoryNameResolver resolver;
     private final StoryParser parser;
     private final ClassLoader classLoader;
 
-    public ClasspathScenarioDefiner() {
+    public ClasspathStoryDefiner() {
         this(new UnderscoredCamelCaseResolver(), new PatternStoryParser(), Thread.currentThread()
                 .getContextClassLoader());
     }
 
-    public ClasspathScenarioDefiner(StoryParser parser) {
+    public ClasspathStoryDefiner(StoryParser parser) {
         this(new UnderscoredCamelCaseResolver(), parser, Thread.currentThread().getContextClassLoader());
     }
 
-    public ClasspathScenarioDefiner(StoryNameResolver converter, StoryParser parser) {
+    public ClasspathStoryDefiner(StoryNameResolver converter, StoryParser parser) {
         this(converter, parser, Thread.currentThread().getContextClassLoader());
     }
 
-    public ClasspathScenarioDefiner(StoryNameResolver converter, ClassLoader classLoader) {
+    public ClasspathStoryDefiner(StoryNameResolver converter, ClassLoader classLoader) {
         this(converter, new PatternStoryParser(), classLoader);
     }
 
-    public ClasspathScenarioDefiner(StoryNameResolver resolver, StoryParser parser, ClassLoader classLoader) {
+    public ClasspathStoryDefiner(StoryNameResolver resolver, StoryParser parser, ClassLoader classLoader) {
         this.resolver = resolver;
         this.parser = parser;
         this.classLoader = classLoader;
     }
 
-    public Story loadStory(Class<? extends RunnableStory> scenarioClass) {
+    public Story defineStory(Class<? extends RunnableStory> scenarioClass) {
         String storyPath = resolver.resolve(scenarioClass);
         String wholeStoryAsString = asString(loadInputStreamFor(storyPath));
         return parser.defineStoryFrom(wholeStoryAsString, storyPath);
     }
 
-	public Story loadStory(String storyPath) {
+	public Story defineStory(String storyPath) {
         String wholeStoryAsString = asString(loadInputStreamFor(storyPath));
         return parser.defineStoryFrom(wholeStoryAsString, storyPath);
 	}

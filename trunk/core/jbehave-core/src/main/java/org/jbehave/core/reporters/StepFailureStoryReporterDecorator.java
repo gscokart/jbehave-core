@@ -19,12 +19,12 @@ import org.jbehave.core.errors.StepFailure;
  * 
  * @see StepFailure
  */
-public class StepFailureScenarioReporterDecorator implements ScenarioReporter {
+public class StepFailureStoryReporterDecorator implements StoryReporter {
 
-	private final ScenarioReporter delegate;
+	private final StoryReporter delegate;
 	private StepFailure failure;
 
-	public StepFailureScenarioReporterDecorator(ScenarioReporter delegate) {
+	public StepFailureStoryReporterDecorator(StoryReporter delegate) {
 		this.delegate = delegate;
 	}
 

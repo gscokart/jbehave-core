@@ -15,8 +15,8 @@ public class DelegatingScenarioReporterBehaviour {
 
     @Test
     public void shouldDelegateScenarioReporterEvents() {
-        ScenarioReporter delegate = mock(ScenarioReporter.class);
-        DelegatingScenarioReporter delegator = new DelegatingScenarioReporter(delegate);
+        StoryReporter delegate = mock(StoryReporter.class);
+        DelegatingStoryReporter delegator = new DelegatingStoryReporter(delegate);
         List<String> givenScenarios = asList("path/to/scenario1", "path/to/scenario2");
         ExamplesTable examplesTable = new ExamplesTable("|one|two|\n|1|2|\n");
         IllegalArgumentException anException = new IllegalArgumentException();

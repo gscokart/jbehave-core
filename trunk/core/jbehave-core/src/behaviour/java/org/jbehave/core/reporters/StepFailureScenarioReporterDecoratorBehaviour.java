@@ -19,13 +19,13 @@ import org.mockito.InOrder;
 
 public class StepFailureScenarioReporterDecoratorBehaviour {
 
-	private ScenarioReporter delegate;
-	private StepFailureScenarioReporterDecorator decorator;
+	private StoryReporter delegate;
+	private StepFailureStoryReporterDecorator decorator;
 
 	@Before
 	public void createDecorator() {
-		delegate = mock(ScenarioReporter.class);
-		decorator = new StepFailureScenarioReporterDecorator(delegate);
+		delegate = mock(StoryReporter.class);
+		decorator = new StepFailureStoryReporterDecorator(delegate);
 	}
 
 	@Test

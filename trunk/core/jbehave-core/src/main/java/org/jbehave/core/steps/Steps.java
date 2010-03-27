@@ -28,7 +28,7 @@ import org.jbehave.core.annotations.AfterScenario.Outcome;
 import org.jbehave.core.model.KeyWords;
 import org.jbehave.core.errors.BeforeOrAfterException;
 import org.jbehave.core.parser.StepPatternBuilder;
-import org.jbehave.core.reporters.ScenarioReporter;
+import org.jbehave.core.reporters.StoryReporter;
 
 /**
  * <p>
@@ -357,7 +357,7 @@ public class Steps implements CandidateSteps {
         }
 
         @Override
-        public void describeTo(ScenarioReporter reporter) {
+        public void describeTo(StoryReporter reporter) {
         }
     }
 

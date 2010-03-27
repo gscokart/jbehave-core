@@ -13,7 +13,7 @@ import org.jbehave.core.model.Story;
  * @author Elizabeth Keogh
  * @author Mauro Talevi
  */
-public interface ScenarioReporter {
+public interface StoryReporter {
 
     void beforeStory(Story story, boolean embeddedStory);
 

@@ -2,7 +2,7 @@ package org.jbehave.core.reporters;
 
 import static org.apache.commons.lang.StringEscapeUtils.escapeHtml;
 import static org.apache.commons.lang.StringEscapeUtils.escapeXml;
-import static org.jbehave.core.reporters.PrintStreamScenarioReporter.Format.PLAIN;
+import static org.jbehave.core.reporters.PrintStreamStoryReporter.Format.PLAIN;
 import static org.jbehave.core.steps.CandidateStep.PARAMETER_VALUE_END;
 import static org.jbehave.core.steps.CandidateStep.PARAMETER_VALUE_START;
 
@@ -62,7 +62,7 @@ import org.jbehave.core.i18n.I18nKeyWords;
  * 
  * </p>
  */
-public class PrintStreamScenarioReporter implements ScenarioReporter {
+public class PrintStreamStoryReporter implements StoryReporter {
 
     private static final String EMPTY = "";
 
@@ -75,32 +75,32 @@ public class PrintStreamScenarioReporter implements ScenarioReporter {
     private final boolean reportErrors;
     private Throwable cause;
     
-    public PrintStreamScenarioReporter() {
+    public PrintStreamStoryReporter() {
         this(System.out);
     }
 
-    public PrintStreamScenarioReporter(PrintStream output) {
+    public PrintStreamStoryReporter(PrintStream output) {
         this(output, new Properties(), new I18nKeyWords(), false);
     }
 
-    public PrintStreamScenarioReporter(Properties outputPatterns) {
+    public PrintStreamStoryReporter(Properties outputPatterns) {
         this(System.out, outputPatterns, new I18nKeyWords(), false);
     }
 
-    public PrintStreamScenarioReporter(Properties outputPatterns, Format format) {
+    public PrintStreamStoryReporter(Properties outputPatterns, Format format) {
         this(System.out, outputPatterns, format, new I18nKeyWords(), false);
     }
 
-    public PrintStreamScenarioReporter(KeyWords keywords) {
+    public PrintStreamStoryReporter(KeyWords keywords) {
         this(System.out, new Properties(), keywords, false);
     }
 
-    public PrintStreamScenarioReporter(PrintStream output, Properties outputPatterns, KeyWords keywords,
+    public PrintStreamStoryReporter(PrintStream output, Properties outputPatterns, KeyWords keywords,
             boolean reportErrors) {
         this(output, outputPatterns, PLAIN, keywords, reportErrors);
     }
 
-    public PrintStreamScenarioReporter(PrintStream output, Properties outputPatterns, Format format,
+    public PrintStreamStoryReporter(PrintStream output, Properties outputPatterns, Format format,
             KeyWords keywords, boolean reportErrors) {
         this.output = output;
         this.outputPatterns = outputPatterns;

@@ -2,8 +2,8 @@ package org.jbehave.core.reporters;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.jbehave.Ensure.ensureThat;
-import static org.jbehave.core.reporters.ScenarioReporterBuilder.Format.STATS;
-import static org.jbehave.core.reporters.ScenarioReporterBuilder.Format.TXT;
+import static org.jbehave.core.reporters.StoryReporterBuilder.Format.STATS;
+import static org.jbehave.core.reporters.StoryReporterBuilder.Format.TXT;
 
 import java.io.IOException;
 import java.util.Map;
@@ -14,10 +14,10 @@ import org.jbehave.core.i18n.I18nKeyWords;
 import org.jbehave.core.parser.StoryNameResolver;
 import org.jbehave.core.parser.UnderscoredCamelCaseResolver;
 import org.jbehave.core.reporters.FilePrintStreamFactory.FileConfiguration;
-import org.jbehave.core.reporters.ScenarioReporterBuilder.Format;
+import org.jbehave.core.reporters.StoryReporterBuilder.Format;
 import org.junit.Test;
 
-public class ScenarioReporterBuilderBehaviour {
+public class StoryReporterBuilderBehaviour {
 
 
     @Test
@@ -25,16 +25,16 @@ public class ScenarioReporterBuilderBehaviour {
         Class<MyStory> scenarioClass = MyStory.class;
         StoryNameResolver nameResolver = new UnderscoredCamelCaseResolver();
         FilePrintStreamFactory factory = new FilePrintStreamFactory(scenarioClass, nameResolver);
-        ScenarioReporterBuilder builder = new ScenarioReporterBuilder(factory);
+        StoryReporterBuilder builder = new StoryReporterBuilder(factory);
 
         // When
-        ScenarioReporter reporter = builder.build();
+        StoryReporter reporter = builder.build();
         
         // Then
-        ensureThat(reporter instanceof DelegatingScenarioReporter);
-        Map<Format, ScenarioReporter> delegates = builder.getDelegates();
+        ensureThat(reporter instanceof DelegatingStoryReporter);
+        Map<Format, StoryReporter> delegates = builder.getDelegates();
         ensureThat(delegates.size(), equalTo(1));
-        ensureThat(delegates.get(STATS) instanceof StatisticsScenarioReporter);
+        ensureThat(delegates.get(STATS) instanceof StatisticsStoryReporter);
     }
 
     @Test
@@ -42,7 +42,7 @@ public class ScenarioReporterBuilderBehaviour {
         Class<MyStory> scenarioClass = MyStory.class;
         StoryNameResolver nameResolver = new UnderscoredCamelCaseResolver();
         FilePrintStreamFactory factory = new FilePrintStreamFactory(scenarioClass, nameResolver);
-        ScenarioReporterBuilder builder = new ScenarioReporterBuilder(factory);
+        StoryReporterBuilder builder = new StoryReporterBuilder(factory);
 
         // When
         String fileDirectory = "my-reports";
@@ -57,9 +57,9 @@ public class ScenarioReporterBuilderBehaviour {
         Class<MyStory> scenarioClass = MyStory.class;
         StoryNameResolver nameResolver = new UnderscoredCamelCaseResolver();
         FilePrintStreamFactory factory = new FilePrintStreamFactory(scenarioClass, nameResolver);
-        final ScenarioReporter txtReporter = new PrintStreamScenarioReporter(factory.getPrintStream(), new Properties(),  new I18nKeyWords(), true);
-        ScenarioReporterBuilder builder = new ScenarioReporterBuilder(factory){
-               public ScenarioReporter reporterFor(Format format){
+        final StoryReporter txtReporter = new PrintStreamStoryReporter(factory.getPrintStream(), new Properties(),  new I18nKeyWords(), true);
+        StoryReporterBuilder builder = new StoryReporterBuilder(factory){
+               public StoryReporter reporterFor(Format format){
                        switch (format) {
                            case TXT:
                                factory.useConfiguration(new FileConfiguration("text"));
@@ -71,11 +71,11 @@ public class ScenarioReporterBuilderBehaviour {
         };
         
         // When
-        ScenarioReporter reporter = builder.with(TXT).build();
+        StoryReporter reporter = builder.with(TXT).build();
         
         // Then
-        ensureThat(reporter instanceof DelegatingScenarioReporter);
-        Map<Format, ScenarioReporter> delegates = builder.getDelegates();
+        ensureThat(reporter instanceof DelegatingStoryReporter);
+        Map<Format, StoryReporter> delegates = builder.getDelegates();
         ensureThat(delegates.size(), equalTo(2));
         ensureThat(delegates.get(TXT), equalTo(txtReporter));
     }

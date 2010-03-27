@@ -1,7 +1,7 @@
 package org.jbehave.core.steps;
 
 import org.jbehave.core.errors.PendingError;
-import org.jbehave.core.reporters.ScenarioReporter;
+import org.jbehave.core.reporters.StoryReporter;
 
 /**
  * Represents a collection of possible step results:
@@ -21,7 +21,7 @@ public abstract class StepResult {
 		}
 
 		@Override
-		public void describeTo(ScenarioReporter reporter) {
+		public void describeTo(StoryReporter reporter) {
 			reporter.failed(step, throwable);
 		}
 	}
@@ -33,7 +33,7 @@ public abstract class StepResult {
 		}
 
 		@Override
-		public void describeTo(ScenarioReporter reporter) {
+		public void describeTo(StoryReporter reporter) {
 			reporter.notPerformed(step);
 		}
 	}
@@ -45,7 +45,7 @@ public abstract class StepResult {
         }
 
         @Override
-        public void describeTo(ScenarioReporter reporter) {
+        public void describeTo(StoryReporter reporter) {
             reporter.ignorable(step);
         }
     }
@@ -60,7 +60,7 @@ public abstract class StepResult {
 		}
 
 		@Override
-		public void describeTo(ScenarioReporter reporter) {
+		public void describeTo(StoryReporter reporter) {
 			reporter.pending(step);
 		}
 	}
@@ -72,7 +72,7 @@ public abstract class StepResult {
 		}
 
 		@Override
-		public void describeTo(ScenarioReporter reporter) {
+		public void describeTo(StoryReporter reporter) {
 			reporter.successful(getTranslatedText() != null ? getTranslatedText() : step);
 		}
 
@@ -124,7 +124,7 @@ public abstract class StepResult {
 		return new Failed(step, e);
 	}
 
-	public abstract void describeTo(ScenarioReporter reporter);
+	public abstract void describeTo(StoryReporter reporter);
 
 	public Throwable getThrowable() {
 		return throwable;

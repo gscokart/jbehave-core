@@ -24,7 +24,7 @@ import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.When;
 import org.jbehave.core.parser.PrefixCapturingPatternBuilder;
 import org.jbehave.core.parser.StepPatternBuilder;
-import org.jbehave.core.reporters.ScenarioReporter;
+import org.jbehave.core.reporters.StoryReporter;
 import org.jbehave.core.steps.CandidateStep.StartingWordNotFound;
 import org.junit.Test;
 
@@ -107,7 +107,7 @@ public class CandidateStepBehaviour {
 
     @Test
     public void shouldProvideAStepWithADescriptionThatMatchesTheCandidateStep() throws Exception {
-        ScenarioReporter reporter = mock(ScenarioReporter.class);
+        StoryReporter reporter = mock(StoryReporter.class);
         SomeSteps someSteps = new SomeSteps();
         CandidateStep candidateStep = new CandidateStep("I live on the $nth floor", DEFAULT_PRIORITY, THEN, SomeSteps.class.getMethod(
                         		        "aMethodWith", String.class), someSteps, PATTERN_BUILDER, new ParameterConverters(), startingWords);

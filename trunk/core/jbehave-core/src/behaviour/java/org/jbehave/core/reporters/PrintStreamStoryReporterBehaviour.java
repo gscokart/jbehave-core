@@ -4,8 +4,8 @@ import static java.util.Arrays.asList;
 import static junit.framework.Assert.assertEquals;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.jbehave.Ensure.ensureThat;
-import static org.jbehave.core.reporters.ScenarioReporterBuilder.Format.HTML;
-import static org.jbehave.core.reporters.ScenarioReporterBuilder.Format.TXT;
+import static org.jbehave.core.reporters.StoryReporterBuilder.Format.HTML;
+import static org.jbehave.core.reporters.StoryReporterBuilder.Format.TXT;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -29,13 +29,13 @@ import org.jbehave.core.reporters.FilePrintStreamFactory.FileConfiguration;
 import org.jbehave.core.reporters.FreemarkerReportRenderer.RenderingFailedException;
 import org.junit.Test;
 
-public class PrintStreamScenarioReporterBehaviour {
+public class PrintStreamStoryReporterBehaviour {
 
     @Test
     public void shouldReportEventsToPrintStream() {
         // Given
         OutputStream out = new ByteArrayOutputStream();
-        ScenarioReporter reporter = new PrintStreamScenarioReporter(new PrintStream(out));
+        StoryReporter reporter = new PrintStreamStoryReporter(new PrintStream(out));
 
         // When
         narrateAnInterestingStory(reporter);
@@ -79,7 +79,7 @@ public class PrintStreamScenarioReporterBehaviour {
                 return new PrintStream(out);
             }
         };
-        ScenarioReporter reporter = new HtmlPrintStreamScenarioReporter(factory.getPrintStream());
+        StoryReporter reporter = new HtmlPrintStreamStoryReporter(factory.getPrintStream());
 
         // When
         narrateAnInterestingStory(reporter);
@@ -129,7 +129,7 @@ public class PrintStreamScenarioReporterBehaviour {
         patterns.setProperty("afterStory", "</div><!-- after story -->\n");
         patterns.setProperty("afterScenario", "</div><!-- after core -->\n");
         patterns.setProperty("afterExamples", "</div><!-- after examples -->\n");
-        ScenarioReporter reporter = new HtmlPrintStreamScenarioReporter(factory.getPrintStream(), patterns);
+        StoryReporter reporter = new HtmlPrintStreamStoryReporter(factory.getPrintStream(), patterns);
 
         // When
         narrateAnInterestingStory(reporter);
@@ -173,7 +173,7 @@ public class PrintStreamScenarioReporterBehaviour {
                 return new PrintStream(out);
             }
         };
-        ScenarioReporter reporter = new XmlPrintStreamScenarioReporter(factory.getPrintStream());
+        StoryReporter reporter = new XmlPrintStreamStoryReporter(factory.getPrintStream());
 
         // When
         narrateAnInterestingStory(reporter);
@@ -208,7 +208,7 @@ public class PrintStreamScenarioReporterBehaviour {
         ensureThatOutputIs(out, expected);
     }
 
-    private void narrateAnInterestingStory(ScenarioReporter reporter) {
+    private void narrateAnInterestingStory(StoryReporter reporter) {
         Story story = new Story(new Description("An interesting story"),
                 new Narrative("renovate my house", "customer", "get a loan"), "/path/to/story", new ArrayList<Scenario>());
         boolean embeddedStory = true;
@@ -249,7 +249,7 @@ public class PrintStreamScenarioReporterBehaviour {
         OutputStream stackTrace = new ByteArrayOutputStream();
         exception.printStackTrace(new PrintStream(stackTrace));
         OutputStream out = new ByteArrayOutputStream();
-        ScenarioReporter reporter = new PrintStreamScenarioReporter(new PrintStream(out), new Properties(),
+        StoryReporter reporter = new PrintStreamStoryReporter(new PrintStream(out), new Properties(),
                 new I18nKeyWords(), true);
 
         // When
@@ -269,7 +269,7 @@ public class PrintStreamScenarioReporterBehaviour {
 
         // Given
         out = new ByteArrayOutputStream();
-        reporter = new PrintStreamScenarioReporter(new PrintStream(out));
+        reporter = new PrintStreamStoryReporter(new PrintStream(out));
 
         // When
         reporter.beforeScenario("A title");
@@ -293,7 +293,7 @@ public class PrintStreamScenarioReporterBehaviour {
         patterns.setProperty("pending", "{0} - {1} - need to implement me\n");
         patterns.setProperty("failed", "{0} <<< {1}\n");
         patterns.setProperty("notPerformed", "{0} : {1} (because of previous pending)\n");
-        ScenarioReporter reporter = new PrintStreamScenarioReporter(new PrintStream(out), patterns, new I18nKeyWords(),
+        StoryReporter reporter = new PrintStreamStoryReporter(new PrintStream(out), patterns, new I18nKeyWords(),
                 true);
 
         // When
@@ -319,7 +319,7 @@ public class PrintStreamScenarioReporterBehaviour {
         IllegalAccessException exception = new IllegalAccessException("Lasciate in pace i miei soldi!");
         OutputStream out = new ByteArrayOutputStream();
         I18nKeyWords keywords = new I18nKeyWords(Locale.ITALIAN);
-        ScenarioReporter reporter = new PrintStreamScenarioReporter(new PrintStream(out), new Properties(), keywords,
+        StoryReporter reporter = new PrintStreamStoryReporter(new PrintStream(out), new Properties(), keywords,
                 true);
 
         // When
@@ -363,7 +363,7 @@ public class PrintStreamScenarioReporterBehaviour {
         Class<MyStory> scenarioClass = MyStory.class;
         StoryNameResolver nameResolver = new UnderscoredCamelCaseResolver();
         FilePrintStreamFactory printStreamFactory = new FilePrintStreamFactory(scenarioClass, nameResolver);
-        ScenarioReporter reporter = new ScenarioReporterBuilder(printStreamFactory).with(HTML).with(TXT)
+        StoryReporter reporter = new StoryReporterBuilder(printStreamFactory).with(HTML).with(TXT)
                 .build();
 
         // When
@@ -381,12 +381,12 @@ public class PrintStreamScenarioReporterBehaviour {
         Class<MyStory> scenarioClass = MyStory.class;
         StoryNameResolver nameResolver = new UnderscoredCamelCaseResolver();
         FilePrintStreamFactory factory = new FilePrintStreamFactory(scenarioClass, nameResolver);
-        ScenarioReporter reporter = new ScenarioReporterBuilder(factory){
-               public ScenarioReporter reporterFor(Format format){
+        StoryReporter reporter = new StoryReporterBuilder(factory){
+               public StoryReporter reporterFor(Format format){
                        switch (format) {
                            case TXT:
                                factory.useConfiguration(new FileConfiguration("text"));
-                               return new PrintStreamScenarioReporter(factory.getPrintStream(), new Properties(),  new I18nKeyWords(), true);
+                               return new PrintStreamStoryReporter(factory.getPrintStream(), new Properties(),  new I18nKeyWords(), true);
                             default:
                                return super.reporterFor(format);
                        }

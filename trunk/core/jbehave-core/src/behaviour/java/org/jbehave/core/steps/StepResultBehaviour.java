@@ -3,7 +3,7 @@ package org.jbehave.core.steps;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import org.jbehave.core.reporters.ScenarioReporter;
+import org.jbehave.core.reporters.StoryReporter;
 import org.junit.Test;
 
 
@@ -12,7 +12,7 @@ public class StepResultBehaviour {
     @Test
     public void shouldDescribeItselfToAReporter() {
         IllegalStateException exception = new IllegalStateException();
-        ScenarioReporter reporter = mock(ScenarioReporter.class);
+        StoryReporter reporter = mock(StoryReporter.class);
 
         StepResult.success("Given that a step is pending or failing").describeTo(reporter);
         StepResult.pending("When a step is performed").describeTo(reporter);

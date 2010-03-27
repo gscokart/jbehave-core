@@ -3,8 +3,8 @@ package org.jbehave.core;
 import org.jbehave.core.model.KeyWords;
 import org.jbehave.core.errors.ErrorStrategy;
 import org.jbehave.core.errors.PendingErrorStrategy;
-import org.jbehave.core.parser.ScenarioDefiner;
-import org.jbehave.core.reporters.ScenarioReporter;
+import org.jbehave.core.parser.StoryDefiner;
+import org.jbehave.core.reporters.StoryReporter;
 import org.jbehave.core.reporters.StepdocReporter;
 import org.jbehave.core.steps.StepCreator;
 import org.jbehave.core.steps.StepdocGenerator;
@@ -23,9 +23,9 @@ import org.jbehave.core.steps.StepdocGenerator;
  */
 public interface Configuration {
 
-	ScenarioDefiner forDefiningScenarios();
+	StoryDefiner forDefiningStories();
 
-	ScenarioReporter forReportingScenarios();
+	StoryReporter forReportingStories();
 
 	PendingErrorStrategy forPendingSteps();
 

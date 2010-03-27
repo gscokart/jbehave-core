@@ -1,12 +1,13 @@
 package org.jbehave.examples.trader;
 
 import static java.util.Arrays.asList;
-import static org.jbehave.core.reporters.ScenarioReporterBuilder.Format.CONSOLE;
-import static org.jbehave.core.reporters.ScenarioReporterBuilder.Format.HTML;
-import static org.jbehave.core.reporters.ScenarioReporterBuilder.Format.TXT;
-import static org.jbehave.core.reporters.ScenarioReporterBuilder.Format.XML;
+import static org.jbehave.core.reporters.StoryReporterBuilder.Format.CONSOLE;
+import static org.jbehave.core.reporters.StoryReporterBuilder.Format.HTML;
+import static org.jbehave.core.reporters.StoryReporterBuilder.Format.TXT;
+import static org.jbehave.core.reporters.StoryReporterBuilder.Format.XML;
 
 import org.jbehave.core.parser.*;
+import org.jbehave.core.reporters.StoryReporter;
 import org.jbehave.examples.trader.converters.TraderConverter;
 import org.jbehave.examples.trader.model.Stock;
 import org.jbehave.examples.trader.model.Trader;
@@ -17,8 +18,7 @@ import org.jbehave.core.PropertyBasedConfiguration;
 import org.jbehave.core.RunnableStory;
 import org.jbehave.core.parser.StoryNameResolver;
 import org.jbehave.core.reporters.FilePrintStreamFactory;
-import org.jbehave.core.reporters.ScenarioReporter;
-import org.jbehave.core.reporters.ScenarioReporterBuilder;
+import org.jbehave.core.reporters.StoryReporterBuilder;
 import org.jbehave.core.steps.CandidateSteps;
 import org.jbehave.core.steps.ParameterConverters;
 import org.jbehave.core.steps.SilentStepMonitor;
@@ -33,13 +33,13 @@ public class TraderStory extends JUnitStory {
     public TraderStory(final Class<? extends RunnableStory> scenarioClass) {
         super(new PropertyBasedConfiguration() {
             @Override
-            public ScenarioDefiner forDefiningScenarios() {
-                return new ClasspathScenarioDefiner(resolver, new PatternStoryParser(keywords()));
+            public StoryDefiner forDefiningStories() {
+                return new ClasspathStoryDefiner(resolver, new PatternStoryParser(keywords()));
             }
 
             @Override
-            public ScenarioReporter forReportingScenarios() {
-                return new ScenarioReporterBuilder(new FilePrintStreamFactory(scenarioClass, resolver))
+            public StoryReporter forReportingStories() {
+                return new StoryReporterBuilder(new FilePrintStreamFactory(scenarioClass, resolver))
                             .with(CONSOLE)
                             .with(TXT)
                             .with(HTML)

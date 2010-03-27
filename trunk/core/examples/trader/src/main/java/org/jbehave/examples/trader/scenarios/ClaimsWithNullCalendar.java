@@ -1,9 +1,9 @@
 package org.jbehave.examples.trader.scenarios;
 
-import static org.jbehave.core.reporters.ScenarioReporterBuilder.Format.CONSOLE;
-import static org.jbehave.core.reporters.ScenarioReporterBuilder.Format.HTML;
-import static org.jbehave.core.reporters.ScenarioReporterBuilder.Format.TXT;
-import static org.jbehave.core.reporters.ScenarioReporterBuilder.Format.XML;
+import static org.jbehave.core.reporters.StoryReporterBuilder.Format.CONSOLE;
+import static org.jbehave.core.reporters.StoryReporterBuilder.Format.HTML;
+import static org.jbehave.core.reporters.StoryReporterBuilder.Format.TXT;
+import static org.jbehave.core.reporters.StoryReporterBuilder.Format.XML;
 
 import java.util.Calendar;
 
@@ -17,8 +17,8 @@ import org.jbehave.core.annotations.Named;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.parser.PatternStoryParser;
 import org.jbehave.core.reporters.FilePrintStreamFactory;
-import org.jbehave.core.reporters.ScenarioReporter;
-import org.jbehave.core.reporters.ScenarioReporterBuilder;
+import org.jbehave.core.reporters.StoryReporter;
+import org.jbehave.core.reporters.StoryReporterBuilder;
 import org.jbehave.core.steps.ParameterConverters;
 import org.jbehave.core.steps.SilentStepMonitor;
 import org.jbehave.core.steps.StepMonitor;
@@ -36,13 +36,13 @@ public class ClaimsWithNullCalendar extends JUnitStory {
     public ClaimsWithNullCalendar(final Class<? extends RunnableStory> scenarioClass) {
         super(new PropertyBasedConfiguration() {
             @Override
-            public ScenarioDefiner forDefiningScenarios() {
-                return new ClasspathScenarioDefiner(converter, new PatternStoryParser(keywords()));
+            public StoryDefiner forDefiningStories() {
+                return new ClasspathStoryDefiner(converter, new PatternStoryParser(keywords()));
             }
 
             @Override
-            public ScenarioReporter forReportingScenarios() {
-                return new ScenarioReporterBuilder(new FilePrintStreamFactory(scenarioClass, converter))
+            public StoryReporter forReportingStories() {
+                return new StoryReporterBuilder(new FilePrintStreamFactory(scenarioClass, converter))
                             .with(CONSOLE)
                             .with(TXT)
                             .with(HTML)

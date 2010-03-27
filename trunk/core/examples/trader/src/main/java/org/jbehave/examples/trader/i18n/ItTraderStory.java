@@ -7,12 +7,12 @@ import org.jbehave.core.PropertyBasedConfiguration;
 import org.jbehave.core.model.KeyWords;
 import org.jbehave.core.i18n.I18nKeyWords;
 import org.jbehave.core.i18n.StringEncoder;
-import org.jbehave.core.parser.ClasspathScenarioDefiner;
+import org.jbehave.core.parser.ClasspathStoryDefiner;
 import org.jbehave.core.parser.PatternStoryParser;
-import org.jbehave.core.parser.ScenarioDefiner;
+import org.jbehave.core.parser.StoryDefiner;
 import org.jbehave.core.parser.UnderscoredCamelCaseResolver;
-import org.jbehave.core.reporters.PrintStreamScenarioReporter;
-import org.jbehave.core.reporters.ScenarioReporter;
+import org.jbehave.core.reporters.PrintStreamStoryReporter;
+import org.jbehave.core.reporters.StoryReporter;
 
 public class ItTraderStory extends JUnitStory {
 
@@ -23,17 +23,17 @@ public class ItTraderStory extends JUnitStory {
 	public ItTraderStory(final ClassLoader classLoader) {
 		super(new PropertyBasedConfiguration() {
 			@Override
-			public ScenarioDefiner forDefiningScenarios() {
+			public StoryDefiner forDefiningStories() {
 				// use underscored camel case core files with extension ".scenario"
-				return new ClasspathScenarioDefiner(
+				return new ClasspathStoryDefiner(
 						new UnderscoredCamelCaseResolver(".scenario"),
 						new PatternStoryParser(keywords()), classLoader);
 			}
 
 			@Override
-			public ScenarioReporter forReportingScenarios() {
+			public StoryReporter forReportingStories() {
 				// report outcome in Italian (to System.out)
-				return new PrintStreamScenarioReporter(keywordsFor(new Locale("it"), classLoader));
+				return new PrintStreamStoryReporter(keywordsFor(new Locale("it"), classLoader));
 			}
 
 			@Override
@@ -42,7 +42,7 @@ public class ItTraderStory extends JUnitStory {
 				return keywordsFor(new Locale("it"), classLoader);
 			}
 
-		}, new ItTraderSteps(classLoader));
+        }, new ItTraderSteps(classLoader));
 	}
 
 	protected static KeyWords keywordsFor(Locale locale, ClassLoader classLoader) {

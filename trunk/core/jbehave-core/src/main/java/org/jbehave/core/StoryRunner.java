@@ -11,7 +11,7 @@ import org.jbehave.core.model.Story;
 import org.jbehave.core.errors.ErrorStrategy;
 import org.jbehave.core.errors.PendingError;
 import org.jbehave.core.errors.PendingErrorStrategy;
-import org.jbehave.core.reporters.ScenarioReporter;
+import org.jbehave.core.reporters.StoryReporter;
 import org.jbehave.core.steps.CandidateSteps;
 import org.jbehave.core.steps.Step;
 import org.jbehave.core.steps.StepCreator;
@@ -19,7 +19,7 @@ import org.jbehave.core.steps.StepResult;
 import org.jbehave.core.steps.StepCreator.Stage;
 
 /**
- * Allow to run a story and describe the results to the {@link ScenarioReporter}.
+ * Allow to run a story and describe the results to the {@link org.jbehave.core.reporters.StoryReporter}.
  * 
  * @author Elizabeth Keogh
  * @author Mauro Talevi
@@ -30,27 +30,27 @@ public class StoryRunner {
     private State state = new FineSoFar();
     private ErrorStrategy currentStrategy;
     private PendingErrorStrategy pendingStepStrategy;
-    private ScenarioReporter reporter;
+    private StoryReporter reporter;
     private ErrorStrategy errorStrategy;
     private Throwable throwable;
     private StepCreator stepCreator;
 
     public void run(Class<? extends RunnableStory> storyClass, Configuration configuration, CandidateSteps... candidateSteps) throws Throwable {
-		Story story = configuration.forDefiningScenarios().loadStory(storyClass);
+		Story story = configuration.forDefiningStories().defineStory(storyClass);
 		story.namedAs(storyClass.getSimpleName());
 	    // always start in a non-embedded mode
         run(story, configuration, false, candidateSteps);
     }
 
     public void run(String storyPath, Configuration configuration, boolean embeddedStory, CandidateSteps... candidateSteps) throws Throwable {
-		Story story = configuration.forDefiningScenarios().loadStory(storyPath);
+		Story story = configuration.forDefiningStories().defineStory(storyPath);
         story.namedAs(new File(storyPath).getName());
 		run(story, configuration, embeddedStory, candidateSteps);
     }    
 
     public void run(Story story, Configuration configuration, boolean embeddedStory, CandidateSteps... candidateSteps) throws Throwable {
         stepCreator = configuration.forCreatingSteps();
-        reporter = configuration.forReportingScenarios();
+        reporter = configuration.forReportingStories();
         pendingStepStrategy = configuration.forPendingSteps();
         errorStrategy = configuration.forHandlingErrors();
         currentStrategy = ErrorStrategy.SILENT;

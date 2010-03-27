@@ -13,34 +13,34 @@ import org.jbehave.core.i18n.I18nKeyWords;
 import org.jbehave.core.parser.stories.MyPendingStory;
 import org.junit.Test;
 
-public class StoryFileLoaderBehaviour {
+public class StoryClassPathDefinerBehaviour {
 
     @Test
     public void canLoadStory() {
         StoryParser parser = mock(StoryParser.class);
-        ClasspathScenarioDefiner loader = new ClasspathScenarioDefiner(parser);
-        loader.loadStory(MyPendingStory.class);
+        ClasspathStoryDefiner loader = new ClasspathStoryDefiner(parser);
+        loader.defineStory(MyPendingStory.class);
         verify(parser).defineStoryFrom("Given my step", "org/jbehave/core/parser/stories/my_pending_story");
     }
 
     @Test
     public void canLoadScenarioWithCustomFilenameResolver() {
         StoryParser parser = mock(StoryParser.class);
-        ClasspathScenarioDefiner loader = new ClasspathScenarioDefiner(new CasePreservingResolver(".txt"), parser);
-        loader.loadStory(MyPendingStory.class);
+        ClasspathStoryDefiner loader = new ClasspathStoryDefiner(new CasePreservingResolver(".txt"), parser);
+        loader.defineStory(MyPendingStory.class);
         verify(parser).defineStoryFrom("Given my step", "org/jbehave/core/parser/stories/MyPendingStory.txt");
     }
 
     @Test(expected = ScenarioNotFoundException.class)
     public void cannotLoadScenarioForInexistentResource() {
-        ClasspathScenarioDefiner loader = new ClasspathScenarioDefiner();
-        loader.loadStory(InexistentStory.class);
+        ClasspathStoryDefiner loader = new ClasspathStoryDefiner();
+        loader.defineStory(InexistentStory.class);
     }
 
     @Test(expected = InvalidScenarioResourceException.class)
     public void cannotLoadScenarioForInvalidResource() {
-        ClasspathScenarioDefiner loader = new ClasspathScenarioDefiner(new UnderscoredCamelCaseResolver(), new PatternStoryParser(new I18nKeyWords()), new InvalidClassLoader());
-        loader.loadStory(MyPendingStory.class);
+        ClasspathStoryDefiner loader = new ClasspathStoryDefiner(new UnderscoredCamelCaseResolver(), new PatternStoryParser(new I18nKeyWords()), new InvalidClassLoader());
+        loader.defineStory(MyPendingStory.class);
     }
 
     static class InexistentStory extends JUnitStory {

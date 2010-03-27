@@ -8,26 +8,26 @@ import org.jbehave.core.model.KeyWords;
 /**
  * <p>
  * Scenario reporter that outputs to a PrintStream, as HTML. It extends
- * {@link PrintStreamScenarioReporter}, providing HTML-based default output
+ * {@link PrintStreamStoryReporter}, providing HTML-based default output
  * patterns, which can be overridden via the {@link
- * HtmlPrintStreamScenarioReporter(PrintStream,Properties)} constructor.
+ * HtmlPrintStreamStoryReporter (PrintStream,Properties)} constructor.
  * </p>
  * 
  * @author Mirko FriedenHagen
  * @author Mauro Talevi
  */
-public class HtmlPrintStreamScenarioReporter extends PrintStreamScenarioReporter {
+public class HtmlPrintStreamStoryReporter extends PrintStreamStoryReporter {
 
-    public HtmlPrintStreamScenarioReporter(PrintStream output) {
+    public HtmlPrintStreamStoryReporter(PrintStream output) {
         this(output, defaultHtmlPatterns());
     }
 
-    public HtmlPrintStreamScenarioReporter(PrintStream output, Properties outputPatterns) {
+    public HtmlPrintStreamStoryReporter(PrintStream output, Properties outputPatterns) {
         super(mergeWithDefault(outputPatterns), Format.HTML);
         usePrintStream(output);
     }
     
-    public HtmlPrintStreamScenarioReporter(PrintStream output, Properties outputPatterns, 
+    public HtmlPrintStreamStoryReporter(PrintStream output, Properties outputPatterns,
             KeyWords keywords, boolean reportErrors) {
         super(output, mergeWithDefault(outputPatterns), Format.HTML, keywords, reportErrors);
     }

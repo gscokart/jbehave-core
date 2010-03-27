@@ -3,9 +3,9 @@ package org.jbehave.core;
 import org.jbehave.core.model.KeyWords;
 import org.jbehave.core.errors.ErrorStrategy;
 import org.jbehave.core.errors.PendingErrorStrategy;
-import org.jbehave.core.parser.ScenarioDefiner;
-import org.jbehave.core.reporters.PrintStreamScenarioReporter;
-import org.jbehave.core.reporters.ScenarioReporter;
+import org.jbehave.core.parser.StoryDefiner;
+import org.jbehave.core.reporters.PrintStreamStoryReporter;
+import org.jbehave.core.reporters.StoryReporter;
 import org.jbehave.core.reporters.StepdocReporter;
 import org.jbehave.core.steps.StepCreator;
 import org.jbehave.core.steps.StepdocGenerator;
@@ -15,7 +15,7 @@ import org.jbehave.core.steps.StepdocGenerator;
  * behaviour if certain system properties are non-null:
  * <ul>
  *   <li>PropertyBasedConfiguration.FAIL_ON_PENDING: uses  PendingErrorStrategy.FAILING as PendingErrorStrategy</li>
- *   <li>PropertyBasedConfiguration.OUTPUT_ALL:  uses PrintStreamScenarioReporter as ScenarioReporter</li>
+ *   <li>PropertyBasedConfiguration.OUTPUT_ALL:  uses PrintStreamStoryReporter as StoryReporter</li>
  * </ul>
  */
 public class PropertyBasedConfiguration implements Configuration {
@@ -34,26 +34,26 @@ public class PropertyBasedConfiguration implements Configuration {
 
     /**
      * If the system property org.jbehave.outputall
-     * is set to TRUE, uses a PrintStreamScenarioReporter;
-     * otherwise uses the default ScenarioReporter.
+     * is set to TRUE, uses a PrintStreamStoryReporter;
+     * otherwise uses the default StoryReporter.
      * 
      * Setting org.jbehave.outputall will allow you
      * to see the steps for all stories, regardless
      * of whether the stories fail.
      */
-    public ScenarioReporter forReportingScenarios() {
+    public StoryReporter forReportingStories() {
         if (System.getProperty(OUTPUT_ALL) == null) {
-            return defaultConfiguration.forReportingScenarios();
+            return defaultConfiguration.forReportingStories();
         } else {
-            return new PrintStreamScenarioReporter();
+            return new PrintStreamStoryReporter();
         }
     }
 
     /**
-     * Returns the default ScenarioDefiner.
+     * Returns the default StoryDefiner.
      */
-    public ScenarioDefiner forDefiningScenarios() {
-        return defaultConfiguration.forDefiningScenarios();
+    public StoryDefiner forDefiningStories() {
+        return defaultConfiguration.forDefiningStories();
     }
 
     /**
@@ -101,6 +101,6 @@ public class PropertyBasedConfiguration implements Configuration {
 
 	public StepdocReporter forReportingStepdoc() {
 		return defaultConfiguration.forReportingStepdoc();
-	}    
-	
+	}
+
 }

@@ -12,16 +12,16 @@ import org.jbehave.core.model.Story;
  * Swallows the reports from all stories that pass, providing output only for
  * failing or pending stories.
  */
-public class PassSilentlyDecorator implements ScenarioReporter {
+public class PassSilentlyDecorator implements StoryReporter {
 
-    private final ScenarioReporter delegate;
+    private final StoryReporter delegate;
     private List<Todo> currentScenario = new ArrayList<Todo>();
     private State scenarioState = State.SILENT;
     private State beforeStoryState = State.SILENT;
     private State afterStoryState = State.SILENT;
     private boolean embeddedStory;
 
-    public PassSilentlyDecorator(ScenarioReporter delegate) {
+    public PassSilentlyDecorator(StoryReporter delegate) {
         this.delegate = delegate;
     }
 

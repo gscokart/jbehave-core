@@ -17,7 +17,7 @@ public class PassSilentlyDecoratorBehaviour {
 
     @Test
     public void shouldSwallowOutputFromPassingScenarios() {
-        ScenarioReporter delegate = mock(ScenarioReporter.class);
+        StoryReporter delegate = mock(StoryReporter.class);
         PassSilentlyDecorator decorator = new PassSilentlyDecorator(delegate);
         List<String> givenScenarios = asList("path/to/scenario1", "path/to/scenario2");
         ExamplesTable examplesTable = new ExamplesTable("|one|two|\n|1|2|\n");
