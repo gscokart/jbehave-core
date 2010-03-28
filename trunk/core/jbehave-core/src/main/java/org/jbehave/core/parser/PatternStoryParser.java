@@ -8,22 +8,21 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.jbehave.core.Configuration;
 import org.jbehave.core.model.*;
-import org.jbehave.core.model.Scenario;
 import org.jbehave.core.i18n.I18nKeyWords;
 
 /**
- * Pattern-based core parser, which uses the keywords provided to find the
- * steps in the text stories.
+ * Pattern-based story parser, which uses the keywords provided to find the
+ * scenarios and the steps in the text stories.
  */
 public class PatternStoryParser implements StoryParser {
 
 	private static final String NONE = "";
 	private static final String COMMA = ",";
 	private final KeyWords keywords;
+    private String storyPath;
 
-	public PatternStoryParser() {
+    public PatternStoryParser() {
 		this(new I18nKeyWords());
 	}
 
@@ -31,37 +30,31 @@ public class PatternStoryParser implements StoryParser {
 		this.keywords = keywords;
 	}
 
-	/**
-	 * @deprecated Since 2.4, use PatternStoryParser(KeyWords)
-	 */
-	public PatternStoryParser(Configuration configuration) {
-	    this(configuration.keywords());
-	}
-
     public Story defineStoryFrom(String wholeStoryAsText) {
         return defineStoryFrom(wholeStoryAsText, null);
     }
     
 	public Story defineStoryFrom(String wholeStoryAsText, String storyPath) {
-		Description description = parseBlurbFrom(wholeStoryAsText);
+        this.storyPath = storyPath;
+		Description description = parseDescriptionFrom(wholeStoryAsText);
         Narrative narrative = parseNarrativeFrom(wholeStoryAsText);
 		List<Scenario> scenarios = parseScenariosFrom(wholeStoryAsText);
         return new Story(description, narrative, storyPath, scenarios);
 	}
 
-    private Description parseBlurbFrom(String wholeStoryAsString) {
+    private Description parseDescriptionFrom(String wholeStoryAsText) {
         String concatenatedKeywords = concatenateWithOr(keywords.narrative(), keywords.scenario());
-        Pattern findBlurb = compile("(.*?)(" + concatenatedKeywords + ").*", DOTALL);
-        Matcher findingBlurb = findBlurb.matcher(wholeStoryAsString);
-        if (findingBlurb.matches()) {
-            return new Description(findingBlurb.group(1).trim());
+        Pattern findDescription = compile("(.*?)(" + concatenatedKeywords + ").*", DOTALL);
+        Matcher findingDescription = findDescription.matcher(wholeStoryAsText);
+        if (findingDescription.matches()) {
+            return new Description(findingDescription.group(1).trim());
         }
         return Description.EMPTY;
     }
 
-    private Narrative parseNarrativeFrom(String wholeStoryAsString) {
+    private Narrative parseNarrativeFrom(String wholeStoryAsText) {
         Pattern findNarrative = compile(".*" + keywords.narrative() + "(.*?)\\s*(" + keywords.scenario() + ").*", DOTALL);
-        Matcher findingNarrative = findNarrative.matcher(wholeStoryAsString);
+        Matcher findingNarrative = findNarrative.matcher(wholeStoryAsText);
         if ( findingNarrative.matches() ){
             String narrative = findingNarrative.group(1).trim();
             return createNarrative(narrative);
@@ -82,9 +75,9 @@ public class PatternStoryParser implements StoryParser {
     }
 
     private List<Scenario> parseScenariosFrom(
-			String wholeStoryAsString) {
+			String wholeStoryAsText) {
 		List<Scenario> parsed = new ArrayList<Scenario>();
-		List<String> scenarios = splitScenarios(wholeStoryAsString);
+		List<String> scenarios = splitScenarios(wholeStoryAsText);
 		for (String scenario : scenarios) {
 			String title = findTitle(scenario);
 			ExamplesTable table = findTable(scenario);
@@ -133,7 +126,7 @@ public class PatternStoryParser implements StoryParser {
 		return steps;
 	}
 
-	@SuppressWarnings("serial")
+    @SuppressWarnings("serial")
 	public static class InvalidPatternException extends RuntimeException {
 		public InvalidPatternException(String message, Throwable cause) {
 			super(message, cause);
@@ -167,9 +160,9 @@ public class PatternStoryParser implements StoryParser {
 
 	// This pattern approach causes stack overflow error on Windows
 	// http://jbehave.org/documentation/known-issues/regex-stack-overflow-errors
-	protected List<String> splitScenariosWithPattern(String allScenariosInFile) {
+	protected List<String> splitScenariosWithPattern(String allScenariosInStory) {
 		Pattern scenarioSplitter = patternToPullScenariosIntoGroupFour();
-		Matcher matcher = scenarioSplitter.matcher(allScenariosInFile);
+		Matcher matcher = scenarioSplitter.matcher(allScenariosInStory);
 		int startAt = 0;
 		List<String> scenarios = new ArrayList<String>();
 		try {
@@ -179,14 +172,12 @@ public class PatternStoryParser implements StoryParser {
 					startAt = matcher.start(4);
 				}
 			} else {
-				String loneScenario = allScenariosInFile;
-				scenarios.add(loneScenario);
+				scenarios.add(allScenariosInStory);
 			}
 		} catch (StackOverflowError e) {
-			// TODO - wish we had the core file name here.
-			throw new InvalidPatternException(
-					"Failed to parse stories (see http://jbehave.org/documentation/known-issues/regex-stack-overflow-errors): "
-							+ allScenariosInFile, e);
+            String message = "Failed to parse story (see http://jbehave.org/documentation/known-issues/regex-stack-overflow-errors): "
+                            + (storyPath != null ? storyPath : allScenariosInStory);
+			throw new InvalidPatternException(message, e);
 		}
 		return scenarios;
 	}

@@ -60,10 +60,10 @@ public class StoryRunner {
         runStorySteps(story, embeddedStory, StepCreator.Stage.BEFORE, candidateSteps);
         for (Scenario scenario : story.getScenarios()) {
     		reporter.beforeScenario(scenario.getTitle());
-        	runGivenScenarios(configuration, scenario, candidateSteps); // first run any given stories, if any
-        	if ( isExamplesTableScenario(scenario) ){ // run examples table core
+        	runGivenScenarios(configuration, scenario, candidateSteps); // first run any given scenarios, if any
+        	if ( isExamplesTableScenario(scenario) ){ // run examples table scenario
         		runExamplesTableScenario(configuration, scenario, candidateSteps);
-        	} else { // run plain old core
+        	} else { // run plain old scenario
             	runScenarioSteps(configuration, scenario, new HashMap<String, String>(), candidateSteps);        		
         	}
     		reporter.afterScenario();

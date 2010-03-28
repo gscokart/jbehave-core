@@ -14,7 +14,7 @@ public class ICanToggleACellFromDefaultPackage extends JUnitStory {
         super(new PropertyBasedConfiguration() {
             @Override
             public ClasspathStoryDefiner forDefiningStories() {
-                return new ClasspathStoryDefiner(new UnderscoredCamelCaseResolver(), new PatternStoryParser(this));
+                return new ClasspathStoryDefiner(new UnderscoredCamelCaseResolver(), new PatternStoryParser(keywords()));
             }
             @Override
             public StoryReporter forReportingStories() {
