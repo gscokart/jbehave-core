@@ -11,14 +11,14 @@ import org.junit.Test;
  * <p>
  * Story decorator that add supports for running stories as <a
  * href="http://junit.org">JUnit</a> tests. Both JUnit 4.x (via @Test
- * annotation) and JUnit 3.8.x (via TestCase inheritance) are supported.
+ * annotation) and JUnit 3.x (via TestCase inheritance) are supported.
  * </p>
  * <p>
  * Users requiring JUnit support will extends this class instead of
  * {@link AbstractStory}, while providing the same dependencies and following
  * the same specification logic as described in
  * {@link AbstractStory}. The only difference in the dependencies provided is
- * that the Story class is automatically set to the one being implemented by
+ * that the RunnableStory class is automatically set to the one being implemented by
  * the user, ie the concrete decorator class.
  * </p>
  * 
@@ -75,7 +75,7 @@ public abstract class JUnitStory extends TestCase implements RunnableStory {
 	}
 
 	/**
-     * A JUnit 3-compatibile runnable method which simply delegates
+     * A JUnit 3-compatible runnable method which simply delegates
      * {@link RunnableStory#runStory()}
      * 
      * @throws Throwable

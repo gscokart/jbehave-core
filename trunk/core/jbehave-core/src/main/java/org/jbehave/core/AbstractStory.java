@@ -13,31 +13,31 @@ import org.jbehave.core.steps.Stepdoc;
  * <p>
  * Abstract implementation of RunnableStory which is primarily intended as a base
  * class for delegate implementations of RunnableStory. As such, it has no explicit
- * supports for any test framework, ie it requires the {@link runStory}
- * method to be invoked directly, and the class of the core being run needs
+ * supports for any test framework, ie it requires the {@link org.jbehave.core.RunnableStory#runStory()}
+ * method to be invoked directly, and the class of the story being run needs
  * to be provided explicitly.
  * </p>
  * <p>
  * Typically, users will find it easier to extend decorator stories, such as
  * {@link JUnitStory} which also provide support for test frameworks and also
- * provide the core class as the one being implemented by the user.
+ * provide the story class as the one being implemented by the user.
  * </p>
  * <p>
- * Whichever Story class one chooses to extends, the steps for running a
- * core are the same:
+ * Whichever RunnableStory class one chooses to extends, the steps for running a
+ * story are the same:
  * <ol>
  * <li>Extend the chosen RunnableStory class and name it after your story, eg
  * "ICanLogin.java" (note that there is no obligation to have the name of the
  * class end in "Story" although you may choose to).</li>
- * <li>The core class should be in a matching text file in the same place,
+ * <li>The RunnableStory class should be in a matching text file in the same place,
  * eg "i_can_login" (this uses the default name resolution, although the it can
  * be configured via the {@link org.jbehave.core.parser.StoryNameResolver}).</li>
- * <li>Write some steps in your text core, starting each new step with
+ * <li>Write some steps in your text story, starting each new step with
  * Given, When, Then or And. The keywords can be configured via the
  * {@link KeyWords} class, eg they can be translated/localized to other
  * languages.</li>
  * <li>Then move on to extending the Steps class and providing matching methods
- * for the steps defined in the text core.</li>
+ * for the steps defined in the text story.</li>
  * <ol>
  */
 public abstract class AbstractStory implements RunnableStory {
