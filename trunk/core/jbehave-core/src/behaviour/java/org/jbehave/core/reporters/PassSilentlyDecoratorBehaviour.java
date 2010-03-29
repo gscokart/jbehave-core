@@ -19,7 +19,7 @@ public class PassSilentlyDecoratorBehaviour {
     public void shouldSwallowOutputFromPassingScenarios() {
         StoryReporter delegate = mock(StoryReporter.class);
         PassSilentlyDecorator decorator = new PassSilentlyDecorator(delegate);
-        List<String> givenScenarios = asList("path/to/scenario1", "path/to/scenario2");
+        List<String> givenStories = asList("path/to/story1", "path/to/story2");
         ExamplesTable examplesTable = new ExamplesTable("|one|two|\n|1|2|\n");
         IllegalArgumentException anException = new IllegalArgumentException();
         Story story = new Story();
@@ -34,7 +34,7 @@ public class PassSilentlyDecoratorBehaviour {
         decorator.afterScenario();
         
         decorator.beforeScenario("My core 2");
-		decorator.givenScenarios(givenScenarios);
+		decorator.givenStories(givenStories);
         decorator.successful("Given step 2.1");
         decorator.pending("When step 2.2");
         decorator.notPerformed("Then step 2.3");
@@ -69,7 +69,7 @@ public class PassSilentlyDecoratorBehaviour {
         
         inOrder.verify(delegate).beforeStory(story, embeddedStory);
         inOrder.verify(delegate).beforeScenario("My core 2");
-        inOrder.verify(delegate).givenScenarios(givenScenarios);
+        inOrder.verify(delegate).givenStories(givenStories);
         inOrder.verify(delegate).successful("Given step 2.1");
         inOrder.verify(delegate).pending("When step 2.2");
         inOrder.verify(delegate).notPerformed("Then step 2.3");

@@ -16,7 +16,7 @@ public class KeywordsBehaviour {
         KeyWords keywords = new KeyWords();
         assertEquals("Narrative:", keywords.narrative());
         assertEquals("Scenario:", keywords.scenario());
-        assertEquals("GivenScenarios:", keywords.givenScenarios());
+        assertEquals("GivenStories:", keywords.givenStories());
         assertEquals("Examples:", keywords.examplesTable());
         assertEquals("Example:", keywords.examplesTableRow());
         assertEquals("Given", keywords.given());

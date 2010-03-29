@@ -8,7 +8,7 @@ import static org.jbehave.core.model.KeyWords.EXAMPLES_TABLE;
 import static org.jbehave.core.model.KeyWords.EXAMPLES_TABLE_ROW;
 import static org.jbehave.core.model.KeyWords.FAILED;
 import static org.jbehave.core.model.KeyWords.GIVEN;
-import static org.jbehave.core.model.KeyWords.GIVEN_SCENARIOS;
+import static org.jbehave.core.model.KeyWords.GIVEN_STORIES;
 import static org.jbehave.core.model.KeyWords.IGNORABLE;
 import static org.jbehave.core.model.KeyWords.IN_ORDER_TO;
 import static org.jbehave.core.model.KeyWords.I_WANT_TO;
@@ -83,7 +83,7 @@ public class I18nKeywordsBehaviour {
         ensureKeywordIs(properties, AS_A, keywords.asA());
         ensureKeywordIs(properties, I_WANT_TO, keywords.iWantTo());
         ensureKeywordIs(properties, SCENARIO, keywords.scenario());
-        ensureKeywordIs(properties, GIVEN_SCENARIOS, keywords.givenScenarios());
+        ensureKeywordIs(properties, GIVEN_STORIES, keywords.givenStories());
         ensureKeywordIs(properties, EXAMPLES_TABLE, keywords.examplesTable());
         ensureKeywordIs(properties, EXAMPLES_TABLE_ROW, keywords.examplesTableRow());
         ensureKeywordIs(properties, GIVEN, keywords.given());

@@ -189,7 +189,7 @@ public class PatternStoryParser implements StoryParser {
 	}
 
 	private Pattern patternToPullGivenScenariosIntoGroupOne() {
-		String givenScenarios = keywords.givenScenarios();
+		String givenScenarios = keywords.givenStories();
 		String concatenatedKeywords = concatenateWithOr(keywords.given(),
 				keywords.when(), keywords.then(), keywords.others());
 		return compile(".*"+givenScenarios+"(.*?)\\s*(" + concatenatedKeywords + ").*");

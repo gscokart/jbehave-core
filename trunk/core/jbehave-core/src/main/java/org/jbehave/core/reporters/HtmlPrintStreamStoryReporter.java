@@ -52,7 +52,7 @@ public class HtmlPrintStreamStoryReporter extends PrintStreamStoryReporter {
         patterns.setProperty("beforeScenario", "<div class=\"core\">\n<h2>{0} {1}</h2>\n");
         patterns.setProperty("afterScenario", "</div>\n");
         patterns.setProperty("afterScenarioWithFailure", "<div class=\"core.failure\">{0}</div>\n</div>\n");
-        patterns.setProperty("givenScenarios", "<div class=\"givenScenarios\">{0} {1}</div>\n");
+        patterns.setProperty("givenStories", "<div class=\"givenStories\">{0} {1}</div>\n");
         patterns.setProperty("beforeExamples", "<div class=\"examples\">\n<h3>{0}</h3>\n");
         patterns.setProperty("examplesStep", "<div class=\"step\">{0}</div>\n");
         patterns.setProperty("afterExamples", "</div>\n");

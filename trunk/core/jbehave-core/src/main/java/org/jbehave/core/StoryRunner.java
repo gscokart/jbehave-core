@@ -78,7 +78,7 @@ public class StoryRunner {
 			throws Throwable {
 		List<String> givenScenarios = scenario.getGivenScenarios();
 		if ( givenScenarios.size() > 0 ){
-			reporter.givenScenarios(givenScenarios);
+			reporter.givenStories(givenScenarios);
 			for ( String storyPath : givenScenarios ){
 			    // run in embedded mode
 				run(storyPath, configuration, true, candidateSteps);

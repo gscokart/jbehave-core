@@ -48,7 +48,7 @@ public class PrintStreamStoryReporterBehaviour {
                 + "As a customer\n"
                 + "I want to get a loan\n"
                 + "Scenario: I ask for a loan\n"
-                + "GivenScenarios: [/given/scenario1,/given/scenario2]\n" 
+                + "GivenStories: [/given/story1,/given/story2]\n"
                 + "Given I have a balance of $50\n"
                 + "!-- A comment\n"
                 + "When I request $20\n" 
@@ -93,7 +93,7 @@ public class PrintStreamStoryReporterBehaviour {
                 + "<div class=\"element iWantTo\"><span class=\"keyword iWantTo\">I want to</span> get a loan</div>\n" 
                 + "</div>\n" 
                 + "<div class=\"core\">\n<h2>Scenario: I ask for a loan</h2>\n"
-                + "<div class=\"givenScenarios\">GivenScenarios: [/given/scenario1,/given/scenario2]</div>\n"
+                + "<div class=\"givenStories\">GivenStories: [/given/story1,/given/story2]</div>\n"
                 + "<div class=\"step successful\">Given I have a balance of $50</div>\n"
                 + "<div class=\"step ignorable\">!-- A comment</div>\n"
                 + "<div class=\"step successful\">When I request $20</div>\n"
@@ -143,7 +143,7 @@ public class PrintStreamStoryReporterBehaviour {
                 + "<div class=\"element iWantTo\"><span class=\"keyword iWantTo\">I want to</span> get a loan</div>\n" 
                 + "</div>\n" 
                 + "<div class=\"core\">\n<h2>Scenario: I ask for a loan</h2>\n"
-                + "<div class=\"givenScenarios\">GivenScenarios: [/given/scenario1,/given/scenario2]</div>\n"
+                + "<div class=\"givenStories\">GivenStories: [/given/story1,/given/story2]</div>\n"
                 + "<div class=\"step successful\">Given I have a balance of $50</div>\n"
                 + "<div class=\"step ignorable\">!-- A comment</div>\n"
                 + "<div class=\"step successful\">When I request $20</div>\n"
@@ -187,7 +187,7 @@ public class PrintStreamStoryReporterBehaviour {
                 + "  <iWantTo keyword=\"I want to\">get a loan</iWantTo>\n" 
                 + "</narrative>\n" 
                 + "<core keyword=\"Scenario:\" title=\"I ask for a loan\">\n"
-                + "<givenScenarios keyword=\"GivenScenarios:\"paths=\"[/given/scenario1,/given/scenario2]\"</givenScenarios>\n"
+                + "<givenStories keyword=\"GivenStories:\"paths=\"[/given/story1,/given/story2]\"</givenStories>\n"
                 + "<step outcome=\"successful\">Given I have a balance of $50</step>\n"
                 + "<step outcome=\"ignorable\">!-- A comment</step>\n"
                 + "<step outcome=\"successful\">When I request $20</step>\n"
@@ -215,7 +215,7 @@ public class PrintStreamStoryReporterBehaviour {
         reporter.beforeStory(story, embeddedStory);
         String title = "I ask for a loan";
         reporter.beforeScenario(title);
-        reporter.givenScenarios(asList("/given/scenario1,/given/scenario2"));
+        reporter.givenStories(asList("/given/story1,/given/story2"));
         reporter.successful("Given I have a balance of $50");
         reporter.ignorable("!-- A comment");
         reporter.successful("When I request $20");

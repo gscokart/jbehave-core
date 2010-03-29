@@ -25,7 +25,7 @@ public class StatisticsStoryReporter implements StoryReporter {
     private final OutputStream output;
     private final Map<String, Integer> data = new HashMap<String, Integer>();
     private final List<String> events = asList("steps", "stepsSuccessful", "stepsIgnorable", "stepsPending",
-            "stepsNotPerformed", "stepsFailed", "stories", "scenariosFailed", "givenScenarios", "examples");
+            "stepsNotPerformed", "stepsFailed", "stories", "scenariosFailed", "givenStories", "examples");
 
     private Throwable cause;
 
@@ -75,8 +75,8 @@ public class StatisticsStoryReporter implements StoryReporter {
         afterStory(false);
     }
 
-    public void givenScenarios(List<String> givenScenarios) {
-        count("givenScenarios");
+    public void givenStories(List<String> givenScenarios) {
+        count("givenStories");
     }
 
     public void beforeScenario(String title) {

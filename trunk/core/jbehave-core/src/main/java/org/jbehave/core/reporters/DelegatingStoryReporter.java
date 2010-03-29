@@ -107,9 +107,9 @@ public class DelegatingStoryReporter implements StoryReporter {
         }
     }
 
-    public void givenScenarios(List<String> givenScenarios) {
+    public void givenStories(List<String> givenScenarios) {
         for (StoryReporter reporter : delegates) {
-            reporter.givenScenarios(givenScenarios);
+            reporter.givenStories(givenScenarios);
         }
     }
 

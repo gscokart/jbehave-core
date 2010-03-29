@@ -272,7 +272,7 @@ public class PatternStoryParserBehaviour {
 	public void shouldParseStoryWithGivenScenarios() {
 		String wholeStory =
 				"Scenario: A core with given stories" + NL + NL +
-	            "GivenScenarios: path/to/one,path/to/two" + NL + NL +
+	            "GivenStories: path/to/one,path/to/two" + NL + NL +
 	            "Given a step with a <one>" + NL +
 	            "When I run the core of name <two>" + NL +
 	            "Then I should see <three> in the output";

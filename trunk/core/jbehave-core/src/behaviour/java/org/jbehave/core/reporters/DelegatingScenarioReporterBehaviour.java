@@ -26,7 +26,7 @@ public class DelegatingScenarioReporterBehaviour {
         delegator.beforeStory(story, embeddedStory);
         
         delegator.beforeScenario("My core 1");
-        delegator.givenScenarios(givenScenarios);
+        delegator.givenStories(givenScenarios);
         delegator.successful("Given step 1.1");
         delegator.ignorable("!-- ignore me");
         delegator.pending("When step 1.2");
@@ -49,7 +49,7 @@ public class DelegatingScenarioReporterBehaviour {
         inOrder.verify(delegate).beforeStory(story, embeddedStory);
 
         inOrder.verify(delegate).beforeScenario("My core 1");
-        inOrder.verify(delegate).givenScenarios(givenScenarios);
+        inOrder.verify(delegate).givenStories(givenScenarios);
         inOrder.verify(delegate).successful("Given step 1.1");
         inOrder.verify(delegate).ignorable("!-- ignore me");
         inOrder.verify(delegate).pending("When step 1.2");

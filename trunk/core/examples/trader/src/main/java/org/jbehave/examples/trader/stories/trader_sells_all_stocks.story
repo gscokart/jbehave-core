@@ -9,7 +9,7 @@ I want to sell all stocks when alerted
 Scenario: Trader sells it all and goes to Bermuda.
 This scenario shows that the same step pattern can be used for different step types
 
-GivenScenarios: org/jbehave/examples/trader/stories/trader_is_alerted_of_status.story
+GivenStories: org/jbehave/examples/trader/stories/trader_is_alerted_of_status.story
 
 Given the alert status is OFF
 Given a trader of name Mauro

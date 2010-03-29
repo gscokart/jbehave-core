@@ -21,7 +21,7 @@ public class KeyWords {
     public static final String AS_A = "AsA";
     public static final String I_WANT_TO = "IWantTo";
     public static final String SCENARIO = "Scenario";
-    public static final String GIVEN_SCENARIOS = "GivenScenarios";
+    public static final String GIVEN_STORIES = "GivenStories";
     public static final String EXAMPLES_TABLE = "ExamplesTable";
     public static final String GIVEN = "Given";
     public static final String WHEN = "When";
@@ -33,7 +33,7 @@ public class KeyWords {
     public static final String FAILED = "Failed";
     public static final String EXAMPLES_TABLE_ROW = "ExamplesTableRow";
     public static final List<String> KEYWORDS = asList(NARRATIVE, IN_ORDER_TO, AS_A, I_WANT_TO, SCENARIO,
-            GIVEN_SCENARIOS, EXAMPLES_TABLE, GIVEN, WHEN, THEN, AND, IGNORABLE, PENDING, NOT_PERFORMED, FAILED,
+            GIVEN_STORIES, EXAMPLES_TABLE, GIVEN, WHEN, THEN, AND, IGNORABLE, PENDING, NOT_PERFORMED, FAILED,
             EXAMPLES_TABLE_ROW);
 
     private final String narrative;
@@ -41,7 +41,7 @@ public class KeyWords {
     private final String asA;
     private final String iWantTo;
     private final String scenario;
-    private final String givenScenarios;
+    private final String givenStories;
     private final String examplesTable;
     private final String given;
     private final String when;
@@ -62,7 +62,7 @@ public class KeyWords {
         keywords.put(AS_A, "As a:");
         keywords.put(I_WANT_TO, "I want to:");
         keywords.put(SCENARIO, "Scenario:");
-        keywords.put(GIVEN_SCENARIOS, "GivenScenarios:");
+        keywords.put(GIVEN_STORIES, "GivenStories:");
         keywords.put(EXAMPLES_TABLE, "Examples:");
         keywords.put(GIVEN, "Given");
         keywords.put(WHEN, "When");
@@ -104,7 +104,7 @@ public class KeyWords {
         this.asA = keyword(AS_A, keywords);
         this.iWantTo = keyword(I_WANT_TO, keywords);
         this.scenario = keyword(SCENARIO, keywords);
-        this.givenScenarios = keyword(GIVEN_SCENARIOS, keywords);
+        this.givenStories = keyword(GIVEN_STORIES, keywords);
         this.examplesTable = keyword(EXAMPLES_TABLE, keywords);
         this.given = keyword(GIVEN, keywords);
         this.when = keyword(WHEN, keywords);
@@ -134,7 +134,7 @@ public class KeyWords {
      * narrative, inOrderTo, asA, iWantTo).
      * 
      * @param scenario
-     * @param givenScenarios
+     * @param givenStories
      * @param examplesTable
      * @param given
      * @param when
@@ -142,10 +142,10 @@ public class KeyWords {
      * @param others
      * @deprecated Use KeyWords(Map<String,String>, StringEncoder)
      */
-    public KeyWords(String scenario, String givenScenarios, String examplesTable, String given, String when,
+    public KeyWords(String scenario, String givenStories, String examplesTable, String given, String when,
             String then, String... others) {
         this.scenario = scenario;
-        this.givenScenarios = givenScenarios;
+        this.givenStories = givenStories;
         this.examplesTable = examplesTable;
         this.given = given;
         this.when = when;
@@ -186,8 +186,8 @@ public class KeyWords {
         return scenario;
     }
 
-    public String givenScenarios() {
-        return givenScenarios;
+    public String givenStories() {
+        return givenStories;
     }
 
     public String examplesTable() {

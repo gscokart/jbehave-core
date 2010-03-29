@@ -137,7 +137,7 @@ public class StoryRunnerBehaviour {
         // Then
         InOrder inOrder = inOrder(reporter);
         inOrder.verify(reporter).beforeStory(story2, embeddedStory);
-        inOrder.verify(reporter).givenScenarios(givenScenarios);
+        inOrder.verify(reporter).givenStories(givenScenarios);
         inOrder.verify(reporter).successful("successfulStep");
         inOrder.verify(reporter).successful("anotherSuccessfulStep");
         inOrder.verify(reporter).afterStory(embeddedStory);

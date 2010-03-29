@@ -51,7 +51,7 @@ public class XmlPrintStreamStoryReporter extends PrintStreamStoryReporter {
         patterns.setProperty("beforeScenario", "<core keyword=\"{0}\" title=\"{1}\">\n");
         patterns.setProperty("afterScenario", "</core>\n");
         patterns.setProperty("afterScenarioWithFailure", "<failure>{0}</failure>\n</core>\n");
-        patterns.setProperty("givenScenarios", "<givenScenarios keyword=\"{0}\"paths=\"{1}\"</givenScenarios>\n");
+        patterns.setProperty("givenStories", "<givenStories keyword=\"{0}\"paths=\"{1}\"</givenStories>\n");
         patterns.setProperty("beforeExamples", "<examples keyword=\"{0}\">\n");
         patterns.setProperty("examplesStep", "<step>{0}</step>\n");
         patterns.setProperty("afterExamples", "</examples>\n");

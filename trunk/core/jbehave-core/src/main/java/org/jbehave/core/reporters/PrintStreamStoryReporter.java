@@ -154,8 +154,8 @@ public class PrintStreamStoryReporter implements StoryReporter {
         afterStory(false);
     }
 
-    public void givenScenarios(List<String> givenScenarios) {
-        print(format("givenScenarios", "{0} {1}\n", keywords.givenScenarios(), givenScenarios));
+    public void givenStories(List<String> givenScenarios) {
+        print(format("givenStories", "{0} {1}\n", keywords.givenStories(), givenScenarios));
     }
 
     public void beforeScenario(String title) {

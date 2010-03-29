@@ -33,7 +33,7 @@ public interface StoryReporter {
     
     void afterScenario();
     
-	void givenScenarios(List<String> givenScenarios);
+	void givenStories(List<String> givenStories);
 
 	/**
 	 * @deprecated Use beforeExamples(List<String>, ExamplesTable)
