@@ -9,7 +9,7 @@ import org.junit.Test;
 
 /**
  * <p>
- * Story decorator that add supports for running stories as <a
+ * {@link RunnableStory} decorator that add supports for running stories as <a
  * href="http://junit.org">JUnit</a> tests. Both JUnit 4.x (via @Test
  * annotation) and JUnit 3.x (via TestCase inheritance) are supported.
  * </p>
@@ -35,10 +35,6 @@ public abstract class JUnitStory extends TestCase implements RunnableStory {
     
     public JUnitStory(StoryRunner storyRunner) {
         this.delegate = new JUnitStoryDelegate(decoratorClass, storyRunner);
-    }
-
-    public JUnitStory(RunnableStory delegate) {
-        this.delegate = delegate;
     }
 
     @Test

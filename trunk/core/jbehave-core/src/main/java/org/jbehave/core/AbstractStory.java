@@ -42,14 +42,13 @@ import org.jbehave.core.steps.Stepdoc;
  */
 public abstract class AbstractStory implements RunnableStory {
 
-    private StoryConfiguration configuration;
-    private final StoryRunner storyRunner;
-    private final List<CandidateSteps> candidateSteps = new ArrayList<CandidateSteps>();
+    private final StoryRunner storyRunner;   
     private final Class<? extends RunnableStory> storyClass;
+    private final List<CandidateSteps> candidateSteps = new ArrayList<CandidateSteps>();
+    private StoryConfiguration configuration = new MostUsefulStoryConfiguration();
 
     public AbstractStory(Class<? extends RunnableStory> storyClass, StoryRunner storyRunner) {
         this.storyClass = storyClass;
-        this.configuration = configuration;
         this.storyRunner = storyRunner;
     }
 
