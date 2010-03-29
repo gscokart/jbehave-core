@@ -13,7 +13,7 @@ import com.lunivore.gameoflife.steps.GridSteps;
 public class TheGridStartsEmpty extends JUnitStory {
 
     public TheGridStartsEmpty() {
-        super(new PropertyBasedConfiguration() {
+        useConfiguration(new PropertyBasedConfiguration() {
             @Override
             public ClasspathStoryDefiner forDefiningStories() {
                 return new ClasspathStoryDefiner(new UnderscoredCamelCaseResolver(), new PatternStoryParser(keywords()));
@@ -22,6 +22,7 @@ public class TheGridStartsEmpty extends JUnitStory {
             public StoryReporter forReportingStories() {
                 return new PrintStreamStoryReporter();
             }
-        }, new GridSteps());
+        });
+        addSteps(new GridSteps());
     }
 }

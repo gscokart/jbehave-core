@@ -2,6 +2,7 @@ package org.jbehave.examples.trader.i18n;
 
 import java.util.Locale;
 
+import org.jbehave.core.Configuration;
 import org.jbehave.core.JUnitStory;
 import org.jbehave.core.PropertyBasedConfiguration;
 import org.jbehave.core.model.KeyWords;
@@ -21,28 +22,30 @@ public class ItTraderStory extends JUnitStory {
 	}
 
 	public ItTraderStory(final ClassLoader classLoader) {
-		super(new PropertyBasedConfiguration() {
-			@Override
-			public StoryDefiner forDefiningStories() {
-				// use underscored camel case stories with extension ".story"
-				return new ClasspathStoryDefiner(
-						new UnderscoredCamelCaseResolver(".story"),
-						new PatternStoryParser(keywords()), classLoader);
-			}
+        Configuration storyConfiguration = new PropertyBasedConfiguration() {
+            @Override
+            public StoryDefiner forDefiningStories() {
+                // use underscored camel case stories with extension ".story"
+                return new ClasspathStoryDefiner(
+                        new UnderscoredCamelCaseResolver(".story"),
+                        new PatternStoryParser(keywords()), classLoader);
+            }
 
-			@Override
-			public StoryReporter forReportingStories() {
-				// report outcome in Italian (to System.out)
-				return new PrintStreamStoryReporter(keywordsFor(new Locale("it"), classLoader));
-			}
+            @Override
+            public StoryReporter forReportingStories() {
+                // report outcome in Italian (to System.out)
+                return new PrintStreamStoryReporter(keywordsFor(new Locale("it"), classLoader));
+            }
 
-			@Override
-			public KeyWords keywords() {
-				// use Italian for keywords
-				return keywordsFor(new Locale("it"), classLoader);
-			}
+            @Override
+            public KeyWords keywords() {
+                // use Italian for keywords
+                return keywordsFor(new Locale("it"), classLoader);
+            }
 
-        }, new ItTraderSteps(classLoader));
+        };
+        useConfiguration(storyConfiguration);
+        addSteps(new ItTraderSteps(classLoader));
 	}
 
 	protected static KeyWords keywordsFor(Locale locale, ClassLoader classLoader) {

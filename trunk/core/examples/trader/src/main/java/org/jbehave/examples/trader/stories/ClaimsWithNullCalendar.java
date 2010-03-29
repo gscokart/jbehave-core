@@ -7,6 +7,7 @@ import static org.jbehave.core.reporters.StoryReporterBuilder.Format.XML;
 
 import java.util.Calendar;
 
+import org.jbehave.core.Configuration;
 import org.jbehave.core.parser.*;
 import org.jbehave.examples.trader.converters.CalendarConverter;
 import org.jbehave.core.JUnitStory;
@@ -34,7 +35,7 @@ public class ClaimsWithNullCalendar extends JUnitStory {
     }
 
     public ClaimsWithNullCalendar(final Class<? extends RunnableStory> scenarioClass) {
-        super(new PropertyBasedConfiguration() {
+        Configuration storyConfiguration = new PropertyBasedConfiguration() {
             @Override
             public StoryDefiner forDefiningStories() {
                 return new ClasspathStoryDefiner(converter, new PatternStoryParser(keywords()));
@@ -43,21 +44,22 @@ public class ClaimsWithNullCalendar extends JUnitStory {
             @Override
             public StoryReporter forReportingStories() {
                 return new StoryReporterBuilder(new FilePrintStreamFactory(scenarioClass, converter))
-                            .with(CONSOLE)
-                            .with(TXT)
-                            .with(HTML)
-                            .with(XML)
-                            .build();
+                        .with(CONSOLE)
+                        .with(TXT)
+                        .with(HTML)
+                        .with(XML)
+                        .build();
             }
 
-        });
+        };
+        useConfiguration(storyConfiguration);
 
-        StepsConfiguration configuration = new StepsConfiguration();
+        StepsConfiguration stepsConfiguration = new StepsConfiguration();
         StepMonitor monitor = new SilentStepMonitor();
-		configuration.useParameterConverters(new ParameterConverters(
+		stepsConfiguration.useParameterConverters(new ParameterConverters(
         		monitor, new CalendarConverter("dd/MM/yyyy"))); 
-		configuration.useMonitor(monitor);        
-        addSteps(new StepsFactory(configuration).createCandidateSteps(new CalendarSteps()));
+		stepsConfiguration.useMonitor(monitor);
+        addSteps(new StepsFactory(stepsConfiguration).createCandidateSteps(new CalendarSteps()));
     }
 
     public static class CalendarSteps {

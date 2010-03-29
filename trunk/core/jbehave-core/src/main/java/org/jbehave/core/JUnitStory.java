@@ -21,7 +21,7 @@ import org.junit.Test;
  * that the RunnableStory class is automatically set to the one being implemented by
  * the user, ie the concrete decorator class.
  * </p>
- * 
+ *
  * @see AbstractStory
  */
 public abstract class JUnitStory extends TestCase implements RunnableStory {
@@ -29,20 +29,12 @@ public abstract class JUnitStory extends TestCase implements RunnableStory {
     private final Class<? extends JUnitStory> decoratorClass = this.getClass();
     private final RunnableStory delegate;
 
-    public JUnitStory(CandidateSteps... candidateSteps) {
-        this.delegate = new JUnitStoryDelegate(decoratorClass, candidateSteps);
+    public JUnitStory(){
+        this(new StoryRunner());
     }
-
-    public JUnitStory(Configuration configuration, CandidateSteps... candidateSteps) {
-        this.delegate = new JUnitStoryDelegate(decoratorClass, configuration, candidateSteps);
-    }
-
-    public JUnitStory(StoryRunner storyRunner, CandidateSteps... candidateSteps) {
-        this.delegate = new JUnitStoryDelegate(decoratorClass, storyRunner, candidateSteps);
-    }
-
-    public JUnitStory(StoryRunner storyRunner, Configuration configuration, CandidateSteps... candidateSteps) {
-        this.delegate = new JUnitStoryDelegate(decoratorClass, storyRunner, configuration, candidateSteps);
+    
+    public JUnitStory(StoryRunner storyRunner) {
+        this.delegate = new JUnitStoryDelegate(decoratorClass, storyRunner);
     }
 
     public JUnitStory(RunnableStory delegate) {
@@ -53,11 +45,11 @@ public abstract class JUnitStory extends TestCase implements RunnableStory {
     public void runStory() throws Throwable {
         this.delegate.runStory();
     }
-    
+
     public void useConfiguration(Configuration configuration) {
         this.delegate.useConfiguration(configuration);
     }
-    
+
     public Configuration getConfiguration() {
         return delegate.getConfiguration();
     }
@@ -67,17 +59,17 @@ public abstract class JUnitStory extends TestCase implements RunnableStory {
     }
 
     public List<CandidateSteps> getSteps() {
-    	return delegate.getSteps();
+        return delegate.getSteps();
     }
-    
-    public void generateStepdoc() {
-    	this.delegate.generateStepdoc();
-	}
 
-	/**
+    public void generateStepdoc() {
+        this.delegate.generateStepdoc();
+    }
+
+    /**
      * A JUnit 3-compatible runnable method which simply delegates
      * {@link RunnableStory#runStory()}
-     * 
+     *
      * @throws Throwable
      */
     public void testStory() throws Throwable {
@@ -86,24 +78,10 @@ public abstract class JUnitStory extends TestCase implements RunnableStory {
 
     public static class JUnitStoryDelegate extends AbstractStory {
 
-        public JUnitStoryDelegate(Class<? extends RunnableStory> decoratorClass, CandidateSteps... candidateSteps) {
-            super(decoratorClass, candidateSteps);
+        public JUnitStoryDelegate(Class<? extends RunnableStory> decoratorClass, StoryRunner storyRunner) {
+            super(decoratorClass, storyRunner);
         }
 
-        public JUnitStoryDelegate(Class<? extends RunnableStory> decoratorClass, Configuration configuration,
-                CandidateSteps... candidateSteps) {
-            super(decoratorClass, configuration, candidateSteps);
-        }
-
-        public JUnitStoryDelegate(Class<? extends RunnableStory> decoratorClass, StoryRunner storyRunner,
-                CandidateSteps... candidateSteps) {
-            super(decoratorClass, storyRunner, candidateSteps);
-        }
-
-        public JUnitStoryDelegate(Class<? extends RunnableStory> decoratorClass, StoryRunner storyRunner,
-                Configuration configuration, CandidateSteps... candidateSteps) {
-            super(decoratorClass, storyRunner, configuration, candidateSteps);
-        }
 
     }
 

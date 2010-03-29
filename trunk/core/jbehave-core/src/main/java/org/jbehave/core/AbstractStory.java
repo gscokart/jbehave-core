@@ -22,7 +22,7 @@ import org.jbehave.core.steps.Stepdoc;
  * {@link JUnitStory} which also provide support for test frameworks and also
  * provide the story class as the one being implemented by the user.
  * </p>
- * <p>
+ * <p/>
  * Whichever RunnableStory class one chooses to extends, the steps for running a
  * story are the same:
  * <ol>
@@ -47,37 +47,22 @@ public abstract class AbstractStory implements RunnableStory {
     private final List<CandidateSteps> candidateSteps = new ArrayList<CandidateSteps>();
     private final Class<? extends RunnableStory> storyClass;
 
-    public AbstractStory(Class<? extends RunnableStory> storyClass, CandidateSteps... candidateSteps) {
-        this(storyClass, new StoryRunner(), new PropertyBasedConfiguration(), candidateSteps);
-    }
-
-    public AbstractStory(Class<? extends RunnableStory> storyClass, Configuration configuration,
-            CandidateSteps... candidateSteps) {
-        this(storyClass, new StoryRunner(), configuration, candidateSteps);
-    }
-
-    public AbstractStory(Class<? extends RunnableStory> storyClass, StoryRunner storyRunner,
-            CandidateSteps... candidateSteps) {
-        this(storyClass, storyRunner, new PropertyBasedConfiguration(), candidateSteps);
-    }
-
-    public AbstractStory(Class<? extends RunnableStory> storyClass, StoryRunner storyRunner,
-            Configuration configuration, CandidateSteps... candidateSteps) {
+    public AbstractStory(Class<? extends RunnableStory> storyClass, StoryRunner storyRunner
+    ) {
         this.storyClass = storyClass;
         this.configuration = configuration;
         this.storyRunner = storyRunner;
-        this.candidateSteps.addAll(asList(candidateSteps));
     }
 
     public void runStory() throws Throwable {
         CandidateSteps[] steps = candidateSteps.toArray(new CandidateSteps[candidateSteps.size()]);
         storyRunner.run(storyClass, configuration, steps);
     }
-    
+
     public void useConfiguration(Configuration configuration) {
         this.configuration = configuration;
     }
-    
+
     public Configuration getConfiguration() {
         return configuration;
     }

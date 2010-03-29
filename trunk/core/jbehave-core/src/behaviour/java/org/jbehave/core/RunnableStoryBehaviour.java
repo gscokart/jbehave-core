@@ -4,6 +4,7 @@ import static org.jbehave.Ensure.ensureThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
+import org.hamcrest.Matchers;
 import org.jbehave.core.steps.CandidateSteps;
 import org.junit.Test;
 
@@ -35,7 +36,7 @@ public class RunnableStoryBehaviour {
 
         // When
         RunnableStory story = new MyStory(runner, steps);
-        ensureThat(story.getConfiguration() instanceof PropertyBasedConfiguration);
+        ensureThat(story.getConfiguration(),  Matchers.not(Matchers.sameInstance(configuration)));
         story.useConfiguration(configuration);
         story.runStory();
 
@@ -65,11 +66,14 @@ public class RunnableStoryBehaviour {
     private class MyStory extends JUnitStory {
 
         public MyStory(StoryRunner runner, CandidateSteps... steps) {
-            super(runner, steps);
+            super(runner);
+            addSteps(steps);
         }
 
         public MyStory(StoryRunner runner, Configuration configuration, CandidateSteps... steps) {
-            super(runner, configuration, steps);
+            super(runner);
+            useConfiguration(configuration);
+            addSteps(steps);
         }
 
     }

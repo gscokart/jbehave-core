@@ -13,7 +13,7 @@ import com.lunivore.gameoflife.steps.GridSteps;
 public class ICanToggleACell extends JUnitStory {
 
     public ICanToggleACell() {
-        super(new PropertyBasedConfiguration() {
+        useConfiguration(new PropertyBasedConfiguration() {
             @Override
             public ClasspathStoryDefiner forDefiningStories() {
                 return new ClasspathStoryDefiner(new UnderscoredCamelCaseResolver(), new PatternStoryParser(keywords()));
