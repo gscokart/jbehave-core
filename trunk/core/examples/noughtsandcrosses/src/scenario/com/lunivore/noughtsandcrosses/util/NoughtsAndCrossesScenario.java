@@ -1,7 +1,7 @@
 package com.lunivore.noughtsandcrosses.util;
 
 import org.jbehave.core.JUnitStory;
-import org.jbehave.core.PropertyBasedConfiguration;
+import org.jbehave.core.PropertyBasedStoryConfiguration;
 import org.jbehave.core.parser.ClasspathStoryDefiner;
 import org.jbehave.core.parser.PatternStoryParser;
 import org.jbehave.core.parser.UnderscoredCamelCaseResolver;
@@ -18,7 +18,7 @@ public abstract class NoughtsAndCrossesScenario extends JUnitStory {
 	}
 	
 	public NoughtsAndCrossesScenario(OAndXUniverse universe) {
-        super(new PropertyBasedConfiguration() {
+        super(new PropertyBasedStoryConfiguration() {
             @Override
             public ClasspathStoryDefiner forDefiningScenarios() {
                 return new ClasspathStoryDefiner(new UnderscoredCamelCaseResolver(), new PatternStoryParser(this));

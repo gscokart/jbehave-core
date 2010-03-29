@@ -24,7 +24,7 @@ import com.thoughtworks.paranamer.Paranamer;
  * default values for most commonly-used cases.
  * </p>
  * <p>
- * Configuration dependencies can be provided either via constructor or via
+ * StoryConfiguration dependencies can be provided either via constructor or via
  * setters (called use* methods to underline that a default value of the
  * dependency is always set, but can be overridden). The use methods allow to
  * override the dependencies one by one and play nicer with a Java hierarchical

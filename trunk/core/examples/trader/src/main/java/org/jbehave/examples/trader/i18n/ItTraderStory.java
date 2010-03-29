@@ -2,9 +2,9 @@ package org.jbehave.examples.trader.i18n;
 
 import java.util.Locale;
 
-import org.jbehave.core.Configuration;
+import org.jbehave.core.StoryConfiguration;
 import org.jbehave.core.JUnitStory;
-import org.jbehave.core.PropertyBasedConfiguration;
+import org.jbehave.core.PropertyBasedStoryConfiguration;
 import org.jbehave.core.model.KeyWords;
 import org.jbehave.core.i18n.I18nKeyWords;
 import org.jbehave.core.i18n.StringEncoder;
@@ -22,7 +22,7 @@ public class ItTraderStory extends JUnitStory {
 	}
 
 	public ItTraderStory(final ClassLoader classLoader) {
-        Configuration storyConfiguration = new PropertyBasedConfiguration() {
+        StoryConfiguration storyConfiguration = new PropertyBasedStoryConfiguration() {
             @Override
             public StoryDefiner forDefiningStories() {
                 // use underscored camel case stories with extension ".story"

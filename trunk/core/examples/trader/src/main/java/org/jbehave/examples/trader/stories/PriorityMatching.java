@@ -5,12 +5,12 @@ import static org.jbehave.core.reporters.StoryReporterBuilder.Format.HTML;
 import static org.jbehave.core.reporters.StoryReporterBuilder.Format.TXT;
 import static org.jbehave.core.reporters.StoryReporterBuilder.Format.XML;
 
-import org.jbehave.core.Configuration;
+import org.jbehave.core.MostUsefulStoryConfiguration;
+import org.jbehave.core.StoryConfiguration;
 import org.jbehave.core.JUnitStory;
 import org.jbehave.core.parser.*;
 import org.jbehave.core.reporters.StoryReporter;
 import org.jbehave.examples.trader.PriorityMatchingSteps;
-import org.jbehave.core.MostUsefulConfiguration;
 import org.jbehave.core.parser.PatternStoryParser;
 import org.jbehave.core.reporters.FilePrintStreamFactory;
 import org.jbehave.core.reporters.StoryReporterBuilder;
@@ -22,7 +22,7 @@ public class PriorityMatching extends JUnitStory {
     private static StoryNameResolver resolver = new UnderscoredCamelCaseResolver(".story");
 
     public PriorityMatching() {
-         Configuration storyConfiguration = new MostUsefulConfiguration() {
+         StoryConfiguration storyConfiguration = new MostUsefulStoryConfiguration() {
             @Override
             public StoryDefiner forDefiningStories() {
                 return new ClasspathStoryDefiner(resolver, new PatternStoryParser(keywords()));

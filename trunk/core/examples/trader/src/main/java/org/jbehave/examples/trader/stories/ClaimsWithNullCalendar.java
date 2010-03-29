@@ -7,11 +7,11 @@ import static org.jbehave.core.reporters.StoryReporterBuilder.Format.XML;
 
 import java.util.Calendar;
 
-import org.jbehave.core.Configuration;
+import org.jbehave.core.StoryConfiguration;
 import org.jbehave.core.parser.*;
 import org.jbehave.examples.trader.converters.CalendarConverter;
 import org.jbehave.core.JUnitStory;
-import org.jbehave.core.PropertyBasedConfiguration;
+import org.jbehave.core.PropertyBasedStoryConfiguration;
 import org.jbehave.core.RunnableStory;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Named;
@@ -35,7 +35,7 @@ public class ClaimsWithNullCalendar extends JUnitStory {
     }
 
     public ClaimsWithNullCalendar(final Class<? extends RunnableStory> scenarioClass) {
-        Configuration storyConfiguration = new PropertyBasedConfiguration() {
+        StoryConfiguration storyConfiguration = new PropertyBasedStoryConfiguration() {
             @Override
             public StoryDefiner forDefiningStories() {
                 return new ClasspathStoryDefiner(converter, new PatternStoryParser(keywords()));

@@ -6,7 +6,8 @@ import static org.jbehave.core.reporters.StoryReporterBuilder.Format.HTML;
 import static org.jbehave.core.reporters.StoryReporterBuilder.Format.TXT;
 import static org.jbehave.core.reporters.StoryReporterBuilder.Format.XML;
 
-import org.jbehave.core.Configuration;
+import org.jbehave.core.PropertyBasedStoryConfiguration;
+import org.jbehave.core.StoryConfiguration;
 import org.jbehave.core.parser.*;
 import org.jbehave.core.reporters.StoryReporter;
 import org.jbehave.examples.trader.converters.TraderConverter;
@@ -15,7 +16,6 @@ import org.jbehave.examples.trader.model.Trader;
 import org.jbehave.examples.trader.persistence.TraderPersister;
 import org.jbehave.examples.trader.service.TradingService;
 import org.jbehave.core.JUnitStory;
-import org.jbehave.core.PropertyBasedConfiguration;
 import org.jbehave.core.RunnableStory;
 import org.jbehave.core.parser.StoryNameResolver;
 import org.jbehave.core.reporters.FilePrintStreamFactory;
@@ -32,7 +32,7 @@ public class TraderStory extends JUnitStory {
     private static StoryNameResolver resolver = new UnderscoredCamelCaseResolver(".story");
 
     public TraderStory(final Class<? extends RunnableStory> scenarioClass) {
-        Configuration storyConfiguration = new PropertyBasedConfiguration() {
+        StoryConfiguration storyConfiguration = new PropertyBasedStoryConfiguration() {
             @Override
             public StoryDefiner forDefiningStories() {
                 return new ClasspathStoryDefiner(resolver, new PatternStoryParser(keywords()));

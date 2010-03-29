@@ -10,8 +10,8 @@ import org.jbehave.core.steps.StepCreator;
 import org.jbehave.core.steps.StepdocGenerator;
 
 /**
- * Provides the configuration used by the {@link StoryRunner} and is injected
- * in the {@link JUnitStory} to customise its runtime properties.
+ * Provides the story configuration used by the {@link StoryRunner} and the
+ * in the {@link RunnableStory} implementations to customise its runtime properties.
  * 
  * The configuration may change dynamically, so any other class wishing to use this
  * should store the whole configuration, and use the respective parts of it at
@@ -21,7 +21,7 @@ import org.jbehave.core.steps.StepdocGenerator;
  * @author Elizabeth Keogh
  * @author Mauro Talevi
  */
-public interface Configuration {
+public interface StoryConfiguration {
 
 	StoryDefiner forDefiningStories();
 

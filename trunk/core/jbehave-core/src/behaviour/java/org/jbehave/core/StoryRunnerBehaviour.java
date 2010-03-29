@@ -305,29 +305,29 @@ public class StoryRunnerBehaviour {
         when(creator.createStepsFrom(story, Stage.AFTER, embeddedStory, mySteps)).thenReturn(steps);
     }
 
-    private Configuration configurationWithPendingStrategy(StepCreator creator, StoryReporter reporter,
+    private StoryConfiguration configurationWithPendingStrategy(StepCreator creator, StoryReporter reporter,
             PendingErrorStrategy strategy) {
         return configurationWith(new ClasspathStoryDefiner(), reporter, creator,
                 new ErrorStrategyInWhichWeTrustTheReporter(), strategy);
     }
 
-    private Configuration configurationWith(final StoryReporter reporter, final StepCreator creator) {
+    private StoryConfiguration configurationWith(final StoryReporter reporter, final StepCreator creator) {
         return configurationWith(reporter, creator, new ErrorStrategyInWhichWeTrustTheReporter());
     }
 
-    private Configuration configurationWith(StoryReporter reporter, StepCreator creator, ErrorStrategy errorStrategy) {
+    private StoryConfiguration configurationWith(StoryReporter reporter, StepCreator creator, ErrorStrategy errorStrategy) {
         return configurationWith(new ClasspathStoryDefiner(), reporter, creator, errorStrategy);
     }
 
-    private Configuration configurationWith(StoryDefiner definer, final StoryReporter reporter,
+    private StoryConfiguration configurationWith(StoryDefiner definer, final StoryReporter reporter,
             final StepCreator creator, final ErrorStrategy errorStrategy) {
         return configurationWith(definer, reporter, creator, errorStrategy, PendingErrorStrategy.PASSING);
     }
 
-    private Configuration configurationWith(final StoryDefiner definer, final StoryReporter reporter,
+    private StoryConfiguration configurationWith(final StoryDefiner definer, final StoryReporter reporter,
             final StepCreator creator, final ErrorStrategy errorStrategy, final PendingErrorStrategy pendingStrategy) {
 
-        return new PropertyBasedConfiguration() {
+        return new PropertyBasedStoryConfiguration() {
             @Override
             public StoryDefiner forDefiningStories() {
                 return definer;

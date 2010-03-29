@@ -11,24 +11,24 @@ import org.jbehave.core.steps.StepCreator;
 import org.jbehave.core.steps.StepdocGenerator;
 
 /**
- * PropertyBasedConfiguration is backed by MostUsefulConfiguration as default, but has different
+ * PropertyBasedStoryConfiguration is backed by MostUsefulStoryConfiguration as default, but has different
  * behaviour if certain system properties are non-null:
  * <ul>
- *   <li>PropertyBasedConfiguration.FAIL_ON_PENDING: uses  PendingErrorStrategy.FAILING as PendingErrorStrategy</li>
- *   <li>PropertyBasedConfiguration.OUTPUT_ALL:  uses PrintStreamStoryReporter as StoryReporter</li>
+ *   <li>PropertyBasedStoryConfiguration.FAIL_ON_PENDING: uses  PendingErrorStrategy.FAILING as PendingErrorStrategy</li>
+ *   <li>PropertyBasedStoryConfiguration.OUTPUT_ALL:  uses PrintStreamStoryReporter as StoryReporter</li>
  * </ul>
  */
-public class PropertyBasedConfiguration implements Configuration {
+public class PropertyBasedStoryConfiguration implements StoryConfiguration {
 
     public static final String FAIL_ON_PENDING = "org.jbehave.failonpending";
     public static final String OUTPUT_ALL = "org.jbehave.outputall";
-    private final Configuration defaultConfiguration;
+    private final StoryConfiguration defaultConfiguration;
     
-    public PropertyBasedConfiguration() {
-        this(new MostUsefulConfiguration());
+    public PropertyBasedStoryConfiguration() {
+        this(new MostUsefulStoryConfiguration());
     }
 
-    public PropertyBasedConfiguration(Configuration defaultConfiguration) {
+    public PropertyBasedStoryConfiguration(StoryConfiguration defaultConfiguration) {
         this.defaultConfiguration = defaultConfiguration;
     }
 

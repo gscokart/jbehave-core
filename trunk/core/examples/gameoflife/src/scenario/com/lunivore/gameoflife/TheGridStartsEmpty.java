@@ -1,7 +1,7 @@
 package com.lunivore.gameoflife;
 
 import org.jbehave.core.JUnitStory;
-import org.jbehave.core.PropertyBasedConfiguration;
+import org.jbehave.core.PropertyBasedStoryConfiguration;
 import org.jbehave.core.parser.ClasspathStoryDefiner;
 import org.jbehave.core.parser.PatternStoryParser;
 import org.jbehave.core.parser.UnderscoredCamelCaseResolver;
@@ -13,7 +13,7 @@ import com.lunivore.gameoflife.steps.GridSteps;
 public class TheGridStartsEmpty extends JUnitStory {
 
     public TheGridStartsEmpty() {
-        useConfiguration(new PropertyBasedConfiguration() {
+        useConfiguration(new PropertyBasedStoryConfiguration() {
             @Override
             public ClasspathStoryDefiner forDefiningStories() {
                 return new ClasspathStoryDefiner(new UnderscoredCamelCaseResolver(), new PatternStoryParser(keywords()));

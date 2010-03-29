@@ -77,7 +77,7 @@ public class FilePrintStreamFactory implements PrintStreamFactory {
     }
 
     /**
-     * Configuration class for file print streams. Allows specification of the
+     * StoryConfiguration class for file print streams. Allows specification of the
      * file directory (relative to the core class code source location) and
      * the file extension. Provides as defaults {@link #DIRECTORY} and
      * {@link #HTML}.

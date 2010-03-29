@@ -46,11 +46,11 @@ public abstract class JUnitStory extends TestCase implements RunnableStory {
         this.delegate.runStory();
     }
 
-    public void useConfiguration(Configuration configuration) {
+    public void useConfiguration(StoryConfiguration configuration) {
         this.delegate.useConfiguration(configuration);
     }
 
-    public Configuration getConfiguration() {
+    public StoryConfiguration getConfiguration() {
         return delegate.getConfiguration();
     }
 

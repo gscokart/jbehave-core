@@ -1,6 +1,6 @@
 package com.lunivore.noughtsandcrosses;
 
-import org.jbehave.core.MostUsefulConfiguration;
+import org.jbehave.core.MostUsefulStoryConfiguration;
 import org.jbehave.core.JUnitStory;
 import org.jbehave.core.model.KeyWords;
 import org.jbehave.core.parser.ClasspathStoryDefiner;
@@ -24,7 +24,7 @@ public class PlayersCanHazTurns extends JUnitStory {
     }
     
     public PlayersCanHazTurns(OAndXUniverse universe) {
-        super(new MostUsefulConfiguration() {
+        super(new MostUsefulStoryConfiguration() {
             public KeyWords keywords() {
                 return LolCatzSteps.lolCatzKeywords();
             }

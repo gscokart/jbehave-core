@@ -21,9 +21,9 @@ public interface RunnableStory {
 
     void runStory() throws Throwable;
 
-    void useConfiguration(Configuration configuration);
+    void useConfiguration(StoryConfiguration configuration);
     
-    Configuration getConfiguration();
+    StoryConfiguration getConfiguration();
     
     void addSteps(CandidateSteps... steps);
 

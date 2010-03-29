@@ -1,4 +1,4 @@
-import org.jbehave.core.PropertyBasedConfiguration;
+import org.jbehave.core.PropertyBasedStoryConfiguration;
 import org.jbehave.core.JUnitStory;
 import org.jbehave.core.parser.ClasspathStoryDefiner;
 import org.jbehave.core.parser.PatternStoryParser;
@@ -11,7 +11,7 @@ import com.lunivore.gameoflife.steps.GridSteps;
 public class ICanToggleACellFromDefaultPackage extends JUnitStory {
 
     public ICanToggleACellFromDefaultPackage() {     
-        useConfiguration(new PropertyBasedConfiguration() {
+        useConfiguration(new PropertyBasedStoryConfiguration() {
             @Override
             public ClasspathStoryDefiner forDefiningStories() {
                 return new ClasspathStoryDefiner(new UnderscoredCamelCaseResolver(), new PatternStoryParser(keywords()));

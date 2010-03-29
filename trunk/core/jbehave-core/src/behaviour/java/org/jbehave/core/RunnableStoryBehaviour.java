@@ -14,7 +14,7 @@ public class RunnableStoryBehaviour {
     public void shouldRunUsingTheStoryRunner() throws Throwable {
         // Given
         StoryRunner runner = mock(StoryRunner.class);
-        Configuration configuration = mock(Configuration.class);
+        StoryConfiguration configuration = mock(StoryConfiguration.class);
         CandidateSteps steps = mock(CandidateSteps.class);
         Class<MyStory> storyClass = MyStory.class;
 
@@ -30,7 +30,7 @@ public class RunnableStoryBehaviour {
     public void shouldAllowOverrideOfDefaultConfiguration() throws Throwable {
         // Given
         StoryRunner runner = mock(StoryRunner.class);
-        Configuration configuration = mock(Configuration.class);
+        StoryConfiguration configuration = mock(StoryConfiguration.class);
         CandidateSteps steps = mock(CandidateSteps.class);
         Class<MyStory> storyClass = MyStory.class;
 
@@ -41,7 +41,7 @@ public class RunnableStoryBehaviour {
         story.runStory();
 
         // Then
-        ensureThat(!(story.getConfiguration() instanceof PropertyBasedConfiguration));
+        ensureThat(!(story.getConfiguration() instanceof PropertyBasedStoryConfiguration));
         verify(runner).run(storyClass, configuration, steps);
     }
 
@@ -50,7 +50,7 @@ public class RunnableStoryBehaviour {
     public void shouldAllowAdditionOfSteps() throws Throwable {
         // Given
         StoryRunner runner = mock(StoryRunner.class);
-        Configuration configuration = mock(Configuration.class);
+        StoryConfiguration configuration = mock(StoryConfiguration.class);
         CandidateSteps steps = mock(CandidateSteps.class);
         Class<MyStory> storyClass = MyStory.class;
 
@@ -70,7 +70,7 @@ public class RunnableStoryBehaviour {
             addSteps(steps);
         }
 
-        public MyStory(StoryRunner runner, Configuration configuration, CandidateSteps... steps) {
+        public MyStory(StoryRunner runner, StoryConfiguration configuration, CandidateSteps... steps) {
             super(runner);
             useConfiguration(configuration);
             addSteps(steps);

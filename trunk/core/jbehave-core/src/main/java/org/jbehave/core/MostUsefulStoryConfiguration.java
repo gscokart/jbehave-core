@@ -30,7 +30,7 @@ import org.jbehave.core.steps.UnmatchedToPendingStepCreator;
  *   <li>{@link StepdocReporter}: new PrintStreamStepdocReporter(true)</li>
  * </ul>
  */
-public class MostUsefulConfiguration implements Configuration {
+public class MostUsefulStoryConfiguration implements StoryConfiguration {
 
 	/**
 	 * Provides pending steps where unmatched steps exist.
@@ -69,7 +69,7 @@ public class MostUsefulConfiguration implements Configuration {
 	 * <p>
 	 * If you want to spot pending steps, you might want to look at
 	 * {@link PendingErrorStrategy.FAILING}, or alternatively at the
-	 * PropertyBasedConfiguration which provides a mechanism for altering this
+	 * PropertyBasedStoryConfiguration which provides a mechanism for altering this
 	 * behaviour in different environments.
 	 */
 	public PendingErrorStrategy forPendingSteps() {
@@ -82,7 +82,7 @@ public class MostUsefulConfiguration implements Configuration {
 	 * 
 	 * <p>
 	 * If you want different behaviour, you might like to use the
-	 * {@link org.jbehave.core.reporters.PrintStreamStoryReporter}, or look at the {@link PropertyBasedConfiguration}
+	 * {@link org.jbehave.core.reporters.PrintStreamStoryReporter}, or look at the {@link PropertyBasedStoryConfiguration}
 	 * which provides a mechanism for altering this behaviour in different
 	 * environments.
 	 */

@@ -35,20 +35,20 @@ public class StoryRunner {
     private Throwable throwable;
     private StepCreator stepCreator;
 
-    public void run(Class<? extends RunnableStory> storyClass, Configuration configuration, CandidateSteps... candidateSteps) throws Throwable {
+    public void run(Class<? extends RunnableStory> storyClass, StoryConfiguration configuration, CandidateSteps... candidateSteps) throws Throwable {
 		Story story = configuration.forDefiningStories().defineStory(storyClass);
 		story.namedAs(storyClass.getSimpleName());
 	    // always start in a non-embedded mode
         run(story, configuration, false, candidateSteps);
     }
 
-    public void run(String storyPath, Configuration configuration, boolean embeddedStory, CandidateSteps... candidateSteps) throws Throwable {
+    public void run(String storyPath, StoryConfiguration configuration, boolean embeddedStory, CandidateSteps... candidateSteps) throws Throwable {
 		Story story = configuration.forDefiningStories().defineStory(storyPath);
         story.namedAs(new File(storyPath).getName());
 		run(story, configuration, embeddedStory, candidateSteps);
     }    
 
-    public void run(Story story, Configuration configuration, boolean embeddedStory, CandidateSteps... candidateSteps) throws Throwable {
+    public void run(Story story, StoryConfiguration configuration, boolean embeddedStory, CandidateSteps... candidateSteps) throws Throwable {
         stepCreator = configuration.forCreatingSteps();
         reporter = configuration.forReportingStories();
         pendingStepStrategy = configuration.forPendingSteps();
@@ -73,7 +73,7 @@ public class StoryRunner {
         currentStrategy.handleError(throwable);
     }
 
-    private void runGivenScenarios(Configuration configuration,
+    private void runGivenScenarios(StoryConfiguration configuration,
 			Scenario scenario, CandidateSteps... candidateSteps)
 			throws Throwable {
 		List<String> givenScenarios = scenario.getGivenScenarios();
@@ -91,7 +91,7 @@ public class StoryRunner {
 		return table != null && table.getRowCount() > 0;
 	}
 
-	private void runExamplesTableScenario(Configuration configuration,
+	private void runExamplesTableScenario(StoryConfiguration configuration,
 			Scenario scenario, CandidateSteps... candidateSteps) {
 		ExamplesTable table = scenario.getTable();
         reporter.beforeExamples(scenario.getSteps(), table);
@@ -107,7 +107,7 @@ public class StoryRunner {
         runSteps(steps);
     }
 
-	private void runScenarioSteps(Configuration configuration,
+	private void runScenarioSteps(StoryConfiguration configuration,
 			Scenario scenario, Map<String, String> tableRow, CandidateSteps... candidateSteps) {
         Step[] steps = stepCreator.createStepsFrom(scenario, tableRow, candidateSteps);
 		runSteps(steps);		
