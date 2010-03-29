@@ -6,22 +6,22 @@
 
 <body>
 
-<h2>Writing Scenarios in your language</h2>
+<h2>Writing Stories in your language</h2>
 
 <p>Good and effective communication is key to BDD. Therefore,
-writing scenarios in the <a href="http://en.wikipedia.org/wiki/Language">language</a>
+writing stories in the <a href="http://en.wikipedia.org/wiki/Language">language</a>
 spoken by the business users is essential. And even though the patterns
 used to match the scenario steps to Java methods can be written in any
 language, the <a
-    href="javadoc/core/org/jbehave/scenario/definition/KeyWords.html">KeyWords</a>
+    href="javadoc/core/org/jbehave/core/definition/KeyWords.html">KeyWords</a>
 still need to be expressed in different languages.</p>
 
 <p>JBehave by default supports English as the scenario language. By
 supporting the internationalisation (i18n) of keywords by Java <a
     href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Locale.html">Locale</a>,
-it also allows the scenarios to be written in any language. All is
+it also allows the stories to be written in any language. All is
 needed to configure the use of <a
-    href="javadoc/core/org/jbehave/scenario/i18n/I18nKeyWords.html">I18nKeyWords</a>
+    href="javadoc/core/org/jbehave/core/i18n/I18nKeyWords.html">I18nKeyWords</a>
 for a given Locale. Each locale has a separate keywords properties file.
 E.g. for Italian locale, the file <b>keywords_it.properties</b> is:</p>
 <pre class="brush: bdd">
@@ -30,7 +30,7 @@ InOrderTo=Per ottenere
 AsA=Come
 IWantTo=Voglio
 Scenario=Scenario:
-GivenScenarios=Dati gli scenari:
+GivenStories=Date le storie:
 ExamplesTable=Esempi:
 ExamplesTableRow=Esempio:
 Given=Dato che
@@ -42,25 +42,25 @@ NotPerformed=NON ESEGUITO
 Failed=FALLITO
 </pre>
 <p>We need to configure the use of the i18n-ed keywords in the <a
-    href="javadoc/core/org/jbehave/scenario/JUnitScenario.html">JUnitScenario</a>,
+    href="javadoc/core/org/jbehave/core/JUnitStory.html">JUnitStory</a>,
 e.g.:</p>
 <pre class="brush: java">
-public class ItTraderScenario extends JUnitScenario {
+public class ItTraderStory extends JUnitStory {
 
-	public ItTraderScenario(final ClassLoader classLoader) {
+	public ItTraderStory(final ClassLoader classLoader) {
 		super(new PropertyBasedConfiguration() {
 			@Override
-			public ScenarioDefiner forDefiningScenarios() {
+			public StoryDefiner forDefiningStorys() {
 				// use underscored camel case scenario files with extension ".scenario"
-				return new ClasspathScenarioDefiner(
+				return new ClasspathStoryDefiner(
 						new UnderscoredCamelCaseResolver(".scenario"),
-						new PatternScenarioParser(this), classLoader);
+						new PatternStoryParser(this), classLoader);
 			}
 
 			@Override
-			public ScenarioReporter forReportingScenarios() {
+			public StoryReporter forReportingStorys() {
 				// report outcome in Italian (to System.out)
-				return new PrintStreamScenarioReporter(keywordsFor(new Locale("it"), classLoader));
+				return new PrintStreamStoryReporter(keywordsFor(new Locale("it"), classLoader));
 			}
 
 			@Override
@@ -79,7 +79,7 @@ public class ItTraderScenario extends JUnitScenario {
 }
 </pre>
 <p>The corresponding i18n-ed <a
-    href="javadoc/core/org/jbehave/scenario/steps/Steps.html">Steps</a>,
+    href="javadoc/core/org/jbehave/core/steps/Steps.html">Steps</a>,
 also requires the configuration of i18n-ed keywords:</p>
 
 <pre class="brush: java">
@@ -119,7 +119,7 @@ used in the reporting of the scenario execution, e.g. <b>Pending</b>, <b>NotPerf
 and <b>Failed</b>.</p>
 
 <p>Also note that the i18n-ed scenario classes require the class loader to be injected via constructor if 
-running via command-line (see <a href="running-scenarios.html">running scenarios</a>).</p>
+running via command-line (see <a href="running-stories.html">running stories</a>).</p>
 
 <h2>Why are different languages not supported out-of-the-box?</h2>
 

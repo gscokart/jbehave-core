@@ -6,7 +6,7 @@
 
 <body>
 
-<h2>Writing Textual Scenarios</h2>
+<h2>Writing Textual Stories</h2>
 
 <p><a href="concepts.html">Behaviour-Driven Development</a>
 encourages you to start defining the scenarios that express the desired
@@ -15,25 +15,42 @@ behaviour in a textual format, e.g.:</p>
     Given a stock of symbol STK1 and a threshold of 10.0
     When the stock is traded at 5.0
     Then the alert status should be OFF
-    When the stock is traded at 11.0
-    Then the alert status should be ON
 </pre>
 <p>The textual scenario should use the language of the business
 domain and shield away as much as possible the details of the technical
 implementation. Also, it should be given a name that is expressive of
-the functionality that is being verified, i.e. <b>trader_is_alerted_of_status.scenario</b>.
+the functionality that is being verified, i.e. <b>trader_is_alerted_of_status.story</b>.
 </p>
 <p>The scenario should use a syntax compatible with the <a
     href="grammar.html">Grammar</a>.</p>
 
+
+<span class="followup">A story is a collection of scenarios, each
+detailing different examples of the behaviour of
+    a given increment of functionality of the system.</span>
+
+<pre class="brush: bdd">
+    Scenario:  trader is not alerted below threshold
+
+    Given a stock of symbol STK1 and a threshold of 10.0
+    When the stock is traded at 5.0
+    Then the alert status should be OFF
+
+    Scenario:  trader is alerted above threshold
+
+    Given a stock of symbol STK1 and a threshold of 10.0
+    When the stock is traded at 11.0
+    Then the alert status should be ON
+</pre>
+
 <h2>Mapping Textual Scenario Steps to Java Methods via annotations</h2>
 
 <p>JBehave maps textual steps to Java methods via <a
-    href="javadoc/core/org/jbehave/scenario/steps/CandidateSteps.html">CandidateSteps</a>.
+    href="javadoc/core/org/jbehave/core/steps/CandidateSteps.html">CandidateSteps</a>.
 The scenario writer need only provide annotated methods that match, by
 regex patterns, the textual steps. One way this can be done is by
 extending the default implementation <a
-    href="javadoc/core/org/jbehave/scenario/steps/Steps.html">Steps</a>:
+    href="javadoc/core/org/jbehave/core/steps/Steps.html">Steps</a>:
 </p>
 <pre class="brush: java">
 public class TraderSteps extends Steps {
@@ -82,9 +99,9 @@ public class TraderSteps { // look, Ma, I'm a POJO!!
 }
 </pre>
 <p>If POJOs are used we need to create <a
-    href="javadoc/core/org/jbehave/scenario/steps/CandidateSteps.html">CandidateSteps</a>
+    href="javadoc/core/org/jbehave/core/steps/CandidateSteps.html">CandidateSteps</a>
 via the <a
-    href="javadoc/core/org/jbehave/scenario/steps/StepsFactory.html">StepsFactory</a>
+    href="javadoc/core/org/jbehave/core/steps/StepsFactory.html">StepsFactory</a>
 </p>
 <pre class="brush: java">
     StepsConfiguration configuration = ... // optional configuration
@@ -103,34 +120,34 @@ class to provide the logic to tie together the results of the execution
 of each step. This can be done by keeping state member variables in the
 Steps class or possibly by using a service API or other dependency.</p>
 
-<h2>Mapping Scenario Files to Java Classes</h2>
+<h2>Mapping Story Files to Java Classes</h2>
 
-<p>In JBehave Core scenarios can be run in an automated way via a
+<p>In JBehave Core stories can be run in an automated way via a
 one-to-one mapping to Java classes. The mechanism via which the textual
-scenarios are resolved from a Java class is determined by the
+stories are resolved from a Java class is determined by the
 implementation of the <a
-    href="javadoc/core/org/jbehave/scenario/parser/ScenarioNameResolver.html">ScenarioNameResolver</a>.
+    href="javadoc/core/org/jbehave/core/parser/StoryNameResolver.html">StoryNameResolver</a>.
 In our example, we need to create a file <code>TraderIsAletedOfStatus.java</code>,
-which maps to out textual scenario in same package.</p>
+which maps to out textual story in same package.</p>
 
 <p>The contract for a user-defined Java scenario is the following:</p>
 <p>Must extend an instance of a <a
-    href="javadoc/core/org/jbehave/scenario/RunnableScenario.html">RunnableScenario</a>,
-such as <a href="javadoc/core/org/jbehave/scenario/JUnitScenario.html">JUnitScenario</a>
+    href="javadoc/core/org/jbehave/core/RunnableStory.html">RunnableStory</a>,
+such as <a href="javadoc/core/org/jbehave/core/JUnitStory.html">JUnitStory</a>
 </p>
 <p>Must provide a default constructor.</p>
 <p>(Only when running with external resources) Must provide an additional
 constructor with a ClassLoader parameter.</p>
 
-<p>Thus in our case the example Scenario would look like:</p>
+<p>Thus in our case the example Story would look like:</p>
 <pre class="brush: java">
-public class TraderScenario extends JUnitScenario {
+public class TraderStory extends JUnitStory {
 
-    public TraderScenario() {
+    public TraderStory() {
         super(new MostUsefulConfiguration() {
-            public ScenarioDefiner forDefiningScenarios() {
-                return new ClasspathScenarioDefiner(new UnderscoredCamelCaseResolver(".scenario"), 
-                             new PatternScenarioParser(keywords()));
+            public StoryDefiner forDefiningStories() {
+                return new ClasspathStoryDefiner(new UnderscoredCamelCaseResolver(".scenario"), 
+                             new PatternStoryParser(keywords()));
             }
         });
         addSteps(new TraderSteps()); // if TraderSteps extends Steps
@@ -139,17 +156,17 @@ public class TraderScenario extends JUnitScenario {
 }
 </pre>
 
-<p>Here we are configuring our textual scenario files to end with
-extension <b>.scenario</b>, by overriding the default behaviour of <a
-    href="javadoc/core/org/jbehave/scenario/parser/UnderscoredCamelCaseResolver.html">UnderscoredCamelCaseResolver</a>
+<p>Here we are configuring our textual story files to end with
+extension <b>.story</b>, by overriding the default behaviour of <a
+    href="javadoc/core/org/jbehave/core/parser/UnderscoredCamelCaseResolver.html">UnderscoredCamelCaseResolver</a>
 which has no extension.</p>
 
 <h2>What Next?</h2>
 
-<span class="followup">The <a href="configuring-scenarios.html">Configuring
-Scenarios</a> page will go into more configuration details and <a
-    href="running-scenarios.html">Running Scenarios</a> into the
-different ways to run scenarios. Or if you want to learn more about
+<span class="followup">The <a href="configuring-stories.html">Configuring
+Stories</a> page will go into more configuration details and <a
+    href="running-stories.html">Running Stories</a> into the
+different ways to run stories. Or if you want to learn more about
 JBehave's step matching mechanism, you'll want to explored the concept
 of <a href="candidate-steps.html">candidate steps</a> in more detail. </span>
 

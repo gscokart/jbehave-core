@@ -24,7 +24,7 @@ page.</p>
 tests.</p>
 
 <p>Scenarios can also be run on command line, see <a
-    href="running-scenarios.html">running scenarios</a>. It can also be
+    href="running-stories.html">running scenarios</a>. It can also be
 run via web runner, although the web support is not part of JBehave
 Core. For more info on web support refer to <a
     href="http://jbehave.org/reference/web/stable">JBehave Web</a>.</p>
@@ -48,11 +48,11 @@ users can downlaod the sources automatically.</p>
 with @Test</p>
 
 <pre class="brush: java">
-public class YourScenario extends JUnitScenario {
+public class YourStory extends JUnitStory {
 
     @Test
-    public void runScenario() throws Throwable {
-        super.runScenario();
+    public void runStory() throws Throwable {
+        super.runStory();
     }
 
 }
@@ -60,18 +60,18 @@ public class YourScenario extends JUnitScenario {
 <p>Note that this is only required for the root scenario of all your
 scenarios.</p>
 
-<h3>Can I run my scenarios in IDE with TestNG?</h3>
+<h3>Can I run my story in IDE with TestNG?</h3>
 
 <p>Similarly to the proposed workaround above, you should be able to
-run with TestNG by simply annotating the runScenario() method in your
-root Scenario class with the TestNG @Test annotation.</p>
+run with TestNG by simply annotating the runStory() method in your
+root Story class with the TestNG @Test annotation.</p>
 
 <pre class="brush: java">
-public class YourScenario extends JUnitScenario {
+public class YourStory extends JUnitStory {
 
     @org.testng.annotations.Test 
-    public void runScenario() throws Throwable {
-        super.runScenario();
+    public void runStory() throws Throwable {
+        super.runStory();
     }
 
 }
@@ -84,8 +84,8 @@ been well-tested. If you encounter any issues please let us know.</p>
 are shown as pending?</h3>
 
 <p>Configure the <a
-    href="javadoc/core/org/jbehave/scenario/errors/PendingErrorStrategy.html">PendingErrorStrategy</a>
-in <a href="javadoc/core/org/jbehave/scenario/Configuration.html">Configuration</a></p>
+    href="javadoc/core/org/jbehave/core/errors/PendingErrorStrategy.html">PendingErrorStrategy</a>
+in <a href="javadoc/core/org/jbehave/core/Configuration.html">Configuration</a></p>
 <pre class="brush: java">
 new Configuration(){
    public PendingErrorStrategy forPendingSteps() {
@@ -98,19 +98,19 @@ new Configuration(){
 scenario fails?</h3>
 
 <p>Configure the <a
-    href="javadoc/core/org/jbehave/scenario/reporters/ScenarioReporter.html">ScenarioReporter</a>
-in <a href="javadoc/core/org/jbehave/scenario/Configuration.html">Configuration</a></p>
+    href="javadoc/core/org/jbehave/core/reporters/StoryReporter.html">StoryReporter</a>
+in <a href="javadoc/core/org/jbehave/core/Configuration.html">Configuration</a></p>
 
 <pre class="brush: java">
 new Configuration(){
-     public ScenarioReporter forReportingScenarios() {
-          return new PrintStreamScenarioReporter();
+     public StoryReporter forReportingStorys() {
+          return new PrintStreamStoryReporter();
     }
 } 
 </pre>
 
 <p>Alternatively, you can use <a
-    href="javadoc/core/org/jbehave/scenario/PropertyBasedConfiguration.html">PropertyBasedConfiguration</a>
+    href="javadoc/core/org/jbehave/core/PropertyBasedConfiguration.html">PropertyBasedConfiguration</a>
 setting system property <b>"org.jbehave.outputall"</b>.</p>
 
 <h3>Can my steps classes be POJOs?</h3>
