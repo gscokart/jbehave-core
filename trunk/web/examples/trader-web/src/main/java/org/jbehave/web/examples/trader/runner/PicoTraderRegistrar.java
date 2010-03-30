@@ -1,9 +1,9 @@
 package org.jbehave.web.examples.trader.runner;
 
 import org.codehaus.waffle.registrar.Registrar;
-import org.jbehave.scenario.steps.CandidateSteps;
-import org.jbehave.scenario.steps.StepsConfiguration;
-import org.jbehave.scenario.steps.pico.PicoStepsFactory;
+import org.jbehave.core.steps.CandidateSteps;
+import org.jbehave.core.steps.StepsConfiguration;
+import org.jbehave.core.steps.pico.PicoStepsFactory;
 import org.jbehave.web.examples.trader.scenarios.StockExchangeSteps;
 import org.jbehave.web.examples.trader.scenarios.TraderSteps;
 import org.jbehave.web.examples.trader.scenarios.TradingService;

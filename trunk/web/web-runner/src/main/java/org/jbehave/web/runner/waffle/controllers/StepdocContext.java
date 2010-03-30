@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.jbehave.scenario.steps.Stepdoc;
+import org.jbehave.core.steps.Stepdoc;
 
 public class StepdocContext {
 

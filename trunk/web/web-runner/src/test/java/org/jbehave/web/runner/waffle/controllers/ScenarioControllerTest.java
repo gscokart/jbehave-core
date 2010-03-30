@@ -7,15 +7,15 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 
 import org.codehaus.waffle.menu.Menu;
-import org.jbehave.scenario.Configuration;
-import org.jbehave.scenario.MostUsefulConfiguration;
-import org.jbehave.scenario.ScenarioRunner;
-import org.jbehave.scenario.annotations.Given;
-import org.jbehave.scenario.annotations.Then;
-import org.jbehave.scenario.annotations.When;
-import org.jbehave.scenario.parser.PatternScenarioParser;
-import org.jbehave.scenario.parser.ScenarioParser;
-import org.jbehave.scenario.steps.Steps;
+import org.jbehave.core.StoryConfiguration;
+import org.jbehave.core.MostUsefulStoryConfiguration;
+import org.jbehave.core.StoryRunner;
+import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Then;
+import org.jbehave.core.annotations.When;
+import org.jbehave.core.parser.PatternStoryParser;
+import org.jbehave.core.parser.StoryParser;
+import org.jbehave.core.steps.Steps;
 import org.jbehave.web.runner.waffle.controllers.ScenarioController;
 import org.junit.Test;
 
@@ -25,9 +25,9 @@ public class ScenarioControllerTest {
 	private static final String NL = "\n";
 
 	private final Menu MENU = new Menu();
-	private final Configuration configuration = new MostUsefulConfiguration();
-	private final ScenarioParser parser = new PatternScenarioParser();
-	private final ScenarioRunner runner = new ScenarioRunner();
+	private final StoryConfiguration configuration = new MostUsefulStoryConfiguration();
+	private final StoryParser parser = new PatternStoryParser();
+	private final StoryRunner runner = new StoryRunner();
 
 	@Test
 	public void canRunSuccessfulScenario(){

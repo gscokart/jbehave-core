@@ -1,13 +1,12 @@
 package org.jbehave.web.selenium;
 
-import org.jbehave.scenario.steps.StepMonitor;
+import com.thoughtworks.selenium.Selenium;
+import org.jbehave.core.steps.StepMonitor;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import com.thoughtworks.selenium.Selenium;
 
 @RunWith(JMock.class)
 public class SeleniumStepsConfigurationTest {
