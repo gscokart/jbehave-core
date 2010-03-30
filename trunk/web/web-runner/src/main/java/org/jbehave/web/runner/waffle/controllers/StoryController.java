@@ -20,22 +20,22 @@ import java.util.Properties;
 
 import static org.apache.commons.lang.StringUtils.isNotBlank;
 
-public class ScenarioController extends MenuAwareController {
+public class StoryController extends MenuAwareController {
 
-	private final StoryParser scenarioParser;
-	private final StoryRunner scenarioRunner;
+	private final StoryParser storyParser;
+	private final StoryRunner storyRunner;
 	private final CandidateSteps[] steps;
 
 	private ByteArrayOutputStream outputStream;
 	private StoryConfiguration configuration;
-	private ScenarioContext scenarioContext;
-	
-	public ScenarioController(Menu menu, StoryConfiguration configuration,
-			StoryParser scenarioParser, StoryRunner scenarioRunner,
+	private StoryContext storyContext;
+
+    public StoryController(Menu menu, StoryConfiguration configuration,
+			StoryParser storyParser, StoryRunner storyRunner,
 			CandidateSteps... steps) {
 		super(menu);
-		this.scenarioParser = scenarioParser;
-		this.scenarioRunner = scenarioRunner;
+		this.storyParser = storyParser;
+		this.storyRunner = storyRunner;
 		this.steps = steps;
 		this.outputStream = new ByteArrayOutputStream();
         final Properties properties = new Properties();
@@ -48,10 +48,10 @@ public class ScenarioController extends MenuAwareController {
 						outputStream), properties, keywords, reportErrors);
 			}
 		};
-		this.scenarioContext = new ScenarioContext();
+		this.storyContext = new StoryContext();
 	}
-	
-	@ActionMethod(asDefault = true)
+
+    @ActionMethod(asDefault = true)
 	public void show() {
 		// no-op
 	}
@@ -59,28 +59,28 @@ public class ScenarioController extends MenuAwareController {
 	@ActionMethod(asDefault = false)
 	@PRG(false)
 	public void run() {
-		if (isNotBlank(scenarioContext.getInput())) {
+		if (isNotBlank(storyContext.getInput())) {
 			try {
 				outputStream.reset();
-				scenarioContext.clearFailureCause();
-				scenarioRunner.run(defineStory(), configuration, true, steps);
+				storyContext.clearFailureCause();
+				storyRunner.run(defineStory(), configuration, true, steps);
 			} catch (Throwable e) {
-				scenarioContext.runFailedFor(e);
+				storyContext.runFailedFor(e);
 			}
-			scenarioContext.setOutput(outputStream.toString());
+			storyContext.setOutput(outputStream.toString());
 		}
 	}
 
 	private Story defineStory() {
-		return scenarioParser.defineStoryFrom(scenarioContext.getInput());
+		return storyParser.defineStoryFrom(storyContext.getInput());
 	}
 
-	public ScenarioContext getScenarioContext() {
-		return scenarioContext;
+	public StoryContext getStoryContext() {
+		return storyContext;
 	}
 
-	public void setScenarioContext(ScenarioContext scenarioContext) {
-		this.scenarioContext = scenarioContext;
+	public void setStoryContext(StoryContext storyContext) {
+		this.storyContext = storyContext;
 	}
 
 }

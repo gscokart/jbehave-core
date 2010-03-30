@@ -1,6 +1,5 @@
 package org.jbehave.web.runner.waffle.controllers;
 
-import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -16,11 +15,11 @@ import org.jbehave.core.annotations.When;
 import org.jbehave.core.parser.PatternStoryParser;
 import org.jbehave.core.parser.StoryParser;
 import org.jbehave.core.steps.Steps;
-import org.jbehave.web.runner.waffle.controllers.ScenarioController;
+import org.jbehave.web.runner.waffle.controllers.StoryController;
 import org.junit.Test;
 
 
-public class ScenarioControllerTest {
+public class StoryControllerTest {
 
 	private static final String NL = "\n";
 
@@ -30,51 +29,51 @@ public class ScenarioControllerTest {
 	private final StoryRunner runner = new StoryRunner();
 
 	@Test
-	public void canRunSuccessfulScenario(){
-		ScenarioController controller = new ScenarioController(MENU, configuration, parser, runner, new MySteps());
-		String scenarioInput = "Scenario: A simple test" + NL
+	public void canRunSuccessfulStory(){
+		StoryController controller = new StoryController(MENU, configuration, parser, runner, new MySteps());
+		String input = "Scenario: A simple test" + NL
 						+ NL
 						+ "Given a test" + NL
 						+ "When a test is executed" + NL
 						+ "Then a tester is a happy hopper";
-		String scenarioOutput = "Scenario: A simple test" + NL
+		String output = "Scenario: A simple test" + NL
 						+ "Given a test" + NL
 						+ "When a test is executed" + NL
 						+ "Then a tester is a happy hopper";
-		controller.getScenarioContext().setInput(scenarioInput);
+		controller.getStoryContext().setInput(input);
 		controller.run();
-		assertLinesMatch(scenarioOutput, controller.getScenarioContext().getOutput().trim());
-		assertEquals(0, controller.getScenarioContext().getFailureMessages().size());
-		assertEquals("", controller.getScenarioContext().getFailureStackTrace());
+		assertLinesMatch(output, controller.getStoryContext().getOutput().trim());
+		assertEquals(0, controller.getStoryContext().getFailureMessages().size());
+		assertEquals("", controller.getStoryContext().getFailureStackTrace());
 	}
 
 	@Test
-	public void canRunFailingScenario(){
-		ScenarioController controller = new ScenarioController(MENU, configuration, parser, runner, new MySteps());
-		String scenarioInput = "Scenario: A simple test" + NL
+	public void canRunFailingStory(){
+		StoryController controller = new StoryController(MENU, configuration, parser, runner, new MySteps());
+		String input = "Scenario: A simple test" + NL
 						+ "Given a test" + NL
 						+ "When a test fails" + NL
 						+ "Then a tester is a happy hopper"; 
-		String scenarioOutput = "Scenario: A simple test" + NL
+		String output = "Scenario: A simple test" + NL
 						+ "Given a test" + NL
 						+ "When a test fails (FAILED)" + NL
 						+ "Then a tester is a happy hopper (NOT PERFORMED)"; 
-		controller.getScenarioContext().setInput(scenarioInput);
+		controller.getStoryContext().setInput(input);
 		controller.run();
-		assertLinesMatch(scenarioOutput, controller.getScenarioContext().getOutput().trim());
-		assertTrue(controller.getScenarioContext().getFailureMessages().contains("Test failed"));
-		assertTrue(controller.getScenarioContext().getFailureStackTrace().contains("java.lang.RuntimeException: Test failed"));
+		assertLinesMatch(output, controller.getStoryContext().getOutput().trim());
+		assertTrue(controller.getStoryContext().getFailureMessages().contains("Test failed"));
+		assertTrue(controller.getStoryContext().getFailureStackTrace().contains("java.lang.RuntimeException: Test failed"));
 	}
 
     @Test
-    public void canChangeScenarioContextMethod(){
-        ScenarioController controller = new ScenarioController(MENU, configuration, parser, runner, new MySteps());
-        ScenarioContext scenarioContext = controller.getScenarioContext();
-        List<String> methods = scenarioContext.getMethods();
-        assertEquals(methods.get(0), scenarioContext.getMethod());
-        scenarioContext.setMethod(methods.get(1));
+    public void canChangeContextMethod(){
+        StoryController controller = new StoryController(MENU, configuration, parser, runner, new MySteps());
+        StoryContext storyContext = controller.getStoryContext();
+        List<String> methods = storyContext.getMethods();
+        assertEquals(methods.get(0), storyContext.getMethod());
+        storyContext.setMethod(methods.get(1));
         controller.show();
-        assertEquals(methods.get(1), scenarioContext.getMethod());
+        assertEquals(methods.get(1), storyContext.getMethod());
     }	
 	
 	private void assertLinesMatch(String expected, String actual) {
