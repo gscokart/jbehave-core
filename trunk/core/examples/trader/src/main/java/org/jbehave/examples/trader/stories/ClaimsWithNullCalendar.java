@@ -7,12 +7,9 @@ import static org.jbehave.core.reporters.StoryReporterBuilder.Format.XML;
 
 import java.util.Calendar;
 
-import org.jbehave.core.StoryConfiguration;
+import org.jbehave.core.*;
 import org.jbehave.core.parser.*;
 import org.jbehave.examples.trader.converters.CalendarConverter;
-import org.jbehave.core.JUnitStory;
-import org.jbehave.core.PropertyBasedStoryConfiguration;
-import org.jbehave.core.RunnableStory;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Named;
 import org.jbehave.core.annotations.Then;
@@ -28,30 +25,16 @@ import org.jbehave.core.steps.StepsFactory;
 
 public class ClaimsWithNullCalendar extends JUnitStory {
 
-    private static StoryNameResolver converter = new UnderscoredCamelCaseResolver(".story");
-
-    public ClaimsWithNullCalendar(){
-        this(ClaimsWithNullCalendar.class);
-    }
-
-    public ClaimsWithNullCalendar(final Class<? extends RunnableStory> scenarioClass) {
-        StoryConfiguration storyConfiguration = new PropertyBasedStoryConfiguration() {
-            @Override
-            public StoryDefiner forDefiningStories() {
-                return new ClasspathStoryDefiner(converter, new PatternStoryParser(keywords()));
-            }
-
-            @Override
-            public StoryReporter forReportingStories() {
-                return new StoryReporterBuilder(new FilePrintStreamFactory(scenarioClass, converter))
-                        .with(CONSOLE)
-                        .with(TXT)
-                        .with(HTML)
-                        .with(XML)
-                        .build();
-            }
-
-        };
+    public ClaimsWithNullCalendar() {
+        StoryConfiguration storyConfiguration = new MostUsefulStoryConfiguration();
+        StoryNameResolver nameResolver = new UnderscoredCamelCaseResolver(".story");
+        storyConfiguration.useStoryDefiner(new ClasspathStoryDefiner(nameResolver, new PatternStoryParser(storyConfiguration.keywords()), this.getClass().getClassLoader()));
+        storyConfiguration.useStoryReporter(new StoryReporterBuilder(new FilePrintStreamFactory(ClaimsWithNullCalendar.class, nameResolver))
+                .with(CONSOLE)
+                .with(TXT)
+                .with(HTML)
+                .with(XML)
+                .build());
         useConfiguration(storyConfiguration);
 
         StepsConfiguration stepsConfiguration = new StepsConfiguration();

@@ -19,26 +19,16 @@ import org.jbehave.core.steps.StepsFactory;
 
 public class PriorityMatching extends JUnitStory {
 
-    private static StoryNameResolver resolver = new UnderscoredCamelCaseResolver(".story");
-
     public PriorityMatching() {
-         StoryConfiguration storyConfiguration = new MostUsefulStoryConfiguration() {
-            @Override
-            public StoryDefiner forDefiningStories() {
-                return new ClasspathStoryDefiner(resolver, new PatternStoryParser(keywords()));
-            }
-
-            @Override
-            public StoryReporter forReportingStories() {
-                return new StoryReporterBuilder(new FilePrintStreamFactory(PriorityMatching.class, resolver))
-                        .with(CONSOLE)
-                        .with(TXT)
-                        .with(HTML)
-                        .with(XML)
-                        .build();
-            }
-
-        };
+        StoryConfiguration storyConfiguration = new MostUsefulStoryConfiguration();
+        StoryNameResolver nameResolver = new UnderscoredCamelCaseResolver(".story");
+        storyConfiguration.useStoryDefiner(new ClasspathStoryDefiner(nameResolver, new PatternStoryParser(storyConfiguration.keywords()), this.getClass().getClassLoader()));
+        storyConfiguration.useStoryReporter(new StoryReporterBuilder(new FilePrintStreamFactory(PriorityMatching.class, nameResolver))
+                .with(CONSOLE)
+                .with(TXT)
+                .with(HTML)
+                .with(XML)
+                .build());
         useConfiguration(storyConfiguration);
 
         StepsConfiguration stepsConfiguration = new StepsConfiguration();
