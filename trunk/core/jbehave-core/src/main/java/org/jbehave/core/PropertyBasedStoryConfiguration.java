@@ -18,7 +18,7 @@ import org.jbehave.core.steps.StepdocGenerator;
  *   <li>PropertyBasedStoryConfiguration.OUTPUT_ALL:  uses PrintStreamStoryReporter as StoryReporter</li>
  * </ul>
  */
-public class PropertyBasedStoryConfiguration implements StoryConfiguration {
+public class PropertyBasedStoryConfiguration extends StoryConfiguration {
 
     public static final String FAIL_ON_PENDING = "org.jbehave.failonpending";
     public static final String OUTPUT_ALL = "org.jbehave.outputall";

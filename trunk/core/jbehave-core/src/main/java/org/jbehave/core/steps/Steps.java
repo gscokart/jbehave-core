@@ -90,40 +90,6 @@ public class Steps implements CandidateSteps {
     }
 
     /**
-     * Creates Steps with all default configuration except for custom starting
-     * keywords
-     * 
-     * @param keywords the KeyWords which hold the words with which we expect
-     *            steps in the stories to start
-     */
-    public Steps(KeyWords keywords) {
-        this(new StepsConfiguration(keywords));
-    }
-
-    /**
-     * Creates Steps with all default configuration except for custom starting
-     * keywords
-     * 
-     * @param startingWords the words with which we expect steps in the
-     *            stories to start
-     * @deprecated Use Steps(KeyWords)
-     */
-    public Steps(String... startingWords) {
-        this(new StepsConfiguration(startingWords));
-    }
-
-    /**
-     * Creates Steps with all default dependencies except for custom parameter
-     * converters.
-     * 
-     * @param converters a set of converters which can change strings into other
-     *            objects to pass into executable steps
-     */
-    public Steps(ParameterConverters converters) {
-        this(new StepsConfiguration(converters));
-    }
-
-    /**
      * Creates Steps with given custom configuration
      * 
      * @param configuration the StepsConfiguration

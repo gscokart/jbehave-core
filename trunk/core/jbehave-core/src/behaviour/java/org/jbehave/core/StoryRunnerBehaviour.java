@@ -327,7 +327,7 @@ public class StoryRunnerBehaviour {
     private StoryConfiguration configurationWith(final StoryDefiner definer, final StoryReporter reporter,
             final StepCreator creator, final ErrorStrategy errorStrategy, final PendingErrorStrategy pendingStrategy) {
 
-        return new PropertyBasedStoryConfiguration() {
+        return new MostUsefulStoryConfiguration() {
             @Override
             public StoryDefiner forDefiningStories() {
                 return definer;

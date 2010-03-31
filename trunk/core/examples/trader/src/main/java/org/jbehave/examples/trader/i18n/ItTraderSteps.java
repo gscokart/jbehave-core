@@ -16,14 +16,9 @@ import org.jbehave.core.i18n.StringEncoder;
 import org.jbehave.core.steps.Steps;
 import org.jbehave.core.steps.StepsConfiguration;
 
-public class ItTraderSteps extends Steps {
+public class ItTraderSteps {
 
     private Stock stock;
-
-    public ItTraderSteps(ClassLoader classLoader) {
-    	// Use Italian for keywords
-        super(new StepsConfiguration(keywordsFor(new Locale("it"), classLoader)));
-    }
 
     @Given("ho un'azione con simbolo $symbol e una soglia di $threshold")
     public void aStock(@Named("symbol") String symbol, @Named("threshold") double threshold) {
@@ -40,8 +35,6 @@ public class ItTraderSteps extends Steps {
         ensureThat(stock.getStatus().name(), equalTo(status));
     }
 
-	protected static KeyWords keywordsFor(Locale locale, ClassLoader classLoader) {
-		return new I18nKeyWords(locale, new StringEncoder(), "org/jbehave/examples/trader/i18n/keywords", classLoader);
-	}
+
 
 }

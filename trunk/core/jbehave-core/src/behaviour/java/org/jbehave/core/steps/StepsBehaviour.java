@@ -168,7 +168,9 @@ public class StepsBehaviour {
 
     @Test
     public void shouldAllowI18nOfSteps(){
-    	I18nSteps steps = new I18nSteps(new I18nKeyWords(new Locale("it")));
+        StepsConfiguration configuration = new StepsConfiguration();
+        configuration.useKeyWords(new I18nKeyWords(new Locale("it")));
+    	I18nSteps steps = new I18nSteps(configuration);
         CandidateStep[] candidateSteps = steps.getSteps();
         ensureThat(candidateSteps.length, equalTo(3));
 
@@ -183,7 +185,9 @@ public class StepsBehaviour {
 
     @Test(expected=StartingWordNotFound.class)
     public void shouldNotCreateStepIfStartingWordNotFound(){
-    	I18nSteps steps = new I18nSteps(new I18nKeyWords(new Locale("it")));
+        StepsConfiguration configuration = new StepsConfiguration();
+        configuration.useKeyWords(new I18nKeyWords(new Locale("it")));
+    	I18nSteps steps = new I18nSteps(configuration);
         CandidateStep[] candidateSteps = steps.getSteps();
         ensureThat(candidateSteps.length, equalTo(3));
 
@@ -339,8 +343,8 @@ public class StepsBehaviour {
         private int whens;
         private int thens;
 
-        public I18nSteps(I18nKeyWords keywords) {
-        	super(keywords);
+        public I18nSteps(StepsConfiguration configuration) {
+        	super(configuration);
 		}
 
 		@org.jbehave.core.annotations.Given("un dato che")
