@@ -26,15 +26,24 @@ import org.jbehave.core.steps.StepsFactory;
 public class ClaimsWithNullCalendar extends JUnitStory {
 
     public ClaimsWithNullCalendar() {
-        StoryConfiguration storyConfiguration = new MostUsefulStoryConfiguration();
-        StoryNameResolver nameResolver = new UnderscoredCamelCaseResolver(".story");
-        storyConfiguration.useStoryDefiner(new ClasspathStoryDefiner(nameResolver, new PatternStoryParser(storyConfiguration.keywords()), this.getClass().getClassLoader()));
-        storyConfiguration.useStoryReporter(new StoryReporterBuilder(new FilePrintStreamFactory(ClaimsWithNullCalendar.class, nameResolver))
+        // here we show how we can override the default configuration via an inner class
+        final StoryNameResolver nameResolver = new UnderscoredCamelCaseResolver(".story");
+        StoryConfiguration storyConfiguration = new MostUsefulStoryConfiguration(){
+            @Override
+            public StoryDefiner forDefiningStories() {
+                return new ClasspathStoryDefiner(nameResolver, new PatternStoryParser(keywords()), this.getClass().getClassLoader());
+            }
+
+            @Override
+            public StoryReporter forReportingStories() {
+                return new StoryReporterBuilder(new FilePrintStreamFactory(ClaimsWithNullCalendar.class, nameResolver))
                 .with(CONSOLE)
                 .with(TXT)
                 .with(HTML)
                 .with(XML)
-                .build());
+                .build();
+            }
+        };
         useConfiguration(storyConfiguration);
 
         StepsConfiguration stepsConfiguration = new StepsConfiguration();
