@@ -13,7 +13,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class PropertyBasedConfigurationBehaviour {
+public class PropertyBasedStoryConfigurationBehaviour {
 
     private String originalFailOnPending;
     private String originalOutputAll;
