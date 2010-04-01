@@ -43,7 +43,7 @@ public class StoryController extends MenuAwareController {
         final KeyWords keywords = configuration.keywords();
         final boolean reportErrors = false;
 		this.configuration = new PropertyBasedStoryConfiguration(configuration) {
-			public StoryReporter forReportingStories() {
+			public StoryReporter storyReporter() {
 				return new PrintStreamStoryReporter(new PrintStream(
 						outputStream), properties, keywords, reportErrors);
 			}
