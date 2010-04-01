@@ -10,7 +10,7 @@ import org.jbehave.core.steps.StepCreator;
 import org.jbehave.core.steps.StepdocGenerator;
 
 /**
- * Decorator of StoryConfiguration that disabled mutability of configuration elements.
+ * Decorator of StoryConfiguration that disables mutability of configuration elements.
  */
 public class ImmutableStoryConfiguration extends StoryConfiguration {
 

@@ -143,7 +143,7 @@ public class Steps implements CandidateSteps {
     }
 
     private String encode(String value) {
-        return configuration.getKeywords().encode(value);
+        return configuration.keywords().encode(value);
     }
 
     private void createCandidateStep(List<CandidateStep> steps, Method method, StepType stepType,

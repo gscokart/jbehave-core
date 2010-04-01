@@ -133,7 +133,7 @@ public abstract class StepsConfiguration {
         return startingWordsByType;
     }
 
-    public KeyWords getKeywords() {
+    public KeyWords keywords() {
         return keywords;
     }
 
