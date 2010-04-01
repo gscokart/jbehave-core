@@ -63,16 +63,14 @@ public class StoryController extends MenuAwareController {
 			try {
 				outputStream.reset();
 				storyContext.clearFailureCause();
-				storyRunner.run(defineStory(), configuration, true, steps);
+                // run story 
+                Story story = storyParser.defineStoryFrom(storyContext.getInput());
+				storyRunner.run(configuration, story, steps);
 			} catch (Throwable e) {
 				storyContext.runFailedFor(e);
 			}
 			storyContext.setOutput(outputStream.toString());
 		}
-	}
-
-	private Story defineStory() {
-		return storyParser.defineStoryFrom(storyContext.getInput());
 	}
 
 	public StoryContext getStoryContext() {

@@ -5,9 +5,9 @@ import static org.jbehave.core.reporters.StoryReporterBuilder.Format.HTML;
 import static org.jbehave.core.reporters.StoryReporterBuilder.Format.TXT;
 import static org.jbehave.core.reporters.StoryReporterBuilder.Format.XML;
 
+import org.jbehave.core.JUnitStory;
 import org.jbehave.core.MostUsefulStoryConfiguration;
 import org.jbehave.core.StoryConfiguration;
-import org.jbehave.core.JUnitStory;
 import org.jbehave.core.parser.*;
 import org.jbehave.core.steps.MostUsefulStepsConfiguration;
 import org.jbehave.examples.trader.PriorityMatchingSteps;

@@ -13,7 +13,9 @@ import org.jbehave.core.steps.StepCreator;
 import org.jbehave.core.steps.StepdocGenerator;
 import org.jbehave.core.steps.UnmatchedToPendingStepCreator;
 
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * <p>
@@ -70,6 +72,10 @@ public abstract class StoryConfiguration {
      * passing stories.
      */
     private StoryReporter storyReporter = new PassSilentlyDecorator(new PrintStreamStoryReporter());
+    /**
+     * Collects story reporters by story path 
+     */
+    private Map<String, StoryReporter> storyReporters = new HashMap<String,  StoryReporter>();
     /**
      * Use default stepdoc generator
      */
@@ -130,6 +136,17 @@ public abstract class StoryConfiguration {
         return storyReporter;
     }
 
+    public StoryReporter storyReporter(String storyPath) {
+        StoryReporter storyReporter = storyReporters.get(storyPath);
+        if (storyReporter != null ){
+            return storyReporter;
+        }
+        // default to configured story reporter
+        // TODO consider merging the two methods
+        return storyReporter();
+    }
+
+
     public KeyWords keywords() {
         return keywords;
     }
@@ -164,6 +181,10 @@ public abstract class StoryConfiguration {
 
     public void useStoryReporter(StoryReporter storyReporter) {
         this.storyReporter = storyReporter;
+    }
+    
+    public void addStoryReporter(String storyPath, StoryReporter storyReporter){
+        this.storyReporters.put(storyPath, storyReporter);
     }
 
     public void useStepdocReporter(StepdocReporter stepdocReporter) {

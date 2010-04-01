@@ -15,25 +15,36 @@ import java.io.PrintStream;
 public class FilePrintStreamFactory implements PrintStreamFactory {
 
     private PrintStream printStream;
-    private Class<? extends RunnableStory> scenarioClass;
+    private Class<? extends RunnableStory> storyClass;
     private StoryNameResolver storyNameResolver;
     private FileConfiguration configuration;
     private File outputFile;
+    private String storyPath;
 
-    public FilePrintStreamFactory(Class<? extends RunnableStory> scenarioClass,
-            StoryNameResolver storyNameResolver) {
-        this(scenarioClass, storyNameResolver, new FileConfiguration());
+    public FilePrintStreamFactory(Class<? extends RunnableStory> storyClass,
+                                  StoryNameResolver storyNameResolver) {
+        this(storyClass, storyNameResolver, new FileConfiguration());
     }
 
-    public FilePrintStreamFactory(Class<? extends RunnableStory> scenarioClass,
-            StoryNameResolver storyNameResolver, FileConfiguration configuration) {
-        this.scenarioClass = scenarioClass;
+    public FilePrintStreamFactory(Class<? extends RunnableStory> storyClass,
+                                  StoryNameResolver storyNameResolver, FileConfiguration configuration) {
+        this.storyClass = storyClass;
         this.storyNameResolver = storyNameResolver;
         this.configuration = configuration;
-        this.outputFile = outputFile(scenarioClass, storyNameResolver, this.configuration);
+        this.outputFile = outputFile();
     }
 
-    public FilePrintStreamFactory(File outputFile) {        
+    public FilePrintStreamFactory(String storyPath) {
+        this(storyPath, new FileConfiguration());
+    }
+
+    public FilePrintStreamFactory(String storyPath, FileConfiguration configuration) {
+        this.storyPath = storyPath;
+        this.configuration = configuration;
+        this.outputFile = outputFile();
+    }
+
+    public FilePrintStreamFactory(File outputFile) {
         this.outputFile = outputFile;
     }
 
@@ -53,27 +64,44 @@ public class FilePrintStreamFactory implements PrintStreamFactory {
 
     public void useConfiguration(FileConfiguration configuration) {
         this.configuration = configuration;
-        this.outputFile = outputFile(scenarioClass, storyNameResolver, configuration);
+        this.outputFile = outputFile();
     }
 
-    protected File outputFile(Class<? extends RunnableStory> scenarioClass, StoryNameResolver storyNameResolver,
-            FileConfiguration configuration) {
-        File outputDirectory = outputDirectory(scenarioClass, configuration);
-        String fileName = fileName(scenarioClass, storyNameResolver, configuration);
+    protected File outputFile() {
+        File outputDirectory = outputDirectory();
+        String fileName = fileName();
         return new File(outputDirectory, fileName);
     }
 
-    protected File outputDirectory(Class<? extends RunnableStory> scenarioClass, FileConfiguration configuration) {
-        String classesDir = scenarioClass.getProtectionDomain().getCodeSource().getLocation().getFile();        
-        File targetDirectory = new File(classesDir).getParentFile();
+    protected File outputDirectory() {
+        File targetDirectory = new File(storyLocation()).getParentFile();
         return new File(targetDirectory, configuration.getDirectory());
     }
 
-    protected String fileName(Class<? extends RunnableStory> scenarioClass, StoryNameResolver storyNameResolver,
-            FileConfiguration configuration) {
-        String scenarioName = storyNameResolver.resolve(scenarioClass).replace('/', '.');
-        String name = scenarioName.substring(0, scenarioName.lastIndexOf("."));
+    private String storyLocation() {
+        String storyLocation = "./";
+        if (storyClass != null ) {
+            storyLocation = storyClass.getProtectionDomain().getCodeSource().getLocation().getFile();
+        } else if ( storyPath != null ){
+            storyLocation = this.getClass().getProtectionDomain().getCodeSource().getLocation().getFile() + storyPath;
+        }
+        return storyLocation;
+    }
+
+    protected String fileName() {
+        String storyName = storyName();
+        String name = storyName.substring(0, storyName.lastIndexOf("."));
         return name + "." + configuration.getExtension();
+    }
+
+    private String storyName() {
+        String storyName = "";
+        if (storyClass != null) {
+            storyName = storyNameResolver.resolve(storyClass);
+        } else if ( storyPath != null ){
+            storyName = storyPath;
+        }
+        return storyName.replace('/', '.');
     }
 
     /**

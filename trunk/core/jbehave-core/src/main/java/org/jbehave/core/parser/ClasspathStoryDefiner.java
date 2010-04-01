@@ -1,13 +1,14 @@
 package org.jbehave.core.parser;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
 import org.jbehave.core.RunnableStory;
+import org.jbehave.core.errors.InvalidStoryResourceException;
 import org.jbehave.core.model.Story;
-import org.jbehave.core.errors.InvalidScenarioResourceException;
-import org.jbehave.core.errors.ScenarioNotFoundException;
+import org.jbehave.core.errors.StoryNotFoundException;
 
 /**
  * Defines stories from classpath resources, which are handled by the
@@ -43,21 +44,25 @@ public class ClasspathStoryDefiner implements StoryDefiner {
         this.classLoader = classLoader;
     }
 
-    public Story defineStory(Class<? extends RunnableStory> scenarioClass) {
-        String storyPath = resolver.resolve(scenarioClass);
+    public Story defineStory(Class<? extends RunnableStory> storyClass) {
+        String storyPath = resolver.resolve(storyClass);
         String wholeStoryAsString = asString(loadInputStreamFor(storyPath));
-        return parser.defineStoryFrom(wholeStoryAsString, storyPath);
+        Story story = parser.defineStoryFrom(wholeStoryAsString, storyPath);
+        story.namedAs(storyClass.getSimpleName());
+        return story;
     }
 
 	public Story defineStory(String storyPath) {
         String wholeStoryAsString = asString(loadInputStreamFor(storyPath));
-        return parser.defineStoryFrom(wholeStoryAsString, storyPath);
+        Story story = parser.defineStoryFrom(wholeStoryAsString, storyPath);
+        story.namedAs(new File(storyPath).getName());
+        return story;
 	}
 
 	private InputStream loadInputStreamFor(String path) {
 		InputStream stream = classLoader.getResourceAsStream(path);
         if (stream == null) {
-            throw new ScenarioNotFoundException("Path '" + path + "' could not be found by classloader "
+            throw new StoryNotFoundException("Path '" + path + "' could not be found by classloader "
                     + classLoader);
         }
         return stream;
@@ -71,7 +76,7 @@ public class ClasspathStoryDefiner implements StoryDefiner {
             output.write(bytes);
             return output.toString();
         } catch (IOException e) {
-            throw new InvalidScenarioResourceException("Failed to convert input resource to string", e);
+            throw new InvalidStoryResourceException("Failed to convert input resource to string", e);
         }
     }
 

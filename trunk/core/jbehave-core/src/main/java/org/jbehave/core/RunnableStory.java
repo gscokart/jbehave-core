@@ -20,7 +20,7 @@ import org.jbehave.core.steps.CandidateSteps;
 public interface RunnableStory {
 
     void runStory() throws Throwable;
-
+   
     void useConfiguration(StoryConfiguration configuration);
     
     StoryConfiguration getConfiguration();
