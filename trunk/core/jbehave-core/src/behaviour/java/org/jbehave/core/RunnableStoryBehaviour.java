@@ -59,6 +59,20 @@ public class RunnableStoryBehaviour {
 
     }
 
+
+    @Test(expected= InvalidRunnableStoryException.class)
+    public void shouldFailIfUsingInvalidDelegator() throws Throwable {
+        // Given
+        StoryRunner runner = mock(StoryRunner.class);
+        StoryConfiguration configuration = mock(StoryConfiguration.class);
+        CandidateSteps steps = mock(CandidateSteps.class);
+
+        // When
+        MyInvalidDelegator story = new MyInvalidDelegator();
+        story.runStory();
+
+    }
+
     @Test
     public void shouldAllowOverrideOfDefaultConfiguration() throws Throwable {
         // Given
@@ -141,4 +155,9 @@ public class RunnableStoryBehaviour {
             return null;
         }
     }
+
+    private class MyInvalidDelegator extends RunnableStoryDelegator {
+        // not delegating to anything, defaults to no-op impl
+    }
+
 }
