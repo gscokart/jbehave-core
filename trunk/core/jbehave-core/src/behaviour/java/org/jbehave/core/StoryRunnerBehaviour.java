@@ -74,7 +74,7 @@ public class StoryRunnerBehaviour {
         // When
         ErrorStrategy errorStrategy = mock(ErrorStrategy.class);
         StoryRunner runner = new StoryRunner();
-        runner.run(story, configurationWith(reporter, creator, errorStrategy), embeddedStory, mySteps);
+        runner.run(configurationWith(reporter, creator, errorStrategy), story, embeddedStory, mySteps);
 
         // Then
         InOrder inOrder = inOrder(reporter, errorStrategy);
@@ -131,7 +131,7 @@ public class StoryRunnerBehaviour {
 
         // When
         StoryRunner runner = new StoryRunner();
-        runner.run(story2, configurationWith(storyDefiner, reporter, creator, errorStrategy), embeddedStory,
+        runner.run(configurationWith(storyDefiner, reporter, creator, errorStrategy), story2, embeddedStory,
                 mySteps);
 
         // Then
@@ -167,7 +167,7 @@ public class StoryRunnerBehaviour {
 
         // When
         StoryRunner runner = new StoryRunner();
-        runner.run(story, configurationWith(reporter, creator), embeddedStory,
+        runner.run(configurationWith(reporter, creator), story, embeddedStory,
                 mySteps);
 
         // Then
@@ -203,7 +203,7 @@ public class StoryRunnerBehaviour {
 
         // When
         StoryRunner runner = new StoryRunner();
-        runner.run(story, configurationWith(reporter, creator, errorStrategy), false, mySteps);
+        runner.run(configurationWith(reporter, creator, errorStrategy), story, false, mySteps);
 
         // Then
         verify(firstStepExceptional).perform();
@@ -240,7 +240,7 @@ public class StoryRunnerBehaviour {
 
         // When
         StoryRunner runner = new StoryRunner();
-        runner.run(story, configurationWith(reporter, creator), embeddedStory, mySteps);
+        runner.run(configurationWith(reporter, creator), story, embeddedStory, mySteps);
 
         // Then
         verify(pendingStep).perform();
@@ -265,7 +265,7 @@ public class StoryRunnerBehaviour {
 
         // When
         StoryRunner runner = new StoryRunner();
-        runner.run(story, configurationWith(reporter, creator), embeddedStory, mySteps);
+        runner.run(configurationWith(reporter, creator), story, embeddedStory, mySteps);
 
         // Then
         verify(beforeStep).perform();
@@ -292,8 +292,8 @@ public class StoryRunnerBehaviour {
 
         // When
         StoryRunner runner = new StoryRunner();
-        runner.run(story, configurationWithPendingStrategy(creator, reporter,
-                strategy), embeddedStory, mySteps);
+        runner.run(configurationWithPendingStrategy(creator, reporter,
+                strategy), story, embeddedStory, mySteps);
 
         // Then
         verify(strategy).handleError(pendingResult.getThrowable());

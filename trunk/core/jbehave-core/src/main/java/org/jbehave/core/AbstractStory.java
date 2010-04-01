@@ -13,7 +13,7 @@ import org.jbehave.core.steps.Stepdoc;
  * <p>
  * Abstract implementation of RunnableStory which is primarily intended as a base
  * class for delegate implementations of RunnableStory. As such, it has no explicit
- * supports for any test framework, ie it requires the {@link org.jbehave.core.RunnableStory#runStory()}
+ * supports for any test framework, ie it requires the {@link RunnableStory#runStory()}
  * method to be invoked directly, and the class of the story being run needs
  * to be provided explicitly.
  * </p>
@@ -54,7 +54,7 @@ public abstract class AbstractStory implements RunnableStory {
 
     public void runStory() throws Throwable {
         CandidateSteps[] steps = candidateSteps.toArray(new CandidateSteps[candidateSteps.size()]);
-        storyRunner.run(storyClass, configuration, steps);
+        storyRunner.run(configuration, storyClass, steps);
     }
 
     public void useConfiguration(StoryConfiguration configuration) {

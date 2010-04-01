@@ -23,7 +23,7 @@ public class RunnableStoryBehaviour {
         story.runStory();
 
         // Then
-        verify(runner).run(storyClass, configuration, steps);
+        verify(runner).run(configuration, storyClass, steps);
     }
     
     @Test
@@ -42,7 +42,7 @@ public class RunnableStoryBehaviour {
 
         // Then
         ensureThat(!(story.getConfiguration() instanceof PropertyBasedStoryConfiguration));
-        verify(runner).run(storyClass, configuration, steps);
+        verify(runner).run(configuration, storyClass, steps);
     }
 
     
@@ -60,7 +60,7 @@ public class RunnableStoryBehaviour {
         story.runStory();
 
         // Then
-        verify(runner).run(storyClass, configuration, steps);
+        verify(runner).run(configuration, storyClass, steps);
     }
 
     private class MyStory extends JUnitStory {

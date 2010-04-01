@@ -1,6 +1,5 @@
 package org.jbehave.core;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,18 +34,22 @@ public class StoryRunner {
     private Throwable throwable;
     private StepCreator stepCreator;
 
-    public void run(Class<? extends RunnableStory> storyClass, StoryConfiguration configuration, CandidateSteps... candidateSteps) throws Throwable {
+    public void run(StoryConfiguration configuration, Class<? extends RunnableStory> storyClass, CandidateSteps... candidateSteps) throws Throwable {
 		Story story = configuration.storyDefiner().defineStory(storyClass);
-	    // always start in a non-embedded mode
-        run(story, configuration, false, candidateSteps);
+        run(configuration, story, candidateSteps);
     }
 
-    public void run(String storyPath, StoryConfiguration configuration, boolean embeddedStory, CandidateSteps... candidateSteps) throws Throwable {
+    public void run(StoryConfiguration configuration, String storyPath, boolean embeddedStory, CandidateSteps... candidateSteps) throws Throwable {
 		Story story = configuration.storyDefiner().defineStory(storyPath);
-		run(story, configuration, embeddedStory, candidateSteps);
+		run(configuration, story, embeddedStory, candidateSteps);
     }    
 
-    public void run(Story story, StoryConfiguration configuration, boolean embeddedStory, CandidateSteps... candidateSteps) throws Throwable {
+    public void run(StoryConfiguration configuration, Story story, CandidateSteps... candidateSteps) throws Throwable {
+        // always start in a non-embedded mode
+        run(configuration, story, false, candidateSteps);
+    }
+
+    public void run(StoryConfiguration configuration, Story story, boolean embeddedStory, CandidateSteps... candidateSteps) throws Throwable {
         stepCreator = configuration.stepCreator();
         reporter = configuration.storyReporter();
         pendingStepStrategy = configuration.pendingErrorStrategy();
@@ -79,7 +82,7 @@ public class StoryRunner {
 			reporter.givenStories(givenScenarios);
 			for ( String storyPath : givenScenarios ){
 			    // run in embedded mode
-				run(storyPath, configuration, true, candidateSteps);
+				run(configuration, storyPath, true, candidateSteps);
 			}
 		}
 	}
