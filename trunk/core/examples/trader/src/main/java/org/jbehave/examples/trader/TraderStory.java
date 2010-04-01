@@ -8,7 +8,6 @@ import static org.jbehave.core.reporters.StoryReporterBuilder.Format.XML;
 
 import org.jbehave.core.*;
 import org.jbehave.core.parser.*;
-import org.jbehave.core.reporters.StoryReporter;
 import org.jbehave.examples.trader.converters.TraderConverter;
 import org.jbehave.examples.trader.model.Stock;
 import org.jbehave.examples.trader.model.Trader;

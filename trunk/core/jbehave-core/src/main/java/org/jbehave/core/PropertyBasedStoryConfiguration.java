@@ -41,9 +41,9 @@ public class PropertyBasedStoryConfiguration extends StoryConfiguration {
      * to see the steps for all stories, regardless
      * of whether the stories fail.
      */
-    public StoryReporter forReportingStories() {
+    public StoryReporter storyReporter() {
         if (System.getProperty(OUTPUT_ALL) == null) {
-            return defaultConfiguration.forReportingStories();
+            return defaultConfiguration.storyReporter();
         } else {
             return new PrintStreamStoryReporter();
         }
@@ -52,8 +52,8 @@ public class PropertyBasedStoryConfiguration extends StoryConfiguration {
     /**
      * Returns the default StoryDefiner.
      */
-    public StoryDefiner forDefiningStories() {
-        return defaultConfiguration.forDefiningStories();
+    public StoryDefiner storyDefiner() {
+        return defaultConfiguration.storyDefiner();
     }
 
     /**
@@ -66,9 +66,9 @@ public class PropertyBasedStoryConfiguration extends StoryConfiguration {
      * so you can see if any steps don't match or are
      * still to be implemented.
      */
-    public PendingErrorStrategy forPendingSteps() {
+    public PendingErrorStrategy pendingErrorStrategy() {
         if (System.getProperty(FAIL_ON_PENDING) == null) {
-            return defaultConfiguration.forPendingSteps();
+            return defaultConfiguration.pendingErrorStrategy();
         }
         return PendingErrorStrategy.FAILING;
     }
@@ -76,16 +76,16 @@ public class PropertyBasedStoryConfiguration extends StoryConfiguration {
     /**
      * Returns the default StepCreator.
      */
-    public StepCreator forCreatingSteps() {
-        return defaultConfiguration.forCreatingSteps();
+    public StepCreator stepCreator() {
+        return defaultConfiguration.stepCreator();
     }
 
     /**
      * Returns the default ErrorStrategy for handling
      * errors.
      */
-    public ErrorStrategy forHandlingErrors() {
-        return defaultConfiguration.forHandlingErrors();
+    public ErrorStrategy errorStrategy() {
+        return defaultConfiguration.errorStrategy();
     }
 
     /**
@@ -95,12 +95,12 @@ public class PropertyBasedStoryConfiguration extends StoryConfiguration {
         return defaultConfiguration.keywords();
     }
 
-	public StepdocGenerator forGeneratingStepdoc() {		
-		return defaultConfiguration.forGeneratingStepdoc();
+	public StepdocGenerator stepdocGenerator() {
+		return defaultConfiguration.stepdocGenerator();
 	}
 
-	public StepdocReporter forReportingStepdoc() {
-		return defaultConfiguration.forReportingStepdoc();
+	public StepdocReporter stepdocReporter() {
+		return defaultConfiguration.stepdocReporter();
 	}
 
 }

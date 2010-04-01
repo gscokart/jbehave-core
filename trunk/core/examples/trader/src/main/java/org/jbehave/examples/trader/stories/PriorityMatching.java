@@ -9,7 +9,6 @@ import org.jbehave.core.MostUsefulStoryConfiguration;
 import org.jbehave.core.StoryConfiguration;
 import org.jbehave.core.JUnitStory;
 import org.jbehave.core.parser.*;
-import org.jbehave.core.reporters.StoryReporter;
 import org.jbehave.examples.trader.PriorityMatchingSteps;
 import org.jbehave.core.parser.PatternStoryParser;
 import org.jbehave.core.reporters.FilePrintStreamFactory;

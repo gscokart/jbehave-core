@@ -329,27 +329,27 @@ public class StoryRunnerBehaviour {
 
         return new MostUsefulStoryConfiguration() {
             @Override
-            public StoryDefiner forDefiningStories() {
+            public StoryDefiner storyDefiner() {
                 return definer;
             }
 
             @Override
-            public StepCreator forCreatingSteps() {
+            public StepCreator stepCreator() {
                 return creator;
             }
 
             @Override
-            public StoryReporter forReportingStories() {
+            public StoryReporter storyReporter() {
                 return reporter;
             }
 
             @Override
-            public ErrorStrategy forHandlingErrors() {
+            public ErrorStrategy errorStrategy() {
                 return errorStrategy;
             }
 
             @Override
-            public PendingErrorStrategy forPendingSteps() {
+            public PendingErrorStrategy pendingErrorStrategy() {
                 return pendingStrategy;
             }
         };

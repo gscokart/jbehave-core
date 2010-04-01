@@ -30,12 +30,12 @@ public class ClaimsWithNullCalendar extends JUnitStory {
         final StoryNameResolver nameResolver = new UnderscoredCamelCaseResolver(".story");
         StoryConfiguration storyConfiguration = new MostUsefulStoryConfiguration(){
             @Override
-            public StoryDefiner forDefiningStories() {
+            public StoryDefiner storyDefiner() {
                 return new ClasspathStoryDefiner(nameResolver, new PatternStoryParser(keywords()), this.getClass().getClassLoader());
             }
 
             @Override
-            public StoryReporter forReportingStories() {
+            public StoryReporter storyReporter() {
                 return new StoryReporterBuilder(new FilePrintStreamFactory(ClaimsWithNullCalendar.class, nameResolver))
                 .with(CONSOLE)
                 .with(TXT)

@@ -12,7 +12,6 @@ import java.util.Map;
 
 import org.jbehave.core.model.KeyWords;
 import org.jbehave.core.i18n.I18nKeyWords;
-import org.jbehave.core.i18n.StringEncoder;
 import org.jbehave.core.parser.PrefixCapturingPatternBuilder;
 import org.jbehave.core.parser.StepPatternBuilder;
 
@@ -98,7 +97,7 @@ public class StepsConfiguration {
         return words;
     }
 
-    public StepPatternBuilder getPatternBuilder() {
+    public StepPatternBuilder patternBuilder() {
         return patternBuilder;
     }
 
@@ -106,7 +105,7 @@ public class StepsConfiguration {
         this.patternBuilder = patternBuilder;
     }
 
-    public StepMonitor getMonitor() {
+    public StepMonitor monitor() {
         return monitor;
     }
 
@@ -114,7 +113,7 @@ public class StepsConfiguration {
         this.monitor = monitor;
     }
 
-    public Paranamer getParanamer() {
+    public Paranamer paranamer() {
         return paranamer;
     }
 
@@ -122,7 +121,7 @@ public class StepsConfiguration {
         this.paranamer = paranamer;
     }
 
-    public ParameterConverters getParameterConverters() {
+    public ParameterConverters parameterConverters() {
         return parameterConverters;
     }
 
