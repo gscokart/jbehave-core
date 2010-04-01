@@ -82,8 +82,8 @@ public class FilePrintStreamFactory implements PrintStreamFactory {
         String storyLocation = "./";
         if (storyClass != null ) {
             storyLocation = storyClass.getProtectionDomain().getCodeSource().getLocation().getFile();
-        } else {
-            storyLocation = storyPath;
+        } else if ( storyPath != null ){
+            storyLocation = this.getClass().getProtectionDomain().getCodeSource().getLocation().getFile() + storyPath;
         }
         return storyLocation;
     }
