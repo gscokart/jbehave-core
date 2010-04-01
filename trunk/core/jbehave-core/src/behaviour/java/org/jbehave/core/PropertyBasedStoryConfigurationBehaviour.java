@@ -13,7 +13,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class PropertyBasedConfigurationBehaviour {
+public class PropertyBasedStoryConfigurationBehaviour {
 
     private String originalFailOnPending;
     private String originalOutputAll;
@@ -41,30 +41,30 @@ public class PropertyBasedConfigurationBehaviour {
     @Test
     public void shouldUsePassingPendingStepStrategyByDefault() {
         System.clearProperty(PropertyBasedStoryConfiguration.FAIL_ON_PENDING);
-        ensureThat(new PropertyBasedStoryConfiguration().forPendingSteps(), is(PendingErrorStrategy.PASSING));
+        ensureThat(new PropertyBasedStoryConfiguration().pendingErrorStrategy(), is(PendingErrorStrategy.PASSING));
     }
     
     @Test
     public void shouldUseFailingPendingStepStrategyWhenConfiguredToDoSo() {
         System.setProperty(PropertyBasedStoryConfiguration.FAIL_ON_PENDING, "true");
-        ensureThat(new PropertyBasedStoryConfiguration().forPendingSteps(), is(PendingErrorStrategy.FAILING));
+        ensureThat(new PropertyBasedStoryConfiguration().pendingErrorStrategy(), is(PendingErrorStrategy.FAILING));
     }
     
     @Test
     public void shouldSwallowOutputFromPassingScenariossByDefault() {
         System.clearProperty(PropertyBasedStoryConfiguration.OUTPUT_ALL);
-        ensureThat(new PropertyBasedStoryConfiguration().forReportingStories(), is(PassSilentlyDecorator.class));
+        ensureThat(new PropertyBasedStoryConfiguration().storyReporter(), is(PassSilentlyDecorator.class));
     }
     
     @Test
     public void shouldOutputAllWhenConfiguredToDoSo() {
         System.setProperty(PropertyBasedStoryConfiguration.OUTPUT_ALL, "true");
-        ensureThat(new PropertyBasedStoryConfiguration().forReportingStories(), is(PrintStreamStoryReporter.class));
+        ensureThat(new PropertyBasedStoryConfiguration().storyReporter(), is(PrintStreamStoryReporter.class));
     }
     
     @Test
     public void shouldRethrowErrrors() {
-        ensureThat(new PropertyBasedStoryConfiguration().forHandlingErrors(), equalTo(ErrorStrategy.RETHROW));
+        ensureThat(new PropertyBasedStoryConfiguration().errorStrategy(), equalTo(ErrorStrategy.RETHROW));
     }
     
     @Test

@@ -9,6 +9,7 @@ import java.util.Calendar;
 
 import org.jbehave.core.*;
 import org.jbehave.core.parser.*;
+import org.jbehave.core.steps.*;
 import org.jbehave.examples.trader.converters.CalendarConverter;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Named;
@@ -17,11 +18,6 @@ import org.jbehave.core.parser.PatternStoryParser;
 import org.jbehave.core.reporters.FilePrintStreamFactory;
 import org.jbehave.core.reporters.StoryReporter;
 import org.jbehave.core.reporters.StoryReporterBuilder;
-import org.jbehave.core.steps.ParameterConverters;
-import org.jbehave.core.steps.SilentStepMonitor;
-import org.jbehave.core.steps.StepMonitor;
-import org.jbehave.core.steps.StepsConfiguration;
-import org.jbehave.core.steps.StepsFactory;
 
 public class ClaimsWithNullCalendar extends JUnitStory {
 
@@ -30,12 +26,12 @@ public class ClaimsWithNullCalendar extends JUnitStory {
         final StoryNameResolver nameResolver = new UnderscoredCamelCaseResolver(".story");
         StoryConfiguration storyConfiguration = new MostUsefulStoryConfiguration(){
             @Override
-            public StoryDefiner forDefiningStories() {
+            public StoryDefiner storyDefiner() {
                 return new ClasspathStoryDefiner(nameResolver, new PatternStoryParser(keywords()), this.getClass().getClassLoader());
             }
 
             @Override
-            public StoryReporter forReportingStories() {
+            public StoryReporter storyReporter() {
                 return new StoryReporterBuilder(new FilePrintStreamFactory(ClaimsWithNullCalendar.class, nameResolver))
                 .with(CONSOLE)
                 .with(TXT)
@@ -46,7 +42,7 @@ public class ClaimsWithNullCalendar extends JUnitStory {
         };
         useConfiguration(storyConfiguration);
 
-        StepsConfiguration stepsConfiguration = new StepsConfiguration();
+        StepsConfiguration stepsConfiguration = new MostUsefulStepsConfiguration();
         StepMonitor monitor = new SilentStepMonitor();
 		stepsConfiguration.useParameterConverters(new ParameterConverters(
         		monitor, new CalendarConverter("dd/MM/yyyy"))); 

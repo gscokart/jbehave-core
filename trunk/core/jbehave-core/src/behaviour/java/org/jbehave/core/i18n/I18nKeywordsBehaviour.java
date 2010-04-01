@@ -29,6 +29,7 @@ import java.util.Properties;
 import org.jbehave.core.model.KeyWords;
 import org.jbehave.core.i18n.I18nKeyWords.I18nKeywordNotFoundException;
 import org.jbehave.core.i18n.I18nKeyWords.ResourceBundleNotFoundException;
+import org.jbehave.core.steps.MostUsefulStepsConfiguration;
 import org.jbehave.core.steps.StepType;
 import org.jbehave.core.steps.StepsConfiguration;
 import org.junit.Test;
@@ -59,9 +60,9 @@ public class I18nKeywordsBehaviour {
 
     @Test
     public void shouldAllowKeywordsToBeOverriddenInStepsConfiguration() {
-        StepsConfiguration configuration = new StepsConfiguration();
+        StepsConfiguration configuration = new MostUsefulStepsConfiguration();
         ensureKeywordsAreLocalised(configuration, new Locale("en"));
-        configuration.useKeyWords(new I18nKeyWords(new Locale("it")));
+        configuration.useKeywords(new I18nKeyWords(new Locale("it")));
         ensureKeywordsAreLocalised(configuration, new Locale("it"));
     }
 

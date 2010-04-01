@@ -129,7 +129,7 @@
                 <storyInclude>**/i18n/stories/*.java</storyInclude>
               </storyIncludes>
               <skip>false</skip>
-              <classLoaderInjected>true</classLoaderInjected>
+              <classLoaderInjected>false</classLoaderInjected>
             </configuration>
             <goals>
               <goal>run-stories</goal>

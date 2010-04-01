@@ -168,8 +168,8 @@ public class StepsBehaviour {
 
     @Test
     public void shouldAllowI18nOfSteps(){
-        StepsConfiguration configuration = new StepsConfiguration();
-        configuration.useKeyWords(new I18nKeyWords(new Locale("it")));
+        StepsConfiguration configuration = new MostUsefulStepsConfiguration();
+        configuration.useKeywords(new I18nKeyWords(new Locale("it")));
     	I18nSteps steps = new I18nSteps(configuration);
         CandidateStep[] candidateSteps = steps.getSteps();
         ensureThat(candidateSteps.length, equalTo(3));
@@ -185,8 +185,8 @@ public class StepsBehaviour {
 
     @Test(expected=StartingWordNotFound.class)
     public void shouldNotCreateStepIfStartingWordNotFound(){
-        StepsConfiguration configuration = new StepsConfiguration();
-        configuration.useKeyWords(new I18nKeyWords(new Locale("it")));
+        StepsConfiguration configuration = new MostUsefulStepsConfiguration();
+        configuration.useKeywords(new I18nKeyWords(new Locale("it")));
     	I18nSteps steps = new I18nSteps(configuration);
         CandidateStep[] candidateSteps = steps.getSteps();
         ensureThat(candidateSteps.length, equalTo(3));

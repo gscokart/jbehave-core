@@ -2,7 +2,6 @@ package org.jbehave.core;
 
 import org.jbehave.core.model.KeyWords;
 import org.jbehave.core.errors.ErrorStrategy;
-import org.jbehave.core.errors.ErrorStrategyInWhichWeTrustTheReporter;
 import org.jbehave.core.errors.PendingErrorStrategy;
 import org.jbehave.core.i18n.I18nKeyWords;
 import org.jbehave.core.parser.ClasspathStoryDefiner;

@@ -25,7 +25,6 @@ import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.jbehave.core.annotations.AfterScenario.Outcome;
-import org.jbehave.core.model.KeyWords;
 import org.jbehave.core.errors.BeforeOrAfterException;
 import org.jbehave.core.parser.StepPatternBuilder;
 import org.jbehave.core.reporters.StoryReporter;
@@ -86,7 +85,7 @@ public class Steps implements CandidateSteps {
      * Creates Steps with default configuration
      */
     public Steps() {
-        this(new StepsConfiguration());
+        this(new MostUsefulStepsConfiguration());
     }
 
     /**
@@ -144,22 +143,22 @@ public class Steps implements CandidateSteps {
     }
 
     private String encode(String value) {
-        return configuration.getKeywords().encode(value);
+        return configuration.keywords().encode(value);
     }
 
     private void createCandidateStep(List<CandidateStep> steps, Method method, StepType stepType,
             String stepPatternAsString, int priority) {
         checkForDuplicateCandidateSteps(steps, stepType, stepPatternAsString);
         CandidateStep step = createCandidateStep(method, stepType, stepPatternAsString, priority, configuration);
-        step.useStepMonitor(configuration.getMonitor());
-        step.useParanamer(configuration.getParanamer());
+        step.useStepMonitor(configuration.monitor());
+        step.useParanamer(configuration.paranamer());
         steps.add(step);
     }
 
     protected CandidateStep createCandidateStep(Method method, StepType stepType, String stepPatternAsString, int priority,
             StepsConfiguration configuration) {
         return new CandidateStep(stepPatternAsString, priority, stepType, method, instance,
-                configuration.getPatternBuilder(), configuration.getParameterConverters(), configuration.getStartingWordsByType());
+                configuration.patternBuilder(), configuration.parameterConverters(), configuration.getStartingWordsByType());
     }
 
     private void checkForDuplicateCandidateSteps(List<CandidateStep> steps, StepType stepType, String patternAsString) {

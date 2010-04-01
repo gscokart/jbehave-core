@@ -16,9 +16,10 @@ import org.jbehave.core.steps.UnmatchedToPendingStepCreator;
 import java.util.Locale;
 
 /**
+ * <p>
  * Provides the story configuration used by the {@link StoryRunner} and the
  * in the {@link RunnableStory} implementations to customise its runtime properties.
- * <p/>
+ * </p>
  * <p>
  * StoryConfiguration dependencies can be provided either via constructor or via
  * use* methods, which override the the default values of the
@@ -78,7 +79,6 @@ public abstract class StoryConfiguration {
      */
     private StepdocReporter stepdocReporter = new PrintStreamStepdocReporter(System.out, true);
 
-
     /**
      * Default no-op constructor, uses the default instances defined for member variables.
      */
@@ -109,26 +109,24 @@ public abstract class StoryConfiguration {
     }
 
 
-    public StepCreator forCreatingSteps() {
+    public StepCreator stepCreator() {
         return stepCreator;
     }
 
-    public StoryDefiner forDefiningStories() {
+    public StoryDefiner storyDefiner() {
         return storyDefiner;
     }
 
 
-    public ErrorStrategy forHandlingErrors() {
+    public ErrorStrategy errorStrategy() {
         return errorStrategy;
     }
 
-
-    public PendingErrorStrategy forPendingSteps() {
+    public PendingErrorStrategy pendingErrorStrategy() {
         return pendingErrorStrategy;
     }
 
-
-    public StoryReporter forReportingStories() {
+    public StoryReporter storyReporter() {
         return storyReporter;
     }
 
@@ -136,11 +134,11 @@ public abstract class StoryConfiguration {
         return keywords;
     }
 
-    public StepdocGenerator forGeneratingStepdoc() {
+    public StepdocGenerator stepdocGenerator() {
         return stepdocGenerator;
     }
 
-    public StepdocReporter forReportingStepdoc() {
+    public StepdocReporter stepdocReporter() {
         return stepdocReporter;
     }
 
@@ -167,7 +165,6 @@ public abstract class StoryConfiguration {
     public void useStoryReporter(StoryReporter storyReporter) {
         this.storyReporter = storyReporter;
     }
-
 
     public void useStepdocReporter(StepdocReporter stepdocReporter) {
         this.stepdocReporter = stepdocReporter;

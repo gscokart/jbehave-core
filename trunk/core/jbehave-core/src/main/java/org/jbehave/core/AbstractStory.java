@@ -75,8 +75,8 @@ public abstract class AbstractStory implements RunnableStory {
 
     public void generateStepdoc() {
         CandidateSteps[] steps = candidateSteps.toArray(new CandidateSteps[candidateSteps.size()]);
-        List<Stepdoc> stepdocs = configuration.forGeneratingStepdoc().generate(steps);
-        configuration.forReportingStepdoc().report(stepdocs);
+        List<Stepdoc> stepdocs = configuration.stepdocGenerator().generate(steps);
+        configuration.stepdocReporter().report(stepdocs);
     }
 
 }

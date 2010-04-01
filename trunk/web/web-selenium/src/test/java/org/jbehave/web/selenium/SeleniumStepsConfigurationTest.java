@@ -28,7 +28,7 @@ public class SeleniumStepsConfigurationTest {
 		}});
 		SeleniumStepsConfiguration configuration = new SeleniumStepsConfiguration(selenium, seleniumContext, stepMonitor);
 		seleniumContext.setCurrentScenario(currentScenario);
-		configuration.getMonitor().performing(step);		
+		configuration.monitor().performing(step);		
 	}
 
 	@Test
