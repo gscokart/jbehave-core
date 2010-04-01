@@ -37,14 +37,12 @@ public class StoryRunner {
 
     public void run(Class<? extends RunnableStory> storyClass, StoryConfiguration configuration, CandidateSteps... candidateSteps) throws Throwable {
 		Story story = configuration.storyDefiner().defineStory(storyClass);
-		story.namedAs(storyClass.getSimpleName());
 	    // always start in a non-embedded mode
         run(story, configuration, false, candidateSteps);
     }
 
     public void run(String storyPath, StoryConfiguration configuration, boolean embeddedStory, CandidateSteps... candidateSteps) throws Throwable {
 		Story story = configuration.storyDefiner().defineStory(storyPath);
-        story.namedAs(new File(storyPath).getName());
 		run(story, configuration, embeddedStory, candidateSteps);
     }    
 
