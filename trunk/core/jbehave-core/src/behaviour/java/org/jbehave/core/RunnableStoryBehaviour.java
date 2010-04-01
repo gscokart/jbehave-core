@@ -1,17 +1,21 @@
 package org.jbehave.core;
 
+import org.hamcrest.Matchers;
+import org.jbehave.core.errors.InvalidRunnableStoryException;
+import org.jbehave.core.steps.CandidateSteps;
+import org.junit.Test;
+
+import java.util.List;
+
+import static java.util.Arrays.asList;
 import static org.jbehave.Ensure.ensureThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import org.hamcrest.Matchers;
-import org.jbehave.core.steps.CandidateSteps;
-import org.junit.Test;
-
 public class RunnableStoryBehaviour {
 
     @Test
-    public void shouldRunUsingTheStoryRunner() throws Throwable {
+    public void shouldRunASingleStoryViaClass() throws Throwable {
         // Given
         StoryRunner runner = mock(StoryRunner.class);
         StoryConfiguration configuration = mock(StoryConfiguration.class);
@@ -25,7 +29,36 @@ public class RunnableStoryBehaviour {
         // Then
         verify(runner).run(configuration, storyClass, steps);
     }
-    
+
+
+    @Test
+    public void shouldRunMultipleStoriesViaPaths() throws Throwable {
+        // Given
+        StoryRunner runner = mock(StoryRunner.class);
+        StoryConfiguration configuration = mock(StoryConfiguration.class);
+        CandidateSteps steps = mock(CandidateSteps.class);
+
+        // When
+        MyStories story = new MyStories(runner, configuration, steps);
+        story.runStory();
+
+        // Then
+        verify(runner).run(configuration, story.storyPaths(), steps);
+    }
+
+    @Test(expected= InvalidRunnableStoryException.class)
+    public void shouldFailIfNotAllParametersAreProvidedToStoryRunner() throws Throwable {
+        // Given
+        StoryRunner runner = mock(StoryRunner.class);
+        StoryConfiguration configuration = mock(StoryConfiguration.class);
+        CandidateSteps steps = mock(CandidateSteps.class);
+
+        // When
+        MyInvalidStories story = new MyInvalidStories(runner, configuration, steps);
+        story.runStory();
+
+    }
+
     @Test
     public void shouldAllowOverrideOfDefaultConfiguration() throws Throwable {
         // Given
@@ -36,7 +69,7 @@ public class RunnableStoryBehaviour {
 
         // When
         RunnableStory story = new MyStory(runner, steps);
-        ensureThat(story.getConfiguration(),  Matchers.not(Matchers.sameInstance(configuration)));
+        ensureThat(story.getConfiguration(), Matchers.not(Matchers.sameInstance(configuration)));
         story.useConfiguration(configuration);
         story.runStory();
 
@@ -45,7 +78,7 @@ public class RunnableStoryBehaviour {
         verify(runner).run(configuration, storyClass, steps);
     }
 
-    
+
     @Test
     public void shouldAllowAdditionOfSteps() throws Throwable {
         // Given
@@ -78,4 +111,34 @@ public class RunnableStoryBehaviour {
 
     }
 
+    private class MyStories extends JUnitStories {
+
+
+        public MyStories(StoryRunner runner, StoryConfiguration configuration, CandidateSteps... steps) {
+            super(runner);
+            useConfiguration(configuration);
+            addSteps(steps);
+        }
+
+        @Override
+        protected List<String> storyPaths() {
+            return asList("org/jbehave/core/story1", "org/jbehave/core/story2");
+        }
+    }
+
+
+    private class MyInvalidStories extends JUnitStories {
+
+
+        public MyInvalidStories(StoryRunner runner, StoryConfiguration configuration, CandidateSteps... steps) {
+            super(runner);
+            useConfiguration(configuration);
+            addSteps(steps);
+        }
+
+        @Override
+        protected List<String> storyPaths() {
+            return null;
+        }
+    }
 }

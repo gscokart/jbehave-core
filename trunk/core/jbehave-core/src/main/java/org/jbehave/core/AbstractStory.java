@@ -5,9 +5,9 @@ import static java.util.Arrays.asList;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jbehave.core.errors.InvalidRunnableStoryException;
 import org.jbehave.core.model.KeyWords;
 import org.jbehave.core.steps.CandidateSteps;
-import org.jbehave.core.steps.Stepdoc;
 
 /**
  * <p>
@@ -19,8 +19,8 @@ import org.jbehave.core.steps.Stepdoc;
  * </p>
  * <p>
  * Typically, users will find it easier to extend decorator stories, such as
- * {@link JUnitStory} which also provide support for test frameworks and also
- * provide the story class as the one being implemented by the user.
+ * {@link JUnitStory} pr {@link JUnitStories} which also provide support for test frameworks and also
+ * provide the story class pr story paths being implemented by the user.
  * </p>
  * <p/>
  * Whichever RunnableStory class one chooses to extends, the steps for running a
@@ -42,19 +42,30 @@ import org.jbehave.core.steps.Stepdoc;
  */
 public abstract class AbstractStory implements RunnableStory {
 
-    private final StoryRunner storyRunner;   
-    private final Class<? extends RunnableStory> storyClass;
-    private final List<CandidateSteps> candidateSteps = new ArrayList<CandidateSteps>();
+    private final StoryRunner storyRunner;
     private StoryConfiguration configuration = new MostUsefulStoryConfiguration();
+    private Class<? extends RunnableStory> storyClass;
+    private List<String> storyPaths;    
+    private List<CandidateSteps> candidateSteps = new ArrayList<CandidateSteps>();
 
-    public AbstractStory(Class<? extends RunnableStory> storyClass, StoryRunner storyRunner) {
-        this.storyClass = storyClass;
+    protected AbstractStory(StoryRunner storyRunner, Class<? extends RunnableStory> storyClass) {
         this.storyRunner = storyRunner;
+        this.storyClass = storyClass;
+    }
+
+    protected AbstractStory(StoryRunner storyRunner, List<String> storyPaths) {
+        this.storyRunner = storyRunner;
+        this.storyPaths = storyPaths;
     }
 
     public void runStory() throws Throwable {
-        CandidateSteps[] steps = candidateSteps.toArray(new CandidateSteps[candidateSteps.size()]);
-        storyRunner.run(configuration, storyClass, steps);
+        if ( storyClass != null ){
+            storyRunner.run(configuration, storyClass, candidateSteps());
+        } else if ( storyPaths != null ){
+            storyRunner.run(configuration, storyPaths, candidateSteps());
+        } else {
+            throw new InvalidRunnableStoryException("Either a RunnableStory class or a list of story paths must be provided");
+        }
     }
 
     public void useConfiguration(StoryConfiguration configuration) {
@@ -74,9 +85,10 @@ public abstract class AbstractStory implements RunnableStory {
     }
 
     public void generateStepdoc() {
-        CandidateSteps[] steps = candidateSteps.toArray(new CandidateSteps[candidateSteps.size()]);
-        List<Stepdoc> stepdocs = configuration.stepdocGenerator().generate(steps);
-        configuration.stepdocReporter().report(stepdocs);
+        configuration.stepdocReporter().report(configuration.stepdocGenerator().generate(candidateSteps()));
     }
 
+    private CandidateSteps[] candidateSteps() {
+        return candidateSteps.toArray(new CandidateSteps[candidateSteps.size()]);
+    }
 }
