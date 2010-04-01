@@ -20,8 +20,8 @@ import com.thoughtworks.paranamer.Paranamer;
 
 /**
  * <p>
- * Class allowing steps functionality to be fully configurable, while providing
- * default values for most commonly-used cases.
+ * Provides the steps configuration used by the {@link org.jbehave.core.steps.StepsFactory} and the
+ * in the {@link org.jbehave.core.steps.Steps} implementations to customise its runtime properties.
  * </p>
  * <p>
  * StepsConfiguration dependencies can be provided either via constructor or via
@@ -31,7 +31,7 @@ import com.thoughtworks.paranamer.Paranamer;
  * structure, in that does allow the use of non-static member variables.
  * </p>
  */
-public class StepsConfiguration {
+public abstract class StepsConfiguration {
 
     /**
      * Use English keywords for step matching
@@ -63,7 +63,7 @@ public class StepsConfiguration {
     /**
      * Default no-op constructor, uses the default instances defined for member variables.
      */
-    public StepsConfiguration() {
+    protected StepsConfiguration() {
 
     }
 
@@ -76,7 +76,7 @@ public class StepsConfiguration {
      * @param paranamer
      * @param parameterConverters
      */
-    public StepsConfiguration(KeyWords keywords, StepPatternBuilder patternBuilder,
+    protected StepsConfiguration(KeyWords keywords, StepPatternBuilder patternBuilder,
                               StepMonitor monitor, Paranamer paranamer,
                               ParameterConverters parameterConverters) {
         this.keywords = keywords;
@@ -137,7 +137,7 @@ public class StepsConfiguration {
         return keywords;
     }
 
-    public void useKeyWords(KeyWords keywords) {
+    public void useKeywords(KeyWords keywords) {
         this.keywords = keywords;
         this.startingWordsByType = startingWordsByType(this.keywords);
     }

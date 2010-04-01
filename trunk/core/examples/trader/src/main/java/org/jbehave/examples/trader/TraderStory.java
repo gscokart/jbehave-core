@@ -8,6 +8,7 @@ import static org.jbehave.core.reporters.StoryReporterBuilder.Format.XML;
 
 import org.jbehave.core.*;
 import org.jbehave.core.parser.*;
+import org.jbehave.core.steps.*;
 import org.jbehave.examples.trader.converters.TraderConverter;
 import org.jbehave.examples.trader.model.Stock;
 import org.jbehave.examples.trader.model.Trader;
@@ -16,12 +17,6 @@ import org.jbehave.examples.trader.service.TradingService;
 import org.jbehave.core.parser.StoryNameResolver;
 import org.jbehave.core.reporters.FilePrintStreamFactory;
 import org.jbehave.core.reporters.StoryReporterBuilder;
-import org.jbehave.core.steps.CandidateSteps;
-import org.jbehave.core.steps.ParameterConverters;
-import org.jbehave.core.steps.SilentStepMonitor;
-import org.jbehave.core.steps.StepMonitor;
-import org.jbehave.core.steps.StepsConfiguration;
-import org.jbehave.core.steps.StepsFactory;
 
 public class TraderStory extends JUnitStory {
 
@@ -39,7 +34,7 @@ public class TraderStory extends JUnitStory {
         useConfiguration(storyConfiguration);
 
         // start with default steps configuration, overriding parameter converters, pattern builder and monitor
-        StepsConfiguration stepsConfiguration = new StepsConfiguration();
+        StepsConfiguration stepsConfiguration = new MostUsefulStepsConfiguration();
         StepMonitor monitor = new SilentStepMonitor();
         stepsConfiguration.useParameterConverters(new ParameterConverters(
                 monitor, new TraderConverter(mockTradePersister())));  // define converter for custom type Trader

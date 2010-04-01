@@ -85,7 +85,7 @@ public class Steps implements CandidateSteps {
      * Creates Steps with default configuration
      */
     public Steps() {
-        this(new StepsConfiguration());
+        this(new MostUsefulStepsConfiguration());
     }
 
     /**

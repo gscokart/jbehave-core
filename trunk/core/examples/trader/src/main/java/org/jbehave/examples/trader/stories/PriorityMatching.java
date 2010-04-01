@@ -9,6 +9,7 @@ import org.jbehave.core.MostUsefulStoryConfiguration;
 import org.jbehave.core.StoryConfiguration;
 import org.jbehave.core.JUnitStory;
 import org.jbehave.core.parser.*;
+import org.jbehave.core.steps.MostUsefulStepsConfiguration;
 import org.jbehave.examples.trader.PriorityMatchingSteps;
 import org.jbehave.core.parser.PatternStoryParser;
 import org.jbehave.core.reporters.FilePrintStreamFactory;
@@ -30,7 +31,7 @@ public class PriorityMatching extends JUnitStory {
                 .build());
         useConfiguration(storyConfiguration);
 
-        StepsConfiguration stepsConfiguration = new StepsConfiguration();
+        StepsConfiguration stepsConfiguration = new MostUsefulStepsConfiguration();
         stepsConfiguration.usePatternBuilder(new PrefixCapturingPatternBuilder("$"));
         addSteps(new StepsFactory(stepsConfiguration).createCandidateSteps(new PriorityMatchingSteps()));
 

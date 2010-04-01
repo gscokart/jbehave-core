@@ -7,6 +7,7 @@ import java.lang.reflect.Field;
 
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.steps.CandidateSteps;
+import org.jbehave.core.steps.MostUsefulStepsConfiguration;
 import org.jbehave.core.steps.Steps;
 import org.jbehave.core.steps.StepsConfiguration;
 import org.junit.Before;
@@ -32,7 +33,7 @@ public class SpringStepsFactoryBehaviour {
     public void ensureThatStepsCanBeCreated() throws NoSuchFieldException, IllegalAccessException {
         // Given
         ListableBeanFactory parent = createBeanFactory("org/jbehave/core/steps/spring/steps.xml");
-        SpringStepsFactory factory = new SpringStepsFactory(new StepsConfiguration(), parent);
+        SpringStepsFactory factory = new SpringStepsFactory(new MostUsefulStepsConfiguration(), parent);
         // When
         CandidateSteps[] steps = factory.createCandidateSteps();
         // Then 
@@ -44,7 +45,7 @@ public class SpringStepsFactoryBehaviour {
     public void ensureThatStepsWithStepsWithDependencyCanBeCreated() throws NoSuchFieldException, IllegalAccessException {
         ListableBeanFactory parent = createBeanFactory("org/jbehave/core/steps/spring/steps-with-dependency.xml");
         // When
-        SpringStepsFactory factory = new SpringStepsFactory(new StepsConfiguration(), parent);
+        SpringStepsFactory factory = new SpringStepsFactory(new MostUsefulStepsConfiguration(), parent);
         CandidateSteps[] steps = factory.createCandidateSteps();
         // Then
         assertFooStepsFound(steps);
@@ -62,7 +63,7 @@ public class SpringStepsFactoryBehaviour {
     @Test(expected=BeanDefinitionStoreException.class)
     public void ensureThatStepsWithMissingDependenciesCannotBeCreated() throws NoSuchFieldException, IllegalAccessException {
         ListableBeanFactory parent = createBeanFactory("org/jbehave/core/steps/spring/steps-with-missing-depedency.xml");
-        SpringStepsFactory factory = new SpringStepsFactory(new StepsConfiguration(), parent);
+        SpringStepsFactory factory = new SpringStepsFactory(new MostUsefulStepsConfiguration(), parent);
         // When
         factory.createCandidateSteps();
         // Then ... expected exception is thrown        

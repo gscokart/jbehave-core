@@ -16,9 +16,10 @@ import org.jbehave.core.steps.UnmatchedToPendingStepCreator;
 import java.util.Locale;
 
 /**
+ * <p>
  * Provides the story configuration used by the {@link StoryRunner} and the
  * in the {@link RunnableStory} implementations to customise its runtime properties.
- * <p/>
+ * </p>
  * <p>
  * StoryConfiguration dependencies can be provided either via constructor or via
  * use* methods, which override the the default values of the
@@ -61,7 +62,7 @@ public abstract class StoryConfiguration {
      * cause failure.
      * <p/>
      * Uses wanting a stricter behaviour for pending steps may use
-     * {@link org.jbehave.core.errors.Pending   ErrorStrategy.FAILING}.
+     * {@link org.jbehave.core.errors.PendingErrorStrategy.FAILING}.
      */
     private PendingErrorStrategy pendingErrorStrategy = PendingErrorStrategy.PASSING;
     /**

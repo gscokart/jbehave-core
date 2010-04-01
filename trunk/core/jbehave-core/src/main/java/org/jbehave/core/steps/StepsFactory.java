@@ -11,7 +11,7 @@ public class StepsFactory {
     private StepsConfiguration configuration;
 
     public StepsFactory() {
-        this(new StepsConfiguration());
+        this(new MostUsefulStepsConfiguration());
     }
 
     public StepsFactory(StepsConfiguration configuration) {
