@@ -10,8 +10,6 @@ import org.jbehave.core.model.Story;
  */
 public interface StoryDefiner {
 
-    Story defineStory(Class<? extends RunnableStory> storyClass);
-
     Story defineStory(String storyPath);
 
 }

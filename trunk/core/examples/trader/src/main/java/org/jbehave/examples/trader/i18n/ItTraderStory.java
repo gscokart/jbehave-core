@@ -20,13 +20,12 @@ public class ItTraderStory extends JUnitStory {
 
     public ItTraderStory() {
         StoryConfiguration storyConfiguration = new MostUsefulStoryConfiguration();
-
+        storyConfiguration.useStoryNameResolver(new UnderscoredCamelCaseResolver(".story"));
         ClassLoader classLoader = this.getClass().getClassLoader();
         KeyWords keywords = new I18nKeyWords(new Locale("it"), new StringEncoder(), "org/jbehave/examples/trader/i18n/keywords", classLoader);
         // use Italian for keywords
         storyConfiguration.useKeywords(keywords);
         storyConfiguration.useStoryDefiner(new ClasspathStoryDefiner(
-                new UnderscoredCamelCaseResolver(".story"),
                 new PatternStoryParser(storyConfiguration.keywords()), classLoader));
         storyConfiguration.useStoryReporter(new PrintStreamStoryReporter(storyConfiguration.keywords()));
         useConfiguration(storyConfiguration);

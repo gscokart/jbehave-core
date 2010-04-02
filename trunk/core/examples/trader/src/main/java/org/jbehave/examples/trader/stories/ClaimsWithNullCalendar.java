@@ -27,7 +27,7 @@ public class ClaimsWithNullCalendar extends JUnitStory {
         StoryConfiguration storyConfiguration = new MostUsefulStoryConfiguration(){
             @Override
             public StoryDefiner storyDefiner() {
-                return new ClasspathStoryDefiner(nameResolver, new PatternStoryParser(keywords()), this.getClass().getClassLoader());
+                return new ClasspathStoryDefiner(new PatternStoryParser(keywords()), this.getClass().getClassLoader());
             }
 
             @Override
@@ -40,6 +40,7 @@ public class ClaimsWithNullCalendar extends JUnitStory {
                 .build();
             }
         };
+        storyConfiguration.useStoryNameResolver(nameResolver);               
         useConfiguration(storyConfiguration);
 
         StepsConfiguration stepsConfiguration = new MostUsefulStepsConfiguration();

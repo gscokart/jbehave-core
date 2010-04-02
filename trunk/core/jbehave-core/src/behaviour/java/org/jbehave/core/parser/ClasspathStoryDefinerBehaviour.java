@@ -9,6 +9,7 @@ import org.jbehave.core.model.Story;
 import org.jbehave.core.parser.stories.MyPendingStory;
 import org.junit.Test;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -21,47 +22,27 @@ public class ClasspathStoryDefinerBehaviour {
         // Given
         StoryParser parser = mock(StoryParser.class);
         Story story = mock(Story.class);
-        when(parser.defineStoryFrom("Given my step", "org/jbehave/core/parser/stories/my_pending_story")).thenReturn(story);
+        String storyPath = "org/jbehave/core/parser/stories/my_pending_story";
+        when(parser.defineStoryFrom("Given my step", storyPath)).thenReturn(story);
 
         // When
-        Class<? extends RunnableStory> storyClass = MyPendingStory.class;
         StoryDefiner definer = new ClasspathStoryDefiner(parser);
-        definer.defineStory(storyClass);
+        definer.defineStory(storyPath);
 
         // Then
-        verify(story).namedAs(storyClass.getSimpleName());
-    }
-
-    @Test
-    public void canDefineStoryWithCustomFilenameResolver() {
-         // Given
-        StoryParser parser = mock(StoryParser.class);
-        Story story = mock(Story.class);
-        when(parser.defineStoryFrom("Given my step", "org/jbehave/core/parser/stories/MyPendingStory.txt")).thenReturn(story);
-
-        // When
-        Class<? extends RunnableStory> storyClass = MyPendingStory.class;
-        StoryDefiner definer =  new ClasspathStoryDefiner(new CasePreservingResolver(".txt"), parser);
-        definer.defineStory(storyClass);
-
-        // Then
-        verify(story).namedAs(storyClass.getSimpleName());      
+        verify(story).namedAs(new File(storyPath).getName());
     }
 
     @Test(expected = StoryNotFoundException.class)
     public void cannotDefineStoryForInexistentResource() {
         StoryDefiner definer = new ClasspathStoryDefiner();
-        definer.defineStory(InexistentStory.class);
+        definer.defineStory("inexistent.story");
     }
 
     @Test(expected = InvalidStoryResourceException.class)
     public void cannotDefineStoryForInvalidResource() {
-        StoryDefiner definer = new ClasspathStoryDefiner(new UnderscoredCamelCaseResolver(), new PatternStoryParser(new I18nKeyWords()), new InvalidClassLoader());
-        definer.defineStory(MyPendingStory.class);
-    }
-
-    static class InexistentStory extends JUnitStory {
-
+        StoryDefiner definer = new ClasspathStoryDefiner(new PatternStoryParser(new I18nKeyWords()), new InvalidClassLoader());
+        definer.defineStory("inexistent.story");
     }
 
     static class InvalidClassLoader extends ClassLoader {

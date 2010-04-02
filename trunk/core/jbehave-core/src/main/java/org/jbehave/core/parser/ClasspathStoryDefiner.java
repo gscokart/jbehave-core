@@ -5,51 +5,34 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.jbehave.core.RunnableStory;
 import org.jbehave.core.errors.InvalidStoryResourceException;
 import org.jbehave.core.model.Story;
 import org.jbehave.core.errors.StoryNotFoundException;
 
 /**
  * Defines stories from classpath resources, which are handled by the
- * {@link StoryParser}. Names of resources are resolved via the
- * {@link StoryNameResolver}.
+ * {@link StoryParser}. 
  */
 public class ClasspathStoryDefiner implements StoryDefiner {
 
-    private final StoryNameResolver resolver;
     private final StoryParser parser;
     private final ClassLoader classLoader;
 
     public ClasspathStoryDefiner() {
-        this(new UnderscoredCamelCaseResolver(), new PatternStoryParser(), Thread.currentThread()
-                .getContextClassLoader());
+        this(new PatternStoryParser());
     }
 
     public ClasspathStoryDefiner(StoryParser parser) {
-        this(new UnderscoredCamelCaseResolver(), parser, Thread.currentThread().getContextClassLoader());
+        this(parser, Thread.currentThread().getContextClassLoader());
     }
 
-    public ClasspathStoryDefiner(StoryNameResolver converter, StoryParser parser) {
-        this(converter, parser, Thread.currentThread().getContextClassLoader());
+    public ClasspathStoryDefiner(ClassLoader classLoader) {
+        this(new PatternStoryParser(), classLoader);
     }
 
-    public ClasspathStoryDefiner(StoryNameResolver converter, ClassLoader classLoader) {
-        this(converter, new PatternStoryParser(), classLoader);
-    }
-
-    public ClasspathStoryDefiner(StoryNameResolver resolver, StoryParser parser, ClassLoader classLoader) {
-        this.resolver = resolver;
+    public ClasspathStoryDefiner(StoryParser parser, ClassLoader classLoader) {
         this.parser = parser;
         this.classLoader = classLoader;
-    }
-
-    public Story defineStory(Class<? extends RunnableStory> storyClass) {
-        String storyPath = resolver.resolve(storyClass);
-        String wholeStoryAsString = asString(loadInputStreamFor(storyPath));
-        Story story = parser.defineStoryFrom(wholeStoryAsString, storyPath);
-        story.namedAs(storyClass.getSimpleName());
-        return story;
     }
 
 	public Story defineStory(String storyPath) {

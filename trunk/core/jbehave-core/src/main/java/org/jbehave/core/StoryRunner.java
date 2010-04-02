@@ -35,8 +35,8 @@ public class StoryRunner {
     private StepCreator stepCreator;
 
     public void run(StoryConfiguration configuration, Class<? extends RunnableStory> storyClass, CandidateSteps... candidateSteps) throws Throwable {
-        Story story = configuration.storyDefiner().defineStory(storyClass);
-        run(configuration, story, candidateSteps);
+        String storyPath = configuration.storyNameResolver().resolve(storyClass);
+        run(configuration, storyPath, candidateSteps);
     }
 
     public void run(StoryConfiguration configuration, String storyPath, CandidateSteps... candidateSteps) throws Throwable {
