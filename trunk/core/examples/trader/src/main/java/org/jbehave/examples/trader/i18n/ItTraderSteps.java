@@ -5,6 +5,7 @@ import static org.jbehave.Ensure.ensureThat;
 
 import java.util.Locale;
 
+import org.jbehave.core.model.ExamplesTable;
 import org.jbehave.examples.trader.model.Stock;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Named;
@@ -19,6 +20,7 @@ import org.jbehave.core.steps.StepsConfiguration;
 public class ItTraderSteps {
 
     private Stock stock;
+    private ExamplesTable table;
 
     @Given("ho un'azione con simbolo $symbol e una soglia di $threshold")
     public void aStock(@Named("symbol") String symbol, @Named("threshold") double threshold) {
@@ -35,6 +37,13 @@ public class ItTraderSteps {
         ensureThat(stock.getStatus().name(), equalTo(status));
     }
 
+    @Given("ho una tabella $table")
+    public void aTAble(ExamplesTable table) {
+        this.table = table;
+    }
 
-
+    @Then("la tabella ha $rows righe")
+    public void hasRows(int rows){
+        ensureThat(table.getRowCount(), equalTo(rows));
+    }
 }

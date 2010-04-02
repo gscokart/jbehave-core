@@ -26,6 +26,15 @@ public class ExamplesTableBehaviour {
         assertEquals(untrimmedTableAsString, table.toString());
     }
 
+    @Test
+    public void shouldParseTableIntoHeadersAndRowsWithCustomColumnSeparator() {
+        String customSeparator = "!";
+        String tableWithCustomSeparator = tableAsString.replace("|", customSeparator);
+        ExamplesTable table = new ExamplesTable(tableWithCustomSeparator, customSeparator);
+        ensureTableContentIsParsed(table);
+        assertEquals(tableWithCustomSeparator, table.toString());
+    }
+
     private void ensureTableContentIsParsed(ExamplesTable table) {
         assertEquals(asList("one", "two"), table.getHeaders());
         assertEquals(2, table.getRows().size());

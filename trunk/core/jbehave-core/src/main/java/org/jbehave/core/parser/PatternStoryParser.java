@@ -98,7 +98,7 @@ public class PatternStoryParser implements StoryParser {
 		Matcher findingTable = patternToPullExamplesTableIntoGroupOne()
 		.matcher(scenario);
 		String table = findingTable.find() ? findingTable.group(1).trim() : NONE;
-		return new ExamplesTable(table);
+		return new ExamplesTable(table, keywords.examplesTableSeparator());
 	}
 
 	private List<String> findGivenScenarios(String scenario) {

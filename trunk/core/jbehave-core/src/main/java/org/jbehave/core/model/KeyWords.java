@@ -23,6 +23,8 @@ public class KeyWords {
     public static final String SCENARIO = "Scenario";
     public static final String GIVEN_STORIES = "GivenStories";
     public static final String EXAMPLES_TABLE = "ExamplesTable";
+    public static final String EXAMPLES_TABLE_ROW = "ExamplesTableRow";
+    public static final String EXAMPLES_TABLE_SEPARATOR = "ExamplesTableSeparator";
     public static final String GIVEN = "Given";
     public static final String WHEN = "When";
     public static final String THEN = "Then";
@@ -31,10 +33,9 @@ public class KeyWords {
     public static final String PENDING = "Pending";
     public static final String NOT_PERFORMED = "NotPerformed";
     public static final String FAILED = "Failed";
-    public static final String EXAMPLES_TABLE_ROW = "ExamplesTableRow";
     public static final List<String> KEYWORDS = asList(NARRATIVE, IN_ORDER_TO, AS_A, I_WANT_TO, SCENARIO,
-            GIVEN_STORIES, EXAMPLES_TABLE, GIVEN, WHEN, THEN, AND, IGNORABLE, PENDING, NOT_PERFORMED, FAILED,
-            EXAMPLES_TABLE_ROW);
+            GIVEN_STORIES, EXAMPLES_TABLE, EXAMPLES_TABLE_ROW, EXAMPLES_TABLE_SEPARATOR, GIVEN, WHEN, THEN, AND,
+            IGNORABLE, PENDING, NOT_PERFORMED, FAILED);
 
     private final String narrative;
     private final String inOrderTo;
@@ -43,6 +44,8 @@ public class KeyWords {
     private final String scenario;
     private final String givenStories;
     private final String examplesTable;
+    private final String examplesTableRow;
+    private final String examplesTableSeparator;
     private final String given;
     private final String when;
     private final String then;
@@ -51,7 +54,6 @@ public class KeyWords {
     private final String pending;
     private final String notPerformed;
     private final String failed;
-    private final String examplesTableRow;
     private final String[] others;
     private StringEncoder encoder;
 
@@ -64,6 +66,8 @@ public class KeyWords {
         keywords.put(SCENARIO, "Scenario:");
         keywords.put(GIVEN_STORIES, "GivenStories:");
         keywords.put(EXAMPLES_TABLE, "Examples:");
+        keywords.put(EXAMPLES_TABLE_ROW, "Example:");
+        keywords.put(EXAMPLES_TABLE_SEPARATOR, "|");
         keywords.put(GIVEN, "Given");
         keywords.put(WHEN, "When");
         keywords.put(THEN, "Then");
@@ -72,7 +76,6 @@ public class KeyWords {
         keywords.put(PENDING, "PENDING");
         keywords.put(NOT_PERFORMED, "NOT PERFORMED");
         keywords.put(FAILED, "FAILED");
-        keywords.put(EXAMPLES_TABLE_ROW, "Example:");
         return keywords;
     }
 
@@ -106,6 +109,8 @@ public class KeyWords {
         this.scenario = keyword(SCENARIO, keywords);
         this.givenStories = keyword(GIVEN_STORIES, keywords);
         this.examplesTable = keyword(EXAMPLES_TABLE, keywords);
+        this.examplesTableRow = keyword(EXAMPLES_TABLE_ROW, keywords);
+        this.examplesTableSeparator = keyword(EXAMPLES_TABLE_SEPARATOR, keywords);
         this.given = keyword(GIVEN, keywords);
         this.when = keyword(WHEN, keywords);
         this.then = keyword(THEN, keywords);
@@ -114,7 +119,6 @@ public class KeyWords {
         this.pending = keyword(PENDING, keywords);
         this.notPerformed = keyword(NOT_PERFORMED, keywords);
         this.failed = keyword(FAILED, keywords);
-        this.examplesTableRow = keyword(EXAMPLES_TABLE_ROW, keywords);
         this.others = new String[] { and, ignorable };
         this.encoder = encoder;
     }
@@ -125,45 +129,6 @@ public class KeyWords {
             throw new KeywordNotFoundException(name, keywords);
         }
         return keyword;
-    }
-
-    /**
-     * Legacy constructor for KeyWords that provides explicitly the keywords
-     * values. The vararg must include 10 additional keywords
-     * (and, ignorable, pending, notPerformed, failed, examplesTableRow,
-     * narrative, inOrderTo, asA, iWantTo).
-     * 
-     * @param scenario
-     * @param givenStories
-     * @param examplesTable
-     * @param given
-     * @param when
-     * @param then
-     * @param others
-     * @deprecated Use KeyWords(Map<String,String>, StringEncoder)
-     */
-    public KeyWords(String scenario, String givenStories, String examplesTable, String given, String when,
-            String then, String... others) {
-        this.scenario = scenario;
-        this.givenStories = givenStories;
-        this.examplesTable = examplesTable;
-        this.given = given;
-        this.when = when;
-        this.then = then;
-        if (others.length < 7) {
-            throw new InsufficientKeywordsException(others);
-        }
-        this.and = others[0];
-        this.ignorable = others[1];
-        this.pending = others[2];
-        this.notPerformed = others[3];
-        this.failed = others[4];
-        this.examplesTableRow = others[5];
-        this.narrative = others[6];
-        this.inOrderTo = others[7];
-        this.asA = others[8];
-        this.iWantTo = others[9];
-        this.others = others;
     }
 
     public String narrative() {
@@ -192,6 +157,14 @@ public class KeyWords {
 
     public String examplesTable() {
         return examplesTable;
+    }
+
+    public String examplesTableRow() {
+        return examplesTableRow;
+    }
+    
+    public String examplesTableSeparator() {
+        return examplesTableSeparator;
     }
 
     public String given() {
@@ -224,10 +197,6 @@ public class KeyWords {
 
     public String failed() {
         return failed;
-    }
-
-    public String examplesTableRow() {
-        return examplesTableRow;
     }
 
     public String[] others() {

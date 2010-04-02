@@ -19,6 +19,7 @@ public class KeywordsBehaviour {
         assertEquals("GivenStories:", keywords.givenStories());
         assertEquals("Examples:", keywords.examplesTable());
         assertEquals("Example:", keywords.examplesTableRow());
+        assertEquals("|", keywords.examplesTableSeparator());
         assertEquals("Given", keywords.given());
         assertEquals("When", keywords.when());
         assertEquals("Then", keywords.then());
@@ -33,10 +34,5 @@ public class KeywordsBehaviour {
     public void shouldFailIfSomeKeywordIsMissingInMapConstructor() throws IOException {
         new KeyWords(new HashMap<String, String>());
     }
-
-    @Test(expected=InsufficientKeywordsException.class)
-    public void shouldFailIfSomeKeywordIsMissingInVarargConstructor() throws IOException {
-        new KeyWords("core", "givenScenario", "examples", "given", "when", "then", "and", "!--", "narrative");
-    }
-
+    
 }

@@ -16,14 +16,20 @@ import java.util.Map;
 public class ExamplesTable {
 
 	private static final String NEWLINE = "\n";
-    private static final String COLUMN_SEPARATOR = "\\|";
+    private static final String COLUMN_SEPARATOR = "|";
 	private final List<Map<String, String>> data = new ArrayList<Map<String, String>>();
 	private final String tableAsString;
+    private final String columnSeparator;
     private final List<String> headers = new ArrayList<String>();
 
 	public ExamplesTable(String tableAsString) {
+		this(tableAsString, COLUMN_SEPARATOR);
+    }
+
+    public ExamplesTable(String tableAsString, String columnSeparator) {
 		this.tableAsString = tableAsString;
-		parse();
+        this.columnSeparator = columnSeparator;
+        parse();
 	}
 
 	private void parse() {
@@ -46,7 +52,8 @@ public class ExamplesTable {
 
 	private List<String> columnsFor(String row) {
 		List<String> columns = new ArrayList<String>();
-		for ( String column : row.split(COLUMN_SEPARATOR) ){
+        String columnSeparatorRegex = "\\"+columnSeparator;
+        for ( String column : row.split(columnSeparatorRegex) ){
 			columns.add(column.trim());
 		}
 		int size = columns.size();

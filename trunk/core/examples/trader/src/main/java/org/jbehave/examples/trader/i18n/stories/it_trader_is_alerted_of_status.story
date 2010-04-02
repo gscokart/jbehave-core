@@ -12,3 +12,11 @@ Quando l'azione e' scambiata al prezzo di 16.0
 Allora lo status di allerta e' ON
 Quando l'azione e' scambiata al prezzzzzzzzo di 20.0
 Allora lo status di allerta e' ON
+
+Scenario:
+
+Dato che ho una tabella
+!uno!due!
+!11!12!
+!21!22!
+Allora la tabella ha 2 righe
