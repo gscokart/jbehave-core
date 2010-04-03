@@ -11,6 +11,7 @@
     <page>release-notes.html</page>
     <page>building-source.html</page>
     <page>running-examples.html</page>
+    <page>migrating-from-2.x.html</page>
   </section>
   <section>
     <name>Fundamentals</name>
