@@ -6,12 +6,15 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * <p>
  * Represents a tabular structure to hold example data for number of named parameters:<br/><br/>
  * 
  * |name 1|name 2| .... |name n|<br/>
  * |value 11|value 12| .... |value 1n|<br/>
  *  ...<br/>
  * |value m1|value m2| .... |value mn|<br/>
+ * </p>
+ * <p>A different column separator can be specified to replace the default separator "|" </p>
  */
 public class ExamplesTable {
 
@@ -78,8 +81,12 @@ public class ExamplesTable {
 	public List<Map<String, String>> getRows() {
 		return data;
 	}
-	
-	@Override
+
+    public String getColumnSeparator() {
+        return columnSeparator;
+    }
+
+    @Override
 	public String toString(){
 		return tableAsString;
 	}

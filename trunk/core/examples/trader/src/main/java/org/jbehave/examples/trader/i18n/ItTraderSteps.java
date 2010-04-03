@@ -3,7 +3,9 @@ package org.jbehave.examples.trader.i18n;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.jbehave.Ensure.ensureThat;
 
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import org.jbehave.core.model.ExamplesTable;
 import org.jbehave.examples.trader.model.Stock;
@@ -45,5 +47,11 @@ public class ItTraderSteps {
     @Then("la tabella ha $rows righe")
     public void hasRows(int rows){
         ensureThat(table.getRowCount(), equalTo(rows));
+    }
+
+    @Then("alla riga $row e colonna $column troviamo: $value")
+    public void theRowValuesAre(int row, String column, String value){
+        Map<String,String> rowValues = table.getRow(row-1);      
+        ensureThat(rowValues.get(column), equalTo(value));
     }
 }

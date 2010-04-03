@@ -219,6 +219,16 @@ public class ParameterConverters {
 	}
 
     public static class ExamplesTableConverter implements ParameterConverter {
+
+        private String columnSeparator;
+
+        public ExamplesTableConverter() {
+            this("|");
+        }
+        public ExamplesTableConverter(String columnSeparator) {
+            this.columnSeparator = columnSeparator;
+        }
+
         public boolean accept(Type type) {
             if (type instanceof Class<?>) {
                 return ExamplesTable.class.isAssignableFrom((Class<?>) type);
@@ -227,7 +237,7 @@ public class ParameterConverters {
         }
 
         public Object convertValue(String value, Type type) {
-            return new ExamplesTable(value);
+            return new ExamplesTable(value, columnSeparator);
         }
 
     }

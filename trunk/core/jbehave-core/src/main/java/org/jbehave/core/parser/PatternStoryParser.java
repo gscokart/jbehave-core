@@ -30,31 +30,31 @@ public class PatternStoryParser implements StoryParser {
 		this.keywords = keywords;
 	}
 
-    public Story defineStoryFrom(String wholeStoryAsText) {
-        return defineStoryFrom(wholeStoryAsText, null);
+    public Story defineStoryFrom(String storyAsText) {
+        return defineStoryFrom(storyAsText, null);
     }
     
-	public Story defineStoryFrom(String wholeStoryAsText, String storyPath) {
+	public Story defineStoryFrom(String storyAsText, String storyPath) {
         this.storyPath = storyPath;
-		Description description = parseDescriptionFrom(wholeStoryAsText);
-        Narrative narrative = parseNarrativeFrom(wholeStoryAsText);
-		List<Scenario> scenarios = parseScenariosFrom(wholeStoryAsText);
+		Description description = parseDescriptionFrom(storyAsText);
+        Narrative narrative = parseNarrativeFrom(storyAsText);
+		List<Scenario> scenarios = parseScenariosFrom(storyAsText);
         return new Story(description, narrative, storyPath, scenarios);
 	}
 
-    private Description parseDescriptionFrom(String wholeStoryAsText) {
+    private Description parseDescriptionFrom(String storyAsText) {
         String concatenatedKeywords = concatenateWithOr(keywords.narrative(), keywords.scenario());
         Pattern findDescription = compile("(.*?)(" + concatenatedKeywords + ").*", DOTALL);
-        Matcher findingDescription = findDescription.matcher(wholeStoryAsText);
+        Matcher findingDescription = findDescription.matcher(storyAsText);
         if (findingDescription.matches()) {
             return new Description(findingDescription.group(1).trim());
         }
         return Description.EMPTY;
     }
 
-    private Narrative parseNarrativeFrom(String wholeStoryAsText) {
+    private Narrative parseNarrativeFrom(String storyAsText) {
         Pattern findNarrative = compile(".*" + keywords.narrative() + "(.*?)\\s*(" + keywords.scenario() + ").*", DOTALL);
-        Matcher findingNarrative = findNarrative.matcher(wholeStoryAsText);
+        Matcher findingNarrative = findNarrative.matcher(storyAsText);
         if ( findingNarrative.matches() ){
             String narrative = findingNarrative.group(1).trim();
             return createNarrative(narrative);
@@ -75,35 +75,35 @@ public class PatternStoryParser implements StoryParser {
     }
 
     private List<Scenario> parseScenariosFrom(
-			String wholeStoryAsText) {
+			String storyAsText) {
 		List<Scenario> parsed = new ArrayList<Scenario>();
-		List<String> scenarios = splitScenarios(wholeStoryAsText);
-		for (String scenario : scenarios) {
-			String title = findTitle(scenario);
-			ExamplesTable table = findTable(scenario);
-			List<String> givenScenarios = findGivenScenarios(scenario);
-			List<String> steps = findSteps(scenario);
+		List<String> scenariosAsText = splitScenarios(storyAsText);
+		for (String scenarioAsText : scenariosAsText) {
+			String title = findTitle(scenarioAsText);
+			ExamplesTable table = findTable(scenarioAsText);
+			List<String> givenScenarios = findGivenScenarios(scenarioAsText);
+			List<String> steps = findSteps(scenarioAsText);
 			parsed.add(new Scenario(title, givenScenarios, table, steps));
 		}
 		return parsed;
 	}
 
-	private String findTitle(String scenario) {
+	private String findTitle(String scenarioAsText) {
 		Matcher findingTitle = patternToPullScenarioTitleIntoGroupOne()
-				.matcher(scenario);
+				.matcher(scenarioAsText);
 		return findingTitle.find() ? findingTitle.group(1).trim() : NONE;
 	}
 
-	private ExamplesTable findTable(String scenario) {
+	private ExamplesTable findTable(String scenarioAsText) {
 		Matcher findingTable = patternToPullExamplesTableIntoGroupOne()
-		.matcher(scenario);
+		.matcher(scenarioAsText);
 		String table = findingTable.find() ? findingTable.group(1).trim() : NONE;
 		return new ExamplesTable(table, keywords.examplesTableSeparator());
 	}
 
-	private List<String> findGivenScenarios(String scenario) {
+	private List<String> findGivenScenarios(String scenarioAsText) {
 		Matcher findingGivenScenarios = patternToPullGivenScenariosIntoGroupOne()
-		.matcher(scenario);
+		.matcher(scenarioAsText);
 		String givenScenariosAsCSV = findingGivenScenarios.find() ? findingGivenScenarios.group(1).trim() : NONE;
 		List<String> givenScenarios = new ArrayList<String>();		
 		for ( String givenScenario : givenScenariosAsCSV.split(COMMA) ){			
@@ -115,8 +115,8 @@ public class PatternStoryParser implements StoryParser {
 		return givenScenarios;
 	}
 
-	private List<String> findSteps(String scenarioAsString) {
-		Matcher matcher = patternToPullOutSteps().matcher(scenarioAsString);
+	private List<String> findSteps(String scenarioAsText) {
+		Matcher matcher = patternToPullOutSteps().matcher(scenarioAsText);
 		List<String> steps = new ArrayList<String>();
 		int startAt = 0;
 		while (matcher.find(startAt)) {
@@ -133,21 +133,21 @@ public class PatternStoryParser implements StoryParser {
 		}
 	}
 
-	protected List<String> splitScenarios(String allScenariosInFile) {
-		return splitScenariosWithKeyword(allScenariosInFile);
+	protected List<String> splitScenarios(String storyAsText) {
+		return splitScenariosWithKeyword(storyAsText);
 	}
 
-	protected List<String> splitScenariosWithKeyword(String allScenariosInFile) {
+	protected List<String> splitScenariosWithKeyword(String storyAsText) {
 		List<String> scenarios = new ArrayList<String>();
 		String scenarioKeyword = keywords.scenario();
 
 		String allScenarios = null;
 		// chomp off anything before first keyword, if found
-		int keywordIndex = allScenariosInFile.indexOf(scenarioKeyword);
+		int keywordIndex = storyAsText.indexOf(scenarioKeyword);
 		if (keywordIndex != -1) {
-			allScenarios = allScenariosInFile.substring(keywordIndex);
+			allScenarios = storyAsText.substring(keywordIndex);
 		} else { // use all stories in file
-			allScenarios = allScenariosInFile;
+			allScenarios = storyAsText;
 		}
 
 		for (String scenario : allScenarios.split(scenarioKeyword)) {
@@ -160,9 +160,9 @@ public class PatternStoryParser implements StoryParser {
 
 	// This pattern approach causes stack overflow error on Windows
 	// http://jbehave.org/documentation/known-issues/regex-stack-overflow-errors
-	protected List<String> splitScenariosWithPattern(String allScenariosInStory) {
+	protected List<String> splitScenariosWithPattern(String storyAsText) {
 		Pattern scenarioSplitter = patternToPullScenariosIntoGroupFour();
-		Matcher matcher = scenarioSplitter.matcher(allScenariosInStory);
+		Matcher matcher = scenarioSplitter.matcher(storyAsText);
 		int startAt = 0;
 		List<String> scenarios = new ArrayList<String>();
 		try {
@@ -172,11 +172,11 @@ public class PatternStoryParser implements StoryParser {
 					startAt = matcher.start(4);
 				}
 			} else {
-				scenarios.add(allScenariosInStory);
+				scenarios.add(storyAsText);
 			}
 		} catch (StackOverflowError e) {
             String message = "Failed to parse story (see http://jbehave.org/documentation/known-issues/regex-stack-overflow-errors): "
-                            + (storyPath != null ? storyPath : allScenariosInStory);
+                            + (storyPath != null ? storyPath : storyAsText);
 			throw new InvalidPatternException(message, e);
 		}
 		return scenarios;

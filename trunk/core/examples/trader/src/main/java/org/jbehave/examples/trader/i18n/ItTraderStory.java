@@ -11,6 +11,7 @@ import org.jbehave.core.parser.PatternStoryParser;
 import org.jbehave.core.parser.UnderscoredCamelCaseResolver;
 import org.jbehave.core.reporters.PrintStreamStoryReporter;
 import org.jbehave.core.steps.MostUsefulStepsConfiguration;
+import org.jbehave.core.steps.ParameterConverters;
 import org.jbehave.core.steps.StepsConfiguration;
 import org.jbehave.core.steps.StepsFactory;
 
@@ -33,6 +34,7 @@ public class ItTraderStory extends JUnitStory {
         StepsConfiguration stepsConfiguration = new MostUsefulStepsConfiguration();
         // use Italian for keywords
         stepsConfiguration.useKeywords(keywords);
+        stepsConfiguration.useParameterConverters(new ParameterConverters(new ParameterConverters.ExamplesTableConverter(keywords.examplesTableSeparator())));
         addSteps(new StepsFactory(stepsConfiguration).createCandidateSteps(new ItTraderSteps()));
     }
 

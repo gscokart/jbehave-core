@@ -188,13 +188,13 @@ public class PatternStoryParserBehaviour {
     }
 
     @Test
-    @Ignore("on Windows, it should fail due to regex stack overflow")
+    @Ignore("It should fail due to regex stack overflow")
     public void shouldParseLongStoryWithPatternSplitScenarios() {
         StoryParser parser = new PatternStoryParser(new I18nKeyWords()){
 
 			@Override
-			protected List<String> splitScenarios(String allScenariosInFile) {
-				return super.splitScenariosWithPattern(allScenariosInFile);
+			protected List<String> splitScenarios(String storyAsText) {
+				return super.splitScenariosWithPattern(storyAsText);
 			}
         	
         };

@@ -20,3 +20,7 @@ Dato che ho una tabella
 !11!12!
 !21!22!
 Allora la tabella ha 2 righe
+E alla riga 1 e colonna uno troviamo: 11
+E alla riga 1 e colonna due troviamo: 12
+E alla riga 2 e colonna uno troviamo: 21
+E alla riga 2 e colonna due troviamo: 22

@@ -31,6 +31,7 @@ public class ExamplesTableBehaviour {
         String customSeparator = "!";
         String tableWithCustomSeparator = tableAsString.replace("|", customSeparator);
         ExamplesTable table = new ExamplesTable(tableWithCustomSeparator, customSeparator);
+        assertEquals(customSeparator, table.getColumnSeparator());
         ensureTableContentIsParsed(table);
         assertEquals(tableWithCustomSeparator, table.toString());
     }

@@ -5,6 +5,4 @@ import org.jbehave.examples.trader.i18n.ItTraderStory;
 
 public class ItTraderIsAlertedOfStatus extends ItTraderStory {
 
-    public ItTraderIsAlertedOfStatus() {
-    }
 }
