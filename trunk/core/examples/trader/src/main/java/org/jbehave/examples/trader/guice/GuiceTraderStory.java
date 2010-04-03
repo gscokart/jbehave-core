@@ -15,10 +15,6 @@ import com.google.inject.Scopes;
 
 public class GuiceTraderStory extends TraderStory {
 
-    public GuiceTraderStory(Class<? extends RunnableStory> scenarioClass) {
-        super(scenarioClass);
-    }
-
     @Override
     protected CandidateSteps[] createSteps(StepsConfiguration configuration) {
         Injector parent = createInjector();

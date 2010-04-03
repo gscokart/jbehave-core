@@ -10,10 +10,6 @@ import org.springframework.beans.factory.ListableBeanFactory;
 
 public class SpringTraderStory extends TraderStory {
 
-    public SpringTraderStory(Class<? extends RunnableStory> scenarioClass) {
-        super(scenarioClass);
-    }
-
     @Override
     protected CandidateSteps[] createSteps(StepsConfiguration configuration) {
         ListableBeanFactory parent = createBeanFactory();

@@ -3,9 +3,5 @@ package org.jbehave.examples.trader.stories;
 import org.jbehave.examples.trader.TraderStory;
 
 public class WildcardSearch extends TraderStory {
-
-    public WildcardSearch() {
-        super(WildcardSearch.class);
-    }
     
 }

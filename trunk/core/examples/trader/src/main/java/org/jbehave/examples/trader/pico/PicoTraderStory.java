@@ -17,10 +17,6 @@ import org.picocontainer.injectors.ConstructorInjection;
 
 public class PicoTraderStory extends TraderStory {
 
-    public PicoTraderStory(Class<? extends RunnableStory> scenarioClass) {
-        super(scenarioClass);
-    }
-
     @Override
     protected CandidateSteps[] createSteps(StepsConfiguration configuration) {
         PicoContainer parent = createPicoContainer();

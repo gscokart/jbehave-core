@@ -1,30 +1,41 @@
 package org.jbehave.examples.trader;
 
+import org.jbehave.core.JUnitStory;
+import org.jbehave.core.MostUsefulStoryConfiguration;
+import org.jbehave.core.StoryConfiguration;
+import org.jbehave.core.parser.ClasspathStoryDefiner;
+import org.jbehave.core.parser.PatternStoryParser;
+import org.jbehave.core.parser.PrefixCapturingPatternBuilder;
+import org.jbehave.core.parser.UnderscoredCamelCaseResolver;
+import org.jbehave.core.reporters.FilePrintStreamFactory;
+import org.jbehave.core.reporters.StoryReporterBuilder;
+import org.jbehave.core.steps.CandidateSteps;
+import org.jbehave.core.steps.MostUsefulStepsConfiguration;
+import org.jbehave.core.steps.ParameterConverters;
+import org.jbehave.core.steps.SilentStepMonitor;
+import org.jbehave.core.steps.StepMonitor;
+import org.jbehave.core.steps.StepsConfiguration;
+import org.jbehave.core.steps.StepsFactory;
+import org.jbehave.examples.trader.converters.TraderConverter;
+import org.jbehave.examples.trader.model.Stock;
+import org.jbehave.examples.trader.model.Trader;
+import org.jbehave.examples.trader.persistence.TraderPersister;
+import org.jbehave.examples.trader.service.TradingService;
+
 import static java.util.Arrays.asList;
 import static org.jbehave.core.reporters.StoryReporterBuilder.Format.CONSOLE;
 import static org.jbehave.core.reporters.StoryReporterBuilder.Format.HTML;
 import static org.jbehave.core.reporters.StoryReporterBuilder.Format.TXT;
 import static org.jbehave.core.reporters.StoryReporterBuilder.Format.XML;
 
-import org.jbehave.core.*;
-import org.jbehave.core.parser.*;
-import org.jbehave.core.steps.*;
-import org.jbehave.examples.trader.converters.TraderConverter;
-import org.jbehave.examples.trader.model.Stock;
-import org.jbehave.examples.trader.model.Trader;
-import org.jbehave.examples.trader.persistence.TraderPersister;
-import org.jbehave.examples.trader.service.TradingService;
-import org.jbehave.core.reporters.FilePrintStreamFactory;
-import org.jbehave.core.reporters.StoryReporterBuilder;
-
 public class TraderStory extends JUnitStory {
 
-    public TraderStory(final Class<? extends RunnableStory> storyClass) {
+    public TraderStory() {
         // start with default story configuration, overriding story definer and reporter
         StoryConfiguration storyConfiguration = new MostUsefulStoryConfiguration();
         storyConfiguration.useStoryPathResolver(new UnderscoredCamelCaseResolver(".story"));
         storyConfiguration.useStoryDefiner(new ClasspathStoryDefiner(new PatternStoryParser(storyConfiguration.keywords()), this.getClass().getClassLoader()));
-        String storyPath = storyConfiguration.storyPathResolver().resolve(storyClass);
+        String storyPath = storyConfiguration.storyPathResolver().resolve(this.getClass());
         storyConfiguration.useStoryReporter(new StoryReporterBuilder(new FilePrintStreamFactory(storyPath))
                 .with(CONSOLE)
                 .with(TXT)
