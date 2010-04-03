@@ -1,6 +1,7 @@
 package org.jbehave.core.reporters;
 
 import org.jbehave.core.RunnableStory;
+import org.jbehave.core.parser.StoryLocation;
 import org.jbehave.core.parser.StoryPathResolver;
 
 import java.io.File;
@@ -79,15 +80,21 @@ public class FilePrintStreamFactory implements PrintStreamFactory {
     }
 
     private String storyLocation() {
-        String storyLocation = "./";
-        if (storyClass != null ) {
-            storyLocation = storyClass.getProtectionDomain().getCodeSource().getLocation().getFile();
-        } else if ( storyPath != null ){
-            storyLocation = this.getClass().getProtectionDomain().getCodeSource().getLocation().getFile() + storyPath;
+        if (storyClass != null) {
+            return storyClass.getProtectionDomain().getCodeSource().getLocation().getFile();
+        } else if (storyPath != null) {
+            StoryLocation storyLocation = new StoryLocation(storyPath);
+            if ( storyLocation.isURL()) {
+                return storyLocation.getPath();
+            } else {
+                return storyLocation.getPathWithCodeLocation();
+            }
         }
-        return storyLocation;
+        // return a sensible default that is not null
+        return "./";
     }
 
+  
     protected String fileName() {
         String storyName = storyName();
         String name = storyName.substring(0, storyName.lastIndexOf("."));
@@ -98,8 +105,13 @@ public class FilePrintStreamFactory implements PrintStreamFactory {
         String storyName = "";
         if (storyClass != null) {
             storyName = storyPathResolver.resolve(storyClass);
-        } else if ( storyPath != null ){
-            storyName = storyPath;
+        } else if (storyPath != null) {
+            StoryLocation storyLocation = new StoryLocation(storyPath);
+            if (storyLocation.isURL()) {
+                storyName = storyLocation.getPathWithoutCodeLocation();
+            } else {
+                storyName = storyPath;
+            }
         }
         return storyName.replace('/', '.');
     }

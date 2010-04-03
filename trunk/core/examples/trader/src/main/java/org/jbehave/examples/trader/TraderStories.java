@@ -14,6 +14,7 @@ import org.jbehave.examples.trader.model.Trader;
 import org.jbehave.examples.trader.persistence.TraderPersister;
 import org.jbehave.examples.trader.service.TradingService;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import static java.util.Arrays.asList;
@@ -25,7 +26,8 @@ public class TraderStories extends JUnitStories {
         // start with default story configuration, overriding story definer and reporter
         StoryConfiguration storyConfiguration = new MostUsefulStoryConfiguration();
         storyConfiguration.useStoryPathResolver(new UnderscoredCamelCaseResolver(".story"));
-        storyConfiguration.useStoryDefiner(new ClasspathStoryDefiner(new PatternStoryParser(storyConfiguration.keywords()), this.getClass().getClassLoader()));
+        // Using URLs to define stories
+        storyConfiguration.useStoryDefiner(new URLStoryDefiner(new PatternStoryParser(storyConfiguration.keywords())));
         List<String> storyPaths = storyPaths();
         for ( String storyPath : storyPaths ){
             StoryReporter storyReporter = new StoryReporterBuilder(new FilePrintStreamFactory(storyPath))
@@ -60,7 +62,15 @@ public class TraderStories extends JUnitStories {
 
     @Override
     protected List<String> storyPaths() {
-        return asList("org/jbehave/examples/trader/stories/trader_is_alerted_of_status.story",
-                      "org/jbehave/examples/trader/stories/trader_sells_all_stocks.story");
+        // Defining story paths via URLs
+        return asList(storyURL("trader_is_alerted_of_status.story"),
+                      storyURL("wildcard_search.story"));
+    }
+
+    private String storyURL(String name){
+        String codeLocation = new StoryLocation("", this.getClass()).getCodeLocation();
+        String urlPattern = "file://"+ codeLocation +"org/jbehave/examples/trader/stories/{0}";
+        return MessageFormat.format(urlPattern, name);
+
     }
 }
