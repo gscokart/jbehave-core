@@ -11,14 +11,12 @@ import org.junit.Test;
  */
 public abstract class JUnitStory extends RunnableStoryDelegator {
 
-    private final Class<? extends RunnableStory> storyClass = this.getClass();
-
     public JUnitStory() {
         this(new StoryRunner());
     }
 
     public JUnitStory(StoryRunner storyRunner) {
-        delegateTo(new JUnitStoryDelegate(storyRunner, storyClass));
+        delegateTo(new JUnitStoryDelegate(storyRunner, this.getClass()));
     }
 
     @Test
