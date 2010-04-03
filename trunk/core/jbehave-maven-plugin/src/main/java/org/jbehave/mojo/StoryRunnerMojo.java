@@ -28,17 +28,17 @@ public class StoryRunnerMojo extends AbstractStoryMojo {
             return;
         }
 
-        Map<String, Throwable> failedScenarios = new HashMap<String, Throwable>();
+        Map<String, Throwable> failedStories = new HashMap<String, Throwable>();
         for (RunnableStory story : stories()) {
-            String scenarioName = story.getClass().getName();
+            String storyName = story.getClass().getName();
             try {
-                getLog().info("Running core " + scenarioName);
+                getLog().info("Running story " + storyName);
                 story.runStory();
             } catch (Throwable e) {
-                String message = "Failure in running core " + scenarioName;
+                String message = "Failure in running story " + storyName;
                 if (batch) {
                     // collect and postpone decision to throw exception
-                    failedScenarios.put(scenarioName, e);
+                    failedStories.put(storyName, e);
                 } else {
                     if (ignoreFailure()) {
                         getLog().warn(message, e);
@@ -49,8 +49,8 @@ public class StoryRunnerMojo extends AbstractStoryMojo {
             }
         }
 
-        if (batch && failedScenarios.size() > 0) {
-            String message = "Failure in runing stories: " + format(failedScenarios);
+        if (batch && failedStories.size() > 0) {
+            String message = "Failure in running stories: " + format(failedStories);
             if ( ignoreFailure() ){
                 getLog().warn(message);
             } else {
@@ -60,12 +60,12 @@ public class StoryRunnerMojo extends AbstractStoryMojo {
 
     }
 
-    private String format(Map<String, Throwable> failedScenarios) {
+    private String format(Map<String, Throwable> failedStories) {
         StringBuffer sb = new StringBuffer();
-        for (String scenarioName : failedScenarios.keySet()) {
-            Throwable cause = failedScenarios.get(scenarioName);
+        for (String storyName : failedStories.keySet()) {
+            Throwable cause = failedStories.get(storyName);
             sb.append("\n");
-            sb.append(scenarioName);
+            sb.append(storyName);
             sb.append(": ");
             sb.append(cause.getMessage());
         }

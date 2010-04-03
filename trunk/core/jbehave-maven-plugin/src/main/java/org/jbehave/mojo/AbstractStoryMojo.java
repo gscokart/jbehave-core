@@ -44,7 +44,7 @@ public abstract class AbstractStoryMojo extends AbstractMojo {
 
     /**
      * Story class names, if specified take precedence over the names
-     * specified via the "scenarioIncludes" and "scenarioExcludes" parameters
+     * specified via the "storyIncludes" and "storyExcludes" parameters
      * 
      * @parameter
      */
@@ -59,7 +59,7 @@ public abstract class AbstractStoryMojo extends AbstractMojo {
     private List<String> storyIncludes;
 
     /**
-     * Scenario exclude filters, relative to the root source directory
+     * Story exclude filters, relative to the root source directory
      * determined by the scope
      * 
      * @parameter
@@ -85,9 +85,9 @@ public abstract class AbstractStoryMojo extends AbstractMojo {
     private List<String> testClasspathElements;
 
     /**
-     * The boolean flag to determined if class loader is injected in core class
+     * The boolean flag to determined if class loader is injected in story class
      * 
-     * @parameter default-value="true"
+     * @parameter default-value="false"
      */
     private boolean classLoaderInjected;
     
@@ -106,7 +106,7 @@ public abstract class AbstractStoryMojo extends AbstractMojo {
     private boolean ignoreFailure;
     
     /**
-     * Used to find core class names
+     * Used to find story class names
      */
     private StoryClassNameFinder finder = new StoryClassNameFinder();
 
@@ -126,16 +126,16 @@ public abstract class AbstractStoryMojo extends AbstractMojo {
         return sourceDirectory;
     }
 
-    private List<String> findstoryClassNames() {
-        getLog().debug("Searching for core class names including "+storyIncludes+" and excluding "+storyExcludes);
+    private List<String> findStoryClassNames() {
+        getLog().debug("Searching for story class names including "+storyIncludes+" and excluding "+storyExcludes);
         List<String> storyClassNames = finder.listStoryClassNames(rootSourceDirectory(), null, storyIncludes,
                 storyExcludes);
-        getLog().debug("Found core class names: " + storyClassNames);
+        getLog().debug("Found story class names: " + storyClassNames);
         return storyClassNames;
     }
 
     /**
-     * Creates the Scenario ClassLoader with the classpath element of the
+     * Creates the StoryClassLoader with the classpath element of the
      * selected scope
      * 
      * @return A StoryClassLoader
@@ -182,7 +182,7 @@ public abstract class AbstractStoryMojo extends AbstractMojo {
     protected List<RunnableStory> stories() throws MojoExecutionException {
         List<String> names = storyClassNames;
         if (names == null || names.isEmpty()) {
-            names = findstoryClassNames();
+            names = findStoryClassNames();
         }
         if (names.isEmpty()) {
             getLog().info("No stories to run.");

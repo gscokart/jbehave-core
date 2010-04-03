@@ -196,7 +196,7 @@
                   storyExcludes="**/i18n/stories/*.java"
                   classLoaderInjected="false" skip="${skip.ant.stories}" />
                 <storyRunner storyIncludes="**/i18n/stories/*.java"
-                  storyExcludes="" classLoaderInjected="true"
+                  storyExcludes="" classLoaderInjected="false"
                   skip="${skip.ant.stories}" />
               </tasks>
             </configuration>
