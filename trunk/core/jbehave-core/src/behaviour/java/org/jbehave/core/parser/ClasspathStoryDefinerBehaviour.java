@@ -1,12 +1,8 @@
 package org.jbehave.core.parser;
 
-import org.jbehave.core.JUnitStory;
-import org.jbehave.core.RunnableStory;
 import org.jbehave.core.errors.InvalidStoryResourceException;
 import org.jbehave.core.errors.StoryNotFoundException;
-import org.jbehave.core.i18n.I18nKeyWords;
 import org.jbehave.core.model.Story;
-import org.jbehave.core.parser.stories.MyPendingStory;
 import org.junit.Test;
 
 import java.io.File;
@@ -23,7 +19,8 @@ public class ClasspathStoryDefinerBehaviour {
         StoryParser parser = mock(StoryParser.class);
         Story story = mock(Story.class);
         String storyPath = "org/jbehave/core/parser/stories/my_pending_story";
-        when(parser.defineStoryFrom("Given my step", storyPath)).thenReturn(story);
+        String storyAsString = "Given my step";
+        when(parser.defineStoryFrom(storyAsString, storyPath)).thenReturn(story);
 
         // When
         StoryDefiner definer = new ClasspathStoryDefiner(parser);
@@ -41,7 +38,7 @@ public class ClasspathStoryDefinerBehaviour {
 
     @Test(expected = InvalidStoryResourceException.class)
     public void cannotDefineStoryForInvalidResource() {
-        StoryDefiner definer = new ClasspathStoryDefiner(new PatternStoryParser(new I18nKeyWords()), new InvalidClassLoader());
+        StoryDefiner definer = new ClasspathStoryDefiner(new InvalidClassLoader());
         definer.defineStory("inexistent.story");
     }
 
