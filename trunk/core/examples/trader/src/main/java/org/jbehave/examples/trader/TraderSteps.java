@@ -51,8 +51,8 @@ public class TraderSteps {
         traders.addAll(toTraders(tradersTable));
     }
 
-    @When("a wildcard search \"%regex\" is executed")
-    public void aWildcardSearchIsExecuted(String regex) {
+    @When("When Traders subset to \"%regex\" by name")
+    public void subsetTradersByName(String regex) {
         searchedTraders = new ArrayList<Trader>();
         for (Trader trader : traders) {
             if ( trader.getName().matches(regex) ){
