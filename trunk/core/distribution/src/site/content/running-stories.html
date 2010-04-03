@@ -1,7 +1,8 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
-<title>Running Stories</title>
+    <title>Running Stories</title>
 </head>
 
 <body>
@@ -9,143 +10,168 @@
 <h2>Running Stories</h2>
 
 <p>JBehave was designed to be embeddable in different development
-environments. The JBehave Core module contains support for running
-storys as JUnit tests - which can be run either in your favourite IDE
-or in your command-line build that supports JUnit tests. Other unit
-testing frameworks, e.g. TestNG, can also be used very easily, c.f. <a
-    href="faq.html">FAQ</a>.</p>
+    environments. The JBehave Core module contains support for running
+    stories as JUnit tests - which can be run either in your favourite IDE
+    or in your command-line build that supports JUnit tests. Other unit
+    testing frameworks, e.g. TestNG, can also be used very easily, c.f. <a
+            href="faq.html">FAQ</a>.</p>
 
-<p>You can also run storys using the JBehave Ant or Maven
-extensions. Both support two way to lookup storys, by list of
-story classes or by Java path includes/excludes pattern. Below are
-examples on how to configure both extensions - using the trader example.</p>
+<p>You can also run stories using the JBehave Ant or Maven
+    extensions. Both support two way to lookup stories, by list of
+    story classes or by Java path includes/excludes pattern. Below are
+    examples on how to configure both extensions - using the trader example.</p>
+
+<h2>Running via JUnit</h2>
+
+<p>Ensure the <a
+        href="javadoc/core/org/jbehave/core/RunnableStory.html">RunnableStory</a> implementation extends
+    <a
+            href="javadoc/core/org/jbehave/core/JUnitStory.html">JUnitStory</a> or <a
+            href="javadoc/core/org/jbehave/core/JUnitStories.html">JUnitStories</a>. You can also use an instance
+    of <a
+            href="javadoc/core/org/jbehave/core/RunnableStoryDelegator.html">RunnableStoryDelegator</a> 
+    via a composition
+    design if you prefer to extend other unit-test frameworks or JUnit-support tools that require a different
+    hierarchical structure.  In this case, you'll need to ensure that the method <b>runStory()</b> is invoked.
+</p>
+
+<p>If extending <a
+        href="javadoc/core/org/jbehave/core/JUnitStories.html">JUnitStories</a> you'll need to implement the abstract
+    method to specify the story paths that need to run via the same RunnableStory instance:
+</p>
+
+<script type="syntaxhighlighter" class="brush: java"><![CDATA[
+    @Override
+    protected List storyPaths() {
+        return asList("org/jbehave/example/trader/trader_is_alerted_of_status.story",
+                      "org/jbehave/example/trader/wildcard_search.story");
+    }
+    ]]>
+</script>
 
 <h2>Running as Ant task</h2>
 
 <script type="syntaxhighlighter" class="brush: xml"><![CDATA[
-  <taskdef name="storyRunner"
-    classname="org.jbehave.ant.StoryRunnerTask"
-    classpathref="your.runtime.classpath" />
-  
-  <storyRunner 
-    storyIncludes="**/stories/*.java"
-    storyExcludes="**/*Steps.java" 
-    classLoaderInjected="[true|false]"
-    skip="[true|false]" 
-    ignoreFailure="[true|false]"
-    batch="[true|false]" 
-    scope="[compile|test]"
-    sourceDirectory="[sourceDirectory|src/main/java]"
-    testSourceDirectory="[testSourceDirectory|src/test/java]" />
-    
-  <taskdef name="renderReports"
-    classname="org.jbehave.ant.ReportRendererTask"
-    classpathref="your.runtime.classpath" />
-  
-  <renderReports 
-    outputDirectory="${basedir}/target/jbehave-reports" 
-    formats="txt,html,xml" 
-    templateProperties="defaultFormats=stats\nrenderedDirectory=rendered" />
-    
-]]></script>
+    <taskdef name="storyRunner"
+             classname="org.jbehave.ant.StoryRunnerTask"
+             classpathref="your.runtime.classpath"/>
+
+    <storyRunner
+            storyIncludes="**/stories/*.java"
+            storyExcludes="**/*Steps.java"
+            classLoaderInjected="[true|false]"
+            skip="[true|false]"
+            ignoreFailure="[true|false]"
+            batch="[true|false]"
+            scope="[compile|test]"
+            sourceDirectory="[sourceDirectory|src/main/java]"
+            testSourceDirectory="[testSourceDirectory|src/test/java]"/>
+
+    <taskdef name="renderReports"
+             classname="org.jbehave.ant.ReportRendererTask"
+             classpathref="your.runtime.classpath"/>
+
+    <renderReports
+            outputDirectory="${basedir}/target/jbehave-reports"
+            formats="txt,html,xml"
+            templateProperties="defaultFormats=stats\nrenderedDirectory=rendered"/>
+
+    ]]>
+</script>
 
 <p>Remember to include <b>jbehave-ant</b> to your runtime classpath.</p>
 
 <p>Note: we are using as default scope <b>compile</b>, which means
-that the stories will be looked up in the source directory (which can
-be optionally specified and defaults to <b>src/main/java</b>). If the
-scope is set to <b>test</b> the stories will be looked up in the test
-source directory (which can be optionally specified and defaults to <b>src/test/java</b>).
+    that the stories will be looked up in the source directory (which can
+    be optionally specified and defaults to <b>src/main/java</b>). If the
+    scope is set to <b>test</b> the stories will be looked up in the test
+    source directory (which can be optionally specified and defaults to <b>src/test/java</b>).
 </p>
 
 <h2>Running as Maven Plugin</h2>
 
 <script type="syntaxhighlighter" class="brush: xml"><![CDATA[
-   <plugin>
+    <plugin>
         <groupId>org.jbehave</groupId>
         <artifactId>jbehave-maven-plugin</artifactId>
         <version>[version]</version>
         <executions>
-          <execution>
-            <id>run-stories-found</id>
-            <phase>integration-test</phase>
-            <configuration>
-              <storyIncludes>
-                <storyInclude>**/stories/*.java</storyInclude>
-              </storyIncludes>
-              <storyExcludes>
-                <storyExclude>**/*Steps.java</storyExclude>
-              </storyExcludes>
-              <classLoaderInjected>[true|false]</classLoaderInjected>
-              <skip>[true|false]</skip> 
-              <ignoreFailure>[true|false]</ignoreFailure>
-              <batch>[true|false]</batch>
-              <scope>[compile|test]</scope>
-            </configuration>
-            <goals>
-              <goal>run-stories</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>render-reports</id>
-            <phase>integration-test</phase>
-            <configuration>
-              <outputDirectory>${basedir}/target/jbehave-reports</outputDirectory>
-              <formats>
-                <format>txt</format>
-                <format>html</format>
-                <format>xml</format>
-              </formats>
-              <templateProperties>
-                <property>
-                  <name>defaultFormats</name>
-                  <value>stats</value>
-                </property>
-                <property>
-                  <name>renderedDirectory</name>
-                  <value>rendered</value>
-                </property>                
-              </templateProperties>
-            </configuration>
-            <goals>
-              <goal>render-reports</goal>
-            </goals>
-          </execution>
+            <execution>
+                <id>run-stories-found</id>
+                <phase>integration-test</phase>
+                <configuration>
+                    <storyIncludes>
+                        <storyInclude>**/stories/*.java</storyInclude>
+                    </storyIncludes>
+                    <storyExcludes>
+                        <storyExclude>**/*Steps.java</storyExclude>
+                    </storyExcludes>
+                    <classLoaderInjected>[true|false]</classLoaderInjected>
+                    <skip>[true|false]</skip>
+                    <ignoreFailure>[true|false]</ignoreFailure>
+                    <batch>[true|false]</batch>
+                    <scope>[compile|test]</scope>
+                </configuration>
+                <goals>
+                    <goal>run-stories</goal>
+                </goals>
+            </execution>
+            <execution>
+                <id>render-reports</id>
+                <phase>integration-test</phase>
+                <configuration>
+                    <outputDirectory>${basedir}/target/jbehave-reports</outputDirectory>
+                    <formats>
+                        <format>txt</format>
+                        <format>html</format>
+                        <format>xml</format>
+                    </formats>
+                    <templateProperties>
+                        <property>
+                            <name>defaultFormats</name>
+                            <value>stats</value>
+                        </property>
+                        <property>
+                            <name>renderedDirectory</name>
+                            <value>rendered</value>
+                        </property>
+                    </templateProperties>
+                </configuration>
+                <goals>
+                    <goal>render-reports</goal>
+                </goals>
+            </execution>
         </executions>
     </plugin>
-]]></script>
+    ]]>
+</script>
 
 <p>Note: we are using as default scope <b>compile</b>, which means
-that the stories will be looked up in the POM source directory. If the
-scope is set to <b>test</b> the stories will be looked up in the POM
-test source directory.</p>
+    that the stories will be looked up in the POM source directory. If the
+    scope is set to <b>test</b> the stories will be looked up in the POM
+    test source directory.</p>
 
-<h2>Instantiating RunnableStory classes</h2>
+<h2>Instantiating RunnableStory classes with injected ClassLoader</h2>
 
-<p>Both Ant and Maven by default instantiate the RunnableStory class via
-a public constructor with a single ClassLoader parameter (i.e. with
-property <b>classLoaderInjected</b> set to <b>true</b>). This allows the
-story to be injected with the class loader during instantiation, e.g.
-as used in the loading of I18n resource bundles. If the user does not
-require the class loader during instantiation, its injection can be
-disabled by setting the property <b>classLoaderInjected</b> to <b>false</b>.
-In this case only the default public constructor is required.</p>
+<p>Both Ant and Maven can be configured to instantiate the RunnableStory class via
+    a public constructor with a single ClassLoader parameter (i.e. with
+    property <b>classLoaderInjected</b> set to <b>true</b>).</p>
 
 <h2>Running Stories for reports</h2>
 
 <p>By default, the story runners are configured to <b>fail-fast</b>,
-i.e. the execution will stop at first failure (but will complete
-execution of the all the stories in the story or textual story
-file). To allow the generation of complete reports view, the runners
-need to be enabled to execute story in <b>batch</b> and <b>ignoreFailure</b>
-modes (i.e. setting these flags to <b>true</b>). In this way all
-stories will run and the build will be nominally successful but a full
-report can ben generated, including the failed and pending steps. Note
-that the batch mode is strictly speaking not essential but makes it
-easier to get a summary of the failed stories.</p>
+    i.e. the execution will stop at first failure (but will complete
+    execution of the all the stories in the story or textual story
+    file). To allow the generation of complete reports view, the runners
+    need to be enabled to execute story in <b>batch</b> and <b>ignoreFailure</b>
+    modes (i.e. setting these flags to <b>true</b>). In this way all
+    stories will run and the build will be nominally successful but a full
+    report can ben generated, including the failed and pending steps. Note
+    that the batch mode is strictly speaking not essential but makes it
+    easier to get a summary of the failed stories.</p>
 
 <div class="clear">
-<hr />
+    <hr/>
 </div>
 
 
