@@ -14,7 +14,6 @@ import org.jbehave.examples.trader.model.Stock;
 import org.jbehave.examples.trader.model.Trader;
 import org.jbehave.examples.trader.persistence.TraderPersister;
 import org.jbehave.examples.trader.service.TradingService;
-import org.jbehave.core.parser.StoryNameResolver;
 import org.jbehave.core.reporters.FilePrintStreamFactory;
 import org.jbehave.core.reporters.StoryReporterBuilder;
 
@@ -23,9 +22,9 @@ public class TraderStory extends JUnitStory {
     public TraderStory(final Class<? extends RunnableStory> scenarioClass) {
         // start with default story configuration, overriding story definer and reporter
         StoryConfiguration storyConfiguration = new MostUsefulStoryConfiguration();
-        storyConfiguration.useStoryNameResolver(new UnderscoredCamelCaseResolver(".story"));
+        storyConfiguration.useStoryPathResolver(new UnderscoredCamelCaseResolver(".story"));
         storyConfiguration.useStoryDefiner(new ClasspathStoryDefiner(new PatternStoryParser(storyConfiguration.keywords()), this.getClass().getClassLoader()));
-        storyConfiguration.useStoryReporter(new StoryReporterBuilder(new FilePrintStreamFactory(scenarioClass, storyConfiguration.storyNameResolver()))
+        storyConfiguration.useStoryReporter(new StoryReporterBuilder(new FilePrintStreamFactory(scenarioClass, storyConfiguration.storyPathResolver()))
                 .with(CONSOLE)
                 .with(TXT)
                 .with(HTML)

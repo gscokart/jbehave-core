@@ -2,8 +2,8 @@ package org.jbehave.core.parser;
 
 import org.jbehave.core.RunnableStory;
 
-public abstract class AbstractStoryNameResolver implements
-        StoryNameResolver {
+public abstract class AbstractStoryPathResolver implements
+        StoryPathResolver {
 
 	static final String DOT_REGEX = "\\.";
 	static final String SLASH = "/";
@@ -13,34 +13,32 @@ public abstract class AbstractStoryNameResolver implements
 
 	private final String extension;
 
-	protected AbstractStoryNameResolver() {
+	protected AbstractStoryPathResolver() {
 		this(DEFAULT_EXTENSION);
 	}
 
-	protected AbstractStoryNameResolver(String extension) {
+	protected AbstractStoryPathResolver(String extension) {
 		this.extension = extension;
 	}
 
-	public String resolve(Class<? extends RunnableStory> scenarioClass) {
-		String directoryName = resolveDirectoryName(scenarioClass);
-		String fileName = resolveFileName(scenarioClass);
-		return formatName(directoryName, fileName, extension);
+	public String resolve(Class<? extends RunnableStory> storyClass) {
+        return formatPath(resolveDirectory(storyClass), resolveName(storyClass), extension);
 	}
 
-	private String formatName(String directoryName, String fileName,
+	private String formatPath(String directory, String name,
 			String extension) {
 		StringBuffer sb = new StringBuffer();
-		if (directoryName.length() > 0) {
-			sb.append(directoryName).append(SLASH);
+		if (directory.length() > 0) {
+			sb.append(directory).append(SLASH);
 		}
-		sb.append(fileName);
+		sb.append(name);
 		if (extension.length() > 0) {
 			sb.append(extension);
 		}
 		return sb.toString();
 	}
 
-	protected String resolveDirectoryName(
+	protected String resolveDirectory(
 			Class<? extends RunnableStory> scenarioClass) {
 		Package scenarioPackage = scenarioClass.getPackage();
 		if (scenarioPackage != null) {
@@ -49,7 +47,7 @@ public abstract class AbstractStoryNameResolver implements
 		return EMPTY;
 	}
 
-	protected abstract String resolveFileName(
-			Class<? extends RunnableStory> scenarioClass);
+	protected abstract String resolveName(
+			Class<? extends RunnableStory> storyClass);
 
 }

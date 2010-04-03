@@ -1,7 +1,7 @@
 package org.jbehave.core.reporters;
 
 import org.jbehave.core.RunnableStory;
-import org.jbehave.core.parser.StoryNameResolver;
+import org.jbehave.core.parser.StoryPathResolver;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,20 +16,20 @@ public class FilePrintStreamFactory implements PrintStreamFactory {
 
     private PrintStream printStream;
     private Class<? extends RunnableStory> storyClass;
-    private StoryNameResolver storyNameResolver;
+    private StoryPathResolver storyPathResolver;
     private FileConfiguration configuration;
     private File outputFile;
     private String storyPath;
 
     public FilePrintStreamFactory(Class<? extends RunnableStory> storyClass,
-                                  StoryNameResolver storyNameResolver) {
-        this(storyClass, storyNameResolver, new FileConfiguration());
+                                  StoryPathResolver storyPathResolver) {
+        this(storyClass, storyPathResolver, new FileConfiguration());
     }
 
     public FilePrintStreamFactory(Class<? extends RunnableStory> storyClass,
-                                  StoryNameResolver storyNameResolver, FileConfiguration configuration) {
+                                  StoryPathResolver storyPathResolver, FileConfiguration configuration) {
         this.storyClass = storyClass;
-        this.storyNameResolver = storyNameResolver;
+        this.storyPathResolver = storyPathResolver;
         this.configuration = configuration;
         this.outputFile = outputFile();
     }
@@ -97,7 +97,7 @@ public class FilePrintStreamFactory implements PrintStreamFactory {
     private String storyName() {
         String storyName = "";
         if (storyClass != null) {
-            storyName = storyNameResolver.resolve(storyClass);
+            storyName = storyPathResolver.resolve(storyClass);
         } else if ( storyPath != null ){
             storyName = storyPath;
         }

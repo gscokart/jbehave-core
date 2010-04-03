@@ -11,14 +11,14 @@ public class UnderscoredCamelCaseResolverBehaviour {
 
     @Test
     public void shouldResolveCamelCasedClassNameToUnderscoredName() {
-    	StoryNameResolver resolver = new UnderscoredCamelCaseResolver();
+    	StoryPathResolver resolver = new UnderscoredCamelCaseResolver();
         ensureThat(resolver.resolve(CamelCaseStory.class),
                 equalTo("org/jbehave/core/parser/camel_case_story"));
     }
         
     @Test
     public void shouldResolveCamelCasedClassNameToUnderscoredNameWithExtension() {
-    	StoryNameResolver resolver = new UnderscoredCamelCaseResolver(".story");
+    	StoryPathResolver resolver = new UnderscoredCamelCaseResolver(".story");
         ensureThat(resolver.resolve(CamelCase.class),
                 equalTo("org/jbehave/core/parser/camel_case.story"));
     }
@@ -29,14 +29,14 @@ public class UnderscoredCamelCaseResolverBehaviour {
      */
     @Test
     public void shouldResolveCamelCasedClassNameToUnderscoredNameWithExtensionStrippingExtraneousWord() {
-    	StoryNameResolver resolver = new UnderscoredCamelCaseResolver(".story").removeFromClassname("Story");
+    	StoryPathResolver resolver = new UnderscoredCamelCaseResolver(".story").removeFromClassname("Story");
         ensureThat(resolver.resolve(CamelCaseStory.class),
                 equalTo("org/jbehave/core/parser/camel_case.story"));
     }
 
     @Test
     public void shouldResolveCamelCasedClassNameWithNumbersTreatedAsLowerCaseLetters() {
-    	StoryNameResolver resolver = new UnderscoredCamelCaseResolver();
+    	StoryPathResolver resolver = new UnderscoredCamelCaseResolver();
         ensureThat(resolver.resolve(CamelCaseWithA3Qualifier.class),
                 equalTo("org/jbehave/core/parser/camel_case_with_a3_qualifier"));
         ensureThat(resolver.resolve(CamelCaseWithA33Qualifier.class),
@@ -45,7 +45,7 @@ public class UnderscoredCamelCaseResolverBehaviour {
         
     @Test
     public void shouldResolveCamelCasedClassNameWithNumbersTreatedAsUpperCaseLetters() {
-    	StoryNameResolver resolver = new UnderscoredCamelCaseResolver("", NUMBERS_AS_UPPER_CASE_LETTERS_PATTERN);
+    	StoryPathResolver resolver = new UnderscoredCamelCaseResolver("", NUMBERS_AS_UPPER_CASE_LETTERS_PATTERN);
         ensureThat(resolver.resolve(CamelCaseWithA3Qualifier.class),
                 equalTo("org/jbehave/core/parser/camel_case_with_a_3_qualifier"));
         ensureThat(resolver.resolve(CamelCaseWithA33Qualifier.class),

@@ -23,7 +23,7 @@ import org.jbehave.core.JUnitStory;
 import org.jbehave.core.model.*;
 import org.jbehave.core.model.Description;
 import org.jbehave.core.i18n.I18nKeyWords;
-import org.jbehave.core.parser.StoryNameResolver;
+import org.jbehave.core.parser.StoryPathResolver;
 import org.jbehave.core.parser.UnderscoredCamelCaseResolver;
 import org.jbehave.core.reporters.FilePrintStreamFactory.FileConfiguration;
 import org.jbehave.core.reporters.FreemarkerReportRenderer.RenderingFailedException;
@@ -343,7 +343,7 @@ public class PrintStreamStoryReporterBehaviour {
 
         // Given
         Class<MyStory> scenarioClass = MyStory.class;
-        StoryNameResolver converter = new UnderscoredCamelCaseResolver(".core");
+        StoryPathResolver converter = new UnderscoredCamelCaseResolver(".core");
         FilePrintStreamFactory factory = new FilePrintStreamFactory(scenarioClass, converter);
         File file = factory.getOutputFile();
         file.delete();
@@ -361,8 +361,8 @@ public class PrintStreamStoryReporterBehaviour {
     @Test
     public void shouldReportEventsToFilePrintStreamsAndRenderAggregatedIndex() throws IOException {
         Class<MyStory> scenarioClass = MyStory.class;
-        StoryNameResolver nameResolver = new UnderscoredCamelCaseResolver();
-        FilePrintStreamFactory printStreamFactory = new FilePrintStreamFactory(scenarioClass, nameResolver);
+        StoryPathResolver pathResolver = new UnderscoredCamelCaseResolver();
+        FilePrintStreamFactory printStreamFactory = new FilePrintStreamFactory(scenarioClass, pathResolver);
         StoryReporter reporter = new StoryReporterBuilder(printStreamFactory).with(HTML).with(TXT)
                 .build();
 
@@ -379,8 +379,8 @@ public class PrintStreamStoryReporterBehaviour {
     @Test
     public void shouldBuildPrintStreamReportersAndOverrideDefaultForAGivenFormat() throws IOException {
         Class<MyStory> scenarioClass = MyStory.class;
-        StoryNameResolver nameResolver = new UnderscoredCamelCaseResolver();
-        FilePrintStreamFactory factory = new FilePrintStreamFactory(scenarioClass, nameResolver);
+        StoryPathResolver pathResolver = new UnderscoredCamelCaseResolver();
+        FilePrintStreamFactory factory = new FilePrintStreamFactory(scenarioClass, pathResolver);
         StoryReporter reporter = new StoryReporterBuilder(factory){
                public StoryReporter reporterFor(Format format){
                        switch (format) {

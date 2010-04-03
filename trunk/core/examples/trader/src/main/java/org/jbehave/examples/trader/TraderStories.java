@@ -24,7 +24,7 @@ public class TraderStories extends JUnitStories {
     public TraderStories() {
         // start with default story configuration, overriding story definer and reporter
         StoryConfiguration storyConfiguration = new MostUsefulStoryConfiguration();
-        storyConfiguration.useStoryNameResolver(new UnderscoredCamelCaseResolver(".story"));
+        storyConfiguration.useStoryPathResolver(new UnderscoredCamelCaseResolver(".story"));
         storyConfiguration.useStoryDefiner(new ClasspathStoryDefiner(new PatternStoryParser(storyConfiguration.keywords()), this.getClass().getClassLoader()));
         List<String> storyPaths = storyPaths();
         for ( String storyPath : storyPaths ){

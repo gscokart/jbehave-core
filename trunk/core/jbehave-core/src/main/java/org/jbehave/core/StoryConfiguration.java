@@ -47,11 +47,10 @@ public abstract class StoryConfiguration {
      * camel-cased name - so MyStory.java maps to my_story.
      */
     private StoryDefiner storyDefiner = new ClasspathStoryDefiner(new PatternStoryParser(keywords));
-
     /**
-     * Resolves story names from classes
+     * Resolves story paths from classes
      */
-    private StoryNameResolver storyNameResolver = new UnderscoredCamelCaseResolver();
+    private StoryPathResolver storyPathResolver = new UnderscoredCamelCaseResolver();
     /**
      * Handles errors by re-throwing them.
      * <p/>
@@ -100,17 +99,18 @@ public abstract class StoryConfiguration {
      * @param keywords
      * @param stepCreator
      * @param storyDefiner
-     * @param storyNameResolver
+     * @param storyPathResolver
      * @param errorStrategy
      * @param stepdocReporter
      * @param stepdocGenerator
      * @param storyReporter
      * @param pendingErrorStrategy
      */
-    protected StoryConfiguration(KeyWords keywords, StepCreator stepCreator, StoryDefiner storyDefiner, StoryNameResolver storyNameResolver, ErrorStrategy errorStrategy, StepdocReporter stepdocReporter, StepdocGenerator stepdocGenerator, StoryReporter storyReporter, PendingErrorStrategy pendingErrorStrategy) {
+    protected StoryConfiguration(KeyWords keywords, StepCreator stepCreator, StoryDefiner storyDefiner, StoryPathResolver storyPathResolver, ErrorStrategy errorStrategy, StepdocReporter stepdocReporter, StepdocGenerator stepdocGenerator, StoryReporter storyReporter, PendingErrorStrategy pendingErrorStrategy) {
         this.keywords = keywords;
         this.stepCreator = stepCreator;
         this.storyDefiner = storyDefiner;
+        this.storyPathResolver = storyPathResolver;
         this.errorStrategy = errorStrategy;
         this.stepdocReporter = stepdocReporter;
         this.stepdocGenerator = stepdocGenerator;
@@ -127,8 +127,8 @@ public abstract class StoryConfiguration {
         return storyDefiner;
     }
 
-    public StoryNameResolver storyNameResolver(){
-        return storyNameResolver;
+    public StoryPathResolver storyPathResolver(){
+        return storyPathResolver;
     }
 
     public ErrorStrategy errorStrategy() {
@@ -186,8 +186,8 @@ public abstract class StoryConfiguration {
         this.storyDefiner = storyDefiner;
     }
 
-    public void useStoryNameResolver(StoryNameResolver storyNameResolver) {
-        this.storyNameResolver = storyNameResolver;
+    public void useStoryPathResolver(StoryPathResolver storyPathResolver) {
+        this.storyPathResolver = storyPathResolver;
     }
 
     public void useStoryReporter(StoryReporter storyReporter) {

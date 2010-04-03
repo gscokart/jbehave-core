@@ -5,16 +5,16 @@ import org.jbehave.core.RunnableStory;
 
 /**
  * <p>
- * Resolves core names while preserving the Java core class case eg:
+ * Resolves story paths while preserving the Java story class case eg:
  * "org.jbehave.core.ICanLogin.java" -> "org/jbehave/core/ICanLogin".
  * </p>
  * <p>
  * By default no extension is used, but this can be configured via the
- * constructor so that we can resolve name to eg
- * "org/jbehave/core/ICanLogin.core".
+ * constructor so that we can resolve class to e.g.
+ * "org/jbehave/core/ICanLogin.story".
  * </p>
  */
-public class CasePreservingResolver extends AbstractStoryNameResolver {
+public class CasePreservingResolver extends AbstractStoryPathResolver {
 
     public CasePreservingResolver() {
         super();
@@ -25,8 +25,8 @@ public class CasePreservingResolver extends AbstractStoryNameResolver {
     }
 
 	@Override
-	protected String resolveFileName(Class<? extends RunnableStory> scenarioClass) {
-		return scenarioClass.getSimpleName();
+	protected String resolveName(Class<? extends RunnableStory> storyClass) {
+		return storyClass.getSimpleName();
 	}
 
 }

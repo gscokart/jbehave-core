@@ -8,14 +8,14 @@ import org.jbehave.core.RunnableStory;
 
 /**
  * <p>
- * Resolves core names converting the camel-cased Java core class to
- * lower-case underscore-separated name eg:
+ * Resolves story paths converting the camel-cased Java core class to
+ * lower-case underscore-separated paths eg:
  * "org.jbehave.core.ICanLogin.java" -> "org/jbehave/core/i_can_login".
  * </p>
  * <p>
  * By default no extension is used, but this can be configured via the
- * constructor so that we can resolve name to eg
- * "org/jbehave/core/i_can_login.core".
+ * constructor.  So with extension ".story", we can resolve the class to e.g.
+ * "org/jbehave/core/i_can_login.story".
  * </p>
  * <p>
  * The default resolution pattern {@link NUMBERS_AS_LOWER_CASE_LETTERS_PATTERN}
@@ -29,7 +29,7 @@ import org.jbehave.core.RunnableStory;
  * "org/jbehave/core/i_can_login_to_1_site"
  * </p>
  */
-public class UnderscoredCamelCaseResolver extends AbstractStoryNameResolver {
+public class UnderscoredCamelCaseResolver extends AbstractStoryPathResolver {
 
 	public static final String NUMBERS_AS_LOWER_CASE_LETTERS_PATTERN = "([A-Z].*?)([A-Z]|\\z)";
 	public static final String NUMBERS_AS_UPPER_CASE_LETTERS_PATTERN = "([A-Z0-9].*?)([A-Z0-9]|\\z)";
@@ -52,9 +52,9 @@ public class UnderscoredCamelCaseResolver extends AbstractStoryNameResolver {
 	}
 
 	@Override
-	protected String resolveFileName(
-			Class<? extends RunnableStory> scenarioClass) {
-        String simpleName = scenarioClass.getSimpleName();
+	protected String resolveName(
+			Class<? extends RunnableStory> storyClass) {
+        String simpleName = storyClass.getSimpleName();
         simpleName = simpleName.replace(wordToRemove, "");
         Matcher matcher = compile(resolutionPattern).matcher(
                 simpleName);
@@ -68,7 +68,7 @@ public class UnderscoredCamelCaseResolver extends AbstractStoryNameResolver {
 		return builder.substring(0, builder.length() - 1);
 	}
 
-    public StoryNameResolver removeFromClassname(String toStripOff) {
+    public StoryPathResolver removeFromClassname(String toStripOff) {
         this.wordToRemove = toStripOff;
         return this;
     }

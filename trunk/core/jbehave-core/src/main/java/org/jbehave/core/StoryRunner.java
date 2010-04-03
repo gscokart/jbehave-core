@@ -18,7 +18,7 @@ import org.jbehave.core.steps.StepResult;
 import org.jbehave.core.steps.StepCreator.Stage;
 
 /**
- * Allow to run a story and describe the results to the {@link StoryReporter}.
+ * Allows to run a story and describe the results to the {@link StoryReporter}.
  *
  * @author Elizabeth Keogh
  * @author Mauro Talevi
@@ -35,19 +35,19 @@ public class StoryRunner {
     private StepCreator stepCreator;
 
     public void run(StoryConfiguration configuration, Class<? extends RunnableStory> storyClass, CandidateSteps... candidateSteps) throws Throwable {
-        String storyPath = configuration.storyNameResolver().resolve(storyClass);
+        String storyPath = configuration.storyPathResolver().resolve(storyClass);
         run(configuration, storyPath, candidateSteps);
-    }
-
-    public void run(StoryConfiguration configuration, String storyPath, CandidateSteps... candidateSteps) throws Throwable {
-        Story story = configuration.storyDefiner().defineStory(storyPath);
-        run(configuration, story, candidateSteps);
     }
 
     public void run(StoryConfiguration configuration, List<String> storyPaths, CandidateSteps... candidateSteps) throws Throwable {
         for (String storyPath : storyPaths) {
             run(configuration, storyPath, candidateSteps);
         }
+    }
+
+    public void run(StoryConfiguration configuration, String storyPath, CandidateSteps... candidateSteps) throws Throwable {
+        Story story = configuration.storyDefiner().defineStory(storyPath);
+        run(configuration, story, candidateSteps);
     }
 
     public void run(StoryConfiguration configuration, Story story, CandidateSteps... candidateSteps) throws Throwable {

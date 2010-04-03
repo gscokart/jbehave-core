@@ -10,7 +10,7 @@ import org.jbehave.core.model.Story;
 import org.jbehave.core.errors.StoryNotFoundException;
 
 /**
- * Defines stories from classpath resources, which are handled by the
+ * Defines stories from classpath resources, the content of which is handled by the
  * {@link StoryParser}. 
  */
 public class ClasspathStoryDefiner implements StoryDefiner {
@@ -45,7 +45,7 @@ public class ClasspathStoryDefiner implements StoryDefiner {
 	private InputStream loadInputStreamFor(String path) {
 		InputStream stream = classLoader.getResourceAsStream(path);
         if (stream == null) {
-            throw new StoryNotFoundException("Path '" + path + "' could not be found by classloader "
+            throw new StoryNotFoundException("Story path '" + path + "' could not be found by classloader "
                     + classLoader);
         }
         return stream;
@@ -59,7 +59,7 @@ public class ClasspathStoryDefiner implements StoryDefiner {
             output.write(bytes);
             return output.toString();
         } catch (IOException e) {
-            throw new InvalidStoryResourceException("Failed to convert input resource to string", e);
+            throw new InvalidStoryResourceException("Failed to convert input stream to string", e);
         }
     }
 

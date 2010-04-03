@@ -11,7 +11,7 @@ import java.util.Properties;
 
 import org.jbehave.core.JUnitStory;
 import org.jbehave.core.i18n.I18nKeyWords;
-import org.jbehave.core.parser.StoryNameResolver;
+import org.jbehave.core.parser.StoryPathResolver;
 import org.jbehave.core.parser.UnderscoredCamelCaseResolver;
 import org.jbehave.core.reporters.FilePrintStreamFactory.FileConfiguration;
 import org.jbehave.core.reporters.StoryReporterBuilder.Format;
@@ -23,8 +23,8 @@ public class StoryReporterBuilderBehaviour {
     @Test
     public void shouldBuildWithStatsByDefault() throws IOException {
         Class<MyStory> scenarioClass = MyStory.class;
-        StoryNameResolver nameResolver = new UnderscoredCamelCaseResolver();
-        FilePrintStreamFactory factory = new FilePrintStreamFactory(scenarioClass, nameResolver);
+        StoryPathResolver pathResolver = new UnderscoredCamelCaseResolver();
+        FilePrintStreamFactory factory = new FilePrintStreamFactory(scenarioClass, pathResolver);
         StoryReporterBuilder builder = new StoryReporterBuilder(factory);
 
         // When
@@ -40,8 +40,8 @@ public class StoryReporterBuilderBehaviour {
     @Test
     public void shouldAllowOverrideOfDefaultFileDirectory() throws IOException {
         Class<MyStory> scenarioClass = MyStory.class;
-        StoryNameResolver nameResolver = new UnderscoredCamelCaseResolver();
-        FilePrintStreamFactory factory = new FilePrintStreamFactory(scenarioClass, nameResolver);
+        StoryPathResolver pathResolver = new UnderscoredCamelCaseResolver();
+        FilePrintStreamFactory factory = new FilePrintStreamFactory(scenarioClass, pathResolver);
         StoryReporterBuilder builder = new StoryReporterBuilder(factory);
 
         // When
@@ -55,8 +55,8 @@ public class StoryReporterBuilderBehaviour {
     @Test
     public void shouldBuildAndOverrideDefaultReporterForAGivenFormat() throws IOException {
         Class<MyStory> scenarioClass = MyStory.class;
-        StoryNameResolver nameResolver = new UnderscoredCamelCaseResolver();
-        FilePrintStreamFactory factory = new FilePrintStreamFactory(scenarioClass, nameResolver);
+        StoryPathResolver pathResolver = new UnderscoredCamelCaseResolver();
+        FilePrintStreamFactory factory = new FilePrintStreamFactory(scenarioClass, pathResolver);
         final StoryReporter txtReporter = new PrintStreamStoryReporter(factory.getPrintStream(), new Properties(),  new I18nKeyWords(), true);
         StoryReporterBuilder builder = new StoryReporterBuilder(factory){
                public StoryReporter reporterFor(Format format){

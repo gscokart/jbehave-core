@@ -5,7 +5,7 @@ import org.jbehave.core.model.Story;
 
 /**
  * <p>
- * Define {@link Story} from a given {@link RunnableStory} class or story path.
+ * Define {@link Story} from a given story path.
  * </p>
  */
 public interface StoryDefiner {
