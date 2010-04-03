@@ -24,7 +24,7 @@ examples on how to configure both extensions - using the trader example.</p>
 
 <script type="syntaxhighlighter" class="brush: xml"><![CDATA[
   <taskdef name="storyRunner"
-    classname="org.jbehave.ant.ScenarioRunnerTask"
+    classname="org.jbehave.ant.StoryRunnerTask"
     classpathref="your.runtime.classpath" />
   
   <storyRunner 
@@ -122,7 +122,7 @@ test source directory.</p>
 
 <h2>Instantiating RunnableStory classes</h2>
 
-<p>Both Ant and Maven by default instantiate the Scenario class via
+<p>Both Ant and Maven by default instantiate the RunnableStory class via
 a public constructor with a single ClassLoader parameter (i.e. with
 property <b>classLoaderInjected</b> set to <b>true</b>). This allows the
 story to be injected with the class loader during instantiation, e.g.

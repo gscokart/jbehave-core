@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
-<title>Non-English Scenarios</title>
+<title>Writing Stories in your language</title>
 </head>
 
 <body>
@@ -33,6 +33,7 @@ Scenario=Scenario:
 GivenStories=Date le storie:
 ExamplesTable=Esempi:
 ExamplesTableRow=Esempio:
+ExamplesTableSeparator=|
 Given=Dato che
 When=Quando
 Then=Allora
@@ -47,50 +48,34 @@ e.g.:</p>
 <pre class="brush: java">
 public class ItTraderStory extends JUnitStory {
 
-	public ItTraderStory(final ClassLoader classLoader) {
-		super(new PropertyBasedConfiguration() {
-			@Override
-			public StoryDefiner forDefiningStorys() {
-				// use underscored camel case scenario files with extension ".scenario"
-				return new ClasspathStoryDefiner(
-						new UnderscoredCamelCaseResolver(".scenario"),
-						new PatternStoryParser(this), classLoader);
-			}
+	public ItTraderStory() {
+        StoryConfiguration storyConfiguration = new MostUsefulStoryConfiguration();
+        storyConfiguration.useStoryPathResolver(new UnderscoredCamelCaseResolver(".story"));
+        ClassLoader classLoader = this.getClass().getClassLoader();
+        // use Italian for keywords
+        KeyWords keywords = new I18nKeyWords(new Locale("it"), new StringEncoder(), "org/jbehave/examples/trader/i18n/keywords", classLoader);
+        storyConfiguration.useKeywords(keywords);
+        storyConfiguration.useStoryDefiner(new ClasspathStoryDefiner(
+                new PatternStoryParser(storyConfiguration.keywords()), classLoader));
+        storyConfiguration.useStoryReporter(new PrintStreamStoryReporter(storyConfiguration.keywords()));
+        useConfiguration(storyConfiguration);
 
-			@Override
-			public StoryReporter forReportingStorys() {
-				// report outcome in Italian (to System.out)
-				return new PrintStreamStoryReporter(keywordsFor(new Locale("it"), classLoader));
-			}
-
-			@Override
-			public KeyWords keywords() {
-				// use Italian for keywords
-				return keywordsFor(new Locale("it"), classLoader);
-			}
-
-		}, new ItTraderSteps(classLoader));
-	}
-
-	protected static KeyWords keywordsFor(Locale locale, ClassLoader classLoader) {
-		return new I18nKeyWords(locale, new StringEncoder(), "org/jbehave/examples/trader/i18n/keywords", classLoader);
-	}
-
+        StepsConfiguration stepsConfiguration = new MostUsefulStepsConfiguration();
+        // use Italian for keywords
+        stepsConfiguration.useKeywords(keywords);
+        addSteps(new StepsFactory(stepsConfiguration).createCandidateSteps(new ItTraderSteps()));
+    }
 }
 </pre>
 <p>The corresponding i18n-ed <a
-    href="javadoc/core/org/jbehave/core/steps/Steps.html">Steps</a>,
-also requires the configuration of i18n-ed keywords:</p>
+    href="javadoc/core/org/jbehave/core/steps/Steps.html">Steps</a> will then understand the language that has been configured
+    via the i18n-ed keywords:</p>
 
 <pre class="brush: java">
-public class ItTraderSteps extends Steps {
+public class ItTraderSteps {
 
     private Stock stock;
-
-    public ItTraderSteps(ClassLoader classLoader) {
-    	// Use Italian for keywords
-        super(new StepsConfiguration(keywordsFor(new Locale("it"), classLoader)));
-    }
+    private ExamplesTable table;
 
     @Given("ho un'azione con simbolo $symbol e una soglia di $threshold")
     public void aStock(@Named("symbol") String symbol, @Named("threshold") double threshold) {
@@ -107,26 +92,28 @@ public class ItTraderSteps extends Steps {
         ensureThat(stock.getStatus().name(), equalTo(status));
     }
 
-	protected static KeyWords keywordsFor(Locale locale, ClassLoader classLoader) {
-		return new I18nKeyWords(locale, new StringEncoder(), "org/jbehave/examples/trader/i18n/keywords", classLoader);
-	}
+    @Given("ho una tabella $table")
+    public void aTAble(ExamplesTable table) {
+        this.table = table;
+    }
 
+    @Then("la tabella ha $rows righe")
+    public void hasRows(int rows){
+        ensureThat(table.getRowCount(), equalTo(rows));
+    }
 }
 </pre>
 <p>Note that the i18n-ed keywords not only allow the translation of
-the keywords used in parsing the textual scenario, but also the keywords
-used in the reporting of the scenario execution, e.g. <b>Pending</b>, <b>NotPerformed</b>
+the keywords used in parsing the textual story, but also the keywords
+used in the reporting of the story execution, e.g. <b>Pending</b>, <b>NotPerformed</b>
 and <b>Failed</b>.</p>
-
-<p>Also note that the i18n-ed scenario classes require the class loader to be injected via constructor if 
-running via command-line (see <a href="running-stories.html">running stories</a>).</p>
 
 <h2>Why are different languages not supported out-of-the-box?</h2>
 
-<p>Most non-English languages require characters that are rendered
-inconsistently using the native encoding of a given operating system. We
-are working on a consistent solution that is re-usable across multiple
-platforms.</p>
+<span class="followup">Most non-English languages require characters that are rendered
+inconsistently using the native encoding of a given operating system.  At moment,
+a consistent solution is to provide your own keywords in your native encoding.
+We are working on a solution that is re-usable across multiple platforms.</span>
 
 <div class="clear">
 <hr />

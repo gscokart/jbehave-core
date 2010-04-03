@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
-<title>Developing Scenarios</title>
+<title>Developing Stories</title>
 </head>
 
 <body>
@@ -9,7 +9,7 @@
 <h2>Writing Textual Stories</h2>
 
 <p><a href="concepts.html">Behaviour-Driven Development</a>
-encourages you to start defining the scenarios that express the desired
+encourages you to start defining the stories via scenarios that express the desired
 behaviour in a textual format, e.g.:</p>
 <pre class="brush: bdd">
     Given a stock of symbol STK1 and a threshold of 10.0
@@ -144,12 +144,11 @@ constructor with a ClassLoader parameter.</p>
 public class TraderStory extends JUnitStory {
 
     public TraderStory() {
-        super(new MostUsefulConfiguration() {
-            public StoryDefiner forDefiningStories() {
-                return new ClasspathStoryDefiner(new UnderscoredCamelCaseResolver(".scenario"), 
-                             new PatternStoryParser(keywords()));
-            }
-        });
+        StoryConfiguration storyConfiguration = new MostUsefulConfiguration();
+        storyConfiguration.useStoryPathResolver(new UnderscoredCamelCaseResolver(".story"));
+        // if stories are found in classpath
+        storyConfiguration.useStoryDefiner(new ClasspathStoryDefiner(new PatternStoryParser(storyConfiguration.keywords()));
+  
         addSteps(new TraderSteps()); // if TraderSteps extends Steps
         addSteps(new StepsFactory().createCandidateSteps(new TraderSteps())); // if TraderSteps is a POJO
     }
