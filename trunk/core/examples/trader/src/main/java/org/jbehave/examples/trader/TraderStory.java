@@ -19,12 +19,13 @@ import org.jbehave.core.reporters.StoryReporterBuilder;
 
 public class TraderStory extends JUnitStory {
 
-    public TraderStory(final Class<? extends RunnableStory> scenarioClass) {
+    public TraderStory(final Class<? extends RunnableStory> storyClass) {
         // start with default story configuration, overriding story definer and reporter
         StoryConfiguration storyConfiguration = new MostUsefulStoryConfiguration();
         storyConfiguration.useStoryPathResolver(new UnderscoredCamelCaseResolver(".story"));
         storyConfiguration.useStoryDefiner(new ClasspathStoryDefiner(new PatternStoryParser(storyConfiguration.keywords()), this.getClass().getClassLoader()));
-        storyConfiguration.useStoryReporter(new StoryReporterBuilder(new FilePrintStreamFactory(scenarioClass, storyConfiguration.storyPathResolver()))
+        String storyPath = storyConfiguration.storyPathResolver().resolve(storyClass);
+        storyConfiguration.useStoryReporter(new StoryReporterBuilder(new FilePrintStreamFactory(storyPath))
                 .with(CONSOLE)
                 .with(TXT)
                 .with(HTML)

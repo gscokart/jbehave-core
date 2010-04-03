@@ -18,9 +18,10 @@ import org.jbehave.core.reporters.FilePrintStreamFactory.FileConfiguration;
  * <p>
  * To build reporter with default delegates for given formats:
  * <pre>
- * Class&lt;MyStory&gt; storylass = MyStory.class;
- * StoryPathResolver nameResolver = new UnderscoredCamelCaseResolver();
- * FilePrintStreamFactory printStreamFactory = new FilePrintStreamFactory(storyClass, nameResolver);
+ * Class&lt;MyStory&gt; storyClass = MyStory.class;
+ * StoryPathResolver resolver = new UnderscoredCamelCaseResolver();
+ * String storyPath = resolver.resolve(storyClass);
+ * FilePrintStreamFactory printStreamFactory = new FilePrintStreamFactory(storyPath);
  * StoryReporter reporter = new StoryReporterBuilder(printStreamFactory).with(HTML).with(TXT).build();
  * </pre> 
  * </p>

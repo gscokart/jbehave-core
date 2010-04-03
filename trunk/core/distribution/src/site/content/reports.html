@@ -42,7 +42,7 @@ the reporters we want to configure, in the example below a plain text
 reporter (both to <b>System.out</b> and to a file) and an HTML reporter
 to a file:</p>
 <pre class="brush: java">
-    private static StoryNameResolver converter = new UnderscoredCamelCaseResolver(".story");
+    private static StoryNameResolver resolver = new UnderscoredCamelCaseResolver(".story");
 
     public TraderStory(final Class storyClass) {
         super(new PropertyBasedConfiguration() {
@@ -53,7 +53,7 @@ to a file:</p>
         
             @Override
             public StoryReporter forReportingStorys() {
-                return new StoryReporterBuilder(new FilePrintStreamFactory(storyClass, converter))
+                return new StoryReporterBuilder(new FilePrintStreamFactory(resolver.resolve(storyClass)))
                             .with(CONSOLE) // report to System.out
                             .with(TXT)     // report to .txt file in PLAIN format
                             .with(HTML)    // report to .html file in HTML format

@@ -23,7 +23,7 @@ public class ClaimsWithNullCalendar extends JUnitStory {
 
     public ClaimsWithNullCalendar() {
         // here we show how we can override the default configuration via an inner class
-        final StoryPathResolver pathResolver = new UnderscoredCamelCaseResolver(".story");
+        final StoryPathResolver resolver = new UnderscoredCamelCaseResolver(".story");
         StoryConfiguration storyConfiguration = new MostUsefulStoryConfiguration(){
             @Override
             public StoryDefiner storyDefiner() {
@@ -32,7 +32,7 @@ public class ClaimsWithNullCalendar extends JUnitStory {
 
             @Override
             public StoryReporter storyReporter() {
-                return new StoryReporterBuilder(new FilePrintStreamFactory(ClaimsWithNullCalendar.class, pathResolver))
+                return new StoryReporterBuilder(new FilePrintStreamFactory(resolver.resolve(ClaimsWithNullCalendar.class)))
                 .with(CONSOLE)
                 .with(TXT)
                 .with(HTML)
@@ -40,7 +40,7 @@ public class ClaimsWithNullCalendar extends JUnitStory {
                 .build();
             }
         };
-        storyConfiguration.useStoryPathResolver(pathResolver);
+        storyConfiguration.useStoryPathResolver(resolver);
         useConfiguration(storyConfiguration);
 
         StepsConfiguration stepsConfiguration = new MostUsefulStepsConfiguration();

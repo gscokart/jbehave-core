@@ -41,8 +41,8 @@ public class PrintStreamStoryReporterBehaviour {
         narrateAnInterestingStory(reporter);
 
         // Then
-        String expected = "An interesting story\n" 
-                + "(/path/to/story)\n" 
+        String expected = "An interesting story\n"
+                + "(/path/to/story)\n"
                 + "Narrative:\n"
                 + "In order to renovate my house\n"
                 + "As a customer\n"
@@ -51,19 +51,19 @@ public class PrintStreamStoryReporterBehaviour {
                 + "GivenStories: [/given/story1,/given/story2]\n"
                 + "Given I have a balance of $50\n"
                 + "!-- A comment\n"
-                + "When I request $20\n" 
+                + "When I request $20\n"
                 + "When I ask Liz for a loan of $100\n"
-                + "Then I should have a balance of $30 (PENDING)\n" 
+                + "Then I should have a balance of $30 (PENDING)\n"
                 + "Then I should have $20 (NOT PERFORMED)\n"
-                + "Then I don't return loan (FAILED)\n" 
-                + "Examples:\n" 
+                + "Then I don't return loan (FAILED)\n"
+                + "Examples:\n"
                 + "Given money <money>\n"
                 + "Then I give it to <to>\n"
                 + "\n"
                 + "|money|to|\n" + "|$30|Mauro|\n"
                 + "|$50|Paul|\n" + "\n\n" // Examples table
-                + "\nExample: {to=Mauro, money=$30}\n" 
-                + "\nExample: {to=Paul, money=$50}\n" 
+                + "\nExample: {to=Mauro, money=$30}\n"
+                + "\nExample: {to=Paul, money=$50}\n"
                 + "\n" // end of examples
                 + "\n\n"; // end of core and story
         ensureThatOutputIs(out, expected);
@@ -83,15 +83,15 @@ public class PrintStreamStoryReporterBehaviour {
 
         // When
         narrateAnInterestingStory(reporter);
-        
+
         // Then
         String expected = "<div class=\"story\">\n<h1>An interesting story</h1>\n"
                 + "<div class=\"path\">/path/to/story</div>\n"
-                + "<div class=\"narrative\"><h2>Narrative:</h2>\n" 
-                + "<div class=\"element inOrderTo\"><span class=\"keyword inOrderTo\">In order to</span> renovate my house</div>\n" 
-                + "<div class=\"element asA\"><span class=\"keyword asA\">As a</span> customer</div>\n" 
-                + "<div class=\"element iWantTo\"><span class=\"keyword iWantTo\">I want to</span> get a loan</div>\n" 
-                + "</div>\n" 
+                + "<div class=\"narrative\"><h2>Narrative:</h2>\n"
+                + "<div class=\"element inOrderTo\"><span class=\"keyword inOrderTo\">In order to</span> renovate my house</div>\n"
+                + "<div class=\"element asA\"><span class=\"keyword asA\">As a</span> customer</div>\n"
+                + "<div class=\"element iWantTo\"><span class=\"keyword iWantTo\">I want to</span> get a loan</div>\n"
+                + "</div>\n"
                 + "<div class=\"core\">\n<h2>Scenario: I ask for a loan</h2>\n"
                 + "<div class=\"givenStories\">GivenStories: [/given/story1,/given/story2]</div>\n"
                 + "<div class=\"step successful\">Given I have a balance of $50</div>\n"
@@ -101,7 +101,7 @@ public class PrintStreamStoryReporterBehaviour {
                 + "<div class=\"step pending\">Then I should have a balance of $30 <span class=\"keyword pending\">(PENDING)</span></div>\n"
                 + "<div class=\"step notPerformed\">Then I should have $20 <span class=\"keyword notPerformed\">(NOT PERFORMED)</span></div>\n"
                 + "<div class=\"step failed\">Then I don't return loan <span class=\"keyword failed\">(FAILED)</span></div>\n"
-                + "<div class=\"examples\">\n" + "<h3>Examples:</h3>\n" 
+                + "<div class=\"examples\">\n" + "<h3>Examples:</h3>\n"
                 + "<div class=\"step\">Given money &lt;money&gt;</div>\n"
                 + "<div class=\"step\">Then I give it to &lt;to&gt;</div>\n"
                 + "<table>\n" + "<thead>\n"
@@ -114,7 +114,7 @@ public class PrintStreamStoryReporterBehaviour {
                 "</div>\n</div>\n"; // end of core and story
         ensureThatOutputIs(out, expected);
     }
-    
+
     @Test
     public void shouldReportEventsToHtmlPrintStreamUsingCustomOutputPatterns() {
         // Given
@@ -137,11 +137,11 @@ public class PrintStreamStoryReporterBehaviour {
         // Then
         String expected = "<div class=\"story\">\n<h1>An interesting story</h1>\n"
                 + "<div class=\"path\">/path/to/story</div>\n"
-                + "<div class=\"narrative\"><h2>Narrative:</h2>\n" 
-                + "<div class=\"element inOrderTo\"><span class=\"keyword inOrderTo\">In order to</span> renovate my house</div>\n" 
-                + "<div class=\"element asA\"><span class=\"keyword asA\">As a</span> customer</div>\n" 
-                + "<div class=\"element iWantTo\"><span class=\"keyword iWantTo\">I want to</span> get a loan</div>\n" 
-                + "</div>\n" 
+                + "<div class=\"narrative\"><h2>Narrative:</h2>\n"
+                + "<div class=\"element inOrderTo\"><span class=\"keyword inOrderTo\">In order to</span> renovate my house</div>\n"
+                + "<div class=\"element asA\"><span class=\"keyword asA\">As a</span> customer</div>\n"
+                + "<div class=\"element iWantTo\"><span class=\"keyword iWantTo\">I want to</span> get a loan</div>\n"
+                + "</div>\n"
                 + "<div class=\"core\">\n<h2>Scenario: I ask for a loan</h2>\n"
                 + "<div class=\"givenStories\">GivenStories: [/given/story1,/given/story2]</div>\n"
                 + "<div class=\"step successful\">Given I have a balance of $50</div>\n"
@@ -151,7 +151,7 @@ public class PrintStreamStoryReporterBehaviour {
                 + "<div class=\"step pending\">Then I should have a balance of $30 <span class=\"keyword pending\">(PENDING)</span></div>\n"
                 + "<div class=\"step notPerformed\">Then I should have $20 <span class=\"keyword notPerformed\">(NOT PERFORMED)</span></div>\n"
                 + "<div class=\"step failed\">Then I don't return loan <span class=\"keyword failed\">(FAILED)</span></div>\n"
-                + "<div class=\"examples\">\n" + "<h3>Examples:</h3>\n" 
+                + "<div class=\"examples\">\n" + "<h3>Examples:</h3>\n"
                 + "<div class=\"step\">Given money &lt;money&gt;</div>\n"
                 + "<div class=\"step\">Then I give it to &lt;to&gt;</div>\n"
                 + "<table>\n" + "<thead>\n"
@@ -178,14 +178,14 @@ public class PrintStreamStoryReporterBehaviour {
         // When
         narrateAnInterestingStory(reporter);
 
-        
+
         // Then
         String expected = "<story path=\"/path/to/story\" title=\"An interesting story\">\n"
-                + "<narrative keyword=\"Narrative:\">\n" 
+                + "<narrative keyword=\"Narrative:\">\n"
                 + "  <inOrderTo keyword=\"In order to\">renovate my house</inOrderTo>\n"
-                + "  <asA keyword=\"As a\">customer</asA>\n" 
-                + "  <iWantTo keyword=\"I want to\">get a loan</iWantTo>\n" 
-                + "</narrative>\n" 
+                + "  <asA keyword=\"As a\">customer</asA>\n"
+                + "  <iWantTo keyword=\"I want to\">get a loan</iWantTo>\n"
+                + "</narrative>\n"
                 + "<core keyword=\"Scenario:\" title=\"I ask for a loan\">\n"
                 + "<givenStories keyword=\"GivenStories:\"paths=\"[/given/story1,/given/story2]\"</givenStories>\n"
                 + "<step outcome=\"successful\">Given I have a balance of $50</step>\n"
@@ -195,7 +195,7 @@ public class PrintStreamStoryReporterBehaviour {
                 + "<step outcome=\"pending\" keyword=\"PENDING\">Then I should have a balance of $30</step>\n"
                 + "<step outcome=\"notPerformed\" keyword=\"NOT PERFORMED\">Then I should have $20</step>\n"
                 + "<step outcome=\"failed\" keyword=\"FAILED\">Then I don&apos;t return loan</step>\n"
-                + "<examples keyword=\"Examples:\">\n" 
+                + "<examples keyword=\"Examples:\">\n"
                 + "<step>Given money &lt;money&gt;</step>\n"
                 + "<step>Then I give it to &lt;to&gt;</step>\n"
                 + "<parameters>\n"
@@ -339,12 +339,10 @@ public class PrintStreamStoryReporterBehaviour {
     }
 
     @Test
-    public void shouldCreateAndWriteToFilePrintStreamForScenarioClass() throws IOException {
+    public void shouldCreateAndWriteToFilePrintStreamForStoryClass() throws IOException {
 
         // Given
-        Class<MyStory> scenarioClass = MyStory.class;
-        StoryPathResolver converter = new UnderscoredCamelCaseResolver(".core");
-        FilePrintStreamFactory factory = new FilePrintStreamFactory(scenarioClass, converter);
+        FilePrintStreamFactory factory = filePrintSteamFactoryFor(MyStory.class);
         File file = factory.getOutputFile();
         file.delete();
         ensureThat(!file.exists());
@@ -360,15 +358,13 @@ public class PrintStreamStoryReporterBehaviour {
 
     @Test
     public void shouldReportEventsToFilePrintStreamsAndRenderAggregatedIndex() throws IOException {
-        Class<MyStory> scenarioClass = MyStory.class;
-        StoryPathResolver pathResolver = new UnderscoredCamelCaseResolver();
-        FilePrintStreamFactory printStreamFactory = new FilePrintStreamFactory(scenarioClass, pathResolver);
-        StoryReporter reporter = new StoryReporterBuilder(printStreamFactory).with(HTML).with(TXT)
+        FilePrintStreamFactory factory = filePrintSteamFactoryFor(MyStory.class);
+        StoryReporter reporter = new StoryReporterBuilder(factory).with(HTML).with(TXT)
                 .build();
 
         // When
         narrateAnInterestingStory(reporter);
-        File outputDirectory = printStreamFactory.getOutputFile().getParentFile();
+        File outputDirectory = factory.getOutputFile().getParentFile();
         ReportRenderer renderer = new FreemarkerReportRenderer();
         renderer.render(outputDirectory, asList("html", "txt"));
 
@@ -378,34 +374,32 @@ public class PrintStreamStoryReporterBehaviour {
 
     @Test
     public void shouldBuildPrintStreamReportersAndOverrideDefaultForAGivenFormat() throws IOException {
-        Class<MyStory> scenarioClass = MyStory.class;
-        StoryPathResolver pathResolver = new UnderscoredCamelCaseResolver();
-        FilePrintStreamFactory factory = new FilePrintStreamFactory(scenarioClass, pathResolver);
-        StoryReporter reporter = new StoryReporterBuilder(factory){
-               public StoryReporter reporterFor(Format format){
-                       switch (format) {
-                           case TXT:
-                               factory.useConfiguration(new FileConfiguration("text"));
-                               return new PrintStreamStoryReporter(factory.getPrintStream(), new Properties(),  new I18nKeyWords(), true);
-                            default:
-                               return super.reporterFor(format);
-                       }
-                   }
+        FilePrintStreamFactory factory = filePrintSteamFactoryFor(MyStory.class);
+        StoryReporter reporter = new StoryReporterBuilder(factory) {
+            public StoryReporter reporterFor(Format format) {
+                switch (format) {
+                    case TXT:
+                        factory.useConfiguration(new FileConfiguration("text"));
+                        return new PrintStreamStoryReporter(factory.getPrintStream(), new Properties(), new I18nKeyWords(), true);
+                    default:
+                        return super.reporterFor(format);
+                }
+            }
         }.with(TXT).build();
 
         // When
-        narrateAnInterestingStory(reporter);        
+        narrateAnInterestingStory(reporter);
 
         // Then
         File outputFile = factory.getOutputFile();
         ensureFileExists(outputFile);
     }
-    
+
     private void ensureFileExists(File renderedOutput) throws IOException, FileNotFoundException {
         ensureThat(renderedOutput.exists());
         ensureThat(IOUtils.toString(new FileReader(renderedOutput)).length() > 0);
-    }    
-    
+    }
+
     @Test(expected = RenderingFailedException.class)
     public void shouldFailRenderingOutputWithInexistentTemplates() throws IOException {
         // Given
@@ -416,6 +410,12 @@ public class PrintStreamStoryReporterBehaviour {
         File outputDirectory = new File("target");
         renderer.render(outputDirectory, asList("html"));
         // Then ... fail as expected
+    }
+
+    private FilePrintStreamFactory filePrintSteamFactoryFor(Class<MyStory> storyClass) {
+        StoryPathResolver resolver = new UnderscoredCamelCaseResolver(".story");
+        String storyPath = resolver.resolve(storyClass);
+        return new FilePrintStreamFactory(storyPath);
     }
 
     private static class MyStory extends JUnitStory {

@@ -16,25 +16,10 @@ import java.io.PrintStream;
 public class FilePrintStreamFactory implements PrintStreamFactory {
 
     private PrintStream printStream;
-    private Class<? extends RunnableStory> storyClass;
-    private StoryPathResolver storyPathResolver;
     private FileConfiguration configuration;
     private File outputFile;
     private String storyPath;
-
-    public FilePrintStreamFactory(Class<? extends RunnableStory> storyClass,
-                                  StoryPathResolver storyPathResolver) {
-        this(storyClass, storyPathResolver, new FileConfiguration());
-    }
-
-    public FilePrintStreamFactory(Class<? extends RunnableStory> storyClass,
-                                  StoryPathResolver storyPathResolver, FileConfiguration configuration) {
-        this.storyClass = storyClass;
-        this.storyPathResolver = storyPathResolver;
-        this.configuration = configuration;
-        this.outputFile = outputFile();
-    }
-
+    
     public FilePrintStreamFactory(String storyPath) {
         this(storyPath, new FileConfiguration());
     }
@@ -80,9 +65,7 @@ public class FilePrintStreamFactory implements PrintStreamFactory {
     }
 
     private String storyLocation() {
-        if (storyClass != null) {
-            return storyClass.getProtectionDomain().getCodeSource().getLocation().getFile();
-        } else if (storyPath != null) {
+        if (storyPath != null) {
             StoryLocation storyLocation = new StoryLocation(storyPath);
             if ( storyLocation.isURL()) {
                 return storyLocation.getPath();
@@ -103,9 +86,7 @@ public class FilePrintStreamFactory implements PrintStreamFactory {
 
     private String storyName() {
         String storyName = "";
-        if (storyClass != null) {
-            storyName = storyPathResolver.resolve(storyClass);
-        } else if (storyPath != null) {
+        if (storyPath != null) {
             StoryLocation storyLocation = new StoryLocation(storyPath);
             if (storyLocation.isURL()) {
                 storyName = storyLocation.getPathWithoutCodeLocation();

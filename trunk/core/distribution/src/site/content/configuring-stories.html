@@ -41,7 +41,7 @@ public abstract class TraderStory extends JUnitStory {
             // Define the story reporters
             @Override
             public StoryReporter forReportingStories() {
-                return new StoryReporterBuilder(new FilePrintStreamFactory(storyClass, resolver))
+                return new StoryReporterBuilder(new FilePrintStreamFactory(resolver.resolve(storyClass)))
                             .with(CONSOLE)
                             .with(TXT)
                             .with(HTML)
