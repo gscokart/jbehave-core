@@ -220,13 +220,15 @@ public class ParameterConverters {
 
     public static class ExamplesTableConverter implements ParameterConverter {
 
-        private String columnSeparator;
+        private String headerSeparator;
+        private String valueSeparator;
 
         public ExamplesTableConverter() {
-            this("|");
+            this("|", "|");
         }
-        public ExamplesTableConverter(String columnSeparator) {
-            this.columnSeparator = columnSeparator;
+        public ExamplesTableConverter(String headerSeparator, String valueSeparator) {
+            this.headerSeparator = headerSeparator;
+            this.valueSeparator = valueSeparator;
         }
 
         public boolean accept(Type type) {
@@ -237,7 +239,7 @@ public class ParameterConverters {
         }
 
         public Object convertValue(String value, Type type) {
-            return new ExamplesTable(value, columnSeparator);
+            return new ExamplesTable(value, headerSeparator, valueSeparator);
         }
 
     }

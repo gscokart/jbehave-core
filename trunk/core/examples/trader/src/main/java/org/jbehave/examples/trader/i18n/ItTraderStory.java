@@ -34,7 +34,7 @@ public class ItTraderStory extends JUnitStory {
         StepsConfiguration stepsConfiguration = new MostUsefulStepsConfiguration();
         // use Italian for keywords
         stepsConfiguration.useKeywords(keywords);
-        stepsConfiguration.useParameterConverters(new ParameterConverters(new ParameterConverters.ExamplesTableConverter(keywords.examplesTableSeparator())));
+        stepsConfiguration.useParameterConverters(new ParameterConverters(new ParameterConverters.ExamplesTableConverter(keywords.examplesTableSeparator(), "|")));
         addSteps(new StepsFactory(stepsConfiguration).createCandidateSteps(new ItTraderSteps()));
     }
 

@@ -6,35 +6,54 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 public class ExamplesTableBehaviour {
-    String tableAsString = 
-        "|one|two|\n" + 
-        "|11|12|\n" +
-        "|21|22|\n";
+    String tableAsString =
+            "|one|two|\n" +
+            "|11|12|\n" +
+            "|21|22|\n";
+
+    String wikiTableAsString =
+            "||one||two||\n" +
+            "|11|12|\n" +
+            "|21|22|\n";
 
     @Test
-    public void shouldParseTableIntoHeadersAndRows() {
+    public void shouldParseTableWithDefaultSeparators() {
         ExamplesTable table = new ExamplesTable(tableAsString);
         ensureTableContentIsParsed(table);
         assertEquals(tableAsString, table.toString());
     }
 
     @Test
+    public void shouldParseTableWithDifferentHeaderAndValueSeparator() {
+        String headerSeparator = "||";
+        String valueSeparator = "|";
+        String tableWithCustomSeparator = wikiTableAsString;
+        ExamplesTable table = new ExamplesTable(tableWithCustomSeparator, headerSeparator, valueSeparator);
+        assertEquals(headerSeparator, table.getHeaderSeparator());
+        ensureTableContentIsParsed(table);
+        assertEquals(tableWithCustomSeparator, table.toString());
+    }
+
+    @Test
+    public void shouldParseTableWithDifferentCustomHeaderAndValueSeparator() {
+        String headerSeparator = "!!";
+        String valueSeparator = "!";
+        String tableWithCustomSeparator = wikiTableAsString.replace("|", "!");
+        ExamplesTable table = new ExamplesTable(tableWithCustomSeparator, headerSeparator, valueSeparator);
+        assertEquals(headerSeparator, table.getHeaderSeparator());
+        ensureTableContentIsParsed(table);
+        assertEquals(tableWithCustomSeparator, table.toString());
+    }
+
+
+    @Test
     public void shouldTrimTableBeforeParsing() {
-        String untrimmedTableAsString = "\n    \n" +tableAsString + "\n    \n";
+        String untrimmedTableAsString = "\n    \n" + tableAsString + "\n    \n";
         ExamplesTable table = new ExamplesTable(untrimmedTableAsString);
         ensureTableContentIsParsed(table);
         assertEquals(untrimmedTableAsString, table.toString());
     }
 
-    @Test
-    public void shouldParseTableIntoHeadersAndRowsWithCustomColumnSeparator() {
-        String customSeparator = "!";
-        String tableWithCustomSeparator = tableAsString.replace("|", customSeparator);
-        ExamplesTable table = new ExamplesTable(tableWithCustomSeparator, customSeparator);
-        assertEquals(customSeparator, table.getColumnSeparator());
-        ensureTableContentIsParsed(table);
-        assertEquals(tableWithCustomSeparator, table.toString());
-    }
 
     private void ensureTableContentIsParsed(ExamplesTable table) {
         assertEquals(asList("one", "two"), table.getHeaders());
