@@ -8,7 +8,7 @@ import org.jbehave.core.steps.spring.SpringApplicationContextFactory;
 import org.jbehave.core.steps.spring.SpringStepsFactory;
 import org.springframework.beans.factory.ListableBeanFactory;
 
-public class SpringTraderStory extends TraderStory {
+public class TraderStoryUsingSpring extends TraderStory {
 
     @Override
     protected CandidateSteps[] createSteps(StepsConfiguration configuration) {

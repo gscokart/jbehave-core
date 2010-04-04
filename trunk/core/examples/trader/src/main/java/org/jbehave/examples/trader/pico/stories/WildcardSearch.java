@@ -1,7 +1,7 @@
 package org.jbehave.examples.trader.pico.stories;
 
-import org.jbehave.examples.trader.pico.PicoTraderStory;
+import org.jbehave.examples.trader.pico.TraderStoryUsingPicoContainer;
 
-public class WildcardSearch extends PicoTraderStory {
+public class WildcardSearch extends TraderStoryUsingPicoContainer {
 
 }
