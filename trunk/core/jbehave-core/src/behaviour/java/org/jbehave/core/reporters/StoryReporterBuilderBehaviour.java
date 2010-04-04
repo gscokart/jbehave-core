@@ -52,7 +52,7 @@ public class StoryReporterBuilderBehaviour {
     @Test
     public void shouldBuildAndOverrideDefaultReporterForAGivenFormat() throws IOException {
         FilePrintStreamFactory factory = filePrintSteamFactoryFor(MyStory.class);
-        final StoryReporter txtReporter = new PrintStreamStoryReporter(factory.getPrintStream(), new Properties(),  new I18nKeyWords(), true);
+        final StoryReporter txtReporter = new PrintStreamStoryReporter(factory.createPrintStream(), new Properties(),  new I18nKeyWords(), true);
         StoryReporterBuilder builder = new StoryReporterBuilder(factory){
                public StoryReporter reporterFor(Format format){
                        switch (format) {

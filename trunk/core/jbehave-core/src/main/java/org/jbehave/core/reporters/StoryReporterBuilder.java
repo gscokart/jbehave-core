@@ -50,7 +50,7 @@ import org.jbehave.core.reporters.FilePrintStreamFactory.FileConfiguration;
  *       switch (format) {
  *           case TXT:
  *               factory.useConfiguration(new FileConfiguration("text"));
- *               return new PrintStreamStoryReporter(factory.getPrintStream(), new Properties(), new I18nKeywords(Locale), true);
+ *               return new PrintStreamStoryReporter(factory.createPrintStream(), new Properties(), new I18nKeywords(Locale), true);
  *            default:
  *               return super.reporterFor(format);
  *   }
@@ -96,16 +96,16 @@ public class StoryReporterBuilder {
                 return new PrintStreamStoryReporter();
             case STATS:
                 factory.useConfiguration(fileConfiguration("stats"));
-                return new StatisticsStoryReporter(factory.getPrintStream());
+                return new StatisticsStoryReporter(factory.createPrintStream());
             case TXT:
                 factory.useConfiguration(fileConfiguration("txt"));
-                return new PrintStreamStoryReporter(factory.getPrintStream());
+                return new PrintStreamStoryReporter(factory.createPrintStream());
             case HTML:
                 factory.useConfiguration(fileConfiguration("html"));
-                return new HtmlPrintStreamStoryReporter(factory.getPrintStream());
+                return new HtmlPrintStreamStoryReporter(factory.createPrintStream());
             case XML:
                 factory.useConfiguration(fileConfiguration("xml"));
-                return new XmlPrintStreamStoryReporter(factory.getPrintStream());
+                return new XmlPrintStreamStoryReporter(factory.createPrintStream());
             default:
                 throw new UnsupportedReporterFormatException(format);
         }

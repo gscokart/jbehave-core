@@ -75,11 +75,11 @@ public class PrintStreamStoryReporterBehaviour {
         final OutputStream out = new ByteArrayOutputStream();
         PrintStreamFactory factory = new PrintStreamFactory() {
 
-            public PrintStream getPrintStream() {
+            public PrintStream createPrintStream() {
                 return new PrintStream(out);
             }
         };
-        StoryReporter reporter = new HtmlPrintStreamStoryReporter(factory.getPrintStream());
+        StoryReporter reporter = new HtmlPrintStreamStoryReporter(factory.createPrintStream());
 
         // When
         narrateAnInterestingStory(reporter);
@@ -121,7 +121,7 @@ public class PrintStreamStoryReporterBehaviour {
         final OutputStream out = new ByteArrayOutputStream();
         PrintStreamFactory factory = new PrintStreamFactory() {
 
-            public PrintStream getPrintStream() {
+            public PrintStream createPrintStream() {
                 return new PrintStream(out);
             }
         };
@@ -129,7 +129,7 @@ public class PrintStreamStoryReporterBehaviour {
         patterns.setProperty("afterStory", "</div><!-- after story -->\n");
         patterns.setProperty("afterScenario", "</div><!-- after core -->\n");
         patterns.setProperty("afterExamples", "</div><!-- after examples -->\n");
-        StoryReporter reporter = new HtmlPrintStreamStoryReporter(factory.getPrintStream(), patterns);
+        StoryReporter reporter = new HtmlPrintStreamStoryReporter(factory.createPrintStream(), patterns);
 
         // When
         narrateAnInterestingStory(reporter);
@@ -169,11 +169,11 @@ public class PrintStreamStoryReporterBehaviour {
         final OutputStream out = new ByteArrayOutputStream();
         PrintStreamFactory factory = new PrintStreamFactory() {
 
-            public PrintStream getPrintStream() {
+            public PrintStream createPrintStream() {
                 return new PrintStream(out);
             }
         };
-        StoryReporter reporter = new XmlPrintStreamStoryReporter(factory.getPrintStream());
+        StoryReporter reporter = new XmlPrintStreamStoryReporter(factory.createPrintStream());
 
         // When
         narrateAnInterestingStory(reporter);
@@ -348,7 +348,7 @@ public class PrintStreamStoryReporterBehaviour {
         ensureThat(!file.exists());
 
         // When
-        PrintStream printStream = factory.getPrintStream();
+        PrintStream printStream = factory.createPrintStream();
         printStream.print("Hello World");
 
         // Then
@@ -380,7 +380,7 @@ public class PrintStreamStoryReporterBehaviour {
                 switch (format) {
                     case TXT:
                         factory.useConfiguration(new FileConfiguration("text"));
-                        return new PrintStreamStoryReporter(factory.getPrintStream(), new Properties(), new I18nKeyWords(), true);
+                        return new PrintStreamStoryReporter(factory.createPrintStream(), new Properties(), new I18nKeyWords(), true);
                     default:
                         return super.reporterFor(format);
                 }

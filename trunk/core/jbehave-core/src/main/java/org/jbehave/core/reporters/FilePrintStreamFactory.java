@@ -2,20 +2,16 @@ package org.jbehave.core.reporters;
 
 import org.jbehave.core.parser.StoryLocation;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
+import java.io.*;
 
 /**
- * Creates {@link PrintStream} instances that write to a file. It also provides
- * useful defaults for the file directory and the extension.
+ * Creates {@link PrintStream} instances that write to a file.  {@link FileConfiguration}
+ * specifies file directory and the extension, providing useful defaults values.
  */
 public class FilePrintStreamFactory implements PrintStreamFactory {
 
     private final String storyPath;
     private FileConfiguration configuration;
-    private PrintStream printStream;
     private File outputFile;
 
     public FilePrintStreamFactory(String storyPath) {
@@ -28,14 +24,13 @@ public class FilePrintStreamFactory implements PrintStreamFactory {
         this.outputFile = outputFile();
     }
 
-    public PrintStream getPrintStream() {
+    public PrintStream createPrintStream() {
         try {
             outputFile.getParentFile().mkdirs();
-            printStream = new PrintStream(new FileOutputStream(outputFile, true));
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            return new PrintStream(new FileOutputStream(outputFile, true));
+        } catch (IOException e) {
+            throw new PrintStreamCreationFailedException(outputFile, e);
         }
-        return printStream;
     }
 
     public File getOutputFile() {
@@ -58,14 +53,14 @@ public class FilePrintStreamFactory implements PrintStreamFactory {
         String name = storyName.substring(0, storyName.lastIndexOf("."));
         return name + "." + configuration.getExtension();
     }
-    
+
     protected File outputDirectory() {
         File targetDirectory = new File(storyLocation()).getParentFile();
         return new File(targetDirectory, configuration.getDirectory());
     }
 
     private String storyLocation() {
-        return new StoryLocation(storyPath).getLocation().replace("file:","");
+        return new StoryLocation(storyPath).getLocation().replace("file:", "");
     }
 
     private String storyName() {
@@ -108,4 +103,9 @@ public class FilePrintStreamFactory implements PrintStreamFactory {
 
     }
 
+    private class PrintStreamCreationFailedException extends RuntimeException {
+        public PrintStreamCreationFailedException(File file, IOException cause) {
+            super("Failed to create print stream for file "+file, cause);
+        }
+    }
 }
