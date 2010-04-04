@@ -18,12 +18,12 @@ public class StepdocMojo extends AbstractStoryMojo {
             return;
         }
         for (RunnableStory story : stories()) {
-            String scenarioName = story.getClass().getName();
+            String storyName = story.getClass().getName();
             try {
-                getLog().info("Generating stepdoc for " + scenarioName);
+                getLog().info("Generating stepdoc for " + storyName);
                 story.generateStepdoc();
             } catch (Throwable e) {
-                String message = "Failed to generate stepdoc for " + scenarioName;
+                String message = "Failed to generate stepdoc for " + storyName;
                 if (ignoreFailure()) {
                     getLog().warn(message, e);
                 } else {

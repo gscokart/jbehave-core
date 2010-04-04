@@ -27,7 +27,7 @@ public class StoryRunnerTask extends AbstractStoryTask {
             return;
         }
 
-        Map<String, Throwable> failedScenarios = new HashMap<String, Throwable>();
+        Map<String, Throwable> failedStories = new HashMap<String, Throwable>();
         for (RunnableStory story : stories()) {
             String name = story.getClass().getName();
             try {
@@ -37,7 +37,7 @@ public class StoryRunnerTask extends AbstractStoryTask {
                 String message = "Failure in running story " + name;
                 if (batch) {
                     // collect and postpone decision to throw exception
-                    failedScenarios.put(name, e);
+                    failedStories.put(name, e);
                 } else {
                     if (ignoreFailure()) {
                         log(message, e, MSG_WARN);
@@ -47,8 +47,8 @@ public class StoryRunnerTask extends AbstractStoryTask {
                 }
             }
         }
-        if (batch && failedScenarios.size() > 0) {
-            String message = "Failure in running stories: " + format(failedScenarios);
+        if (batch && failedStories.size() > 0) {
+            String message = "Failure in running stories: " + format(failedStories);
             if (ignoreFailure()) {
                 log(message, MSG_WARN);
             } else {
@@ -57,12 +57,12 @@ public class StoryRunnerTask extends AbstractStoryTask {
         }
     }
 
-    private String format(Map<String, Throwable> failedScenarios) {
+    private String format(Map<String, Throwable> failedStories) {
         StringBuffer sb = new StringBuffer();
-        for (String scenarioName : failedScenarios.keySet()) {
-            Throwable cause = failedScenarios.get(scenarioName);
+        for (String storyName : failedStories.keySet()) {
+            Throwable cause = failedStories.get(storyName);
             sb.append("\n");
-            sb.append(scenarioName);
+            sb.append(storyName);
             sb.append(": ");
             sb.append(cause.getMessage());
         }

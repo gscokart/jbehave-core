@@ -59,7 +59,7 @@
       batch="true" ignoreFailure="true" classLoaderInjected="false" />
     <storyRunner storyIncludes="**/i18n/stories/*.java"
       sourceDirectory="${basedir}/src/main/java" storyExcludes="**/stories/*NonSuccessful.java"
-      classLoaderInjected="true" />
+      classLoaderInjected="false" />
   </target>
 
   <target name="reports-resources">

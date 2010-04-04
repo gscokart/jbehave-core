@@ -53,12 +53,12 @@ public abstract class AbstractStoryTask extends Task {
     private List<String> storyExcludes = new ArrayList<String>();
 
     /**
-     * The boolean flag to determined if class loader is injected in core class
+     * The boolean flag to determined if class loader is injected in story classes
      */
-    private boolean classLoaderInjected = true;
+    private boolean classLoaderInjected = false;
     
     /**
-     * The boolean flag to skip running core
+     * The boolean flag to skip running stories
      */
     private boolean skip = false;
 
@@ -68,7 +68,7 @@ public abstract class AbstractStoryTask extends Task {
     private boolean ignoreFailure = false;
 
     /**
-     * Used to find core class names
+     * Used to find story class names
      */
     private StoryClassNameFinder finder = new StoryClassNameFinder();
 
@@ -90,10 +90,10 @@ public abstract class AbstractStoryTask extends Task {
 
     private List<String> findStoryClassNames() {
         log("Searching for story class names including "+ storyIncludes +" and excluding "+ storyExcludes, MSG_DEBUG);
-        List<String> scenarioClassNames = finder.listStoryClassNames(rootSourceDirectory(), null, storyIncludes,
+        List<String> storyClassNames = finder.listStoryClassNames(rootSourceDirectory(), null, storyIncludes,
                 storyExcludes);
-        log("Found core class names: " + scenarioClassNames, MSG_DEBUG);
-        return scenarioClassNames;
+        log("Found story class names: " + storyClassNames, MSG_DEBUG);
+        return storyClassNames;
     }
 
     /**
@@ -104,14 +104,8 @@ public abstract class AbstractStoryTask extends Task {
      * @throws MalformedURLException
      */
     private StoryClassLoader createStoryClassLoader() throws MalformedURLException {
-        return new StoryClassLoader(classpathElements());
+        return new StoryClassLoader(asList(new String[]{}));
     }
-
-    private List<String> classpathElements() {
-        List<String> classpathElements = asList();
-        return classpathElements;
-    }
-
 
     /**
      * Indicates if failure should be ignored
@@ -132,7 +126,7 @@ public abstract class AbstractStoryTask extends Task {
     }
 
     /**
-     * Returns the list of core instances, whose class names are either
+     * Returns the list of story instances, whose class names are either
      * specified via the parameter "storyClassNames" (which takes precedence)
      * or found using the parameters "storyIncludes" and "storyExcludes".
      * 
@@ -157,7 +151,7 @@ public abstract class AbstractStoryTask extends Task {
         for (String name : names) {
             try {
                 if (!isStoryAbstract(classLoader, name)) {
-                    stories.add(scenarioFor(classLoader, name));
+                    stories.add(storyFor(classLoader, name));
                 }
             } catch (Exception e) {
                 throw new BuildException("Failed to instantiate core '" + name + "'", e);
@@ -170,7 +164,7 @@ public abstract class AbstractStoryTask extends Task {
         return Modifier.isAbstract(classLoader.loadClass(name).getModifiers());
     }
     
-    private RunnableStory scenarioFor(StoryClassLoader classLoader, String name) {
+    private RunnableStory storyFor(StoryClassLoader classLoader, String name) {
         if ( classLoaderInjected ){
             try {
                 return classLoader.newStory(name, ClassLoader.class);
