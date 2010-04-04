@@ -5,12 +5,12 @@ import org.jbehave.core.RunnableStory;
 
 /**
  * <p>
- * Resolves story paths while preserving the Java story class case eg:
+ * Resolves story paths while preserving the Java story class case, e.g.:
  * "org.jbehave.core.ICanLogin.java" -> "org/jbehave/core/ICanLogin".
  * </p>
  * <p>
- * By default no extension is used, but this can be configured via the
- * constructor so that we can resolve class to e.g.
+ * By default, no extension is used but this can be configured via the
+ * constructor so that we can resolve story class to:
  * "org/jbehave/core/ICanLogin.story".
  * </p>
  */

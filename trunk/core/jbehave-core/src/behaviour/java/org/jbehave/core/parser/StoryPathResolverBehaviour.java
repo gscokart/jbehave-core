@@ -7,7 +7,21 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.jbehave.Ensure.ensureThat;
 import static org.jbehave.core.parser.UnderscoredCamelCaseResolver.NUMBERS_AS_UPPER_CASE_LETTERS_PATTERN;
 
-public class UnderscoredCamelCaseResolverBehaviour {
+public class StoryPathResolverBehaviour {
+
+    @Test
+    public void shouldResolveCamelCasedClassNameToCasePreservingName() {
+    	StoryPathResolver resolver = new CasePreservingResolver();
+        ensureThat(resolver.resolve(CamelCaseStory.class),
+                equalTo("org/jbehave/core/parser/CamelCaseStory"));
+    }
+
+    @Test
+    public void shouldResolveCamelCasedClassNameToCasePreservingNameWithExtension() {
+    	StoryPathResolver resolver = new CasePreservingResolver(".story");
+        ensureThat(resolver.resolve(CamelCaseStory.class),
+                equalTo("org/jbehave/core/parser/CamelCaseStory.story"));
+    }
 
     @Test
     public void shouldResolveCamelCasedClassNameToUnderscoredName() {
@@ -25,11 +39,11 @@ public class UnderscoredCamelCaseResolverBehaviour {
 
     /**
      * Some teams are not going to have /stories/ directories,
-     * they are going to co-mingle with tests and match in Maven land with *Story
+     * they are going to co-mingle with tests and match with *Story
      */
     @Test
     public void shouldResolveCamelCasedClassNameToUnderscoredNameWithExtensionStrippingExtraneousWord() {
-    	StoryPathResolver resolver = new UnderscoredCamelCaseResolver(".story").removeFromClassname("Story");
+    	StoryPathResolver resolver = new UnderscoredCamelCaseResolver(".story").removeFromClassName("Story");
         ensureThat(resolver.resolve(CamelCaseStory.class),
                 equalTo("org/jbehave/core/parser/camel_case.story"));
     }

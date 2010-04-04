@@ -9,7 +9,6 @@ public abstract class AbstractStoryPathResolver implements
 	static final String SLASH = "/";
 	static final String EMPTY = "";
 	static final String DEFAULT_EXTENSION = "";
-	static final String PATH_PATTERN = "{0}/{1}{2}";
 
 	private final String extension;
 

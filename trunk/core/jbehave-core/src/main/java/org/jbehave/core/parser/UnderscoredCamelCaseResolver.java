@@ -9,7 +9,7 @@ import org.jbehave.core.RunnableStory;
 /**
  * <p>
  * Resolves story paths converting the camel-cased Java core class to
- * lower-case underscore-separated paths eg:
+ * lower-case underscore-separated paths e.g.:
  * "org.jbehave.core.ICanLogin.java" -> "org/jbehave/core/i_can_login".
  * </p>
  * <p>
@@ -18,14 +18,14 @@ import org.jbehave.core.RunnableStory;
  * "org/jbehave/core/i_can_login.story".
  * </p>
  * <p>
- * The default resolution pattern {@link NUMBERS_AS_LOWER_CASE_LETTERS_PATTERN}
+ * The default resolution pattern {@link #NUMBERS_AS_LOWER_CASE_LETTERS_PATTERN}
  * treats numbers as lower case letters, eg:
  * "org.jbehave.core.ICanLoginTo1Site.java" ->
  * "org/jbehave/core/i_can_login_to1_site"
  * </p>
  * <p>
- * Choose {@link NUMBERS_AS_UPPER_CASE_LETTERS_PATTERN} to treat numbers as
- * uper case letters, eg: "org.jbehave.core.ICanLoginTo1Site.java" ->
+ * Choose {@link #NUMBERS_AS_UPPER_CASE_LETTERS_PATTERN} to treat numbers as
+ * upper case letters, eg: "org.jbehave.core.ICanLoginTo1Site.java" ->
  * "org/jbehave/core/i_can_login_to_1_site"
  * </p>
  */
@@ -68,8 +68,8 @@ public class UnderscoredCamelCaseResolver extends AbstractStoryPathResolver {
 		return builder.substring(0, builder.length() - 1);
 	}
 
-    public StoryPathResolver removeFromClassname(String toStripOff) {
-        this.wordToRemove = toStripOff;
+    public StoryPathResolver removeFromClassName(String wordToRemove) {
+        this.wordToRemove = wordToRemove;
         return this;
     }
 }
