@@ -11,7 +11,6 @@ import org.apache.commons.fileupload.FileItem;
 import org.codehaus.waffle.io.FileUploader;
 import org.codehaus.waffle.menu.Menu;
 import org.jbehave.web.io.FileManager;
-import org.jbehave.web.runner.waffle.controllers.FileUploadController;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;

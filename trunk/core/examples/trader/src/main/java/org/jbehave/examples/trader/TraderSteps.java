@@ -1,18 +1,5 @@
 package org.jbehave.examples.trader;
 
-import static junit.framework.Assert.assertEquals;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.jbehave.Ensure.ensureThat;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
-import org.jbehave.examples.trader.model.Stock;
-import org.jbehave.examples.trader.model.Trader;
-import org.jbehave.examples.trader.model.Stock.AlertStatus;
-import org.jbehave.examples.trader.service.TradingService;
 import org.jbehave.core.annotations.Alias;
 import org.jbehave.core.annotations.Aliases;
 import org.jbehave.core.annotations.Given;
@@ -22,6 +9,19 @@ import org.jbehave.core.annotations.When;
 import org.jbehave.core.model.ExamplesTable;
 import org.jbehave.core.steps.CandidateSteps;
 import org.jbehave.core.steps.StepsFactory;
+import org.jbehave.examples.trader.model.Stock;
+import org.jbehave.examples.trader.model.Stock.AlertStatus;
+import org.jbehave.examples.trader.model.Trader;
+import org.jbehave.examples.trader.service.TradingService;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
+import static junit.framework.Assert.assertEquals;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.jbehave.Ensure.ensureThat;
 
 /**
  * POJO holding the candidate steps for the trader example.  
@@ -51,7 +51,7 @@ public class TraderSteps {
         traders.addAll(toTraders(tradersTable));
     }
 
-    @When("When Traders subset to \"%regex\" by name")
+    @When("Traders are subset to \"%regex\" by name")
     public void subsetTradersByName(String regex) {
         searchedTraders = new ArrayList<Trader>();
         for (Trader trader : traders) {
