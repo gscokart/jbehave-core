@@ -18,7 +18,7 @@ public interface ErrorStrategy {
 		}
 		public String toString() {
 		    return "SILENT";
-		};
+		}
 	};
 	
 	/**
@@ -30,7 +30,7 @@ public interface ErrorStrategy {
 		}
         public String toString() {
             return "RETHROW";
-        };
+        }
 	};
 
 	void handleError(Throwable throwable) throws Throwable;

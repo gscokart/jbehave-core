@@ -45,7 +45,7 @@ public class PassSilentlyDecorator implements StoryReporter {
     
     public void beforeStory(final Description description) {
         beforeStory(new Story(description), false);
-    };
+    }
     
     public void ignorable(final String step) {
         currentScenario.add(new Todo() {

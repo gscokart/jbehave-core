@@ -13,7 +13,7 @@ public interface StepCreator {
 
     enum Stage {
         BEFORE, AFTER
-    };
+    }
 
     Step[] createStepsFrom(Story story, Stage stage, boolean embeddedStory, CandidateSteps... candidateSteps);
 

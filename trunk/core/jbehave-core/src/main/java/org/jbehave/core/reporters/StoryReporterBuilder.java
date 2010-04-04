@@ -61,7 +61,7 @@ public class StoryReporterBuilder {
 
     public enum Format {
         CONSOLE, STATS, TXT, HTML, XML
-    };
+    }
 
     protected final FilePrintStreamFactory factory;
     protected Map<Format, StoryReporter> delegates = new HashMap<Format, StoryReporter>();

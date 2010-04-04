@@ -19,7 +19,7 @@ public interface PendingErrorStrategy extends ErrorStrategy {
 
         public String toString() {
             return "PASSING";
-        };
+        }
     };
 
     /**
@@ -31,6 +31,6 @@ public interface PendingErrorStrategy extends ErrorStrategy {
         }
         public String toString() {
             return "FAILING";
-        };
+        }
     };
 }
