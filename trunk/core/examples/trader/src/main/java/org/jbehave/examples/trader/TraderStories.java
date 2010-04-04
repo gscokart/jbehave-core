@@ -64,7 +64,7 @@ public class TraderStories extends JUnitStories {
     protected List<String> storyPaths() {
         // Defining story paths via URLs
         return asList(storyURL("trader_is_alerted_of_status.story"),
-                      storyURL("wildcard_search.story"));
+                      storyURL("traders_can_be_subset.story"));
     }
 
     private String storyURL(String name){
