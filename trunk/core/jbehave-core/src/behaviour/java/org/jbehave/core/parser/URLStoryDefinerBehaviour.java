@@ -20,8 +20,8 @@ public class URLStoryDefinerBehaviour {
         // Given
         StoryParser parser = mock(StoryParser.class);
         Story story = mock(Story.class);
-        String storyLocation = this.getClass().getProtectionDomain().getCodeSource().getLocation().getFile();
-        String storyPath = "file://"+storyLocation+"org/jbehave/core/parser/stories/my_pending_story";
+        String codeLocation = new StoryLocation("", this.getClass()).getCodeLocation();
+        String storyPath = "file:" + codeLocation + "org/jbehave/core/parser/stories/my_pending_story";
         String storyAsString = "Given my step";
         when(parser.defineStoryFrom(storyAsString, storyPath)).thenReturn(story);
 
@@ -36,8 +36,8 @@ public class URLStoryDefinerBehaviour {
     @Test(expected = InvalidStoryResourceException.class)
     public void cannotDefineStoryForInexistentResource() {
         // Given
-        String storyLocation = this.getClass().getProtectionDomain().getCodeSource().getLocation().getFile();
-        String storyPath = "file://"+storyLocation+"inexistent_story";
+        String codeLocation = new StoryLocation("", this.getClass()).getCodeLocation();
+        String storyPath = "file:" + codeLocation + "inexistent_story";
 
         // When
         StoryDefiner definer = new URLStoryDefiner();

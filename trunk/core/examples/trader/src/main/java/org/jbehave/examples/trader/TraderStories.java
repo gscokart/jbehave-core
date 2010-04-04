@@ -69,7 +69,7 @@ public class TraderStories extends JUnitStories {
 
     private String storyURL(String name){
         String codeLocation = new StoryLocation("", this.getClass()).getCodeLocation();
-        String urlPattern = "file://"+ codeLocation +"org/jbehave/examples/trader/stories/{0}";
+        String urlPattern = "file:"+ codeLocation +"org/jbehave/examples/trader/stories/{0}";
         return MessageFormat.format(urlPattern, name);
 
     }
