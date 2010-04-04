@@ -26,6 +26,6 @@ Then the trader is alerted with <status>
 
 Examples:
 |symbol|threshold|price|status|
-|STK1|15.0|5.0|OFF|
-|STK1|15.0|11.0|OFF|
-|STK1|15.0|16.0|ON|
+|STK1  |15.0|5.0 |OFF|
+|STK1  |15.0|11.0|OFF|
+|STK1  |15.0|16.0|ON |
