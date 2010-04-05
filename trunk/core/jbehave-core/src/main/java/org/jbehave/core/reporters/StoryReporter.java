@@ -17,37 +17,17 @@ public interface StoryReporter {
 
     void beforeStory(Story story, boolean embeddedStory);
 
-    /**
-     * @deprecated Use beforeStory(Story, boolean)
-     */
-    void beforeStory(Description description);
-
     void afterStory(boolean embeddedStory);
-    
-    /**
-     * @deprecated Use afterStory(boolean)
-     */
-    void afterStory();
-    
+
     void beforeScenario(String title);
     
     void afterScenario();
     
 	void givenStories(List<String> givenStories);
 
-	/**
-	 * @deprecated Use beforeExamples(List<String>, ExamplesTable)
-	 */
-	void examplesTable(ExamplesTable table);
+    void beforeExamples(List<String> steps, ExamplesTable table);
 
-	void beforeExamples(List<String> steps, ExamplesTable table);
-
-    /**
-     * @deprecated Use example(Map<String,String>)
-     */	
-	void examplesTableRow(Map<String, String> tableRow);
-
-	void example(Map<String, String> tableRow);
+    void example(Map<String, String> tableRow);
 
     void afterExamples();
 

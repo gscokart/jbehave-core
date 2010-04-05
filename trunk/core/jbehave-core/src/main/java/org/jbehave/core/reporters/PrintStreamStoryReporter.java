@@ -9,7 +9,6 @@ import static org.jbehave.core.steps.CandidateStep.PARAMETER_VALUE_START;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -139,19 +138,11 @@ public class PrintStreamStoryReporter implements StoryReporter {
         }
     }
 
-    public void beforeStory(Description description) {
-        beforeStory(new Story(description), false);
-    }
-
     public void afterStory(boolean embeddedStory) {
         print(format("afterStory", "\n"));
         if ( !embeddedStory && cause != null) {
             throw new RuntimeException(cause);
         }
-    }
-
-    public void afterStory() {
-        afterStory(false);
     }
 
     public void givenStories(List<String> givenScenarios) {
@@ -208,14 +199,6 @@ public class PrintStreamStoryReporter implements StoryReporter {
 
     public void afterExamples() {
         print(format("afterExamples", "\n"));
-    }
-
-    public void examplesTable(ExamplesTable table) {
-        beforeExamples(new ArrayList<String>(), table);        
-    }
-
-    public void examplesTableRow(Map<String, String> tableRow) {
-        example(tableRow);        
     }
 
     /**

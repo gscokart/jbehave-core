@@ -2,12 +2,10 @@ package org.jbehave.core.reporters;
 
 import static java.util.Arrays.asList;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.jbehave.core.model.Description;
 import org.jbehave.core.model.ExamplesTable;
 import org.jbehave.core.model.Story;
 
@@ -51,12 +49,6 @@ public class DelegatingStoryReporter implements StoryReporter {
         }
     }
 
-    public void afterStory() {
-        for (StoryReporter reporter : delegates) {
-            reporter.afterStory();
-        }
-    }
-
     public void beforeScenario(String title) {
         for (StoryReporter reporter : delegates) {
             reporter.beforeScenario(title);
@@ -66,12 +58,6 @@ public class DelegatingStoryReporter implements StoryReporter {
     public void beforeStory(Story story, boolean embeddedStory) {
         for (StoryReporter reporter : delegates) {
             reporter.beforeStory(story, embeddedStory);
-        }
-    }
-
-    public void beforeStory(Description description) {
-        for (StoryReporter reporter : delegates) {
-            reporter.beforeStory(description);
         }
     }
 
@@ -91,14 +77,6 @@ public class DelegatingStoryReporter implements StoryReporter {
         for (StoryReporter reporter : delegates) {
             reporter.afterExamples();
         }
-    }
-
-    public void examplesTable(ExamplesTable table) {
-        beforeExamples(new ArrayList<String>(), table);
-    }
-
-    public void examplesTableRow(Map<String, String> tableRow) {
-        example(tableRow);
     }
 
     public void failed(String step, Throwable e) {

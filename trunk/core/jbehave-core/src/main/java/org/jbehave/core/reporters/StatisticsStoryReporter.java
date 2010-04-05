@@ -4,13 +4,11 @@ import static java.util.Arrays.asList;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.jbehave.core.model.Description;
 import org.jbehave.core.model.ExamplesTable;
 import org.jbehave.core.model.Story;
 
@@ -63,16 +61,8 @@ public class StatisticsStoryReporter implements StoryReporter {
         resetData();
     }
 
-    public void beforeStory(Description description) {
-        beforeStory(new Story(description), false);
-    }
-
     public void afterStory(boolean embeddedStory) {
         writeData();
-    }
-
-    public void afterStory() {
-        afterStory(false);
     }
 
     public void givenStories(List<String> givenScenarios) {
@@ -98,14 +88,6 @@ public class StatisticsStoryReporter implements StoryReporter {
     }
 
     public void afterExamples() {
-    }
-
-    public void examplesTable(ExamplesTable table) {
-        beforeExamples(new ArrayList<String>(), table);
-    }
-
-    public void examplesTableRow(Map<String, String> tableRow) {
-        example(tableRow);
     }
 
     private void count(String event) {
