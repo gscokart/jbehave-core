@@ -10,9 +10,9 @@ import java.io.IOException;
 import java.net.URL;
 
 /**
- * Defines stories by loading the content from a place that is relative and 
+ * Defines stories by loading the content from a place that is relative and
  * predictable to the compiled scenario class.
- *
+ * <p/>
  * See MAVEN_TEST_DIR, which implies a traversal out of 'target/test-classes'
  */
 public class RelativeToClassStoryDefiner implements StoryDefiner {
@@ -22,39 +22,38 @@ public class RelativeToClassStoryDefiner implements StoryDefiner {
     private final URL location;
     private static final String MAVEN_TEST_DIR = "../../src/test/java";
 
-    public RelativeToClassStoryDefiner(StoryParser parser, Class aScenarioClass, String traversal) {
+    public RelativeToClassStoryDefiner(StoryParser parser, Class storyClass, String traversal) {
         this.parser = parser;
         this.traversal = traversal;
-        this. location = getLocation(aScenarioClass);
+        this.location = locationFor(storyClass);
     }
 
-    public RelativeToClassStoryDefiner(Class aScenarioClass, String traversal) {
-        this(new PatternStoryParser(), aScenarioClass, traversal);
+    public RelativeToClassStoryDefiner(Class storyClass, String traversal) {
+        this(new PatternStoryParser(), storyClass, traversal);
     }
 
-    public RelativeToClassStoryDefiner(Class aScenarioClass) {
-        this(aScenarioClass, MAVEN_TEST_DIR);
+    public RelativeToClassStoryDefiner(Class storyClass) {
+        this(storyClass, MAVEN_TEST_DIR);
     }
 
-    protected URL getLocation(Class aScenarioClass) {
-        return aScenarioClass.getProtectionDomain().getCodeSource().getLocation();
+    protected URL locationFor(Class storyClass) {
+        return storyClass.getProtectionDomain().getCodeSource().getLocation();
     }
 
     public Story defineStory(String storyPath) {
-        String storyAsString;
         try {
-            String locn = new File(location.getFile()).getCanonicalPath() + "/";
-            locn = locn + traversal + "/" + storyPath;
-            locn = locn.replace("/", File.separator); // Windows and Unix
-            File file = new File(locn);
-            storyAsString = IOUtils.toString(new FileInputStream(file));
+            String fileLocation = new File(location.getFile()).getCanonicalPath() + "/";
+            fileLocation = fileLocation + traversal + "/" + storyPath;
+            fileLocation = fileLocation.replace("/", File.separator); // Windows and Unix
+            File file = new File(fileLocation);
+            Story story = parser.parseStory(IOUtils.toString(new FileInputStream(file)), storyPath);
+            // file name w/o path
+            story.namedAs(new File(storyPath).getName());
+            return story;
         } catch (IOException e) {
             throw new InvalidStoryResourceException("Story path '" + storyPath + "' not found.", e);
         }
-        Story story = parser.defineStoryFrom(storyAsString, storyPath);
-        // file name w/o path
-        story.namedAs(new File(storyPath).getName());
-        return story;
+
     }
 
 }
