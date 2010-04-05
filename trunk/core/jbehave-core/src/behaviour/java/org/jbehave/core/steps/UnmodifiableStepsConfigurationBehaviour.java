@@ -16,30 +16,30 @@ public class UnmodifiableStepsConfigurationBehaviour {
     @Test
     public void shouldProvideDelegateConfigurationElements() {
         StepsConfiguration delegate = new MostUsefulStepsConfiguration();
-        StepsConfiguration immutable = new UnmodifiableStepsConfiguration(delegate);
-        ensureThat(immutable.keywords(), is(delegate.keywords()));
-        ensureThat(immutable.monitor(), is(delegate.monitor()));
-        ensureThat(immutable.paranamer(), is(delegate.paranamer()));
-        ensureThat(immutable.patternBuilder(), is(delegate.patternBuilder()));
-        ensureThat(immutable.parameterConverters(), is(delegate.parameterConverters()));
+        StepsConfiguration unmodifiable = new UnmodifiableStepsConfiguration(delegate);
+        ensureThat(unmodifiable.keywords(), is(delegate.keywords()));
+        ensureThat(unmodifiable.monitor(), is(delegate.monitor()));
+        ensureThat(unmodifiable.paranamer(), is(delegate.paranamer()));
+        ensureThat(unmodifiable.patternBuilder(), is(delegate.patternBuilder()));
+        ensureThat(unmodifiable.parameterConverters(), is(delegate.parameterConverters()));
     }
 
 
     @Test
     public void shouldNotAllowModificationOfConfigurationElements() throws NoSuchMethodException, IllegalAccessException {
         StepsConfiguration delegate = new MostUsefulStepsConfiguration();
-        StepsConfiguration immutable = new UnmodifiableStepsConfiguration(delegate);
-        ensureThatNotAllowed(immutable, "useKeywords", KeyWords.class);
-        ensureThatNotAllowed(immutable, "useMonitor", StepMonitor.class);
-        ensureThatNotAllowed(immutable, "useParanamer", Paranamer.class);
-        ensureThatNotAllowed(immutable, "usePatternBuilder", StepPatternBuilder.class);
-        ensureThatNotAllowed(immutable, "useParameterConverters", ParameterConverters.class);
+        StepsConfiguration unmodifiable = new UnmodifiableStepsConfiguration(delegate);
+        ensureThatNotAllowed(unmodifiable, "useKeywords", KeyWords.class);
+        ensureThatNotAllowed(unmodifiable, "useMonitor", StepMonitor.class);
+        ensureThatNotAllowed(unmodifiable, "useParanamer", Paranamer.class);
+        ensureThatNotAllowed(unmodifiable, "usePatternBuilder", StepPatternBuilder.class);
+        ensureThatNotAllowed(unmodifiable, "useParameterConverters", ParameterConverters.class);
     }
 
-    private void ensureThatNotAllowed(StepsConfiguration immutable, String methodName, Class<?> type) throws NoSuchMethodException, IllegalAccessException {
-        Method method = immutable.getClass().getMethod(methodName, type);
+    private void ensureThatNotAllowed(StepsConfiguration unmodifiable, String methodName, Class<?> type) throws NoSuchMethodException, IllegalAccessException {
+        Method method = unmodifiable.getClass().getMethod(methodName, type);
         try {
-            method.invoke(immutable, new Object[]{null});
+            method.invoke(unmodifiable, new Object[]{null});
         } catch (IllegalAccessException e) {
             throw e; // should not occur
         } catch (InvocationTargetException e) {

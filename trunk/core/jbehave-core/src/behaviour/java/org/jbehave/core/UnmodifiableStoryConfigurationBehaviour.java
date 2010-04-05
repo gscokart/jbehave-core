@@ -21,36 +21,36 @@ public class UnmodifiableStoryConfigurationBehaviour {
     @Test
     public void shouldProvideDelegateConfigurationElements() {
         StoryConfiguration delegate = new MostUsefulStoryConfiguration();
-        StoryConfiguration immutable = new UnmodifiableStoryConfiguration(delegate);
-        ensureThat(immutable.keywords(), is(delegate.keywords()));
-        ensureThat(immutable.stepCreator(), is(delegate.stepCreator()));
-        ensureThat(immutable.storyDefiner(), is(delegate.storyDefiner()));
-        ensureThat(immutable.storyReporter(), is(delegate.storyReporter()));
-        ensureThat(immutable.errorStrategy(), is(delegate.errorStrategy()));
-        ensureThat(immutable.pendingErrorStrategy(), is(delegate.pendingErrorStrategy()));
-        ensureThat(immutable.stepdocGenerator(), is(delegate.stepdocGenerator()));
-        ensureThat(immutable.stepdocReporter(), is(delegate.stepdocReporter()));
+        StoryConfiguration unmodifiable = new UnmodifiableStoryConfiguration(delegate);
+        ensureThat(unmodifiable.keywords(), is(delegate.keywords()));
+        ensureThat(unmodifiable.stepCreator(), is(delegate.stepCreator()));
+        ensureThat(unmodifiable.storyDefiner(), is(delegate.storyDefiner()));
+        ensureThat(unmodifiable.storyReporter(), is(delegate.storyReporter()));
+        ensureThat(unmodifiable.errorStrategy(), is(delegate.errorStrategy()));
+        ensureThat(unmodifiable.pendingErrorStrategy(), is(delegate.pendingErrorStrategy()));
+        ensureThat(unmodifiable.stepdocGenerator(), is(delegate.stepdocGenerator()));
+        ensureThat(unmodifiable.stepdocReporter(), is(delegate.stepdocReporter()));
     }
 
 
     @Test
     public void shouldNotAllowModificationOfConfigurationElements() throws NoSuchMethodException, IllegalAccessException {
         StoryConfiguration delegate = new MostUsefulStoryConfiguration();
-        StoryConfiguration immutable = new UnmodifiableStoryConfiguration(delegate);
-        ensureThatNotAllowed(immutable, "useKeywords", KeyWords.class);
-        ensureThatNotAllowed(immutable, "useStepCreator", StepCreator.class);
-        ensureThatNotAllowed(immutable, "useStoryDefiner", StoryDefiner.class);
-        ensureThatNotAllowed(immutable, "useStoryReporter", StoryReporter.class);
-        ensureThatNotAllowed(immutable, "useErrorStrategy", ErrorStrategy.class);
-        ensureThatNotAllowed(immutable, "usePendingErrorStrategy", PendingErrorStrategy.class);
-        ensureThatNotAllowed(immutable, "useStepdocGenerator", StepdocGenerator.class);
-        ensureThatNotAllowed(immutable, "useStepdocReporter", StepdocReporter.class);
+        StoryConfiguration unmodifiable = new UnmodifiableStoryConfiguration(delegate);
+        ensureThatNotAllowed(unmodifiable, "useKeywords", KeyWords.class);
+        ensureThatNotAllowed(unmodifiable, "useStepCreator", StepCreator.class);
+        ensureThatNotAllowed(unmodifiable, "useStoryDefiner", StoryDefiner.class);
+        ensureThatNotAllowed(unmodifiable, "useStoryReporter", StoryReporter.class);
+        ensureThatNotAllowed(unmodifiable, "useErrorStrategy", ErrorStrategy.class);
+        ensureThatNotAllowed(unmodifiable, "usePendingErrorStrategy", PendingErrorStrategy.class);
+        ensureThatNotAllowed(unmodifiable, "useStepdocGenerator", StepdocGenerator.class);
+        ensureThatNotAllowed(unmodifiable, "useStepdocReporter", StepdocReporter.class);
     }
 
-    private void ensureThatNotAllowed(StoryConfiguration immutable, String methodName, Class<?> type) throws NoSuchMethodException, IllegalAccessException {
-        Method method = immutable.getClass().getMethod(methodName, type);
+    private void ensureThatNotAllowed(StoryConfiguration unmodifiable, String methodName, Class<?> type) throws NoSuchMethodException, IllegalAccessException {
+        Method method = unmodifiable.getClass().getMethod(methodName, type);
         try {
-            method.invoke(immutable, new Object[]{null});
+            method.invoke(unmodifiable, new Object[]{null});
         } catch (IllegalAccessException e) {
             throw e; // should not occur
         } catch (InvocationTargetException e) {
