@@ -24,7 +24,8 @@ public class KeyWords {
     public static final String GIVEN_STORIES = "GivenStories";
     public static final String EXAMPLES_TABLE = "ExamplesTable";
     public static final String EXAMPLES_TABLE_ROW = "ExamplesTableRow";
-    public static final String EXAMPLES_TABLE_SEPARATOR = "ExamplesTableSeparator";
+    public static final String EXAMPLES_TABLE_HEADER_SEPARATOR = "ExamplesTableHeaderSeparator";
+    public static final String EXAMPLES_TABLE_VALUE_SEPARATOR = "ExamplesTableValueSeparator";
     public static final String GIVEN = "Given";
     public static final String WHEN = "When";
     public static final String THEN = "Then";
@@ -34,8 +35,8 @@ public class KeyWords {
     public static final String NOT_PERFORMED = "NotPerformed";
     public static final String FAILED = "Failed";
     public static final List<String> KEYWORDS = asList(NARRATIVE, IN_ORDER_TO, AS_A, I_WANT_TO, SCENARIO,
-            GIVEN_STORIES, EXAMPLES_TABLE, EXAMPLES_TABLE_ROW, EXAMPLES_TABLE_SEPARATOR, GIVEN, WHEN, THEN, AND,
-            IGNORABLE, PENDING, NOT_PERFORMED, FAILED);
+            GIVEN_STORIES, EXAMPLES_TABLE, EXAMPLES_TABLE_ROW, EXAMPLES_TABLE_HEADER_SEPARATOR, EXAMPLES_TABLE_VALUE_SEPARATOR,
+            GIVEN, WHEN, THEN, AND, IGNORABLE, PENDING, NOT_PERFORMED, FAILED);
 
     private final String narrative;
     private final String inOrderTo;
@@ -45,7 +46,8 @@ public class KeyWords {
     private final String givenStories;
     private final String examplesTable;
     private final String examplesTableRow;
-    private final String examplesTableSeparator;
+    private final String examplesTableHeaderSeparator;
+    private final String examplesTableValueSeparator;    
     private final String given;
     private final String when;
     private final String then;
@@ -67,7 +69,8 @@ public class KeyWords {
         keywords.put(GIVEN_STORIES, "GivenStories:");
         keywords.put(EXAMPLES_TABLE, "Examples:");
         keywords.put(EXAMPLES_TABLE_ROW, "Example:");
-        keywords.put(EXAMPLES_TABLE_SEPARATOR, "|");
+        keywords.put(EXAMPLES_TABLE_HEADER_SEPARATOR, "|");
+        keywords.put(EXAMPLES_TABLE_VALUE_SEPARATOR, "|");
         keywords.put(GIVEN, "Given");
         keywords.put(WHEN, "When");
         keywords.put(THEN, "Then");
@@ -110,7 +113,8 @@ public class KeyWords {
         this.givenStories = keyword(GIVEN_STORIES, keywords);
         this.examplesTable = keyword(EXAMPLES_TABLE, keywords);
         this.examplesTableRow = keyword(EXAMPLES_TABLE_ROW, keywords);
-        this.examplesTableSeparator = keyword(EXAMPLES_TABLE_SEPARATOR, keywords);
+        this.examplesTableHeaderSeparator = keyword(EXAMPLES_TABLE_HEADER_SEPARATOR, keywords);
+        this.examplesTableValueSeparator = keyword(EXAMPLES_TABLE_VALUE_SEPARATOR, keywords);
         this.given = keyword(GIVEN, keywords);
         this.when = keyword(WHEN, keywords);
         this.then = keyword(THEN, keywords);
@@ -162,9 +166,13 @@ public class KeyWords {
     public String examplesTableRow() {
         return examplesTableRow;
     }
+
+    public String examplesTableHeaderSeparator() {
+        return examplesTableHeaderSeparator;
+    }
     
-    public String examplesTableSeparator() {
-        return examplesTableSeparator;
+    public String examplesTableValueSeparator() {
+        return examplesTableValueSeparator;
     }
 
     public String given() {

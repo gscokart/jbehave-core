@@ -1,24 +1,12 @@
 package org.jbehave.core.i18n;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.jbehave.Ensure.ensureThat;
-import static org.jbehave.core.model.KeyWords.AND;
-import static org.jbehave.core.model.KeyWords.AS_A;
-import static org.jbehave.core.model.KeyWords.EXAMPLES_TABLE;
-import static org.jbehave.core.model.KeyWords.EXAMPLES_TABLE_ROW;
-import static org.jbehave.core.model.KeyWords.FAILED;
-import static org.jbehave.core.model.KeyWords.GIVEN;
-import static org.jbehave.core.model.KeyWords.GIVEN_STORIES;
-import static org.jbehave.core.model.KeyWords.IGNORABLE;
-import static org.jbehave.core.model.KeyWords.IN_ORDER_TO;
-import static org.jbehave.core.model.KeyWords.I_WANT_TO;
-import static org.jbehave.core.model.KeyWords.NARRATIVE;
-import static org.jbehave.core.model.KeyWords.NOT_PERFORMED;
-import static org.jbehave.core.model.KeyWords.PENDING;
-import static org.jbehave.core.model.KeyWords.SCENARIO;
-import static org.jbehave.core.model.KeyWords.THEN;
-import static org.jbehave.core.model.KeyWords.WHEN;
-import static org.junit.Assert.assertEquals;
+import org.jbehave.core.i18n.I18nKeyWords.I18nKeywordNotFoundException;
+import org.jbehave.core.i18n.I18nKeyWords.ResourceBundleNotFoundException;
+import org.jbehave.core.model.KeyWords;
+import org.jbehave.core.steps.MostUsefulStepsConfiguration;
+import org.jbehave.core.steps.StepType;
+import org.jbehave.core.steps.StepsConfiguration;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,13 +14,10 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
-import org.jbehave.core.model.KeyWords;
-import org.jbehave.core.i18n.I18nKeyWords.I18nKeywordNotFoundException;
-import org.jbehave.core.i18n.I18nKeyWords.ResourceBundleNotFoundException;
-import org.jbehave.core.steps.MostUsefulStepsConfiguration;
-import org.jbehave.core.steps.StepType;
-import org.jbehave.core.steps.StepsConfiguration;
-import org.junit.Test;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.jbehave.Ensure.ensureThat;
+import static org.jbehave.core.model.KeyWords.*;
+import static org.junit.Assert.assertEquals;
 
 public class I18nKeywordsBehaviour {
 
@@ -87,6 +72,8 @@ public class I18nKeywordsBehaviour {
         ensureKeywordIs(properties, GIVEN_STORIES, keywords.givenStories());
         ensureKeywordIs(properties, EXAMPLES_TABLE, keywords.examplesTable());
         ensureKeywordIs(properties, EXAMPLES_TABLE_ROW, keywords.examplesTableRow());
+        ensureKeywordIs(properties, EXAMPLES_TABLE_HEADER_SEPARATOR, keywords.examplesTableHeaderSeparator());
+        ensureKeywordIs(properties, EXAMPLES_TABLE_VALUE_SEPARATOR, keywords.examplesTableValueSeparator());
         ensureKeywordIs(properties, GIVEN, keywords.given());
         ensureKeywordIs(properties, WHEN, keywords.when());
         ensureKeywordIs(properties, THEN, keywords.then());

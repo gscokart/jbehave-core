@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 import java.util.HashMap;
 
-import org.jbehave.core.model.KeyWords.InsufficientKeywordsException;
 import org.jbehave.core.model.KeyWords.KeywordNotFoundException;
 import org.junit.Test;
 
@@ -19,7 +18,8 @@ public class KeywordsBehaviour {
         assertEquals("GivenStories:", keywords.givenStories());
         assertEquals("Examples:", keywords.examplesTable());
         assertEquals("Example:", keywords.examplesTableRow());
-        assertEquals("|", keywords.examplesTableSeparator());
+        assertEquals("|", keywords.examplesTableHeaderSeparator());
+        assertEquals("|", keywords.examplesTableValueSeparator());
         assertEquals("Given", keywords.given());
         assertEquals("When", keywords.when());
         assertEquals("Then", keywords.then());
