@@ -12,7 +12,6 @@
 
   <modules>
     <module>gameoflife</module>
-    <module>gameoflife/scenarios</module>
     <module>trader</module>
     <module>trader-test-scope</module>
   </modules>
