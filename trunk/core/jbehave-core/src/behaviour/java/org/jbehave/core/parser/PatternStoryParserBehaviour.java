@@ -5,6 +5,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.jbehave.Ensure.ensureThat;
+import static org.mockito.Matchers.isNull;
 
 import java.util.List;
 
@@ -21,162 +22,162 @@ public class PatternStoryParserBehaviour {
 
     private static final String NL = "\n";
     private StoryParser parser = new PatternStoryParser(new I18nKeyWords());
+    private String storyPath = "path/to/my.story";
 
     @Test
-    public void shouldExtractGivensWhensAndThensFromSimpleScenarios() {
-        Story story = parser.defineStoryFrom(
-                "Given a core" + NL +
-                "!-- ignore me" + NL + 
-                "When I parse it" + NL + 
-                "Then I should get steps", null);
-        
+    public void shouldParseStoryWithSimpleSteps() {
+        String wholeStory = "Given a scenario" + NL +
+                "!-- ignore me" + NL +
+                "When I parse it" + NL +
+                "Then I should get steps";
+        Story story = parser.parseStory(
+                wholeStory, storyPath);
+        ensureThat(story.getPath(), equalTo(storyPath));
         List<String> steps = story.getScenarios().get(0).getSteps();
-        ensureThat(steps.get(0), equalTo("Given a core"));
+        ensureThat(steps.get(0), equalTo("Given a scenario"));
         ensureThat(steps.get(1), equalTo("!-- ignore me"));
         ensureThat(steps.get(2), equalTo("When I parse it"));
         ensureThat(steps.get(3), equalTo("Then I should get steps"));
     }
-    
+
     @Test
-    public void shouldExtractGivensWhensAndThensFromSimpleScenariosContainingKeywordsAsPartOfTheContent() {
-        Story story = parser.defineStoryFrom(
-                "Given a core Givenly" + NL +
+    public void shouldParseStoryWithStepsContainingKeywordsAsPartOfTheContent() {
+        String wholeStory = "Given a scenario Givenly" + NL +
                 "When I parse it to Whenever" + NL +
                 "And I parse it to Anderson" + NL +
                 "!-- ignore me too" + NL +
-                "Then I should get steps Thenact", null);
-        
+                "Then I should get steps Thenact";
+        Story story = parser.parseStory(
+                wholeStory, storyPath);
+
         List<String> steps = story.getScenarios().get(0).getSteps();
-        ensureThat(steps.get(0), equalTo("Given a core Givenly"));
+        ensureThat(steps.get(0), equalTo("Given a scenario Givenly"));
         ensureThat(steps.get(1), equalTo("When I parse it to Whenever"));
         ensureThat(steps.get(2), equalTo("And I parse it to Anderson"));
         ensureThat(steps.get(3), equalTo("!-- ignore me too"));
         ensureThat(steps.get(4), equalTo("Then I should get steps Thenact"));
-    }    
-    
+    }
+
     @Test
-    public void shouldExtractGivensWhensAndThensFromMultilineScenarios() {
-        String wholeStory = 
-            "Given a core" + NL +
-            "with this line" + NL +
-            "When I parse it" + NL +
-            "with another line" + NL + NL +
-            "Then I should get steps" + NL +
-            "without worrying about lines" + NL +
-            "or extra white space between or after steps" + NL + NL;
-        Story story = parser.defineStoryFrom(wholeStory, null);
+    public void shouldParseStoryWithMultilineSteps() {
+        String wholeStory = "Given a scenario" + NL +
+                "with this line" + NL +
+                "When I parse it" + NL +
+                "with another line" + NL + NL +
+                "Then I should get steps" + NL +
+                "without worrying about lines" + NL +
+                "or extra white space between or after steps" + NL + NL;
+        Story story = parser.parseStory(wholeStory, storyPath);
 
         List<String> steps = story.getScenarios().get(0).getSteps();
-        
-        ensureThat(steps.get(0), equalTo("Given a core" + NL +
-                "with this line" ));
+
+        ensureThat(steps.get(0), equalTo("Given a scenario" + NL +
+                "with this line"));
         ensureThat(steps.get(1), equalTo("When I parse it" + NL +
                 "with another line"));
         ensureThat(steps.get(2), equalTo("Then I should get steps" + NL +
                 "without worrying about lines" + NL +
                 "or extra white space between or after steps"));
     }
-    
+
     @Test
-    public void shouldExtractMultilineScenarioTitle() {
-        String wholeStory = 
-            "Scenario: A title\n that is spread across\n multiple lines" + NL +  NL +
-            "Given a step that's pending" + NL +
-            "When I run the core" + NL +
-            "Then I should see this in the output";
-        
-        Story story = parser.defineStoryFrom(wholeStory, null);
-        
+    public void shouldExtractStoryWithMultilineScenarioTitle() {
+        String wholeStory = "Scenario: A title\n that is spread across\n multiple lines" + NL + NL +
+                "Given a step that's pending" + NL +
+                "When I run the scenario" + NL +
+                "Then I should see this in the output";
+
+        Story story = parser.parseStory(wholeStory, null);
+
         ensureThat(story.getScenarios().get(0).getTitle(), equalTo("A title\n that is spread across\n multiple lines"));
     }
 
     @Test
-    public void shouldParseMultipleScenariosFromOneStory() {
-        String wholeStory = 
-            "Scenario: the first core " + NL + NL +
-            "Given my core" + NL + NL +
-            "Scenario: the second core" + NL + NL +
-            "Given my second core";
-        Story story = parser.defineStoryFrom(wholeStory, null);
-        
-        ensureThat(story.getScenarios().get(0).getTitle(), equalTo("the first core"));
-        ensureThat(story.getScenarios().get(0).getSteps(), equalTo(asList("Given my core")));
-        ensureThat(story.getScenarios().get(1).getTitle(), equalTo("the second core"));
-        ensureThat(story.getScenarios().get(1).getSteps(), equalTo(asList("Given my second core")));
-    }   
-    
+    public void shouldParseWithMultipleScenarios() {
+        String wholeStory = "Scenario: the first scenario " + NL + NL +
+                "Given my scenario" + NL + NL +
+                "Scenario: the second scenario" + NL + NL +
+                "Given my second scenario";
+        Story story = parser.parseStory(wholeStory, storyPath);
+
+        ensureThat(story.getScenarios().get(0).getTitle(), equalTo("the first scenario"));
+        ensureThat(story.getScenarios().get(0).getSteps(), equalTo(asList("Given my scenario")));
+        ensureThat(story.getScenarios().get(1).getTitle(), equalTo("the second scenario"));
+        ensureThat(story.getScenarios().get(1).getSteps(), equalTo(asList("Given my second scenario")));
+    }
+
     @Test
-    public void shouldParseNarrativeFromStory() {
-        Story story = parser.defineStoryFrom(
-                "Narrative: This bit of text is ignored" + NL + 
-                "In order to renovate my house" + NL + 
-                "As a customer" + NL + 
-                "I want to get a loan" + NL + 
-                "Scenario:  A first core", null);
+    public void shouldParseStoryWithNarrative() {
+        String wholeStory = "Narrative: This bit of text is ignored" + NL +
+                "In order to renovate my house" + NL +
+                "As a customer" + NL +
+                "I want to get a loan" + NL +
+                "Scenario:  A first scenario";
+        Story story = parser.parseStory(
+                wholeStory, storyPath);
         Narrative narrative = story.getNarrative();
         ensureThat(narrative, not(equalTo(Narrative.EMPTY)));
         ensureThat(narrative.inOrderTo().toString(), equalTo("renovate my house"));
         ensureThat(narrative.asA().toString(), equalTo("customer"));
         ensureThat(narrative.iWantTo().toString(), equalTo("get a loan"));
     }
-    
+
     @Test
-    public void shouldParseFullStory() {
-        String wholeStory = 
-            "Story: I can output narratives" + NL + NL +
+    public void shouldParseStoryWithAllElements() {
+        String wholeStory = "This is just a story description" + NL + NL +
 
-            "Narrative: " + NL +
-            "In order to see what we're not delivering" + NL + NL +
-            "As a developer" + NL +
-            "I want to see the narrative for my story when a core in that story breaks" + NL +
+                "Narrative: " + NL +
+                "In order to see what we're not delivering" + NL + NL +
+                "As a developer" + NL +
+                "I want to see the narrative for my story when a scenario in that story breaks" + NL +
 
-            "Scenario: A pending core" + NL +  NL +
-            "Given a step that's pending" + NL +
-            "When I run the core" + NL +
-            "!-- A comment between steps" +  NL +
-            "Then I should see this in the output" + NL +
+                "Scenario: A pending scenario" + NL + NL +
+                "Given a step that's pending" + NL +
+                "When I run the scenario" + NL +
+                "!-- A comment between steps" + NL +
+                "Then I should see this in the output" + NL +
 
-            "Scenario: A passing core" + NL +
-            "Given I'm not reporting passing stories" + NL +
-            "When I run the core" + NL +
-            "Then this should not be in the output" + NL +
-    
-            "Scenario: A failing core" + NL +
-            "Given a step that fails" + NL +
-            "When I run the core" + NL +
-            "Then I should see this in the output" + NL +
-            "And I should see this in the output" + NL;
-        
-        Story story = parser.defineStoryFrom(wholeStory, null);
-        
-        ensureThat(story.getDescription().asString(), equalTo("Story: I can output narratives"));
-        
+                "Scenario: A passing scenario" + NL +
+                "Given I'm not reporting passing stories" + NL +
+                "When I run the scenario" + NL +
+                "Then this should not be in the output" + NL +
+
+                "Scenario: A failing scenario" + NL +
+                "Given a step that fails" + NL +
+                "When I run the scenario" + NL +
+                "Then I should see this in the output" + NL +
+                "And I should see this in the output" + NL;
+
+        Story story = parser.parseStory(wholeStory, storyPath);
+
+        ensureThat(story.getDescription().asString(), equalTo("This is just a story description"));
+
         ensureThat(story.getNarrative().inOrderTo(), equalTo("see what we're not delivering"));
         ensureThat(story.getNarrative().asA(), equalTo("developer"));
-        ensureThat(story.getNarrative().iWantTo(), equalTo("see the narrative for my story when a core in that story breaks"));
-        
-        ensureThat(story.getScenarios().get(0).getTitle(), equalTo("A pending core"));
-		ensureThat(story.getScenarios().get(0).getGivenStoryPaths().size(), equalTo(0));
+        ensureThat(story.getNarrative().iWantTo(), equalTo("see the narrative for my story when a scenario in that story breaks"));
+
+        ensureThat(story.getScenarios().get(0).getTitle(), equalTo("A pending scenario"));
+        ensureThat(story.getScenarios().get(0).getGivenStoryPaths().size(), equalTo(0));
         ensureThat(story.getScenarios().get(0).getSteps(), equalTo(asList(
                 "Given a step that's pending",
-                "When I run the core",
+                "When I run the scenario",
                 "!-- A comment between steps",
                 "Then I should see this in the output"
         )));
-        
-        ensureThat(story.getScenarios().get(1).getTitle(), equalTo("A passing core"));
-		ensureThat(story.getScenarios().get(1).getGivenStoryPaths().size(), equalTo(0));
+
+        ensureThat(story.getScenarios().get(1).getTitle(), equalTo("A passing scenario"));
+        ensureThat(story.getScenarios().get(1).getGivenStoryPaths().size(), equalTo(0));
         ensureThat(story.getScenarios().get(1).getSteps(), equalTo(asList(
                 "Given I'm not reporting passing stories",
-                "When I run the core",
+                "When I run the scenario",
                 "Then this should not be in the output"
         )));
-        
-        ensureThat(story.getScenarios().get(2).getTitle(), equalTo("A failing core"));
-		ensureThat(story.getScenarios().get(2).getGivenStoryPaths().size(), equalTo(0));
+
+        ensureThat(story.getScenarios().get(2).getTitle(), equalTo("A failing scenario"));
+        ensureThat(story.getScenarios().get(2).getGivenStoryPaths().size(), equalTo(0));
         ensureThat(story.getScenarios().get(2).getSteps(), equalTo(asList(
                 "Given a step that fails",
-                "When I run the core",
+                "When I run the scenario",
                 "Then I should see this in the output",
                 "And I should see this in the output"
         )));
@@ -184,112 +185,127 @@ public class PatternStoryParserBehaviour {
 
     @Test
     public void shouldParseLongStoryWithKeywordSplitScenarios() {
-    	ensureLongStoryCanBeParsed(parser);        
+        ensureLongStoryCanBeParsed(parser);
     }
 
     @Test
     @Ignore("It should fail due to regex stack overflow")
     public void shouldParseLongStoryWithPatternSplitScenarios() {
-        StoryParser parser = new PatternStoryParser(new I18nKeyWords()){
+        StoryParser parser = new PatternStoryParser(new I18nKeyWords()) {
 
-			@Override
-			protected List<String> splitScenarios(String storyAsText) {
-				return super.splitScenariosWithPattern(storyAsText);
-			}
-        	
+            @Override
+            protected List<String> splitScenarios(String storyAsText) {
+                return super.splitScenariosWithPattern(storyAsText);
+            }
+
         };
-    	ensureLongStoryCanBeParsed(parser);        
+        ensureLongStoryCanBeParsed(parser);
     }
 
-	private void ensureLongStoryCanBeParsed(StoryParser parser) {
-		String aGivenWhenThen = 
-        "Given a step" + NL +
-        "When I run it" + NL +
-        "Then I should seen an output" + NL;
+    private void ensureLongStoryCanBeParsed(StoryParser parser) {
+        String aGivenWhenThen =
+                "Given a step" + NL +
+                        "When I run it" + NL +
+                        "Then I should seen an output" + NL;
 
-    	StringBuffer aScenario = new StringBuffer();
+        StringBuffer aScenario = new StringBuffer();
 
-		aScenario.append("Scenario: A long core").append(NL);
-		int numberOfGivenWhenThensPerScenario = 50;
-		for (int i = 0; i < numberOfGivenWhenThensPerScenario; i++) {
-			aScenario.append(aGivenWhenThen);
-		}
-
-		int numberOfScenarios = 100;
-		StringBuffer wholeStory = new StringBuffer();
-		wholeStory.append("Story: A very long story").append(NL);
-		for (int i = 0; i < numberOfScenarios; i++) {
-			wholeStory.append(aScenario).append(NL);
-		}
-            
-		Story story = parser.defineStoryFrom(wholeStory.toString(), null);
-        ensureThat(story.getScenarios().size(), equalTo(numberOfScenarios));
-        for ( Scenario scenario : story.getScenarios() ){
-        	ensureThat(scenario.getSteps().size(), equalTo(numberOfGivenWhenThensPerScenario*3));        	
+        aScenario.append("Scenario: A long scenario").append(NL);
+        int numberOfGivenWhenThensPerScenario = 50;
+        for (int i = 0; i < numberOfGivenWhenThensPerScenario; i++) {
+            aScenario.append(aGivenWhenThen);
         }
-	}
-	
-	@Test
-	public void shouldParseStoryWithTemplateScenario() {
-		String wholeStory =
-				"Scenario: A template core with table values" + NL +  NL +
-	            "Given a step with a <one>" + NL +
-	            "When I run the core of name <two>" + NL +
-	            "Then I should see <three> in the output" + NL +
 
-	            "Examples:" + NL +
-	            "|one|two|three|" + NL +
-	            "|a|b|c|" + NL +
-	            "|d|e|f|";
-		
-        Story story = parser.defineStoryFrom(wholeStory, null);
-        
+        int numberOfScenarios = 100;
+        StringBuffer wholeStory = new StringBuffer();
+        wholeStory.append("Story: A very long story").append(NL);
+        for (int i = 0; i < numberOfScenarios; i++) {
+            wholeStory.append(aScenario).append(NL);
+        }
+
+        Story story = parser.parseStory(wholeStory.toString(), null);
+        ensureThat(story.getScenarios().size(), equalTo(numberOfScenarios));
+        for (Scenario scenario : story.getScenarios()) {
+            ensureThat(scenario.getSteps().size(), equalTo(numberOfGivenWhenThensPerScenario * 3));
+        }
+    }
+
+    @Test
+    public void shouldParseStoryWithScenarioContainingExamplesTable() {
+        String wholeStory = "Scenario: A scenario with examples table" + NL + NL +
+                "Given a step with a <one>" + NL +
+                "When I run the scenario of name <two>" + NL +
+                "Then I should see <three> in the output" + NL +
+
+                "Examples:" + NL +
+                "|one|two|three|" + NL +
+                "|11|12|13|" + NL +
+                "|21|22|23|";
+
+        Story story = parser.parseStory(wholeStory, storyPath);
+
         Scenario scenario = story.getScenarios().get(0);
-        ensureThat(scenario.getTitle(), equalTo("A template core with table values"));
+        ensureThat(scenario.getTitle(), equalTo("A scenario with examples table"));
         ensureThat(scenario.getGivenStoryPaths().size(), equalTo(0));
         ensureThat(scenario.getSteps(), equalTo(asList(
                 "Given a step with a <one>",
-                "When I run the core of name <two>",
+                "When I run the scenario of name <two>",
                 "Then I should see <three> in the output"
         )));
         ExamplesTable table = scenario.getTable();
         ensureThat(table.toString(), equalTo(
                 "|one|two|three|" + NL +
-                "|a|b|c|" + NL +
-                "|d|e|f|"));            
+                        "|11|12|13|" + NL +
+                        "|21|22|23|"));
         ensureThat(table.getRowCount(), equalTo(2));
         ensureThat(table.getRow(0), not(nullValue()));
-        ensureThat(table.getRow(0).get("one"), equalTo("a"));
-        ensureThat(table.getRow(0).get("two"), equalTo("b"));
-        ensureThat(table.getRow(0).get("three"), equalTo("c"));
+        ensureThat(table.getRow(0).get("one"), equalTo("11"));
+        ensureThat(table.getRow(0).get("two"), equalTo("12"));
+        ensureThat(table.getRow(0).get("three"), equalTo("13"));
         ensureThat(table.getRow(1), not(nullValue()));
-        ensureThat(table.getRow(1).get("one"), equalTo("d"));
-        ensureThat(table.getRow(1).get("two"), equalTo("e"));
-        ensureThat(table.getRow(1).get("three"), equalTo("f"));
-	}
-	
-	@Test
-	public void shouldParseStoryWithGivenScenarios() {
-		String wholeStory =
-				"Scenario: A core with given stories" + NL + NL +
-	            "GivenStories: path/to/one,path/to/two" + NL + NL +
-	            "Given a step with a <one>" + NL +
-	            "When I run the core of name <two>" + NL +
-	            "Then I should see <three> in the output";
-		
-        Story story = parser.defineStoryFrom(wholeStory, null);
-        
+        ensureThat(table.getRow(1).get("one"), equalTo("21"));
+        ensureThat(table.getRow(1).get("two"), equalTo("22"));
+        ensureThat(table.getRow(1).get("three"), equalTo("23"));
+    }
+
+    @Test
+    public void shouldParseStoryWithScenarioContainingGivenStories() {
+        String wholeStory = "Scenario: A scenario with given stories" + NL + NL +
+                "GivenStories: path/to/one,path/to/two" + NL + NL +
+                "Given a step" + NL +
+                "When I run it" + NL +
+                "Then I should an output";
+
+        Story story = parser.parseStory(wholeStory, storyPath);
+
         Scenario scenario = story.getScenarios().get(0);
-        ensureThat(scenario.getTitle(), equalTo("A core with given stories"));
+        ensureThat(scenario.getTitle(), equalTo("A scenario with given stories"));
         ensureThat(scenario.getGivenStoryPaths(), equalTo(asList(
                 "path/to/one",
-                "path/to/two")));   
+                "path/to/two")));
         ensureThat(scenario.getSteps(), equalTo(asList(
-                "Given a step with a <one>",
-                "When I run the core of name <two>",
-                "Then I should see <three> in the output"
+                "Given a step",
+                "When I run it",
+                "Then I should an output"
         )));
 
-	}
-	    
+    }
+
+    @Test
+    public void shouldParseStoryWithoutAPath() {
+        String wholeStory = "Given a step" + NL +
+                "When I run it" + NL +
+                "Then I should an output";
+
+        Story story = parser.parseStory(wholeStory);
+
+        ensureThat(story.getPath(), equalTo(""));
+        Scenario scenario = story.getScenarios().get(0);
+        ensureThat(scenario.getSteps(), equalTo(asList(
+                "Given a step",
+                "When I run it",
+                "Then I should an output"
+        )));
+
+    }
 }

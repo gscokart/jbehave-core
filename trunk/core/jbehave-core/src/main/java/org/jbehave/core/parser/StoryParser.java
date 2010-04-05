@@ -10,21 +10,21 @@ import org.jbehave.core.model.Story;
 public interface StoryParser {
 
     /**
-     * Defines story from its textual representation
+     * Parses story from its textual representation
      * 
      * @param storyAsText the textual representation
      * @return The Story
      */
-    Story defineStoryFrom(String storyAsText);
+    Story parseStory(String storyAsText);
     
     /**
-     * Defines story from its textual representation and (optional) story path
+     * Parses story from its textual representation and (optional) story path
      * 
      * @param storyAsText the textual representation
      * @param storyPath the story path, may be <code>null</code>
      * @return The Story
      * @since 2.4
      */
-    Story defineStoryFrom(String storyAsText, String storyPath);
+    Story parseStory(String storyAsText, String storyPath);
 
 }

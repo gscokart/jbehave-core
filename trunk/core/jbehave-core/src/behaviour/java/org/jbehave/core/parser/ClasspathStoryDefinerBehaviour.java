@@ -20,7 +20,7 @@ public class ClasspathStoryDefinerBehaviour {
         Story story = mock(Story.class);
         String storyPath = "org/jbehave/core/parser/stories/my_pending_story";
         String storyAsString = "Given my step";
-        when(parser.defineStoryFrom(storyAsString, storyPath)).thenReturn(story);
+        when(parser.parseStory(storyAsString, storyPath)).thenReturn(story);
 
         // When
         StoryDefiner definer = new ClasspathStoryDefiner(parser);

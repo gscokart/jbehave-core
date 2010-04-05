@@ -1,15 +1,10 @@
 package org.jbehave.core.parser;
 
 import org.jbehave.core.errors.InvalidStoryResourceException;
-import org.jbehave.core.errors.StoryNotFoundException;
 import org.jbehave.core.model.Story;
 import org.junit.Test;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import static org.mockito.Mockito.*;
 
@@ -23,7 +18,7 @@ public class URLStoryDefinerBehaviour {
         String codeLocation = new StoryLocation("", this.getClass()).getCodeLocation();
         String storyPath = "file:" + codeLocation + "org/jbehave/core/parser/stories/my_pending_story";
         String storyAsString = "Given my step";
-        when(parser.defineStoryFrom(storyAsString, storyPath)).thenReturn(story);
+        when(parser.parseStory(storyAsString, storyPath)).thenReturn(story);
 
         // When
         StoryDefiner definer = new URLStoryDefiner(parser);

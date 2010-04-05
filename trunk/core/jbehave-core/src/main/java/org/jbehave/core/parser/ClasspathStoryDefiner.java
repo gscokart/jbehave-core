@@ -1,6 +1,5 @@
 package org.jbehave.core.parser;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,7 +37,7 @@ public class ClasspathStoryDefiner implements StoryDefiner {
 
     public Story defineStory(String storyPath) {
         String storyAsString = loadStoryAsString(storyPath);
-        Story story = parser.defineStoryFrom(storyAsString, storyPath);
+        Story story = parser.parseStory(storyAsString, storyPath);
         story.namedAs(new File(storyPath).getName());
         return story;
     }

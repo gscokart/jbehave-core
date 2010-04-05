@@ -31,11 +31,11 @@ public class PatternStoryParser implements StoryParser {
         this.keywords = keywords;
     }
 
-    public Story defineStoryFrom(String storyAsText) {
-        return defineStoryFrom(storyAsText, null);
+    public Story parseStory(String storyAsText) {
+        return parseStory(storyAsText, null);
     }
 
-    public Story defineStoryFrom(String storyAsText, String storyPath) {
+    public Story parseStory(String storyAsText, String storyPath) {
         this.storyPath = storyPath;
         Description description = parseDescriptionFrom(storyAsText);
         Narrative narrative = parseNarrativeFrom(storyAsText);

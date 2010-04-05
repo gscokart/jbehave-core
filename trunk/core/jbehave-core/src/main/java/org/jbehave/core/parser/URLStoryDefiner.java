@@ -31,7 +31,7 @@ public class URLStoryDefiner implements StoryDefiner {
 
     public Story defineStory(String storyPath) {
         String storyAsString = storyLoader.loadStoryAsString(storyPath);
-        Story story = parser.defineStoryFrom(storyAsString, storyPath);
+        Story story = parser.parseStory(storyAsString, storyPath);
         story.namedAs(new File(storyPath).getName());
         return story;
     }
