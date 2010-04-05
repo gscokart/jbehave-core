@@ -51,7 +51,8 @@ public class TraderSteps {
         traders.addAll(toTraders(tradersTable));
     }
 
-    @When("Traders are subset to \"%regex\" by name")
+    @When("traders are subset to \"%regex\" by name")
+    @Alias("traders are filtered by \"%regex\"")
     public void subsetTradersByName(String regex) {
         searchedTraders = new ArrayList<Trader>();
         for (Trader trader : traders) {
