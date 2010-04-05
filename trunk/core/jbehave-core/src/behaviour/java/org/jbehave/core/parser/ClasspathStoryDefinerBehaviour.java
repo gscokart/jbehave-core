@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
+import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
 public class ClasspathStoryDefinerBehaviour {
@@ -24,7 +25,8 @@ public class ClasspathStoryDefinerBehaviour {
 
         // When
         StoryDefiner definer = new ClasspathStoryDefiner(parser);
-        definer.defineStory(storyPath);
+        Story definedStory = definer.defineStory(storyPath);
+        assertSame(story, definedStory);
 
         // Then
         verify(story).namedAs(new File(storyPath).getName());
