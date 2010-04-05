@@ -27,7 +27,7 @@ public class ClaimsWithNullCalendar extends JUnitStory {
         StoryConfiguration storyConfiguration = new MostUsefulStoryConfiguration(){
             @Override
             public StoryDefiner storyDefiner() {
-                return new ClasspathStoryDefiner(new PatternStoryParser(keywords()), this.getClass().getClassLoader());
+                return new ParsingStoryDefiner(new PatternStoryParser(keywords()), new ClasspathStoryContentLoader(this.getClass().getClassLoader()));
             }
 
             @Override

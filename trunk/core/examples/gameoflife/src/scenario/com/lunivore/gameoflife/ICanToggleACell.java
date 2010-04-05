@@ -2,10 +2,7 @@ package com.lunivore.gameoflife;
 
 import org.jbehave.core.PropertyBasedStoryConfiguration;
 import org.jbehave.core.JUnitStory;
-import org.jbehave.core.parser.PatternStoryParser;
-import org.jbehave.core.parser.ClasspathStoryDefiner;
-import org.jbehave.core.parser.StoryDefiner;
-import org.jbehave.core.parser.UnderscoredCamelCaseResolver;
+import org.jbehave.core.parser.*;
 import org.jbehave.core.reporters.PrintStreamStoryReporter;
 import org.jbehave.core.reporters.StoryReporter;
 
@@ -17,7 +14,7 @@ public class ICanToggleACell extends JUnitStory {
         useConfiguration(new PropertyBasedStoryConfiguration() {
             @Override
             public StoryDefiner storyDefiner() {
-                return new ClasspathStoryDefiner(new PatternStoryParser(keywords()));
+                return new ParsingStoryDefiner(new PatternStoryParser(keywords()));
             }
             @Override
             public StoryReporter storyReporter() {

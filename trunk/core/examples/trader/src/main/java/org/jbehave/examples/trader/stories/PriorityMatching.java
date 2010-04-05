@@ -22,7 +22,7 @@ public class PriorityMatching extends JUnitStory {
     public PriorityMatching() {
         StoryConfiguration storyConfiguration = new MostUsefulStoryConfiguration();
         storyConfiguration.useStoryPathResolver(new UnderscoredCamelCaseResolver(".story"));
-        storyConfiguration.useStoryDefiner(new ClasspathStoryDefiner(new PatternStoryParser(storyConfiguration.keywords()), this.getClass().getClassLoader()));
+        storyConfiguration.useStoryDefiner(new ParsingStoryDefiner(new PatternStoryParser(storyConfiguration.keywords()), new ClasspathStoryContentLoader(this.getClass().getClassLoader())));
         storyConfiguration.useStoryReporter(new StoryReporterBuilder(new FilePrintStreamFactory(storyConfiguration.storyPathResolver().resolve(PriorityMatching.class)))
                 .with(CONSOLE)
                 .with(TXT)

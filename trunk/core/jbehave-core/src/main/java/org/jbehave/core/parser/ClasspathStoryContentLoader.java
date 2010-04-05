@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Loades story content from classpath resources.
+ * Loads story content from classpath resources.
  */
 public class ClasspathStoryContentLoader implements StoryContentLoader {
 

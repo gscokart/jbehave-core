@@ -42,11 +42,10 @@ public abstract class StoryConfiguration {
      */
     private StepCreator stepCreator = new UnmatchedToPendingStepCreator();
     /**
-     * Defines stories by looking for a file named after the core and in
-     * the same package, using lower-case underscored name in place of the
-     * camel-cased name - so MyStory.java maps to my_story.
+     * Defines stories by parsing the textual representation, loaded by
+     * the story content loader.
      */
-    private StoryDefiner storyDefiner = new ClasspathStoryDefiner(new PatternStoryParser(keywords));
+    private StoryDefiner storyDefiner = new ParsingStoryDefiner(new PatternStoryParser(keywords));
     /**
      * Resolves story paths from classes
      */

@@ -3,7 +3,6 @@ package com.lunivore.noughtsandcrosses;
 import org.jbehave.core.MostUsefulStoryConfiguration;
 import org.jbehave.core.JUnitStory;
 import org.jbehave.core.model.KeyWords;
-import org.jbehave.core.parser.ClasspathStoryDefiner;
 import org.jbehave.core.parser.PatternStoryParser;
 import org.jbehave.core.parser.UnderscoredCamelCaseResolver;
 import org.jbehave.core.reporters.PrintStreamStoryReporter;
