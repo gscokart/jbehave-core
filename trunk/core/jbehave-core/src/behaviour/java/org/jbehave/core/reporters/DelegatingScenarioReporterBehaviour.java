@@ -17,7 +17,7 @@ public class DelegatingScenarioReporterBehaviour {
     public void shouldDelegateScenarioReporterEvents() {
         StoryReporter delegate = mock(StoryReporter.class);
         DelegatingStoryReporter delegator = new DelegatingStoryReporter(delegate);
-        List<String> givenScenarios = asList("path/to/scenario1", "path/to/scenario2");
+        List<String> givenStories = asList("path/to/story1", "path/to/story2");
         ExamplesTable examplesTable = new ExamplesTable("|one|two|\n|1|2|\n");
         IllegalArgumentException anException = new IllegalArgumentException();
         Story story = new Story();
@@ -26,7 +26,7 @@ public class DelegatingScenarioReporterBehaviour {
         delegator.beforeStory(story, embeddedStory);
         
         delegator.beforeScenario("My core 1");
-        delegator.givenStories(givenScenarios);
+        delegator.givenStoryPaths(givenStories);
         delegator.successful("Given step 1.1");
         delegator.ignorable("!-- ignore me");
         delegator.pending("When step 1.2");
@@ -49,7 +49,7 @@ public class DelegatingScenarioReporterBehaviour {
         inOrder.verify(delegate).beforeStory(story, embeddedStory);
 
         inOrder.verify(delegate).beforeScenario("My core 1");
-        inOrder.verify(delegate).givenStories(givenScenarios);
+        inOrder.verify(delegate).givenStoryPaths(givenStories);
         inOrder.verify(delegate).successful("Given step 1.1");
         inOrder.verify(delegate).ignorable("!-- ignore me");
         inOrder.verify(delegate).pending("When step 1.2");

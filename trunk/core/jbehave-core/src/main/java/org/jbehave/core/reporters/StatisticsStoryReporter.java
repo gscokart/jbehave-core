@@ -65,7 +65,7 @@ public class StatisticsStoryReporter implements StoryReporter {
         writeData();
     }
 
-    public void givenStories(List<String> givenScenarios) {
+    public void givenStoryPaths(List<String> givenScenarios) {
         count("givenStories");
     }
 

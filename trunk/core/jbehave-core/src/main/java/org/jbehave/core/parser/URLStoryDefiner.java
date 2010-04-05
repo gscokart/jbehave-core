@@ -8,8 +8,8 @@ import java.io.File;
 import java.net.URL;
 
 /**
- * Defines stories by loading the content from URL resources and passing it
- * to the {@link org.jbehave.core.parser.StoryParser}.
+ * Defines stories by loading the content from URL resources and parsing it
+ * via the {@link StoryParser}.
  */
 public class URLStoryDefiner implements StoryDefiner {
 

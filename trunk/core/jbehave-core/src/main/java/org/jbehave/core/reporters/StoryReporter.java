@@ -23,7 +23,7 @@ public interface StoryReporter {
     
     void afterScenario();
     
-	void givenStories(List<String> givenStories);
+	void givenStoryPaths(List<String> givenStoryPaths);
 
     void beforeExamples(List<String> steps, ExamplesTable table);
 

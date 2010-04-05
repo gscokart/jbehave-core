@@ -215,7 +215,7 @@ public class PrintStreamStoryReporterBehaviour {
         reporter.beforeStory(story, embeddedStory);
         String title = "I ask for a loan";
         reporter.beforeScenario(title);
-        reporter.givenStories(asList("/given/story1,/given/story2"));
+        reporter.givenStoryPaths(asList("/given/story1,/given/story2"));
         reporter.successful("Given I have a balance of $50");
         reporter.ignorable("!-- A comment");
         reporter.successful("When I request $20");

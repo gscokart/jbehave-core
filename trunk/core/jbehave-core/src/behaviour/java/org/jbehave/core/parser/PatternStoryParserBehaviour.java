@@ -156,7 +156,7 @@ public class PatternStoryParserBehaviour {
         ensureThat(story.getNarrative().iWantTo(), equalTo("see the narrative for my story when a core in that story breaks"));
         
         ensureThat(story.getScenarios().get(0).getTitle(), equalTo("A pending core"));
-		ensureThat(story.getScenarios().get(0).getGivenScenarios().size(), equalTo(0));
+		ensureThat(story.getScenarios().get(0).getGivenStoryPaths().size(), equalTo(0));
         ensureThat(story.getScenarios().get(0).getSteps(), equalTo(asList(
                 "Given a step that's pending",
                 "When I run the core",
@@ -165,7 +165,7 @@ public class PatternStoryParserBehaviour {
         )));
         
         ensureThat(story.getScenarios().get(1).getTitle(), equalTo("A passing core"));
-		ensureThat(story.getScenarios().get(1).getGivenScenarios().size(), equalTo(0));
+		ensureThat(story.getScenarios().get(1).getGivenStoryPaths().size(), equalTo(0));
         ensureThat(story.getScenarios().get(1).getSteps(), equalTo(asList(
                 "Given I'm not reporting passing stories",
                 "When I run the core",
@@ -173,7 +173,7 @@ public class PatternStoryParserBehaviour {
         )));
         
         ensureThat(story.getScenarios().get(2).getTitle(), equalTo("A failing core"));
-		ensureThat(story.getScenarios().get(2).getGivenScenarios().size(), equalTo(0));
+		ensureThat(story.getScenarios().get(2).getGivenStoryPaths().size(), equalTo(0));
         ensureThat(story.getScenarios().get(2).getSteps(), equalTo(asList(
                 "Given a step that fails",
                 "When I run the core",
@@ -246,7 +246,7 @@ public class PatternStoryParserBehaviour {
         
         Scenario scenario = story.getScenarios().get(0);
         ensureThat(scenario.getTitle(), equalTo("A template core with table values"));
-        ensureThat(scenario.getGivenScenarios().size(), equalTo(0));
+        ensureThat(scenario.getGivenStoryPaths().size(), equalTo(0));
         ensureThat(scenario.getSteps(), equalTo(asList(
                 "Given a step with a <one>",
                 "When I run the core of name <two>",
@@ -281,7 +281,7 @@ public class PatternStoryParserBehaviour {
         
         Scenario scenario = story.getScenarios().get(0);
         ensureThat(scenario.getTitle(), equalTo("A core with given stories"));
-        ensureThat(scenario.getGivenScenarios(), equalTo(asList(
+        ensureThat(scenario.getGivenStoryPaths(), equalTo(asList(
                 "path/to/one",
                 "path/to/two")));   
         ensureThat(scenario.getSteps(), equalTo(asList(

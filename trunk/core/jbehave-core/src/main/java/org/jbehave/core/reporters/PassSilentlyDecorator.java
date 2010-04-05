@@ -116,10 +116,10 @@ public class PassSilentlyDecorator implements StoryReporter {
         });
     }
 
-	public void givenStories(final List<String> givenScenarios) {
+	public void givenStoryPaths(final List<String> givenStoryPaths) {
         currentScenario.add(new Todo() {
             public void doNow() {
-                delegate.givenStories(givenScenarios);
+                delegate.givenStoryPaths(givenStoryPaths);
             }
         });
 	}

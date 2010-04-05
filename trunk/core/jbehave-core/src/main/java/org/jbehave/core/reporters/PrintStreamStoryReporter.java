@@ -145,7 +145,7 @@ public class PrintStreamStoryReporter implements StoryReporter {
         }
     }
 
-    public void givenStories(List<String> givenScenarios) {
+    public void givenStoryPaths(List<String> givenScenarios) {
         print(format("givenStories", "{0} {1}\n", keywords.givenStories(), givenScenarios));
     }
 

@@ -72,7 +72,7 @@ public class StoryRunner {
         runStorySteps(story, embeddedStory, StepCreator.Stage.BEFORE, candidateSteps);
         for (Scenario scenario : story.getScenarios()) {
             reporter.beforeScenario(scenario.getTitle());
-            runGivenScenarios(configuration, scenario, candidateSteps); // first run any given scenarios, if any
+            runGivenStories(configuration, scenario, candidateSteps); // first run any given scenarios, if any
             if (isExamplesTableScenario(scenario)) { // run examples table scenario
                 runExamplesTableScenario(configuration, scenario, candidateSteps);
             } else { // run plain old scenario
@@ -85,22 +85,21 @@ public class StoryRunner {
         currentStrategy.handleError(throwable);
     }
 
-    private void runGivenScenarios(StoryConfiguration configuration,
+    private void runGivenStories(StoryConfiguration configuration,
                                    Scenario scenario, CandidateSteps... candidateSteps)
             throws Throwable {
-        List<String> givenScenarios = scenario.getGivenScenarios();
-        if (givenScenarios.size() > 0) {
-            reporter.givenStories(givenScenarios);
-            for (String storyPath : givenScenarios) {
-                // run in embedded mode
+        List<String> givenStoryPaths = scenario.getGivenStoryPaths();
+        if (givenStoryPaths.size() > 0) {
+            reporter.givenStoryPaths(givenStoryPaths);
+            for (String storyPath : givenStoryPaths) {
+                // run given story in embedded mode
                 run(configuration, storyPath, true, candidateSteps);
             }
         }
     }
 
     private boolean isExamplesTableScenario(Scenario scenario) {
-        ExamplesTable table = scenario.getTable();
-        return table != null && table.getRowCount() > 0;
+        return scenario.getTable().getRowCount() > 0;
     }
 
     private void runExamplesTableScenario(StoryConfiguration configuration,

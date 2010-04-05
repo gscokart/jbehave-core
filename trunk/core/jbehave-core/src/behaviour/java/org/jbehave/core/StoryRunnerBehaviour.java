@@ -137,7 +137,7 @@ public class StoryRunnerBehaviour {
         // Then
         InOrder inOrder = inOrder(reporter);
         inOrder.verify(reporter).beforeStory(story2, embeddedStory);
-        inOrder.verify(reporter).givenStories(givenStories);
+        inOrder.verify(reporter).givenStoryPaths(givenStories);
         inOrder.verify(reporter).successful("successfulStep");
         inOrder.verify(reporter).successful("anotherSuccessfulStep");
         inOrder.verify(reporter).afterStory(embeddedStory);
@@ -229,8 +229,8 @@ public class StoryRunnerBehaviour {
         when(secondStep.perform()).thenReturn(StepResult.success("secondStep"));
         StepCreator creator = mock(StepCreator.class);
         CandidateSteps mySteps = mock(Steps.class);
-        Scenario scenario1 = mock(Scenario.class);
-        Scenario scenario2 = mock(Scenario.class);
+        Scenario scenario1 = new Scenario("scenario1");
+        Scenario scenario2 = new Scenario("scenario2");
         when(creator.createStepsFrom(scenario1, tableRow, mySteps)).thenReturn(new Step[] { pendingStep });
         when(creator.createStepsFrom(scenario2, tableRow, mySteps)).thenReturn(new Step[] { secondStep });
         Story story = new Story(scenario1, scenario2);
