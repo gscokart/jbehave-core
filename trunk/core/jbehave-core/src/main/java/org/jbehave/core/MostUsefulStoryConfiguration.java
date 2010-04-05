@@ -33,7 +33,7 @@ public class MostUsefulStoryConfiguration extends StoryConfiguration {
     public MostUsefulStoryConfiguration() {
         useKeywords(new I18nKeyWords(Locale.ENGLISH));
         useStepCreator(new UnmatchedToPendingStepCreator());
-        useStoryDefiner(new ParsingStoryDefiner(new PatternStoryParser(keywords()), new ClasspathStoryContentLoader()));
+        useStoryDefiner(new ParsingStoryDefiner(new PatternStoryParser(keywords()), new ClasspathLoading()));
         useErrorStrategy(ErrorStrategy.RETHROW);
         usePendingErrorStrategy(PendingErrorStrategy.PASSING);
         useStoryReporter(new PassSilentlyDecorator(new PrintStreamStoryReporter()));

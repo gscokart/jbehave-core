@@ -16,7 +16,7 @@ public class ParsingStoryDefinerBehaviour {
 
 
     @Test
-    public void canDefineStoryWithClasspathLoader() {
+    public void canDefineStoryWithClasspathLoading() {
         // Given
         StoryParser parser = mock(StoryParser.class);
         Story story = mock(Story.class);
@@ -25,7 +25,7 @@ public class ParsingStoryDefinerBehaviour {
         when(parser.parseStory(storyAsString, storyPath)).thenReturn(story);
 
         // When
-        StoryDefiner definer = new ParsingStoryDefiner(parser, new ClasspathStoryContentLoader());
+        StoryDefiner definer = new ParsingStoryDefiner(parser, new ClasspathLoading());
         Story definedStory = definer.defineStory(storyPath);
         assertSame(story, definedStory);
 
@@ -34,17 +34,17 @@ public class ParsingStoryDefinerBehaviour {
     }
 
     @Test(expected = StoryNotFoundException.class)
-    public void cannotDefineStoryWithClasspathLoaderForInexistentResource() {
+    public void cannotDefineStoryWithClasspathLoadingForInexistentResource() {
         StoryParser parser = mock(StoryParser.class);
-        StoryDefiner definer = new ParsingStoryDefiner(parser, new ClasspathStoryContentLoader());
+        StoryDefiner definer = new ParsingStoryDefiner(parser, new ClasspathLoading());
 
         definer.defineStory("inexistent.story");
     }
 
     @Test(expected = InvalidStoryResourceException.class)
-    public void cannotDefineStoryWithClasspathLoaderForInvalidResource() {
+    public void cannotDefineStoryWithClasspathLoadingForInvalidResource() {
         StoryParser parser = mock(StoryParser.class);
-        StoryDefiner definer = new ParsingStoryDefiner(parser, new ClasspathStoryContentLoader(new InvalidClassLoader()));
+        StoryDefiner definer = new ParsingStoryDefiner(parser, new ClasspathLoading(new InvalidClassLoader()));
         definer.defineStory("inexistent.story");
     }
 
@@ -69,7 +69,7 @@ public class ParsingStoryDefinerBehaviour {
 
 
     @Test
-    public void canDefineStoryWithURLLoader() {
+    public void canDefineStoryWithURLLoading() {
         // Given
         StoryParser parser = mock(StoryParser.class);
         Story story = mock(Story.class);
@@ -79,7 +79,7 @@ public class ParsingStoryDefinerBehaviour {
         when(parser.parseStory(storyAsString, storyPath)).thenReturn(story);
 
         // When
-        StoryDefiner definer = new ParsingStoryDefiner(parser, new URLStoryContentLoader());
+        StoryDefiner definer = new ParsingStoryDefiner(parser, new URLLoading());
         definer.defineStory(storyPath);
 
         // Then       
@@ -87,14 +87,14 @@ public class ParsingStoryDefinerBehaviour {
     }
 
     @Test(expected = InvalidStoryResourceException.class)
-    public void cannotDefineStoryWithURLLoaderForInexistentResource() {
+    public void cannotDefineStoryWithURLLoadingForInexistentResource() {
         // Given
         StoryParser parser = mock(StoryParser.class);
         String codeLocation = new StoryLocation("", this.getClass()).getCodeLocation();
         String storyPath = "file:" + codeLocation + "inexistent_story";
 
         // When
-        StoryDefiner definer = new ParsingStoryDefiner(parser, new URLStoryContentLoader());
+        StoryDefiner definer = new ParsingStoryDefiner(parser, new URLLoading());
         definer.defineStory(storyPath);
 
         // Then
@@ -103,13 +103,13 @@ public class ParsingStoryDefinerBehaviour {
     }
 
     @Test(expected = InvalidStoryResourceException.class)
-    public void cannotDefineStoryWithURLLoaderForInvalidURL() {
+    public void cannotDefineStoryWithURLLoadingForInvalidURL() {
         // Given
         StoryParser parser = mock(StoryParser.class);
         String storyPath = "story_url_with_no_protocol";
 
         // When
-        StoryDefiner definer = new ParsingStoryDefiner(parser, new URLStoryContentLoader());
+        StoryDefiner definer = new ParsingStoryDefiner(parser, new URLLoading());
         definer.defineStory(storyPath);
 
         // Then

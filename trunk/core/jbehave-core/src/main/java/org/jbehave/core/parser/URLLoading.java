@@ -8,7 +8,7 @@ import java.net.URL;
 /**
  * Loads story content via URLs
  */
-public class URLStoryContentLoader implements StoryContentLoader {
+public class URLLoading implements StoryContentLoader {
     public String loadStoryContent(String storyPath) {
         try {
             URL url = new URL(storyPath);

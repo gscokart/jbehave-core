@@ -14,18 +14,18 @@ import java.net.URL;
  * <p/>
  * See MAVEN_TEST_DIR, which implies a traversal out of 'target/test-classes'
  */
-public class RelativeFileStoryContentLoader implements StoryContentLoader {
+public class RelativeFileLoading implements StoryContentLoader {
 
     private final String traversal;
     private final URL location;
     private static final String MAVEN_TEST_DIR = "../../src/test/java";
 
-    public RelativeFileStoryContentLoader(Class storyClass, String traversal) {
+    public RelativeFileLoading(Class storyClass, String traversal) {
         this.traversal = traversal;
         this.location = locationFor(storyClass);
     }
     
-    public RelativeFileStoryContentLoader(Class storyClass) {
+    public RelativeFileLoading(Class storyClass) {
         this(storyClass, MAVEN_TEST_DIR);
     }
 

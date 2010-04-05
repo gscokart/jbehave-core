@@ -18,7 +18,7 @@ public class ParsingStoryDefiner implements StoryDefiner {
     }
 
     public ParsingStoryDefiner(StoryParser parser) {
-        this(parser, new ClasspathStoryContentLoader());
+        this(parser, new ClasspathLoading());
     }
 
     public ParsingStoryDefiner(StoryParser parser, StoryContentLoader contentLoader) {

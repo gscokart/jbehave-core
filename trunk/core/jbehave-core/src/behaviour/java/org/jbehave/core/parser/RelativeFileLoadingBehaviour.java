@@ -1,18 +1,13 @@
 package org.jbehave.core.parser;
 
-import org.jbehave.core.errors.InvalidStoryResourceException;
-import org.jbehave.core.model.Story;
 import org.jbehave.core.parser.stories.MyPendingStory;
 import org.junit.Test;
-
-import java.io.File;
 
 import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
-public class RelativeFileStoryContentLoaderBehaviour {
+public class RelativeFileLoadingBehaviour {
 
     @Test
     public void canLoadStoryContent() {
@@ -21,8 +16,8 @@ public class RelativeFileStoryContentLoaderBehaviour {
         String storyAsString = "Given my step";
 
         // When
-        StoryContentLoader definer = new RelativeFileStoryContentLoader(MyPendingStory.class, "../../src/behaviour/java");
-        definer.loadStoryContent(storyPath);
+        StoryContentLoader loader = new RelativeFileLoading(MyPendingStory.class, "../../src/behaviour/java");
+        loader.loadStoryContent(storyPath);
        
     }
 
