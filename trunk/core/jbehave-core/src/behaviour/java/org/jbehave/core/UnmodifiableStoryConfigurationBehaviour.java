@@ -16,12 +16,12 @@ import java.lang.reflect.Method;
 import static org.hamcrest.CoreMatchers.is;
 import static org.jbehave.Ensure.ensureThat;
 
-public class ImmutableStoryConfigurationBehaviour {
+public class UnmodifiableStoryConfigurationBehaviour {
 
     @Test
     public void shouldProvideDelegateConfigurationElements() {
         StoryConfiguration delegate = new MostUsefulStoryConfiguration();
-        StoryConfiguration immutable = new ImmutableStoryConfiguration(delegate);
+        StoryConfiguration immutable = new UnmodifiableStoryConfiguration(delegate);
         ensureThat(immutable.keywords(), is(delegate.keywords()));
         ensureThat(immutable.stepCreator(), is(delegate.stepCreator()));
         ensureThat(immutable.storyDefiner(), is(delegate.storyDefiner()));
@@ -34,9 +34,9 @@ public class ImmutableStoryConfigurationBehaviour {
 
 
     @Test
-    public void shouldNotAllowMutabilityOfConfigurationElements() throws NoSuchMethodException, IllegalAccessException {
+    public void shouldNotAllowModificationOfConfigurationElements() throws NoSuchMethodException, IllegalAccessException {
         StoryConfiguration delegate = new MostUsefulStoryConfiguration();
-        StoryConfiguration immutable = new ImmutableStoryConfiguration(delegate);
+        StoryConfiguration immutable = new UnmodifiableStoryConfiguration(delegate);
         ensureThatNotAllowed(immutable, "useKeywords", KeyWords.class);
         ensureThatNotAllowed(immutable, "useStepCreator", StepCreator.class);
         ensureThatNotAllowed(immutable, "useStoryDefiner", StoryDefiner.class);

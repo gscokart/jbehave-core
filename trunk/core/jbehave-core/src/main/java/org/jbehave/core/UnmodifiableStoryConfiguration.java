@@ -10,17 +10,17 @@ import org.jbehave.core.steps.StepCreator;
 import org.jbehave.core.steps.StepdocGenerator;
 
 /**
- * Decorator of StoryConfiguration that disables mutability of configuration elements.
+ * Decorator of StoryConfiguration that disables modification of configuration elements.
  */
-public class ImmutableStoryConfiguration extends StoryConfiguration {
+public class UnmodifiableStoryConfiguration extends StoryConfiguration {
 
     private final StoryConfiguration delegate;
 
-    public ImmutableStoryConfiguration() {
+    public UnmodifiableStoryConfiguration() {
         this(new MostUsefulStoryConfiguration());
     }
 
-    public ImmutableStoryConfiguration(StoryConfiguration delegate) {
+    public UnmodifiableStoryConfiguration(StoryConfiguration delegate) {
         this.delegate = delegate;
     }
 
@@ -97,6 +97,6 @@ public class ImmutableStoryConfiguration extends StoryConfiguration {
     }
      
     private void notAllowed() {
-        throw new RuntimeException("Configuration elements are immutable");
+        throw new RuntimeException("Configuration elements are unmodifiable");
     }
 }

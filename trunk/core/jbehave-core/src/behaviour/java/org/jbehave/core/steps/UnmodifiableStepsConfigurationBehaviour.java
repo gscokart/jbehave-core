@@ -11,12 +11,12 @@ import java.lang.reflect.Method;
 import static org.hamcrest.CoreMatchers.is;
 import static org.jbehave.Ensure.ensureThat;
 
-public class ImmutableStepsConfigurationBehaviour {
+public class UnmodifiableStepsConfigurationBehaviour {
 
     @Test
     public void shouldProvideDelegateConfigurationElements() {
         StepsConfiguration delegate = new MostUsefulStepsConfiguration();
-        StepsConfiguration immutable = new ImmutableStepsConfiguration(delegate);
+        StepsConfiguration immutable = new UnmodifiableStepsConfiguration(delegate);
         ensureThat(immutable.keywords(), is(delegate.keywords()));
         ensureThat(immutable.monitor(), is(delegate.monitor()));
         ensureThat(immutable.paranamer(), is(delegate.paranamer()));
@@ -26,9 +26,9 @@ public class ImmutableStepsConfigurationBehaviour {
 
 
     @Test
-    public void shouldNotAllowMutabilityOfConfigurationElements() throws NoSuchMethodException, IllegalAccessException {
+    public void shouldNotAllowModificationOfConfigurationElements() throws NoSuchMethodException, IllegalAccessException {
         StepsConfiguration delegate = new MostUsefulStepsConfiguration();
-        StepsConfiguration immutable = new ImmutableStepsConfiguration(delegate);
+        StepsConfiguration immutable = new UnmodifiableStepsConfiguration(delegate);
         ensureThatNotAllowed(immutable, "useKeywords", KeyWords.class);
         ensureThatNotAllowed(immutable, "useMonitor", StepMonitor.class);
         ensureThatNotAllowed(immutable, "useParanamer", Paranamer.class);

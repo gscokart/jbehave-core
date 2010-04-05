@@ -5,17 +5,17 @@ import org.jbehave.core.model.KeyWords;
 import org.jbehave.core.parser.StepPatternBuilder;
 
 /**
- * Decorator of StepsConfiguration that disables mutability of configuration elements.
+ * Decorator of StepsConfiguration that disables modification of configuration elements.
  */
-public class ImmutableStepsConfiguration extends StepsConfiguration {
+public class UnmodifiableStepsConfiguration extends StepsConfiguration {
 
     private final StepsConfiguration delegate;
 
-    public ImmutableStepsConfiguration() {
+    public UnmodifiableStepsConfiguration() {
         this(new MostUsefulStepsConfiguration());
     }
 
-    public ImmutableStepsConfiguration(StepsConfiguration delegate) {
+    public UnmodifiableStepsConfiguration(StepsConfiguration delegate) {
         this.delegate = delegate;
     }
 
@@ -70,6 +70,6 @@ public class ImmutableStepsConfiguration extends StepsConfiguration {
     }
 
     private void notAllowed() {
-        throw new RuntimeException("Configuration elements are immutable");
+        throw new RuntimeException("Configuration elements are unmodifiable");
     }
 }
