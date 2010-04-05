@@ -8,7 +8,7 @@ import java.io.File;
 
 import static org.mockito.Mockito.*;
 
-public class URLStoryDefinerBehaviour {
+public class ParsingStoryDefinerBehaviour {
 
     @Test
     public void canDefineStory() {
@@ -21,7 +21,7 @@ public class URLStoryDefinerBehaviour {
         when(parser.parseStory(storyAsString, storyPath)).thenReturn(story);
 
         // When
-        StoryDefiner definer = new URLStoryDefiner(parser);
+        StoryDefiner definer = new ParsingStoryDefiner(parser, new URLStoryContentLoader());
         definer.defineStory(storyPath);
 
         // Then       
@@ -31,11 +31,12 @@ public class URLStoryDefinerBehaviour {
     @Test(expected = InvalidStoryResourceException.class)
     public void cannotDefineStoryForInexistentResource() {
         // Given
+        StoryParser parser = mock(StoryParser.class);
         String codeLocation = new StoryLocation("", this.getClass()).getCodeLocation();
         String storyPath = "file:" + codeLocation + "inexistent_story";
 
         // When
-        StoryDefiner definer = new URLStoryDefiner();
+        StoryDefiner definer = new ParsingStoryDefiner(parser, new URLStoryContentLoader());
         definer.defineStory(storyPath);
 
         // Then
@@ -46,10 +47,11 @@ public class URLStoryDefinerBehaviour {
     @Test(expected = InvalidStoryResourceException.class)
     public void cannotDefineStoryForInvalidURL() {
         // Given
+        StoryParser parser = mock(StoryParser.class);
         String storyPath = "story_url_with_no_protocol";
 
         // When
-        StoryDefiner definer = new URLStoryDefiner();
+        StoryDefiner definer = new ParsingStoryDefiner(parser, new URLStoryContentLoader());
         definer.defineStory(storyPath);
 
         // Then

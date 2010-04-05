@@ -19,7 +19,7 @@ import org.jbehave.core.model.Story;
 import org.jbehave.core.errors.ErrorStrategy;
 import org.jbehave.core.errors.ErrorStrategyInWhichWeTrustTheReporter;
 import org.jbehave.core.errors.PendingErrorStrategy;
-import org.jbehave.core.parser.ClasspathStoryDefiner;
+import org.jbehave.core.parser.ParsingStoryDefiner;
 import org.jbehave.core.parser.StoryDefiner;
 import org.jbehave.core.reporters.StoryReporter;
 import org.jbehave.core.steps.CandidateStep;
@@ -307,7 +307,7 @@ public class StoryRunnerBehaviour {
 
     private StoryConfiguration configurationWithPendingStrategy(StepCreator creator, StoryReporter reporter,
             PendingErrorStrategy strategy) {
-        return configurationWith(new ClasspathStoryDefiner(), reporter, creator,
+        return configurationWith(new ParsingStoryDefiner(), reporter, creator,
                 new ErrorStrategyInWhichWeTrustTheReporter(), strategy);
     }
 
@@ -316,7 +316,7 @@ public class StoryRunnerBehaviour {
     }
 
     private StoryConfiguration configurationWith(StoryReporter reporter, StepCreator creator, ErrorStrategy errorStrategy) {
-        return configurationWith(new ClasspathStoryDefiner(), reporter, creator, errorStrategy);
+        return configurationWith(new ParsingStoryDefiner(), reporter, creator, errorStrategy);
     }
 
     private StoryConfiguration configurationWith(StoryDefiner definer, final StoryReporter reporter,

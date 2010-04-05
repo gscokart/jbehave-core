@@ -1,13 +1,8 @@
 package org.jbehave.core.parser;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-
-import org.apache.commons.io.IOUtils;
-import org.jbehave.core.errors.InvalidStoryResourceException;
 import org.jbehave.core.model.Story;
-import org.jbehave.core.errors.StoryNotFoundException;
+
+import java.io.File;
 
 /**
  * Defines stories by loading the content from classpath resources and passing it
@@ -16,7 +11,7 @@ import org.jbehave.core.errors.StoryNotFoundException;
 public class ClasspathStoryDefiner implements StoryDefiner {
 
     private final StoryParser parser;
-    private final ClassLoader classLoader;
+    private final StoryContentLoader contentLoader;
 
     public ClasspathStoryDefiner() {
         this(new PatternStoryParser());
@@ -31,28 +26,19 @@ public class ClasspathStoryDefiner implements StoryDefiner {
     }
 
     public ClasspathStoryDefiner(StoryParser parser, ClassLoader classLoader) {
+        this(parser, new ClasspathStoryContentLoader(classLoader));
+    }
+
+    public ClasspathStoryDefiner(StoryParser parser, StoryContentLoader contentLoader) {
         this.parser = parser;
-        this.classLoader = classLoader;
+        this.contentLoader = contentLoader;
     }
 
     public Story defineStory(String storyPath) {
-        String storyAsString = loadStoryAsString(storyPath);
+        String storyAsString = contentLoader.loadStoryContent(storyPath);
         Story story = parser.parseStory(storyAsString, storyPath);
         story.namedAs(new File(storyPath).getName());
         return story;
-    }
-
-    private String loadStoryAsString(String storyPath) {
-        InputStream stream = classLoader.getResourceAsStream(storyPath);
-        if (stream == null) {
-            throw new StoryNotFoundException("Story path '" + storyPath + "' not found by class loader "
-                    + classLoader);
-        }
-        try {
-            return IOUtils.toString(stream);
-        } catch (IOException e) {
-            throw new InvalidStoryResourceException("Failed to load story " + storyPath + " from resource stream " + stream, e);
-        }
     }
 
 

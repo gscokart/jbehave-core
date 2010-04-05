@@ -4,9 +4,7 @@ import org.jbehave.core.model.KeyWords;
 import org.jbehave.core.errors.ErrorStrategy;
 import org.jbehave.core.errors.PendingErrorStrategy;
 import org.jbehave.core.i18n.I18nKeyWords;
-import org.jbehave.core.parser.ClasspathStoryDefiner;
-import org.jbehave.core.parser.PatternStoryParser;
-import org.jbehave.core.parser.StoryDefiner;
+import org.jbehave.core.parser.*;
 import org.jbehave.core.reporters.*;
 import org.jbehave.core.reporters.StoryReporter;
 import org.jbehave.core.steps.DefaultStepdocGenerator;
@@ -35,7 +33,7 @@ public class MostUsefulStoryConfiguration extends StoryConfiguration {
     public MostUsefulStoryConfiguration() {
         useKeywords(new I18nKeyWords(Locale.ENGLISH));
         useStepCreator(new UnmatchedToPendingStepCreator());
-        useStoryDefiner(new ClasspathStoryDefiner(new PatternStoryParser(keywords())));
+        useStoryDefiner(new ParsingStoryDefiner(new PatternStoryParser(keywords()), new ClasspathStoryContentLoader()));
         useErrorStrategy(ErrorStrategy.RETHROW);
         usePendingErrorStrategy(PendingErrorStrategy.PASSING);
         useStoryReporter(new PassSilentlyDecorator(new PrintStreamStoryReporter()));

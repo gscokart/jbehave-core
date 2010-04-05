@@ -3,10 +3,7 @@ package org.jbehave.examples.trader;
 import org.jbehave.core.JUnitStory;
 import org.jbehave.core.MostUsefulStoryConfiguration;
 import org.jbehave.core.StoryConfiguration;
-import org.jbehave.core.parser.ClasspathStoryDefiner;
-import org.jbehave.core.parser.PatternStoryParser;
-import org.jbehave.core.parser.PrefixCapturingPatternBuilder;
-import org.jbehave.core.parser.UnderscoredCamelCaseResolver;
+import org.jbehave.core.parser.*;
 import org.jbehave.core.reporters.FilePrintStreamFactory;
 import org.jbehave.core.reporters.StoryReporterBuilder;
 import org.jbehave.core.steps.CandidateSteps;
@@ -34,7 +31,7 @@ public class TraderStory extends JUnitStory {
         // start with default story configuration, overriding story definer and reporter
         StoryConfiguration storyConfiguration = new MostUsefulStoryConfiguration();
         storyConfiguration.useStoryPathResolver(new UnderscoredCamelCaseResolver(".story"));
-        storyConfiguration.useStoryDefiner(new ClasspathStoryDefiner(new PatternStoryParser(storyConfiguration.keywords()), this.getClass().getClassLoader()));
+        storyConfiguration.useStoryDefiner(new ParsingStoryDefiner(new PatternStoryParser(storyConfiguration.keywords()), new ClasspathStoryContentLoader(this.getClass().getClassLoader())));
         String storyPath = storyConfiguration.storyPathResolver().resolve(this.getClass());
         storyConfiguration.useStoryReporter(new StoryReporterBuilder(new FilePrintStreamFactory(storyPath))
                 .with(CONSOLE)
