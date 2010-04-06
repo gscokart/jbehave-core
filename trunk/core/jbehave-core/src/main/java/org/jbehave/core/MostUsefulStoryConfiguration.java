@@ -20,7 +20,8 @@ import java.util.Locale;
  * <ul>
  * <li>{@link KeyWords}: new I18nKeyWords()</li>
  * <li>{@link StepCreator}: new UnmatchedToPendingStepCreator()</li>
- * <li>{@link StoryDefiner}: new ClasspathStoryDefiner(new PatternStoryParser(keywords()))</li>
+ * <li>{@link StoryParser}: new PatternStoryParser(keywords())</li>
+ * <li>{@link StoryContentLoader}: new ClasspathLoader()</li> 
  * <li>{@link ErrorStrategy}: ErrorStrategy.RETHROW</li>
  * <li>{@link PendingErrorStrategy}: PendingErrorStrategy.PASSING</li>
  * <li>{@link StoryReporter}: new PassSilentlyDecorator(new PrintStreamStoryReporter())</li>
@@ -33,7 +34,8 @@ public class MostUsefulStoryConfiguration extends StoryConfiguration {
     public MostUsefulStoryConfiguration() {
         useKeywords(new I18nKeyWords(Locale.ENGLISH));
         useStepCreator(new UnmatchedToPendingStepCreator());
-        useStoryDefiner(new ParsingStoryDefiner(new PatternStoryParser(keywords()), new ClasspathLoading()));
+        useStoryParser(new PatternStoryParser(keywords()));
+        useStoryLoader(new ClasspathLoading());
         useErrorStrategy(ErrorStrategy.RETHROW);
         usePendingErrorStrategy(PendingErrorStrategy.PASSING);
         useStoryReporter(new PassSilentlyDecorator(new PrintStreamStoryReporter()));

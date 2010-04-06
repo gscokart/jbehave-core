@@ -13,8 +13,8 @@ public class ICanToggleACell extends JUnitStory {
     public ICanToggleACell() {
         useConfiguration(new PropertyBasedStoryConfiguration() {
             @Override
-            public StoryDefiner storyDefiner() {
-                return new ParsingStoryDefiner(new PatternStoryParser(keywords()));
+            public StoryParser storyParser() {
+                return new PatternStoryParser(keywords());
             }
             @Override
             public StoryReporter storyReporter() {

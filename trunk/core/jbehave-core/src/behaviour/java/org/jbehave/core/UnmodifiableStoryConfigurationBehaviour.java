@@ -3,7 +3,8 @@ package org.jbehave.core;
 import org.jbehave.core.errors.ErrorStrategy;
 import org.jbehave.core.errors.PendingErrorStrategy;
 import org.jbehave.core.model.KeyWords;
-import org.jbehave.core.parser.StoryDefiner;
+import org.jbehave.core.parser.StoryContentLoader;
+import org.jbehave.core.parser.StoryParser;
 import org.jbehave.core.reporters.StepdocReporter;
 import org.jbehave.core.reporters.StoryReporter;
 import org.jbehave.core.steps.StepCreator;
@@ -24,7 +25,7 @@ public class UnmodifiableStoryConfigurationBehaviour {
         StoryConfiguration unmodifiable = new UnmodifiableStoryConfiguration(delegate);
         ensureThat(unmodifiable.keywords(), is(delegate.keywords()));
         ensureThat(unmodifiable.stepCreator(), is(delegate.stepCreator()));
-        ensureThat(unmodifiable.storyDefiner(), is(delegate.storyDefiner()));
+        ensureThat(unmodifiable.storyParser(), is(delegate.storyParser()));
         ensureThat(unmodifiable.storyReporter(), is(delegate.storyReporter()));
         ensureThat(unmodifiable.errorStrategy(), is(delegate.errorStrategy()));
         ensureThat(unmodifiable.pendingErrorStrategy(), is(delegate.pendingErrorStrategy()));
@@ -39,7 +40,8 @@ public class UnmodifiableStoryConfigurationBehaviour {
         StoryConfiguration unmodifiable = new UnmodifiableStoryConfiguration(delegate);
         ensureThatNotAllowed(unmodifiable, "useKeywords", KeyWords.class);
         ensureThatNotAllowed(unmodifiable, "useStepCreator", StepCreator.class);
-        ensureThatNotAllowed(unmodifiable, "useStoryDefiner", StoryDefiner.class);
+        ensureThatNotAllowed(unmodifiable, "useStoryLoader", StoryContentLoader.class);
+        ensureThatNotAllowed(unmodifiable, "useStoryParser", StoryParser.class);
         ensureThatNotAllowed(unmodifiable, "useStoryReporter", StoryReporter.class);
         ensureThatNotAllowed(unmodifiable, "useErrorStrategy", ErrorStrategy.class);
         ensureThatNotAllowed(unmodifiable, "usePendingErrorStrategy", PendingErrorStrategy.class);

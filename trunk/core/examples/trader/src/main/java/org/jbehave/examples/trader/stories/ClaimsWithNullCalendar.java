@@ -26,8 +26,13 @@ public class ClaimsWithNullCalendar extends JUnitStory {
         final StoryPathResolver resolver = new UnderscoredCamelCaseResolver(".story");
         StoryConfiguration storyConfiguration = new MostUsefulStoryConfiguration(){
             @Override
-            public StoryDefiner storyDefiner() {
-                return new ParsingStoryDefiner(new PatternStoryParser(keywords()), new ClasspathLoading(this.getClass().getClassLoader()));
+            public StoryParser storyParser() {
+                return new PatternStoryParser(keywords());
+            }
+
+            @Override            
+            public StoryContentLoader storyLoader(){
+                return new ClasspathLoading(this.getClass().getClassLoader());
             }
 
             @Override

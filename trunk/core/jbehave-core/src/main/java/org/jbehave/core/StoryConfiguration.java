@@ -42,10 +42,13 @@ public abstract class StoryConfiguration {
      */
     private StepCreator stepCreator = new UnmatchedToPendingStepCreator();
     /**
-     * Defines stories by parsing the textual representation, loaded by
-     * the story content loader.
+     * Parses the textual representation via pattern matching of keywords
      */
-    private StoryDefiner storyDefiner = new ParsingStoryDefiner(new PatternStoryParser(keywords));
+    private StoryParser storyParser = new PatternStoryParser(keywords);
+    /**
+     * Loads story content from classpath
+     */
+    private StoryContentLoader storyLoader = new ClasspathLoading();
     /**
      * Resolves story paths from classes
      */
@@ -97,7 +100,8 @@ public abstract class StoryConfiguration {
      *
      * @param keywords
      * @param stepCreator
-     * @param storyDefiner
+     * @param storyParser
+     * @param storyLoader
      * @param storyPathResolver
      * @param errorStrategy
      * @param stepdocReporter
@@ -105,10 +109,11 @@ public abstract class StoryConfiguration {
      * @param storyReporter
      * @param pendingErrorStrategy
      */
-    protected StoryConfiguration(KeyWords keywords, StepCreator stepCreator, StoryDefiner storyDefiner, StoryPathResolver storyPathResolver, ErrorStrategy errorStrategy, StepdocReporter stepdocReporter, StepdocGenerator stepdocGenerator, StoryReporter storyReporter, PendingErrorStrategy pendingErrorStrategy) {
+    protected StoryConfiguration(KeyWords keywords, StepCreator stepCreator, StoryParser storyParser, StoryContentLoader storyLoader, StoryPathResolver storyPathResolver, ErrorStrategy errorStrategy, StepdocReporter stepdocReporter, StepdocGenerator stepdocGenerator, StoryReporter storyReporter, PendingErrorStrategy pendingErrorStrategy) {
         this.keywords = keywords;
         this.stepCreator = stepCreator;
-        this.storyDefiner = storyDefiner;
+        this.storyParser = storyParser;
+        this.storyLoader = storyLoader;
         this.storyPathResolver = storyPathResolver;
         this.errorStrategy = errorStrategy;
         this.stepdocReporter = stepdocReporter;
@@ -122,10 +127,14 @@ public abstract class StoryConfiguration {
         return stepCreator;
     }
 
-    public StoryDefiner storyDefiner() {
-        return storyDefiner;
+    public StoryParser storyParser() {
+        return storyParser;
     }
 
+    public StoryContentLoader storyLoader(){
+        return storyLoader;
+    }
+    
     public StoryPathResolver storyPathResolver(){
         return storyPathResolver;
     }
@@ -181,8 +190,12 @@ public abstract class StoryConfiguration {
         this.errorStrategy = errorStrategy;
     }
 
-    public void useStoryDefiner(StoryDefiner storyDefiner) {
-        this.storyDefiner = storyDefiner;
+    public void useStoryParser(StoryParser storyParser) {
+        this.storyParser = storyParser;
+    }
+
+    public void useStoryLoader(StoryContentLoader storyLoader){
+        this.storyLoader = storyLoader;
     }
 
     public void useStoryPathResolver(StoryPathResolver storyPathResolver) {

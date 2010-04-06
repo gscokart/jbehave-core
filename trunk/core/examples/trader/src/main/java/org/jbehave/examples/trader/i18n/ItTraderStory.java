@@ -7,7 +7,6 @@ import org.jbehave.core.i18n.I18nKeyWords;
 import org.jbehave.core.i18n.StringEncoder;
 import org.jbehave.core.model.KeyWords;
 import org.jbehave.core.parser.ClasspathLoading;
-import org.jbehave.core.parser.ParsingStoryDefiner;
 import org.jbehave.core.parser.PatternStoryParser;
 import org.jbehave.core.parser.UnderscoredCamelCaseResolver;
 import org.jbehave.core.reporters.PrintStreamStoryReporter;
@@ -27,8 +26,8 @@ public class ItTraderStory extends JUnitStory {
         KeyWords keywords = new I18nKeyWords(new Locale("it"), new StringEncoder(), "org/jbehave/examples/trader/i18n/keywords", classLoader);
         // use Italian for keywords
         storyConfiguration.useKeywords(keywords);
-        storyConfiguration.useStoryDefiner(new ParsingStoryDefiner(
-                new PatternStoryParser(storyConfiguration.keywords()), new ClasspathLoading(classLoader)));
+        storyConfiguration.useStoryParser(new PatternStoryParser(storyConfiguration.keywords()));
+        storyConfiguration.useStoryLoader(new ClasspathLoading(this.getClass().getClassLoader()));
         storyConfiguration.useStoryReporter(new PrintStreamStoryReporter(storyConfiguration.keywords()));
         useConfiguration(storyConfiguration);
 

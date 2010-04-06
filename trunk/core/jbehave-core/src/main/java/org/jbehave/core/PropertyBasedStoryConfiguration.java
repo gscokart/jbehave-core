@@ -3,7 +3,7 @@ package org.jbehave.core;
 import org.jbehave.core.model.KeyWords;
 import org.jbehave.core.errors.ErrorStrategy;
 import org.jbehave.core.errors.PendingErrorStrategy;
-import org.jbehave.core.parser.StoryDefiner;
+import org.jbehave.core.parser.StoryParser;
 import org.jbehave.core.reporters.PrintStreamStoryReporter;
 import org.jbehave.core.reporters.StoryReporter;
 import org.jbehave.core.reporters.StepdocReporter;
@@ -50,10 +50,10 @@ public class PropertyBasedStoryConfiguration extends StoryConfiguration {
     }
 
     /**
-     * Returns the default StoryDefiner.
+     * Returns the default StoryParser.
      */
-    public StoryDefiner storyDefiner() {
-        return defaultConfiguration.storyDefiner();
+    public StoryParser storyParser() {
+        return defaultConfiguration.storyParser();
     }
 
     /**

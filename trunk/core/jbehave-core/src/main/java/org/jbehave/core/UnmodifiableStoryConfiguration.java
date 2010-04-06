@@ -3,7 +3,7 @@ package org.jbehave.core;
 import org.jbehave.core.errors.ErrorStrategy;
 import org.jbehave.core.errors.PendingErrorStrategy;
 import org.jbehave.core.model.KeyWords;
-import org.jbehave.core.parser.StoryDefiner;
+import org.jbehave.core.parser.StoryParser;
 import org.jbehave.core.reporters.StepdocReporter;
 import org.jbehave.core.reporters.StoryReporter;
 import org.jbehave.core.steps.StepCreator;
@@ -28,8 +28,8 @@ public class UnmodifiableStoryConfiguration extends StoryConfiguration {
        return delegate.storyReporter();
     }
 
-    public StoryDefiner storyDefiner() {
-        return delegate.storyDefiner();
+    public StoryParser storyParser() {
+        return delegate.storyParser();
     }
 
     public PendingErrorStrategy pendingErrorStrategy() {
@@ -77,7 +77,7 @@ public class UnmodifiableStoryConfiguration extends StoryConfiguration {
     }
 
     @Override
-    public void useStoryDefiner(StoryDefiner storyDefiner) {
+    public void useStoryParser(StoryParser storyParser) {
         notAllowed();
     }
 

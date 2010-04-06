@@ -1,5 +1,6 @@
 package org.jbehave.core;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +47,7 @@ public class StoryRunner {
     }
 
     public void run(StoryConfiguration configuration, String storyPath, CandidateSteps... candidateSteps) throws Throwable {
-        Story story = configuration.storyDefiner().defineStory(storyPath);
+        Story story = defineStory(configuration, storyPath);
         run(configuration, story, candidateSteps);
     }
 
@@ -56,8 +57,15 @@ public class StoryRunner {
     }
 
     public void run(StoryConfiguration configuration, String storyPath, boolean embeddedStory, CandidateSteps... candidateSteps) throws Throwable {
-        Story story = configuration.storyDefiner().defineStory(storyPath);
+        Story story = defineStory(configuration, storyPath);
         run(configuration, story, embeddedStory, candidateSteps);
+    }
+
+    public Story defineStory(StoryConfiguration storyConfiguration, String storyPath) {
+        String storyAsString = storyConfiguration.storyLoader().loadStoryContent(storyPath);
+        Story story = storyConfiguration.storyParser().parseStory(storyAsString, storyPath);
+        story.namedAs(new File(storyPath).getName());
+        return story;
     }
 
     public void run(StoryConfiguration configuration, Story story, boolean embeddedStory, CandidateSteps... candidateSteps) throws Throwable {

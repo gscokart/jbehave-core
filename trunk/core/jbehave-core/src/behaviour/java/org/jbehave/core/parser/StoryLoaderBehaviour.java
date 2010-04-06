@@ -2,50 +2,43 @@ package org.jbehave.core.parser;
 
 import org.jbehave.core.errors.InvalidStoryResourceException;
 import org.jbehave.core.errors.StoryNotFoundException;
-import org.jbehave.core.model.Story;
 import org.junit.Test;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
-import static junit.framework.Assert.assertSame;
-import static org.mockito.Mockito.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.jbehave.Ensure.ensureThat;
 
-public class ParsingStoryDefinerBehaviour {
+public class StoryLoaderBehaviour {
 
 
     @Test
-    public void canDefineStoryWithClasspathLoading() {
+    public void canLoadStoryFromClasspath() {
         // Given
-        StoryParser parser = mock(StoryParser.class);
-        Story story = mock(Story.class);
         String storyPath = "org/jbehave/core/parser/stories/my_pending_story";
         String storyAsString = "Given my step";
-        when(parser.parseStory(storyAsString, storyPath)).thenReturn(story);
 
         // When
-        StoryDefiner definer = new ParsingStoryDefiner(parser, new ClasspathLoading());
-        Story definedStory = definer.defineStory(storyPath);
-        assertSame(story, definedStory);
+        StoryContentLoader loader = new ClasspathLoading();
+        ensureThat(loader.loadStoryContent(storyPath), equalTo(storyAsString));
 
-        // Then
-        verify(story).namedAs(new File(storyPath).getName());
     }
 
     @Test(expected = StoryNotFoundException.class)
     public void cannotDefineStoryWithClasspathLoadingForInexistentResource() {
-        StoryParser parser = mock(StoryParser.class);
-        StoryDefiner definer = new ParsingStoryDefiner(parser, new ClasspathLoading());
 
-        definer.defineStory("inexistent.story");
+        StoryContentLoader loader = new ClasspathLoading();
+        loader.loadStoryContent("inexistent.story");
+
     }
 
     @Test(expected = InvalidStoryResourceException.class)
     public void cannotDefineStoryWithClasspathLoadingForInvalidResource() {
-        StoryParser parser = mock(StoryParser.class);
-        StoryDefiner definer = new ParsingStoryDefiner(parser, new ClasspathLoading(new InvalidClassLoader()));
-        definer.defineStory("inexistent.story");
+
+        StoryContentLoader loader = new ClasspathLoading(new InvalidClassLoader());
+        loader.loadStoryContent("inexistent.story");
+
     }
 
     static class InvalidClassLoader extends ClassLoader {
@@ -70,33 +63,26 @@ public class ParsingStoryDefinerBehaviour {
 
     @Test
     public void canDefineStoryWithURLLoading() {
-        // Given
-        StoryParser parser = mock(StoryParser.class);
-        Story story = mock(Story.class);
+        // Given;
         String codeLocation = new StoryLocation("", this.getClass()).getCodeLocation();
         String storyPath = "file:" + codeLocation + "org/jbehave/core/parser/stories/my_pending_story";
         String storyAsString = "Given my step";
-        when(parser.parseStory(storyAsString, storyPath)).thenReturn(story);
-
+ 
         // When
-        StoryDefiner definer = new ParsingStoryDefiner(parser, new URLLoading());
-        definer.defineStory(storyPath);
-
-        // Then       
-        verify(story).namedAs(new File(storyPath).getName());
+        StoryContentLoader loader = new URLLoading();
+        ensureThat(loader.loadStoryContent(storyPath), equalTo(storyAsString));
     }
 
     @Test(expected = InvalidStoryResourceException.class)
     public void cannotDefineStoryWithURLLoadingForInexistentResource() {
         // Given
-        StoryParser parser = mock(StoryParser.class);
         String codeLocation = new StoryLocation("", this.getClass()).getCodeLocation();
         String storyPath = "file:" + codeLocation + "inexistent_story";
 
         // When
-        StoryDefiner definer = new ParsingStoryDefiner(parser, new URLLoading());
-        definer.defineStory(storyPath);
-
+        StoryContentLoader loader = new URLLoading();
+        loader.loadStoryContent(storyPath);
+        
         // Then
         // fail as expected
 
@@ -105,12 +91,12 @@ public class ParsingStoryDefinerBehaviour {
     @Test(expected = InvalidStoryResourceException.class)
     public void cannotDefineStoryWithURLLoadingForInvalidURL() {
         // Given
-        StoryParser parser = mock(StoryParser.class);
-        String storyPath = "story_url_with_no_protocol";
+        String codeLocation = new StoryLocation("", this.getClass()).getCodeLocation();
+        String storyPath = "file:" + codeLocation + "inexistent_story";
 
         // When
-        StoryDefiner definer = new ParsingStoryDefiner(parser, new URLLoading());
-        definer.defineStory(storyPath);
+        StoryContentLoader loader = new URLLoading();
+        loader.loadStoryContent(storyPath);
 
         // Then
         // fail as expected
