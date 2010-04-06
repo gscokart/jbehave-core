@@ -55,8 +55,7 @@ public class ItTraderStory extends JUnitStory {
         // use Italian for keywords
         KeyWords keywords = new I18nKeyWords(new Locale("it"), new StringEncoder(), "org/jbehave/examples/trader/i18n/keywords", classLoader);
         storyConfiguration.useKeywords(keywords);
-        storyConfiguration.useStoryDefiner(new ClasspathStoryDefiner(
-                new PatternStoryParser(storyConfiguration.keywords()), classLoader));
+        storyConfiguration.useStoryPatter(new PatternStoryParser(storyConfiguration.keywords());
         storyConfiguration.useStoryReporter(new PrintStreamStoryReporter(storyConfiguration.keywords()));
         useConfiguration(storyConfiguration);
 

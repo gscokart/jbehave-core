@@ -122,22 +122,15 @@ Steps class or possibly by using a service API or other dependency.</p>
 
 <h2>Mapping Story Files to Java Classes</h2>
 
-<p>In JBehave Core stories can be run in an automated way via a
-one-to-one mapping to Java classes. The mechanism via which the textual
-stories are resolved from a Java class is determined by the
-implementation of the <a
-    href="javadoc/core/org/jbehave/core/parser/StoryNameResolver.html">StoryNameResolver</a>.
+<p>In JBehave stories can be run in an automated way via a
+mapping to Java classes, either a one-to-one mapping or a many-to-one mapping.</p>
+<p>
+In the case of one-to-one mapping, the textual
+story path is resolved from a Java class via the <a
+    href="javadoc/core/org/jbehave/core/parser/StoryPathResolver.html">StoryPathResolver</a>.
 In our example, we need to create a file <code>TraderIsAletedOfStatus.java</code>,
-which maps to out textual story in same package.</p>
-
-<p>The contract for a user-defined Java scenario is the following:</p>
-<p>Must extend an instance of a <a
-    href="javadoc/core/org/jbehave/core/RunnableStory.html">RunnableStory</a>,
-such as <a href="javadoc/core/org/jbehave/core/JUnitStory.html">JUnitStory</a>
-</p>
-<p>Must provide a default constructor.</p>
-<p>(Only when running with external resources) Must provide an additional
-constructor with a ClassLoader parameter.</p>
+which maps to out textual story in same package, and it would extend a base Story class
+that contains the configuration:</p>
 
 <p>Thus in our case the example Story would look like:</p>
 <pre class="brush: java">
@@ -146,11 +139,36 @@ public class TraderStory extends JUnitStory {
     public TraderStory() {
         StoryConfiguration storyConfiguration = new MostUsefulConfiguration();
         storyConfiguration.useStoryPathResolver(new UnderscoredCamelCaseResolver(".story"));
-        // if stories are found in classpath
-        storyConfiguration.useStoryDefiner(new ClasspathStoryDefiner(new PatternStoryParser(storyConfiguration.keywords()));
-  
+        storyConfiguration.useStoryLoader(new LoadFromClasspath(this.getClass().getClassLoader()));
+
         addSteps(new TraderSteps()); // if TraderSteps extends Steps
         addSteps(new StepsFactory().createCandidateSteps(new TraderSteps())); // if TraderSteps is a POJO
+    }
+}
+</pre>
+
+<p>
+In the case of many-to-one mapping, the textual
+story path must be explicitly provided when extending  <a
+    href="javadoc/core/org/jbehave/core/JUnitStories.html">JUnitStories</a>:
+</p>
+
+<pre class="brush: java">
+public class TraderStories extends JUnitStories {
+
+    public TraderStories() {
+        StoryConfiguration storyConfiguration = new MostUsefulConfiguration();
+        storyConfiguration.useStoryPathResolver(new UnderscoredCamelCaseResolver(".story"));
+        storyConfiguration.useStoryLoader(new LoadFromClasspath(this.getClass().getClassLoader()));
+
+        addSteps(new TraderSteps()); // if TraderSteps extends Steps
+        addSteps(new StepsFactory().createCandidateSteps(new TraderSteps())); // if TraderSteps is a POJO
+    }
+
+    @Override
+    protected List<String> storyPaths() {
+        return asList("org/jbehave/examples/trader/stories/trader_is_alerted_of_status.story",
+                      "org/jbehave/examples/trader/stories/traders_can_be_subset.story");
     }
 }
 </pre>

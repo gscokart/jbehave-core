@@ -34,7 +34,6 @@ public abstract class TraderStory extends JUnitStory {
           // start with default story configuration, overriding story definer and reporter
           StoryConfiguration storyConfiguration = new MostUsefulStoryConfiguration();
           storyConfiguration.useStoryPathResolver(new UnderscoredCamelCaseResolver(".story"));
-          storyConfiguration.useStoryDefiner(new ClasspathStoryDefiner(new PatternStoryParser(storyConfiguration.keywords()), this.getClass().getClassLoader()));
           String storyPath = storyConfiguration.storyPathResolver().resolve(storyClass);
           storyConfiguration.useStoryReporter(new StoryReporterBuilder(new FilePrintStreamFactory(storyPath))
                   .with(CONSOLE)
@@ -71,7 +70,7 @@ public class TraderStories extends JUnitStories {
         StoryConfiguration storyConfiguration = new MostUsefulStoryConfiguration();
         storyConfiguration.useStoryPathResolver(new UnderscoredCamelCaseResolver(".story"));
         // Using URLs to define stories
-        storyConfiguration.useStoryDefiner(new URLStoryDefiner(new PatternStoryParser(storyConfiguration.keywords())));
+        storyConfiguration.useStoryLoader(new LoadFromURL());
         for ( String storyPath : storyPaths() ){
             StoryReporter storyReporter = new StoryReporterBuilder(new FilePrintStreamFactory(storyPath))
                             .with(CONSOLE)
@@ -114,7 +113,7 @@ public class TraderStories extends JUnitStories {
 </pre>
 
 <span class="followup">Note that in this second example, we are using story paths as URLs, and correspondingly we configure the use of <a
-            href="javadoc/core/org/jbehave/core/parser/URLStoryDefiner.html">URLStoryDefiner</a>.</span>
+            href="javadoc/core/org/jbehave/core/parser/LoadFromURL.html">LoadFromURL</a>.</span>
 
 <p>If we wanted to use an inversion of control container to compose
 our Steps with all its dependencies, all we'd need to do is to override
@@ -173,10 +172,10 @@ given story definition matching a list of candidate steps. The
 default implementation is <a
     href="javadoc/core/org/jbehave/core/steps/UnmatchedToPendingStepCreator.html">UnmatchedToPendingStepCreator</a>.</p>
 <p><a
-    href="javadoc/core/org/jbehave/core/parser/StoryDefiner.html">StoryDefiner</a>:
-Defines stories contained in a textual story file. The
+    href="javadoc/core/org/jbehave/core/parser/StoryParser.html">StoryParser</a>:
+Parses stories contained in a textual story file. The
 default implementation is <a
-    href="javadoc/core/org/jbehave/core/parser/ClasspathStoryDefiner.html">ClasspathStoryDefiner</a>.</p>
+    href="javadoc/core/org/jbehave/core/parser/PatternStoryParser.html">PatternStoryParser</a>.</p>
 <p><a
     href="javadoc/core/org/jbehave/core/reporters/StoryReporter.html">StoryReporter</a>:
 Allows the runner to report the state of running stories. The default

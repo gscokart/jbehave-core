@@ -27,7 +27,6 @@ public class TraderStories extends JUnitStories {
         StoryConfiguration storyConfiguration = new MostUsefulStoryConfiguration();
         storyConfiguration.useStoryPathResolver(new UnderscoredCamelCaseResolver(".story"));
         // Using URLs to define stories
-        storyConfiguration.useStoryParser(new PatternStoryParser(storyConfiguration.keywords()));
         storyConfiguration.useStoryLoader(new LoadFromURL());
         List<String> storyPaths = storyPaths();
         for ( String storyPath : storyPaths ){

@@ -42,15 +42,11 @@ the reporters we want to configure, in the example below a plain text
 reporter (both to <b>System.out</b> and to a file) and an HTML reporter
 to a file:</p>
 <pre class="brush: java">
-    private static StoryPathResolverf resolver = new UnderscoredCamelCaseResolver(".story");
+    private static StoryPathResolver resolver = new UnderscoredCamelCaseResolver(".story");
 
-    public TraderStory(final Class storyClass) {
-        useConfiguration(new MostUsefulStoryConfiguration() {
-            @Override
-            public StoryDefiner storyDefiner() {
-                return new ClasspathStoryDefiner(resolver, new PatternStoryParser(keywords()));
-            }
-        
+    public TraderStory() {
+        final Class storyClass = this.getClass();
+        useConfiguration(new MostUsefulStoryConfiguration() {     
             @Override
             public StoryReporter storyReporter() {
                 return new StoryReporterBuilder(new FilePrintStreamFactory(resolver.resolve(storyClass)))
