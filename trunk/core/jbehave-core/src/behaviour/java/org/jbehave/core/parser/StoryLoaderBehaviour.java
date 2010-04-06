@@ -20,24 +20,24 @@ public class StoryLoaderBehaviour {
         String storyAsString = "Given my step";
 
         // When
-        StoryContentLoader loader = new ClasspathLoading();
-        ensureThat(loader.loadStoryContent(storyPath), equalTo(storyAsString));
+        StoryLoader loader = new LoadFromClasspath();
+        ensureThat(loader.loadStoryAsText(storyPath), equalTo(storyAsString));
 
     }
 
     @Test(expected = StoryNotFoundException.class)
     public void cannotDefineStoryWithClasspathLoadingForInexistentResource() {
 
-        StoryContentLoader loader = new ClasspathLoading();
-        loader.loadStoryContent("inexistent.story");
+        StoryLoader loader = new LoadFromClasspath();
+        loader.loadStoryAsText("inexistent.story");
 
     }
 
     @Test(expected = InvalidStoryResourceException.class)
     public void cannotDefineStoryWithClasspathLoadingForInvalidResource() {
 
-        StoryContentLoader loader = new ClasspathLoading(new InvalidClassLoader());
-        loader.loadStoryContent("inexistent.story");
+        StoryLoader loader = new LoadFromClasspath(new InvalidClassLoader());
+        loader.loadStoryAsText("inexistent.story");
 
     }
 
@@ -69,8 +69,8 @@ public class StoryLoaderBehaviour {
         String storyAsString = "Given my step";
  
         // When
-        StoryContentLoader loader = new URLLoading();
-        ensureThat(loader.loadStoryContent(storyPath), equalTo(storyAsString));
+        StoryLoader loader = new LoadFromURL();
+        ensureThat(loader.loadStoryAsText(storyPath), equalTo(storyAsString));
     }
 
     @Test(expected = InvalidStoryResourceException.class)
@@ -80,8 +80,8 @@ public class StoryLoaderBehaviour {
         String storyPath = "file:" + codeLocation + "inexistent_story";
 
         // When
-        StoryContentLoader loader = new URLLoading();
-        loader.loadStoryContent(storyPath);
+        StoryLoader loader = new LoadFromURL();
+        loader.loadStoryAsText(storyPath);
         
         // Then
         // fail as expected
@@ -95,8 +95,8 @@ public class StoryLoaderBehaviour {
         String storyPath = "file:" + codeLocation + "inexistent_story";
 
         // When
-        StoryContentLoader loader = new URLLoading();
-        loader.loadStoryContent(storyPath);
+        StoryLoader loader = new LoadFromURL();
+        loader.loadStoryAsText(storyPath);
 
         // Then
         // fail as expected

@@ -110,7 +110,7 @@ public class StoryRunnerBehaviour {
         when(step.perform()).thenReturn(result);
 
         StoryParser storyParser = mock(StoryParser.class);
-        StoryContentLoader storyLoader = mock(StoryContentLoader.class);
+        StoryLoader storyLoader = mock(StoryLoader.class);
         StoryReporter reporter = mock(StoryReporter.class);
         StepCreator creator = mock(StepCreator.class);
         CandidateSteps mySteps = mock(Steps.class);
@@ -124,7 +124,7 @@ public class StoryRunnerBehaviour {
         givenStoryWithNoBeforeOrAfterSteps(story2, embeddedStory, creator, mySteps);
         when(creator.createStepsFrom(scenario2, tableRow, mySteps)).thenReturn(
                 new Step[]{anotherSuccessfulStep});
-        when(storyLoader.loadStoryContent("/path/to/given/story1")).thenReturn("storyContent");
+        when(storyLoader.loadStoryAsText("/path/to/given/story1")).thenReturn("storyContent");
         when(storyParser.parseStory("storyContent", "/path/to/given/story1")).thenReturn(story1);
         givenStoryWithNoBeforeOrAfterSteps(story1, embeddedStory, creator, mySteps);
         givenStoryWithNoBeforeOrAfterSteps(story2, embeddedStory, creator, mySteps);
@@ -308,7 +308,7 @@ public class StoryRunnerBehaviour {
 
     private StoryConfiguration configurationWithPendingStrategy(StepCreator creator, StoryReporter reporter,
                                                                 PendingErrorStrategy strategy) {
-        return configurationWith(new PatternStoryParser(), new ClasspathLoading(), reporter, creator,
+        return configurationWith(new PatternStoryParser(), new LoadFromClasspath(), reporter, creator,
                 new ErrorStrategyInWhichWeTrustTheReporter(), strategy);
     }
 
@@ -317,15 +317,15 @@ public class StoryRunnerBehaviour {
     }
 
     private StoryConfiguration configurationWith(StoryReporter reporter, StepCreator creator, ErrorStrategy errorStrategy) {
-        return configurationWith(new PatternStoryParser(), new ClasspathLoading(), reporter, creator, errorStrategy);
+        return configurationWith(new PatternStoryParser(), new LoadFromClasspath(), reporter, creator, errorStrategy);
     }
 
-    private StoryConfiguration configurationWith(StoryParser parser, final StoryContentLoader storyLoader, final StoryReporter reporter,
+    private StoryConfiguration configurationWith(StoryParser parser, final StoryLoader storyLoader, final StoryReporter reporter,
                                                  final StepCreator creator, final ErrorStrategy errorStrategy) {
         return configurationWith(parser, storyLoader, reporter, creator, errorStrategy, PendingErrorStrategy.PASSING);
     }
 
-    private StoryConfiguration configurationWith(final StoryParser parser, final StoryContentLoader loader, final StoryReporter reporter,
+    private StoryConfiguration configurationWith(final StoryParser parser, final StoryLoader loader, final StoryReporter reporter,
                                                  final StepCreator creator, final ErrorStrategy errorStrategy, final PendingErrorStrategy pendingStrategy) {
 
         return new MostUsefulStoryConfiguration() {
@@ -335,7 +335,7 @@ public class StoryRunnerBehaviour {
             }
 
             @Override
-            public StoryContentLoader storyLoader() {
+            public StoryLoader storyLoader() {
                 return loader;
             }
 

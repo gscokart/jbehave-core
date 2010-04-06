@@ -48,7 +48,7 @@ public abstract class StoryConfiguration {
     /**
      * Loads story content from classpath
      */
-    private StoryContentLoader storyLoader = new ClasspathLoading();
+    private StoryLoader storyLoader = new LoadFromClasspath();
     /**
      * Resolves story paths from classes
      */
@@ -109,7 +109,7 @@ public abstract class StoryConfiguration {
      * @param storyReporter
      * @param pendingErrorStrategy
      */
-    protected StoryConfiguration(KeyWords keywords, StepCreator stepCreator, StoryParser storyParser, StoryContentLoader storyLoader, StoryPathResolver storyPathResolver, ErrorStrategy errorStrategy, StepdocReporter stepdocReporter, StepdocGenerator stepdocGenerator, StoryReporter storyReporter, PendingErrorStrategy pendingErrorStrategy) {
+    protected StoryConfiguration(KeyWords keywords, StepCreator stepCreator, StoryParser storyParser, StoryLoader storyLoader, StoryPathResolver storyPathResolver, ErrorStrategy errorStrategy, StepdocReporter stepdocReporter, StepdocGenerator stepdocGenerator, StoryReporter storyReporter, PendingErrorStrategy pendingErrorStrategy) {
         this.keywords = keywords;
         this.stepCreator = stepCreator;
         this.storyParser = storyParser;
@@ -131,7 +131,7 @@ public abstract class StoryConfiguration {
         return storyParser;
     }
 
-    public StoryContentLoader storyLoader(){
+    public StoryLoader storyLoader(){
         return storyLoader;
     }
     
@@ -194,7 +194,7 @@ public abstract class StoryConfiguration {
         this.storyParser = storyParser;
     }
 
-    public void useStoryLoader(StoryContentLoader storyLoader){
+    public void useStoryLoader(StoryLoader storyLoader){
         this.storyLoader = storyLoader;
     }
 

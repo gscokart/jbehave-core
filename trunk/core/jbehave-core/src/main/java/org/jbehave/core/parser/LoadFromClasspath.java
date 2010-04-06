@@ -10,19 +10,19 @@ import java.io.InputStream;
 /**
  * Loads story content from classpath resources.
  */
-public class ClasspathLoading implements StoryContentLoader {
+public class LoadFromClasspath implements StoryLoader {
 
     private final ClassLoader classLoader;
 
-    public ClasspathLoading() {
+    public LoadFromClasspath() {
         this(Thread.currentThread().getContextClassLoader());
     }
 
-    public ClasspathLoading(ClassLoader classLoader) {
+    public LoadFromClasspath(ClassLoader classLoader) {
         this.classLoader = classLoader;
     }
 
-    public String loadStoryContent(String storyPath) {
+    public String loadStoryAsText(String storyPath) {
         InputStream stream = classLoader.getResourceAsStream(storyPath);
         if (stream == null) {
             throw new StoryNotFoundException("Story path '" + storyPath + "' not found by class loader "

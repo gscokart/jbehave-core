@@ -32,7 +32,7 @@ public class TraderStory extends JUnitStory {
         StoryConfiguration storyConfiguration = new MostUsefulStoryConfiguration();
         storyConfiguration.useStoryPathResolver(new UnderscoredCamelCaseResolver(".story"));
         storyConfiguration.useStoryParser(new PatternStoryParser(storyConfiguration.keywords()));
-        storyConfiguration.useStoryLoader(new ClasspathLoading(this.getClass().getClassLoader()));
+        storyConfiguration.useStoryLoader(new LoadFromClasspath(this.getClass().getClassLoader()));
         String storyPath = storyConfiguration.storyPathResolver().resolve(this.getClass());
         storyConfiguration.useStoryReporter(new StoryReporterBuilder(new FilePrintStreamFactory(storyPath))
                 .with(CONSOLE)

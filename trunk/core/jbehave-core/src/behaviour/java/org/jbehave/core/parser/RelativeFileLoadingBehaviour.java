@@ -16,8 +16,8 @@ public class RelativeFileLoadingBehaviour {
         String storyAsString = "Given my step";
 
         // When
-        StoryContentLoader loader = new RelativeFileLoading(MyPendingStory.class, "../../src/behaviour/java");
-        loader.loadStoryContent(storyPath);
+        StoryLoader loader = new LoadFromRelativeFile(MyPendingStory.class, "../../src/behaviour/java");
+        loader.loadStoryAsText(storyPath);
        
     }
 

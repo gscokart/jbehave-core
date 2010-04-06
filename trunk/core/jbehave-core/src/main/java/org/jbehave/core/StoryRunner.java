@@ -62,7 +62,7 @@ public class StoryRunner {
     }
 
     public Story defineStory(StoryConfiguration storyConfiguration, String storyPath) {
-        String storyAsString = storyConfiguration.storyLoader().loadStoryContent(storyPath);
+        String storyAsString = storyConfiguration.storyLoader().loadStoryAsText(storyPath);
         Story story = storyConfiguration.storyParser().parseStory(storyAsString, storyPath);
         story.namedAs(new File(storyPath).getName());
         return story;

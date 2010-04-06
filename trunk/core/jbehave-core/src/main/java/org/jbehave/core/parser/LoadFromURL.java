@@ -6,10 +6,10 @@ import org.jbehave.core.errors.InvalidStoryResourceException;
 import java.net.URL;
 
 /**
- * Loads story content via URLs
+ * Loads story content from URLs
  */
-public class URLLoading implements StoryContentLoader {
-    public String loadStoryContent(String storyPath) {
+public class LoadFromURL implements StoryLoader {
+    public String loadStoryAsText(String storyPath) {
         try {
             URL url = new URL(storyPath);
             return IOUtils.toString(url.openStream());

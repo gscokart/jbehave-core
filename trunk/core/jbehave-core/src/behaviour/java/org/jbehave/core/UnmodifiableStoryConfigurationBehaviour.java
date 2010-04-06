@@ -3,7 +3,7 @@ package org.jbehave.core;
 import org.jbehave.core.errors.ErrorStrategy;
 import org.jbehave.core.errors.PendingErrorStrategy;
 import org.jbehave.core.model.KeyWords;
-import org.jbehave.core.parser.StoryContentLoader;
+import org.jbehave.core.parser.StoryLoader;
 import org.jbehave.core.parser.StoryParser;
 import org.jbehave.core.reporters.StepdocReporter;
 import org.jbehave.core.reporters.StoryReporter;
@@ -40,7 +40,7 @@ public class UnmodifiableStoryConfigurationBehaviour {
         StoryConfiguration unmodifiable = new UnmodifiableStoryConfiguration(delegate);
         ensureThatNotAllowed(unmodifiable, "useKeywords", KeyWords.class);
         ensureThatNotAllowed(unmodifiable, "useStepCreator", StepCreator.class);
-        ensureThatNotAllowed(unmodifiable, "useStoryLoader", StoryContentLoader.class);
+        ensureThatNotAllowed(unmodifiable, "useStoryLoader", StoryLoader.class);
         ensureThatNotAllowed(unmodifiable, "useStoryParser", StoryParser.class);
         ensureThatNotAllowed(unmodifiable, "useStoryReporter", StoryReporter.class);
         ensureThatNotAllowed(unmodifiable, "useErrorStrategy", ErrorStrategy.class);

@@ -31,8 +31,8 @@ public class ClaimsWithNullCalendar extends JUnitStory {
             }
 
             @Override            
-            public StoryContentLoader storyLoader(){
-                return new ClasspathLoading(this.getClass().getClassLoader());
+            public StoryLoader storyLoader(){
+                return new LoadFromClasspath(this.getClass().getClassLoader());
             }
 
             @Override

@@ -21,7 +21,7 @@ import java.util.Locale;
  * <li>{@link KeyWords}: new I18nKeyWords()</li>
  * <li>{@link StepCreator}: new UnmatchedToPendingStepCreator()</li>
  * <li>{@link StoryParser}: new PatternStoryParser(keywords())</li>
- * <li>{@link StoryContentLoader}: new ClasspathLoader()</li> 
+ * <li>{@link org.jbehave.core.parser.StoryLoader}: new ClasspathLoader()</li>
  * <li>{@link ErrorStrategy}: ErrorStrategy.RETHROW</li>
  * <li>{@link PendingErrorStrategy}: PendingErrorStrategy.PASSING</li>
  * <li>{@link StoryReporter}: new PassSilentlyDecorator(new PrintStreamStoryReporter())</li>
@@ -35,7 +35,7 @@ public class MostUsefulStoryConfiguration extends StoryConfiguration {
         useKeywords(new I18nKeyWords(Locale.ENGLISH));
         useStepCreator(new UnmatchedToPendingStepCreator());
         useStoryParser(new PatternStoryParser(keywords()));
-        useStoryLoader(new ClasspathLoading());
+        useStoryLoader(new LoadFromClasspath());
         useErrorStrategy(ErrorStrategy.RETHROW);
         usePendingErrorStrategy(PendingErrorStrategy.PASSING);
         useStoryReporter(new PassSilentlyDecorator(new PrintStreamStoryReporter()));
