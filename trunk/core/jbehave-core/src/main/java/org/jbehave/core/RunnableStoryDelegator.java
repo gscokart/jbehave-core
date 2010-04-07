@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * <p>
  * Delegates {@link RunnableStory} functionality to a delegate specified in a
- * post-instantiation call to delegateTo(..) 
+ * post-instantiation call to {@link RunnableStoryDelegator#delegateTo(RunnableStory)}
  * </p>
  * <p>
  * Note that we cannot use a constructor as some delegates, e.g. {@JUnitStory} can
@@ -26,7 +26,7 @@ public abstract class RunnableStoryDelegator implements RunnableStory {
         this.delegate = delegate;
     }
 
-    private RunnableStory getDelegate() {
+    private RunnableStory delegate() {
         if (delegate == null) {
             throw new InvalidRunnableStoryException("Use delegateTo(..) to specify a delegate Runnable Story");
         }
@@ -34,27 +34,27 @@ public abstract class RunnableStoryDelegator implements RunnableStory {
     }
 
     public void runStory() throws Throwable {
-        this.getDelegate().runStory();
+        this.delegate().runStory();
     }
 
     public void useConfiguration(StoryConfiguration configuration) {
-        this.getDelegate().useConfiguration(configuration);
+        this.delegate().useConfiguration(configuration);
     }
 
     public StoryConfiguration getConfiguration() {
-        return getDelegate().getConfiguration();
+        return delegate().getConfiguration();
     }
 
     public void addSteps(CandidateSteps... steps) {
-        this.getDelegate().addSteps(steps);
+        this.delegate().addSteps(steps);
     }
 
     public List<CandidateSteps> getSteps() {
-        return getDelegate().getSteps();
+        return delegate().getSteps();
     }
 
     public void generateStepdoc() {
-        this.getDelegate().generateStepdoc();
+        this.delegate().generateStepdoc();
     }
 
 }
