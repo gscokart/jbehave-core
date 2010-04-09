@@ -20,8 +20,8 @@ public abstract class JUnitStory extends RunnableStoryDelegator {
     }
 
     @Test
-    public void runStory() throws Throwable {
-        super.runStory();
+    public void run() throws Throwable {
+        super.run();
     }
 
     public static class JUnitStoryDelegate extends AbstractStory {

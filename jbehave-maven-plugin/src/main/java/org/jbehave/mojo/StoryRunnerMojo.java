@@ -33,7 +33,7 @@ public class StoryRunnerMojo extends AbstractStoryMojo {
             String storyName = story.getClass().getName();
             try {
                 getLog().info("Running story " + storyName);
-                story.runStory();
+                story.run();
             } catch (Throwable e) {
                 String message = "Failure in running story " + storyName;
                 if (batch) {

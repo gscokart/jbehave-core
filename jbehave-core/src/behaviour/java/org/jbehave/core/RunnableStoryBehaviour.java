@@ -24,7 +24,7 @@ public class RunnableStoryBehaviour {
 
         // When
         RunnableStory story = new MyStory(runner, configuration, steps);
-        story.runStory();
+        story.run();
 
         // Then
         verify(runner).run(configuration, storyClass, steps);
@@ -40,7 +40,7 @@ public class RunnableStoryBehaviour {
 
         // When
         MyStories story = new MyStories(runner, configuration, steps);
-        story.runStory();
+        story.run();
 
         // Then
         verify(runner).run(configuration, story.storyPaths(), steps);
@@ -55,7 +55,7 @@ public class RunnableStoryBehaviour {
 
         // When
         MyInvalidStories story = new MyInvalidStories(runner, configuration, steps);
-        story.runStory();
+        story.run();
 
     }
 
@@ -69,7 +69,7 @@ public class RunnableStoryBehaviour {
 
         // When
         MyInvalidDelegator story = new MyInvalidDelegator();
-        story.runStory();
+        story.run();
 
     }
 
@@ -85,7 +85,7 @@ public class RunnableStoryBehaviour {
         RunnableStory story = new MyStory(runner, steps);
         ensureThat(story.getConfiguration(), Matchers.not(Matchers.sameInstance(configuration)));
         story.useConfiguration(configuration);
-        story.runStory();
+        story.run();
 
         // Then
         ensureThat(!(story.getConfiguration() instanceof PropertyBasedStoryConfiguration));
@@ -104,7 +104,7 @@ public class RunnableStoryBehaviour {
         // When
         RunnableStory story = new MyStory(runner, configuration);
         story.addSteps(steps);
-        story.runStory();
+        story.run();
 
         // Then
         verify(runner).run(configuration, storyClass, steps);

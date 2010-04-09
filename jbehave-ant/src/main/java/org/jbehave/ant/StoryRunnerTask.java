@@ -32,7 +32,7 @@ public class StoryRunnerTask extends AbstractStoryTask {
             String name = story.getClass().getName();
             try {
                 log("Running story " + name);
-                story.runStory();
+                story.run();
             } catch (Throwable e) {
                 String message = "Failure in running story " + name;
                 if (batch) {

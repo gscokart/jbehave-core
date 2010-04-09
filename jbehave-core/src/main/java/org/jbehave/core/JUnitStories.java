@@ -22,8 +22,8 @@ public abstract class JUnitStories extends RunnableStoryDelegator {
     }
 
     @Test
-    public void runStory() throws Throwable {
-        super.runStory();
+    public void run() throws Throwable {
+        super.run();
     }
 
     protected abstract List<String> storyPaths();

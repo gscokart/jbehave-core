@@ -6,16 +6,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jbehave.core.errors.InvalidRunnableStoryException;
-import org.jbehave.core.model.KeyWords;
 import org.jbehave.core.steps.CandidateSteps;
 
 /**
  * <p>
  * Abstract implementation of RunnableStory which is intended as a base
  * class for delegate implementations of RunnableStory. As such, it has no explicit
- * supports for any test framework, i.e. it requires the {@link RunnableStory#runStory()}
+ * supports for any test framework, i.e. it requires the {@link RunnableStory#run()}
  * method to be invoked directly, and the class of the story being run needs
- * to be provided explicitly.  The {@link RunnableStory#runStory()} method then
+ * to be provided explicitly.  The {@link RunnableStory#run ()} method then
  * uses the {@link StoryRunner} to run the story or stories, using the provided
  * {@link StoryConfiguration} and the {@link CandidateSteps}.
  * </p>
@@ -47,7 +46,7 @@ public abstract class AbstractStory implements RunnableStory {
         this.storyPaths = storyPaths;
     }
 
-    public void runStory() throws Throwable {
+    public void run() throws Throwable {
         if (storyClass != null) {
             storyRunner.run(configuration, storyClass, candidateSteps());
         } else if (storyPaths != null) {

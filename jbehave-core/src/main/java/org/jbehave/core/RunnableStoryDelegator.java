@@ -33,8 +33,8 @@ public abstract class RunnableStoryDelegator implements RunnableStory {
         return delegate;
     }
 
-    public void runStory() throws Throwable {
-        this.delegate().runStory();
+    public void run() throws Throwable {
+        this.delegate().run();
     }
 
     public void useConfiguration(StoryConfiguration configuration) {
