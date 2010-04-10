@@ -26,26 +26,24 @@ public class StoriesRunner {
                 runnerMonitor.runningStory(storyName);
                 story.run();
             } catch (Throwable e) {
-                String message = "Failure in running story " + storyName;
                 if (runnerMode.batch()) {
                     // collect and postpone decision to throw exception
                     failedStories.put(storyName, e);
                 } else {
                     if (runnerMode.ignoreFailure()) {
-                        runnerMonitor.storyFailed(message, e);
+                        runnerMonitor.storyFailed(storyName, e);
                     } else {
-                        throw new RunningStoriesFailedException(message, e);
+                        throw new RunningStoriesFailedException("Failed to run story "+storyName, e);
                     }
                 }
             }
         }
 
         if (runnerMode.batch() && failedStories.size() > 0) {
-            String message = "Failure in running stories: " + format(failedStories);
             if ( runnerMode.ignoreFailure() ){
-                 runnerMonitor.batchStoriesFailed(message);
+                 runnerMonitor.batchStoriesFailed(format(failedStories));
             } else {
-                throw new RunningStoriesFailedException(message);
+                throw new RunningStoriesFailedException("Failed to run stories in batch: "+format(failedStories));
             }
         }
         

@@ -8,6 +8,9 @@ import java.util.Map;
 
 import org.apache.tools.ant.BuildException;
 import org.jbehave.core.RunnableStory;
+import org.jbehave.core.RunnerMode;
+import org.jbehave.core.RunnerMonitor;
+import org.jbehave.core.StoriesRunner;
 
 /**
  * Ant task that runs stories
@@ -22,51 +25,26 @@ public class StoryRunnerTask extends AbstractStoryTask {
     private boolean batch;
 
     public void execute() throws BuildException {
-        if (skipStories()) {
-            log("Skipped running stories", MSG_INFO);
-            return;
-        }
-
-        Map<String, Throwable> failedStories = new HashMap<String, Throwable>();
-        for (RunnableStory story : stories()) {
-            String name = story.getClass().getName();
-            try {
-                log("Running story " + name);
-                story.run();
-            } catch (Throwable e) {
-                String message = "Failure in running story " + name;
-                if (batch) {
-                    // collect and postpone decision to throw exception
-                    failedStories.put(name, e);
-                } else {
-                    if (ignoreFailure()) {
-                        log(message, e, MSG_WARN);
-                    } else {
-                        throw new BuildException(message, e);
-                    }
-                }
-            }
-        }
-        if (batch && failedStories.size() > 0) {
-            String message = "Failure in running stories: " + format(failedStories);
-            if (ignoreFailure()) {
-                log(message, MSG_WARN);
-            } else {
-                throw new BuildException(message);
-            }
-        }
+        StoriesRunner runner = new StoriesRunner(new AntRunnerMonitor(), new RunnerMode(batch, skipStories(), ignoreFailure()));
+        runner.run(stories());
     }
 
-    private String format(Map<String, Throwable> failedStories) {
-        StringBuffer sb = new StringBuffer();
-        for (String storyName : failedStories.keySet()) {
-            Throwable cause = failedStories.get(storyName);
-            sb.append("\n");
-            sb.append(storyName);
-            sb.append(": ");
-            sb.append(cause.getMessage());
+    private class AntRunnerMonitor implements RunnerMonitor {
+        public void batchStoriesFailed(String failedStories) {
+            log("Failed to run stories batch: "+failedStories, MSG_WARN);
         }
-        return sb.toString();
+
+        public void storyFailed(String storyName, Throwable e) {
+            log("Failed to run story "+storyName, e, MSG_WARN);
+        }
+
+        public void runningStory(String storyName) {
+            log("Running story "+storyName,  MSG_INFO);
+        }
+
+        public void storiesNotRun() {
+            log("Stories not run");
+        }
     }
 
     public void setBatch(boolean batch) {

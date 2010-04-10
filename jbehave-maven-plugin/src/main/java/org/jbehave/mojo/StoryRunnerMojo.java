@@ -27,12 +27,12 @@ public class StoryRunnerMojo extends AbstractStoryMojo {
     }
 
     private class MavenRunnerMonitor implements RunnerMonitor {
-        public void batchStoriesFailed(String message) {
-            getLog().warn(message);
+        public void batchStoriesFailed(String failedStories) {
+            getLog().warn("Failed to run stories batch: "+failedStories);
         }
 
-        public void storyFailed(String message, Throwable e) {
-            getLog().warn(message, e);
+        public void storyFailed(String storyName, Throwable e) {
+            getLog().warn("Failed to run story "+storyName, e);
         }
 
         public void runningStory(String storyName) {
