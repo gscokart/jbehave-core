@@ -16,7 +16,7 @@ import org.jbehave.core.model.Story;
  */
 public class UnmatchedToPendingStepCreator implements StepCreator {
 
-    public Step[] createStepsFrom(Story story, Stage stage, boolean embeddedStory, CandidateSteps... candidateSteps) {
+    public List<Step> createStepsFrom(List<CandidateSteps> candidateSteps, Story story, Stage stage, boolean embeddedStory) {
         List<Step> steps = new ArrayList<Step>();
         for (CandidateSteps candidates : candidateSteps) {
             switch (stage) {
@@ -30,20 +30,20 @@ public class UnmatchedToPendingStepCreator implements StepCreator {
                     break;
             }
         }
-        return steps.toArray(new Step[steps.size()]);
+        return steps;
     }
 
-    public Step[] createStepsFrom(Scenario scenario, Map<String, String> tableRow,
-            CandidateSteps... candidateSteps) {
+    public List<Step> createStepsFrom(List<CandidateSteps> candidateSteps, Scenario scenario, Map<String, String> tableRow
+    ) {
         List<Step> steps = new ArrayList<Step>();
 
         addMatchedScenarioSteps(scenario, steps, tableRow, candidateSteps);
         addBeforeAndAfterScenarioSteps(steps, candidateSteps);
 
-        return steps.toArray(new Step[steps.size()]);
+        return steps;
     }
 
-    private void addBeforeAndAfterScenarioSteps(List<Step> steps, CandidateSteps[] candidateSteps) {
+    private void addBeforeAndAfterScenarioSteps(List<Step> steps, List<CandidateSteps> candidateSteps) {
         for (CandidateSteps candidates : candidateSteps) {
             steps.addAll(0, candidates.runBeforeScenario());
         }
@@ -54,13 +54,13 @@ public class UnmatchedToPendingStepCreator implements StepCreator {
     }
 
     private void addMatchedScenarioSteps(Scenario scenario, List<Step> steps,
-            Map<String, String> tableRow, CandidateSteps... candidateSteps) {
+                                         Map<String, String> tableRow, List<CandidateSteps> candidateSteps) {
         List<CandidateStep> prioritised = prioritise(candidateSteps);
         for (String stringStep : scenario.getSteps()) {
             Step step = new PendingStep(stringStep);
             for (CandidateStep candidate : prioritised) {
                 if (candidate.ignore(stringStep)) { // ignorable steps are added
-                                                    // so they can be reported
+                    // so they can be reported
                     step = new IgnorableStep(stringStep);
                     break;
                 }
@@ -73,7 +73,7 @@ public class UnmatchedToPendingStepCreator implements StepCreator {
         }
     }
 
-    private List<CandidateStep> prioritise(CandidateSteps[] candidateSteps) {
+    private List<CandidateStep> prioritise(List<CandidateSteps> candidateSteps) {
         List<CandidateStep> steps = new ArrayList<CandidateStep>();
         for (CandidateSteps candidates : candidateSteps) {
             steps.addAll(asList(candidates.getSteps()));
@@ -81,7 +81,7 @@ public class UnmatchedToPendingStepCreator implements StepCreator {
         Collections.sort(steps, new Comparator<CandidateStep>() {
             public int compare(CandidateStep o1, CandidateStep o2) {
                 // sort by decreasing order of priority
-                return -1* o1.getPriority().compareTo(o2.getPriority());
+                return -1 * o1.getPriority().compareTo(o2.getPriority());
             }
         });
         return steps;

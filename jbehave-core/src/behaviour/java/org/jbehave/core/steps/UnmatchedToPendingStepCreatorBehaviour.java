@@ -8,6 +8,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.jbehave.core.model.Scenario;
@@ -33,12 +34,12 @@ public class UnmatchedToPendingStepCreatorBehaviour {
         when(steps.getSteps()).thenReturn(new CandidateStep[] { candidate });
 
         // When
-        Step[] executableSteps = creator
-                .createStepsFrom(new Scenario(asList("my step")), tableRow, steps);
+        List<Step> executableSteps = creator
+                .createStepsFrom(asList(steps), new Scenario(asList("my step")), tableRow);
 
         // Then
-        ensureThat(executableSteps.length, equalTo(1));
-        ensureThat(executableSteps[0], equalTo(executableStep));
+        ensureThat(executableSteps.size(), equalTo(1));
+        ensureThat(executableSteps.get(0), equalTo(executableStep));
     }
 
     @Test
@@ -53,11 +54,11 @@ public class UnmatchedToPendingStepCreatorBehaviour {
         when(steps.getSteps()).thenReturn(new CandidateStep[] { candidate });
 
         // When
-        Step[] executableSteps = creator
-                .createStepsFrom(new Scenario(asList("my step")), tableRow, steps);
+        List<Step> executableSteps = creator
+                .createStepsFrom(asList(steps), new Scenario(asList("my step")), tableRow);
         // Then
-        ensureThat(executableSteps.length, equalTo(1));
-        StepResult result = executableSteps[0].perform();
+        ensureThat(executableSteps.size(), equalTo(1));
+        StepResult result = executableSteps.get(0).perform();
         ensureThat(result.getThrowable().getMessage(), equalTo("Pending: my step"));
     }
 
@@ -89,12 +90,11 @@ public class UnmatchedToPendingStepCreatorBehaviour {
 
         // When we create the series of steps for the core
         UnmatchedToPendingStepCreator creator = new UnmatchedToPendingStepCreator();
-        Step[] executableSteps = creator.createStepsFrom(new Scenario(asList("my step")), tableRow,
-                steps1, steps2);
+        List<Step> executableSteps = creator.createStepsFrom(asList(steps1, steps2), new Scenario(asList("my step")), tableRow
+        );
 
         // Then all before and after steps should be added
-        ensureThat(executableSteps, array(equalTo(stepBefore2), equalTo(stepBefore1), equalTo(normalStep),
-                equalTo(stepAfter1), equalTo(stepAfter2)));
+        ensureThat(executableSteps, equalTo(asList(stepBefore2, stepBefore1, normalStep, stepAfter1, stepAfter2)));
     }
 
     @SuppressWarnings("unchecked")
@@ -117,14 +117,14 @@ public class UnmatchedToPendingStepCreatorBehaviour {
 
         // When we create the series of steps for the core
         UnmatchedToPendingStepCreator creator = new UnmatchedToPendingStepCreator();
-        Step[] beforeSteps = creator.createStepsFrom(new Story(new Scenario()), Stage.BEFORE,
-                embeddedStory, steps1, steps2);
-        Step[] afterSteps = creator.createStepsFrom(new Story(new Scenario()), Stage.AFTER,
-                embeddedStory, steps1, steps2);
+        List<Step> beforeSteps = creator.createStepsFrom(asList(steps1, steps2), new Story(new Scenario()), Stage.BEFORE,
+                embeddedStory);
+        List<Step> afterSteps = creator.createStepsFrom(asList(steps1, steps2), new Story(new Scenario()), Stage.AFTER,
+                embeddedStory);
 
         // Then all before and after steps should be added
-        ensureThat(beforeSteps, array(equalTo(stepBefore1), equalTo(stepBefore2)));
-        ensureThat(afterSteps, array(equalTo(stepAfter1), equalTo(stepAfter2)));
+        ensureThat(beforeSteps, equalTo(asList(stepBefore1, stepBefore2)));
+        ensureThat(afterSteps, equalTo(asList(stepAfter1, stepAfter2)));
     }
 
     @Test
@@ -163,11 +163,11 @@ public class UnmatchedToPendingStepCreatorBehaviour {
         
         // When we create the series of steps for the core
         UnmatchedToPendingStepCreator creator = new UnmatchedToPendingStepCreator();
-        Step[] steps = creator.createStepsFrom(new Scenario(asList(stepAsString)), tableRow,
-                steps1, steps2);
+        List<Step> steps = creator.createStepsFrom(asList(steps1, steps2), new Scenario(asList(stepAsString)), tableRow
+        );
 
         // Then the step with highest priority is returned
-        ensureThat(step4, equalTo(steps[0]));
+        ensureThat(step4, equalTo(steps.get(0)));
     }
 
 }

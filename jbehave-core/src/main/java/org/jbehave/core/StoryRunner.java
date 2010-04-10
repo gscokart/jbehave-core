@@ -122,12 +122,12 @@ public class StoryRunner {
     }
 
     private void runStorySteps(List<CandidateSteps> candidateSteps, Story story, boolean embeddedStory, Stage stage) {
-        runSteps(stepCreator.createStepsFrom(story, stage, embeddedStory, candidateSteps.toArray(new CandidateSteps[candidateSteps.size()])));
+        runSteps(stepCreator.createStepsFrom(candidateSteps, story, stage, embeddedStory));
     }
 
     private void runScenarioSteps(
             Scenario scenario, Map<String, String> tableRow, List<CandidateSteps> candidateSteps) {
-        runSteps(stepCreator.createStepsFrom(scenario, tableRow, candidateSteps.toArray(new CandidateSteps[candidateSteps.size()])));
+        runSteps(stepCreator.createStepsFrom(candidateSteps, scenario, tableRow));
     }
 
     /**
@@ -135,8 +135,8 @@ public class StoryRunner {
      *
      * @param steps the Steps to run
      */
-    private void runSteps(Step[] steps) {
-        if (steps == null || steps.length == 0) return;
+    private void runSteps(List<Step> steps) {
+        if (steps == null || steps.size() == 0) return;
         state = new FineSoFar();
         for (Step step : steps) {
             state.run(step);
