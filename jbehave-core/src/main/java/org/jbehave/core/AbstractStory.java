@@ -50,7 +50,9 @@ public abstract class AbstractStory implements RunnableStory {
         if (storyClass != null) {
             storyRunner.run(configuration, candidateSteps, storyClass);
         } else if (storyPaths != null) {
-            storyRunner.run(configuration, candidateSteps, storyPaths);
+            for (String storyPath : storyPaths) {
+                storyRunner.run(configuration, candidateSteps, storyPath);
+            }
         } else {
             throw new InvalidRunnableStoryException("Either a RunnableStory class or a list of story paths must be provided");
         }

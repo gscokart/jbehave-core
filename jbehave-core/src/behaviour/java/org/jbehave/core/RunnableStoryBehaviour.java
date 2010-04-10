@@ -43,7 +43,8 @@ public class RunnableStoryBehaviour {
         story.run();
 
         // Then
-        verify(runner).run(configuration, asList(steps), story.storyPaths());
+        verify(runner).run(configuration, asList(steps), "org/jbehave/core/story1");
+        verify(runner).run(configuration, asList(steps), "org/jbehave/core/story2");
     }
 
     @Test(expected= InvalidRunnableStoryException.class)
