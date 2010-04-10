@@ -19,7 +19,7 @@ import org.jbehave.core.steps.StepResult;
 import org.jbehave.core.steps.StepCreator.Stage;
 
 /**
- * Allows to run a story and describe the results to the {@link StoryReporter}.
+ * Allows to run stories and describe the results to the {@link StoryReporter}.
  *
  * @author Elizabeth Keogh
  * @author Mauro Talevi
@@ -80,11 +80,11 @@ public class StoryRunner {
         runStorySteps(candidateSteps, story, embeddedStory, StepCreator.Stage.BEFORE);
         for (Scenario scenario : story.getScenarios()) {
             reporter.beforeScenario(scenario.getTitle());
-            runGivenStories(configuration, candidateSteps, scenario); // first run any given scenarios, if any
-            if (isExamplesTableScenario(scenario)) { // run examples table scenario
+            runGivenStories(configuration, candidateSteps, scenario); // first run any given stories, if any
+            if (isExamplesTableScenario(scenario)) { // run as examples table scenario
                 runExamplesTableScenario(candidateSteps, scenario);
-            } else { // run plain old scenario
-                runScenarioSteps(scenario, new HashMap<String, String>(), candidateSteps);
+            } else { // run as plain old scenario
+                runScenarioSteps(candidateSteps, scenario, new HashMap<String, String>());
             }
             reporter.afterScenario();
         }
@@ -96,11 +96,11 @@ public class StoryRunner {
     private void runGivenStories(StoryConfiguration configuration,
                                  List<CandidateSteps> candidateSteps, Scenario scenario)
             throws Throwable {
+        // run given story in embedded mode
         List<String> givenStoryPaths = scenario.getGivenStoryPaths();
         if (givenStoryPaths.size() > 0) {
             reporter.givenStoryPaths(givenStoryPaths);
             for (String storyPath : givenStoryPaths) {
-                // run given story in embedded mode
                 run(configuration, candidateSteps, storyPath, true);
             }
         }
@@ -116,7 +116,7 @@ public class StoryRunner {
         reporter.beforeExamples(scenario.getSteps(), table);
         for (Map<String, String> tableRow : table.getRows()) {
             reporter.example(tableRow);
-            runScenarioSteps(scenario, tableRow, candidateSteps);
+            runScenarioSteps(candidateSteps, scenario, tableRow);
         }
         reporter.afterExamples();
     }
@@ -126,12 +126,12 @@ public class StoryRunner {
     }
 
     private void runScenarioSteps(
-            Scenario scenario, Map<String, String> tableRow, List<CandidateSteps> candidateSteps) {
+            List<CandidateSteps> candidateSteps, Scenario scenario, Map<String, String> tableRow) {
         runSteps(stepCreator.createStepsFrom(candidateSteps, scenario, tableRow));
     }
 
     /**
-     * Runs a list of steps.
+     * Runs a list of steps, while keeping state
      *
      * @param steps the Steps to run
      */
