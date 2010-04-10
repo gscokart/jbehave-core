@@ -27,7 +27,7 @@ public class RunnableStoryBehaviour {
         story.run();
 
         // Then
-        verify(runner).run(configuration, storyClass, steps);
+        verify(runner).run(configuration, asList(steps), storyClass);
     }
 
 
@@ -43,7 +43,7 @@ public class RunnableStoryBehaviour {
         story.run();
 
         // Then
-        verify(runner).run(configuration, story.storyPaths(), steps);
+        verify(runner).run(configuration, asList(steps), story.storyPaths());
     }
 
     @Test(expected= InvalidRunnableStoryException.class)
@@ -89,7 +89,7 @@ public class RunnableStoryBehaviour {
 
         // Then
         ensureThat(!(story.getConfiguration() instanceof PropertyBasedStoryConfiguration));
-        verify(runner).run(configuration, storyClass, steps);
+        verify(runner).run(configuration,  asList(steps), storyClass);
     }
 
 
@@ -107,7 +107,7 @@ public class RunnableStoryBehaviour {
         story.run();
 
         // Then
-        verify(runner).run(configuration, storyClass, steps);
+        verify(runner).run(configuration,  asList(steps), storyClass);
     }
 
     private class MyStory extends JUnitStory {

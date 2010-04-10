@@ -48,9 +48,9 @@ public abstract class AbstractStory implements RunnableStory {
 
     public void run() throws Throwable {
         if (storyClass != null) {
-            storyRunner.run(configuration, storyClass, candidateSteps());
+            storyRunner.run(configuration, candidateSteps, storyClass);
         } else if (storyPaths != null) {
-            storyRunner.run(configuration, storyPaths, candidateSteps());
+            storyRunner.run(configuration, candidateSteps, storyPaths);
         } else {
             throw new InvalidRunnableStoryException("Either a RunnableStory class or a list of story paths must be provided");
         }
@@ -73,10 +73,7 @@ public abstract class AbstractStory implements RunnableStory {
     }
 
     public void generateStepdoc() {
-        configuration.stepdocReporter().report(configuration.stepdocGenerator().generate(candidateSteps()));
+        configuration.stepdocReporter().report(configuration.stepdocGenerator().generate(candidateSteps.toArray(new CandidateSteps[candidateSteps.size()])));
     }
 
-    private CandidateSteps[] candidateSteps() {
-        return candidateSteps.toArray(new CandidateSteps[candidateSteps.size()]);
-    }
 }

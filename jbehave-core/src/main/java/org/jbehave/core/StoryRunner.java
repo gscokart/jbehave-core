@@ -35,30 +35,30 @@ public class StoryRunner {
     private Throwable throwable;
     private StepCreator stepCreator;
 
-    public void run(StoryConfiguration configuration, Class<? extends RunnableStory> storyClass, CandidateSteps... candidateSteps) throws Throwable {
+    public void run(StoryConfiguration configuration, List<CandidateSteps> candidateSteps, Class<? extends RunnableStory> storyClass) throws Throwable {
         String storyPath = configuration.storyPathResolver().resolve(storyClass);
-        run(configuration, storyPath, candidateSteps);
+        run(configuration, candidateSteps, storyPath);
     }
 
-    public void run(StoryConfiguration configuration, List<String> storyPaths, CandidateSteps... candidateSteps) throws Throwable {
+    public void run(StoryConfiguration configuration, List<CandidateSteps> candidateSteps, List<String> storyPaths) throws Throwable {
         for (String storyPath : storyPaths) {
-            run(configuration, storyPath, candidateSteps);
+            run(configuration, candidateSteps, storyPath);
         }
     }
 
-    public void run(StoryConfiguration configuration, String storyPath, CandidateSteps... candidateSteps) throws Throwable {
+    public void run(StoryConfiguration configuration, List<CandidateSteps> candidateSteps, String storyPath) throws Throwable {
         Story story = defineStory(configuration, storyPath);
-        run(configuration, story, candidateSteps);
+        run(configuration, candidateSteps, story);
     }
 
-    public void run(StoryConfiguration configuration, Story story, CandidateSteps... candidateSteps) throws Throwable {
+    public void run(StoryConfiguration configuration, List<CandidateSteps> candidateSteps, Story story) throws Throwable {
         // always start in a non-embedded mode
-        run(configuration, story, false, candidateSteps);
+        run(configuration, candidateSteps, story, false);
     }
 
-    public void run(StoryConfiguration configuration, String storyPath, boolean embeddedStory, CandidateSteps... candidateSteps) throws Throwable {
+    public void run(StoryConfiguration configuration, List<CandidateSteps> candidateSteps, String storyPath, boolean embeddedStory) throws Throwable {
         Story story = defineStory(configuration, storyPath);
-        run(configuration, story, embeddedStory, candidateSteps);
+        run(configuration, candidateSteps, story, embeddedStory);
     }
 
     public Story defineStory(StoryConfiguration storyConfiguration, String storyPath) {
@@ -68,7 +68,7 @@ public class StoryRunner {
         return story;
     }
 
-    public void run(StoryConfiguration configuration, Story story, boolean embeddedStory, CandidateSteps... candidateSteps) throws Throwable {
+    public void run(StoryConfiguration configuration, List<CandidateSteps> candidateSteps, Story story, boolean embeddedStory) throws Throwable {
         stepCreator = configuration.stepCreator();
         reporter = configuration.storyReporter(story.getPath());
         pendingStepStrategy = configuration.pendingErrorStrategy();
@@ -77,31 +77,31 @@ public class StoryRunner {
         throwable = null;
 
         reporter.beforeStory(story, embeddedStory);
-        runStorySteps(story, embeddedStory, StepCreator.Stage.BEFORE, candidateSteps);
+        runStorySteps(candidateSteps, story, embeddedStory, StepCreator.Stage.BEFORE);
         for (Scenario scenario : story.getScenarios()) {
             reporter.beforeScenario(scenario.getTitle());
-            runGivenStories(configuration, scenario, candidateSteps); // first run any given scenarios, if any
+            runGivenStories(configuration, candidateSteps, scenario); // first run any given scenarios, if any
             if (isExamplesTableScenario(scenario)) { // run examples table scenario
-                runExamplesTableScenario(configuration, scenario, candidateSteps);
+                runExamplesTableScenario(candidateSteps, scenario);
             } else { // run plain old scenario
-                runScenarioSteps(configuration, scenario, new HashMap<String, String>(), candidateSteps);
+                runScenarioSteps(scenario, new HashMap<String, String>(), candidateSteps);
             }
             reporter.afterScenario();
         }
-        runStorySteps(story, embeddedStory, StepCreator.Stage.AFTER, candidateSteps);
+        runStorySteps(candidateSteps, story, embeddedStory, StepCreator.Stage.AFTER);
         reporter.afterStory(embeddedStory);
         currentStrategy.handleError(throwable);
     }
 
     private void runGivenStories(StoryConfiguration configuration,
-                                   Scenario scenario, CandidateSteps... candidateSteps)
+                                 List<CandidateSteps> candidateSteps, Scenario scenario)
             throws Throwable {
         List<String> givenStoryPaths = scenario.getGivenStoryPaths();
         if (givenStoryPaths.size() > 0) {
             reporter.givenStoryPaths(givenStoryPaths);
             for (String storyPath : givenStoryPaths) {
                 // run given story in embedded mode
-                run(configuration, storyPath, true, candidateSteps);
+                run(configuration, candidateSteps, storyPath, true);
             }
         }
     }
@@ -110,24 +110,24 @@ public class StoryRunner {
         return scenario.getTable().getRowCount() > 0;
     }
 
-    private void runExamplesTableScenario(StoryConfiguration configuration,
-                                          Scenario scenario, CandidateSteps... candidateSteps) {
+    private void runExamplesTableScenario(
+            List<CandidateSteps> candidateSteps, Scenario scenario) {
         ExamplesTable table = scenario.getTable();
         reporter.beforeExamples(scenario.getSteps(), table);
         for (Map<String, String> tableRow : table.getRows()) {
             reporter.example(tableRow);
-            runScenarioSteps(configuration, scenario, tableRow, candidateSteps);
+            runScenarioSteps(scenario, tableRow, candidateSteps);
         }
         reporter.afterExamples();
     }
 
-    private void runStorySteps(Story story, boolean embeddedStory, Stage stage, CandidateSteps... candidateSteps) {
-        runSteps(stepCreator.createStepsFrom(story, stage, embeddedStory, candidateSteps));
+    private void runStorySteps(List<CandidateSteps> candidateSteps, Story story, boolean embeddedStory, Stage stage) {
+        runSteps(stepCreator.createStepsFrom(story, stage, embeddedStory, candidateSteps.toArray(new CandidateSteps[candidateSteps.size()])));
     }
 
-    private void runScenarioSteps(StoryConfiguration configuration,
-                                  Scenario scenario, Map<String, String> tableRow, CandidateSteps... candidateSteps) {
-        runSteps(stepCreator.createStepsFrom(scenario, tableRow, candidateSteps));
+    private void runScenarioSteps(
+            Scenario scenario, Map<String, String> tableRow, List<CandidateSteps> candidateSteps) {
+        runSteps(stepCreator.createStepsFrom(scenario, tableRow, candidateSteps.toArray(new CandidateSteps[candidateSteps.size()])));
     }
 
     /**
