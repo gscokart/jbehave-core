@@ -1,29 +1,28 @@
 package org.jbehave.core.steps;
 
-import static java.util.Arrays.asList;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.collection.IsArray.array;
-import static org.jbehave.Ensure.ensureThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.jbehave.core.model.Scenario;
 import org.jbehave.core.model.Story;
 import org.jbehave.core.steps.StepCreator.Stage;
 import org.junit.Test;
 
-public class UnmatchedToPendingStepCreatorBehaviour {
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static java.util.Arrays.asList;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.jbehave.Ensure.ensureThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+public class MarkUnmatchedStepsAsPendingBehaviour {
 
     private Map<String, String> tableRow = new HashMap<String, String>();
 
     @Test
     public void shouldMatchUpStepsAndScenarioDefinitionToCreateExecutableSteps() {
         // Given
-        UnmatchedToPendingStepCreator creator = new UnmatchedToPendingStepCreator();
+        MarkUnmatchedStepsAsPending stepCreator = new MarkUnmatchedStepsAsPending();
 
         CandidateStep candidate = mock(CandidateStep.class);
         CandidateSteps steps = mock(Steps.class);
@@ -34,7 +33,7 @@ public class UnmatchedToPendingStepCreatorBehaviour {
         when(steps.getSteps()).thenReturn(new CandidateStep[] { candidate });
 
         // When
-        List<Step> executableSteps = creator
+        List<Step> executableSteps = stepCreator
                 .createStepsFrom(asList(steps), new Scenario(asList("my step")), tableRow);
 
         // Then
@@ -45,7 +44,7 @@ public class UnmatchedToPendingStepCreatorBehaviour {
     @Test
     public void shouldProvidePendingStepsForAnyStepsWhichAreNotAvailable() {
         // Given
-        UnmatchedToPendingStepCreator creator = new UnmatchedToPendingStepCreator();
+        MarkUnmatchedStepsAsPending stepCreator = new MarkUnmatchedStepsAsPending();
 
         CandidateStep candidate = mock(CandidateStep.class);
         CandidateSteps steps = mock(Steps.class);
@@ -54,7 +53,7 @@ public class UnmatchedToPendingStepCreatorBehaviour {
         when(steps.getSteps()).thenReturn(new CandidateStep[] { candidate });
 
         // When
-        List<Step> executableSteps = creator
+        List<Step> executableSteps = stepCreator
                 .createStepsFrom(asList(steps), new Scenario(asList("my step")), tableRow);
         // Then
         ensureThat(executableSteps.size(), equalTo(1));
@@ -89,8 +88,8 @@ public class UnmatchedToPendingStepCreatorBehaviour {
         when(steps2.getSteps()).thenReturn(new CandidateStep[] {});
 
         // When we create the series of steps for the core
-        UnmatchedToPendingStepCreator creator = new UnmatchedToPendingStepCreator();
-        List<Step> executableSteps = creator.createStepsFrom(asList(steps1, steps2), new Scenario(asList("my step")), tableRow
+        MarkUnmatchedStepsAsPending stepCreator = new MarkUnmatchedStepsAsPending();
+        List<Step> executableSteps = stepCreator.createStepsFrom(asList(steps1, steps2), new Scenario(asList("my step")), tableRow
         );
 
         // Then all before and after steps should be added
@@ -116,10 +115,10 @@ public class UnmatchedToPendingStepCreatorBehaviour {
         when(steps2.runAfterStory(embeddedStory)).thenReturn(asList(stepAfter2));
 
         // When we create the series of steps for the core
-        UnmatchedToPendingStepCreator creator = new UnmatchedToPendingStepCreator();
-        List<Step> beforeSteps = creator.createStepsFrom(asList(steps1, steps2), new Story(new Scenario()), Stage.BEFORE,
+        MarkUnmatchedStepsAsPending stepCreator = new MarkUnmatchedStepsAsPending();
+        List<Step> beforeSteps = stepCreator.createStepsFrom(asList(steps1, steps2), new Story(new Scenario()), Stage.BEFORE,
                 embeddedStory);
-        List<Step> afterSteps = creator.createStepsFrom(asList(steps1, steps2), new Story(new Scenario()), Stage.AFTER,
+        List<Step> afterSteps = stepCreator.createStepsFrom(asList(steps1, steps2), new Story(new Scenario()), Stage.AFTER,
                 embeddedStory);
 
         // Then all before and after steps should be added
@@ -162,8 +161,8 @@ public class UnmatchedToPendingStepCreatorBehaviour {
         when(candidate4.createFrom(tableRow, stepAsString)).thenReturn(step4);
         
         // When we create the series of steps for the core
-        UnmatchedToPendingStepCreator creator = new UnmatchedToPendingStepCreator();
-        List<Step> steps = creator.createStepsFrom(asList(steps1, steps2), new Scenario(asList(stepAsString)), tableRow
+        MarkUnmatchedStepsAsPending stepCreator = new MarkUnmatchedStepsAsPending();
+        List<Step> steps = stepCreator.createStepsFrom(asList(steps1, steps2), new Scenario(asList(stepAsString)), tableRow
         );
 
         // Then the step with highest priority is returned

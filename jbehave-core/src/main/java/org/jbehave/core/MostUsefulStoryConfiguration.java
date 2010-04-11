@@ -7,9 +7,9 @@ import org.jbehave.core.parser.*;
 import org.jbehave.core.reporters.*;
 import org.jbehave.core.reporters.StoryReporter;
 import org.jbehave.core.steps.DefaultStepdocGenerator;
+import org.jbehave.core.steps.MarkUnmatchedStepsAsPending;
 import org.jbehave.core.steps.StepCreator;
 import org.jbehave.core.steps.StepdocGenerator;
-import org.jbehave.core.steps.UnmatchedToPendingStepCreator;
 
 import java.util.Locale;
 
@@ -32,7 +32,7 @@ public class MostUsefulStoryConfiguration extends StoryConfiguration {
 
     public MostUsefulStoryConfiguration() {
         useKeywords(new LocalizedKeywords(Locale.ENGLISH));
-        useStepCreator(new UnmatchedToPendingStepCreator());
+        useStepCreator(new MarkUnmatchedStepsAsPending());
         useStoryParser(new PatternStoryParser(keywords()));
         useStoryLoader(new LoadFromClasspath());
         useErrorStrategy(ErrorStrategy.RETHROW);

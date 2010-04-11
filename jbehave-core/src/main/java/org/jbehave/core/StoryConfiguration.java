@@ -9,7 +9,7 @@ import org.jbehave.core.reporters.*;
 import org.jbehave.core.steps.DefaultStepdocGenerator;
 import org.jbehave.core.steps.StepCreator;
 import org.jbehave.core.steps.StepdocGenerator;
-import org.jbehave.core.steps.UnmatchedToPendingStepCreator;
+import org.jbehave.core.steps.MarkUnmatchedStepsAsPending;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -40,7 +40,7 @@ public abstract class StoryConfiguration {
     /**
      * Provides pending steps where unmatched steps exist.
      */
-    private StepCreator stepCreator = new UnmatchedToPendingStepCreator();
+    private StepCreator stepCreator = new MarkUnmatchedStepsAsPending();
     /**
      * Parses the textual representation via pattern matching of keywords
      */

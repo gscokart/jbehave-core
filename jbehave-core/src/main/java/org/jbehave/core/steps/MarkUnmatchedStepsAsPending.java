@@ -14,7 +14,7 @@ import org.jbehave.core.model.Story;
 /**
  * StepCreator that marks unmatched steps as {@link StepResult.Pending}
  */
-public class UnmatchedToPendingStepCreator implements StepCreator {
+public class MarkUnmatchedStepsAsPending implements StepCreator {
 
     public List<Step> createStepsFrom(List<CandidateSteps> candidateSteps, Story story, Stage stage, boolean embeddedStory) {
         List<Step> steps = new ArrayList<Step>();
