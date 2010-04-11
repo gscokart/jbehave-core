@@ -21,6 +21,11 @@
       <version>${jbehave.version}</version>
     </dependency>
     <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+      <version>2.5.6</version>
+    </dependency>
+    <dependency>
       <groupId>org.jbehave</groupId>
       <artifactId>jbehave-guice</artifactId>
       <version>${jbehave.version}</version>

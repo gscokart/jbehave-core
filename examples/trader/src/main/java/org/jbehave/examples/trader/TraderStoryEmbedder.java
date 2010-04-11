@@ -55,7 +55,7 @@ public class TraderStoryEmbedder extends StoryEmbedder {
         return asList(new StepsFactory(stepsConfiguration).createCandidateSteps(new TraderSteps(new TradingService()), new BeforeAfterSteps()));
     }
 
-    private TraderPersister mockTradePersister() {
+    protected TraderPersister mockTradePersister() {
         return new TraderPersister(new Trader("Mauro", asList(new Stock("STK1", 10.d))));
     }
 
