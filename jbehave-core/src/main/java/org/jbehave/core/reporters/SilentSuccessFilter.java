@@ -1,17 +1,17 @@
 package org.jbehave.core.reporters;
 
+import org.jbehave.core.model.ExamplesTable;
+import org.jbehave.core.model.Story;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.jbehave.core.model.ExamplesTable;
-import org.jbehave.core.model.Story;
-
 /**
- * Swallows the reports from all stories that pass, providing output only for
- * failing or pending stories.
+ * Filters out the reports from all stories that pass,
+ * The delegate receives output only for failing or pending stories.
  */
-public class PassSilentlyDecorator implements StoryReporter {
+public class SilentSuccessFilter implements StoryReporter {
 
     private final StoryReporter delegate;
     private List<Todo> currentScenario = new ArrayList<Todo>();
@@ -20,7 +20,7 @@ public class PassSilentlyDecorator implements StoryReporter {
     private State afterStoryState = State.SILENT;
     private boolean embeddedStory;
 
-    public PassSilentlyDecorator(StoryReporter delegate) {
+    public SilentSuccessFilter(StoryReporter delegate) {
         this.delegate = delegate;
     }
 

@@ -17,15 +17,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;
 
-public class StepFailureScenarioReporterDecoratorBehaviour {
+public class StepFailureDecoratorBehaviour {
 
 	private StoryReporter delegate;
-	private StepFailureStoryReporterDecorator decorator;
+	private StepFailureDecorator decorator;
 
 	@Before
 	public void createDecorator() {
 		delegate = mock(StoryReporter.class);
-		decorator = new StepFailureStoryReporterDecorator(delegate);
+		decorator = new StepFailureDecorator(delegate);
 	}
 
 	@Test

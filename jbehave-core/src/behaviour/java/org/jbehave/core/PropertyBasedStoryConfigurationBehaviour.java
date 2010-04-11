@@ -7,7 +7,7 @@ import static org.jbehave.Ensure.ensureThat;
 import org.jbehave.core.errors.ErrorStrategy;
 import org.jbehave.core.errors.PendingErrorStrategy;
 import org.jbehave.core.i18n.I18nKeyWords;
-import org.jbehave.core.reporters.PassSilentlyDecorator;
+import org.jbehave.core.reporters.SilentSuccessFilter;
 import org.jbehave.core.reporters.PrintStreamStoryReporter;
 import org.junit.After;
 import org.junit.Before;
@@ -53,7 +53,7 @@ public class PropertyBasedStoryConfigurationBehaviour {
     @Test
     public void shouldSwallowOutputFromPassingScenariossByDefault() {
         System.clearProperty(PropertyBasedStoryConfiguration.OUTPUT_ALL);
-        ensureThat(new PropertyBasedStoryConfiguration().storyReporter(), is(PassSilentlyDecorator.class));
+        ensureThat(new PropertyBasedStoryConfiguration().storyReporter(), is(SilentSuccessFilter.class));
     }
     
     @Test

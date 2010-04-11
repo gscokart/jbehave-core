@@ -13,12 +13,12 @@ import org.jbehave.core.model.Story;
 import org.junit.Test;
 import org.mockito.InOrder;
 
-public class PassSilentlyDecoratorBehaviour {
+public class SilentSuccessFilterBehaviour {
 
     @Test
     public void shouldSwallowOutputFromPassingScenarios() {
         StoryReporter delegate = mock(StoryReporter.class);
-        PassSilentlyDecorator decorator = new PassSilentlyDecorator(delegate);
+        SilentSuccessFilter decorator = new SilentSuccessFilter(delegate);
         List<String> givenStories = asList("path/to/story1", "path/to/story2");
         ExamplesTable examplesTable = new ExamplesTable("|one|two|\n|1|2|\n");
         IllegalArgumentException anException = new IllegalArgumentException();

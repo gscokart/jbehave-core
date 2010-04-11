@@ -75,7 +75,7 @@ public abstract class StoryConfiguration {
      * Reports failing or pending stories to System.out, while silently
      * passing stories.
      */
-    private StoryReporter storyReporter = new PassSilentlyDecorator(new PrintStreamStoryReporter());
+    private StoryReporter storyReporter = new SilentSuccessFilter(new PrintStreamStoryReporter());
     /**
      * Collects story reporters by story path 
      */

@@ -1,11 +1,11 @@
 package org.jbehave.core.reporters;
 
-import java.util.List;
-import java.util.Map;
-
+import org.jbehave.core.errors.StepFailure;
 import org.jbehave.core.model.ExamplesTable;
 import org.jbehave.core.model.Story;
-import org.jbehave.core.errors.StepFailure;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -17,16 +17,16 @@ import org.jbehave.core.errors.StepFailure;
  * 
  * @see StepFailure
  */
-public class StepFailureStoryReporterDecorator implements StoryReporter {
+public class StepFailureDecorator implements StoryReporter {
 
 	private final StoryReporter delegate;
 	private StepFailure failure;
 
-	public StepFailureStoryReporterDecorator(StoryReporter delegate) {
+	public StepFailureDecorator(StoryReporter delegate) {
 		this.delegate = delegate;
 	}
 
-	public void afterScenario() {
+    public void afterScenario() {
 		delegate.afterScenario();
 	}
 
