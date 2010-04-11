@@ -1,10 +1,13 @@
 package org.jbehave.core.reporters;
 
-import static org.apache.commons.lang.StringEscapeUtils.escapeHtml;
-import static org.apache.commons.lang.StringEscapeUtils.escapeXml;
-import static org.jbehave.core.reporters.PrintStreamStoryReporter.Format.PLAIN;
-import static org.jbehave.core.steps.CandidateStep.PARAMETER_VALUE_END;
-import static org.jbehave.core.steps.CandidateStep.PARAMETER_VALUE_START;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Transformer;
+import org.apache.commons.lang.ArrayUtils;
+import org.jbehave.core.i18n.LocalizedKeywords;
+import org.jbehave.core.model.ExamplesTable;
+import org.jbehave.core.model.Keywords;
+import org.jbehave.core.model.Narrative;
+import org.jbehave.core.model.Story;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -15,12 +18,11 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.Transformer;
-import org.apache.commons.lang.ArrayUtils;
-import org.jbehave.core.model.*;
-import org.jbehave.core.model.Story;
-import org.jbehave.core.i18n.LocalizedKeywords;
+import static org.apache.commons.lang.StringEscapeUtils.escapeHtml;
+import static org.apache.commons.lang.StringEscapeUtils.escapeXml;
+import static org.jbehave.core.reporters.PrintStreamOutput.Format.PLAIN;
+import static org.jbehave.core.steps.CandidateStep.PARAMETER_VALUE_END;
+import static org.jbehave.core.steps.CandidateStep.PARAMETER_VALUE_START;
 
 /**
  * <p>
@@ -46,8 +48,8 @@ import org.jbehave.core.i18n.LocalizedKeywords;
  * </pre>
  * 
  * The pattern is by default processed and formatted by the
- * {@link MessageFormat}. Both the {@link #format()} and
- * {@link #lookupPattern()} methods are overrideable and a different formatter
+ * {@link MessageFormat}. Both the {@link #format(String key, String defaultPattern, Object... args)} and
+ * {@link #lookupPattern(String key, String defaultPattern)} methods are overrideable and a different formatter
  * or pattern lookup can be used by subclasses.
  * </p>
  * <p>
@@ -61,7 +63,7 @@ import org.jbehave.core.i18n.LocalizedKeywords;
  * 
  * </p>
  */
-public class PrintStreamStoryReporter implements StoryReporter {
+public class PrintStreamOutput implements StoryReporter {
 
     private static final String EMPTY = "";
 
@@ -74,32 +76,32 @@ public class PrintStreamStoryReporter implements StoryReporter {
     private final boolean reportErrors;
     private Throwable cause;
     
-    public PrintStreamStoryReporter() {
+    public PrintStreamOutput() {
         this(System.out);
     }
 
-    public PrintStreamStoryReporter(PrintStream output) {
+    public PrintStreamOutput(PrintStream output) {
         this(output, new Properties(), new LocalizedKeywords(), false);
     }
 
-    public PrintStreamStoryReporter(Properties outputPatterns) {
+    public PrintStreamOutput(Properties outputPatterns) {
         this(System.out, outputPatterns, new LocalizedKeywords(), false);
     }
 
-    public PrintStreamStoryReporter(Properties outputPatterns, Format format) {
+    public PrintStreamOutput(Properties outputPatterns, Format format) {
         this(System.out, outputPatterns, format, new LocalizedKeywords(), false);
     }
 
-    public PrintStreamStoryReporter(Keywords keywords) {
+    public PrintStreamOutput(Keywords keywords) {
         this(System.out, new Properties(), keywords, false);
     }
 
-    public PrintStreamStoryReporter(PrintStream output, Properties outputPatterns, Keywords keywords,
+    public PrintStreamOutput(PrintStream output, Properties outputPatterns, Keywords keywords,
             boolean reportErrors) {
         this(output, outputPatterns, PLAIN, keywords, reportErrors);
     }
 
-    public PrintStreamStoryReporter(PrintStream output, Properties outputPatterns, Format format,
+    public PrintStreamOutput(PrintStream output, Properties outputPatterns, Format format,
             Keywords keywords, boolean reportErrors) {
         this.output = output;
         this.outputPatterns = outputPatterns;
@@ -253,7 +255,7 @@ public class PrintStreamStoryReporter implements StoryReporter {
      * Looks up the format pattern for the event output by key, conventionally
      * equal to the method name. The pattern is used by the
      * {#format(String,String,Object...)} method and by default is formatted
-     * using the {@link MessageFormat#format()} method. If no pattern is found
+     * using the {@link MessageFormat#format(String, Object...)} method. If no pattern is found
      * for key or needs to be overridden, the default pattern should be
      * returned.
      * 

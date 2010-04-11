@@ -93,19 +93,19 @@ public class StoryReporterBuilder {
     public StoryReporter reporterFor(Format format) {
         switch (format) {
             case CONSOLE:
-                return new PrintStreamStoryReporter();
+                return new PrintStreamOutput();
             case STATS:
                 factory.useConfiguration(fileConfiguration("stats"));
-                return new StatisticsStoryReporter(factory.createPrintStream());
+                return new PostStoryStatisticsDecorator(factory.createPrintStream());
             case TXT:
                 factory.useConfiguration(fileConfiguration("txt"));
-                return new PrintStreamStoryReporter(factory.createPrintStream());
+                return new PrintStreamOutput(factory.createPrintStream());
             case HTML:
                 factory.useConfiguration(fileConfiguration("html"));
-                return new HtmlPrintStreamStoryReporter(factory.createPrintStream());
+                return new HtmlOutput(factory.createPrintStream());
             case XML:
                 factory.useConfiguration(fileConfiguration("xml"));
-                return new XmlPrintStreamStoryReporter(factory.createPrintStream());
+                return new XmlOutput(factory.createPrintStream());
             default:
                 throw new UnsupportedReporterFormatException(format);
         }

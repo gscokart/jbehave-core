@@ -19,7 +19,6 @@ import org.junit.Test;
 
 public class StoryReporterBuilderBehaviour {
 
-
     @Test
     public void shouldBuildWithStatsByDefault() throws IOException {
         FilePrintStreamFactory factory = filePrintSteamFactoryFor(MyStory.class);
@@ -32,7 +31,7 @@ public class StoryReporterBuilderBehaviour {
         ensureThat(reporter instanceof DelegatingStoryReporter);
         Map<Format, StoryReporter> delegates = builder.getDelegates();
         ensureThat(delegates.size(), equalTo(1));
-        ensureThat(delegates.get(STATS) instanceof StatisticsStoryReporter);
+        ensureThat(delegates.get(STATS) instanceof PostStoryStatisticsDecorator);
     }
 
     @Test
@@ -52,7 +51,7 @@ public class StoryReporterBuilderBehaviour {
     @Test
     public void shouldBuildAndOverrideDefaultReporterForAGivenFormat() throws IOException {
         FilePrintStreamFactory factory = filePrintSteamFactoryFor(MyStory.class);
-        final StoryReporter txtReporter = new PrintStreamStoryReporter(factory.createPrintStream(), new Properties(),  new LocalizedKeywords(), true);
+        final StoryReporter txtReporter = new PrintStreamOutput(factory.createPrintStream(), new Properties(),  new LocalizedKeywords(), true);
         StoryReporterBuilder builder = new StoryReporterBuilder(factory){
                public StoryReporter reporterFor(Format format){
                        switch (format) {

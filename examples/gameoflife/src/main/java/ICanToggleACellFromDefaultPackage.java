@@ -3,7 +3,7 @@ import org.jbehave.core.JUnitStory;
 import org.jbehave.core.PropertyBasedStoryConfiguration;
 import org.jbehave.core.parser.RegexStoryParser;
 import org.jbehave.core.parser.StoryParser;
-import org.jbehave.core.reporters.PrintStreamStoryReporter;
+import org.jbehave.core.reporters.PrintStreamOutput;
 import org.jbehave.core.reporters.StoryReporter;
 
 public class ICanToggleACellFromDefaultPackage extends JUnitStory {
@@ -16,7 +16,7 @@ public class ICanToggleACellFromDefaultPackage extends JUnitStory {
             }
             @Override
             public StoryReporter storyReporter() {
-                return new PrintStreamStoryReporter();
+                return new PrintStreamOutput();
             }
         });
         addSteps(new GridSteps());

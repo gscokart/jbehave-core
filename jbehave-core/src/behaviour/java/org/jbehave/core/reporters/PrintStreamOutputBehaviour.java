@@ -29,13 +29,13 @@ import org.jbehave.core.reporters.FilePrintStreamFactory.FileConfiguration;
 import org.jbehave.core.reporters.FreemarkerReportRenderer.RenderingFailedException;
 import org.junit.Test;
 
-public class PrintStreamStoryReporterBehaviour {
+public class PrintStreamOutputBehaviour {
 
     @Test
     public void shouldReportEventsToPrintStream() {
         // Given
         OutputStream out = new ByteArrayOutputStream();
-        StoryReporter reporter = new PrintStreamStoryReporter(new PrintStream(out));
+        StoryReporter reporter = new PrintStreamOutput(new PrintStream(out));
 
         // When
         narrateAnInterestingStory(reporter);
@@ -79,7 +79,7 @@ public class PrintStreamStoryReporterBehaviour {
                 return new PrintStream(out);
             }
         };
-        StoryReporter reporter = new HtmlPrintStreamStoryReporter(factory.createPrintStream());
+        StoryReporter reporter = new HtmlOutput(factory.createPrintStream());
 
         // When
         narrateAnInterestingStory(reporter);
@@ -129,7 +129,7 @@ public class PrintStreamStoryReporterBehaviour {
         patterns.setProperty("afterStory", "</div><!-- after story -->\n");
         patterns.setProperty("afterScenario", "</div><!-- after core -->\n");
         patterns.setProperty("afterExamples", "</div><!-- after examples -->\n");
-        StoryReporter reporter = new HtmlPrintStreamStoryReporter(factory.createPrintStream(), patterns);
+        StoryReporter reporter = new HtmlOutput(factory.createPrintStream(), patterns);
 
         // When
         narrateAnInterestingStory(reporter);
@@ -173,7 +173,7 @@ public class PrintStreamStoryReporterBehaviour {
                 return new PrintStream(out);
             }
         };
-        StoryReporter reporter = new XmlPrintStreamStoryReporter(factory.createPrintStream());
+        StoryReporter reporter = new XmlOutput(factory.createPrintStream());
 
         // When
         narrateAnInterestingStory(reporter);
@@ -249,7 +249,7 @@ public class PrintStreamStoryReporterBehaviour {
         OutputStream stackTrace = new ByteArrayOutputStream();
         exception.printStackTrace(new PrintStream(stackTrace));
         OutputStream out = new ByteArrayOutputStream();
-        StoryReporter reporter = new PrintStreamStoryReporter(new PrintStream(out), new Properties(),
+        StoryReporter reporter = new PrintStreamOutput(new PrintStream(out), new Properties(),
                 new LocalizedKeywords(), true);
 
         // When
@@ -269,7 +269,7 @@ public class PrintStreamStoryReporterBehaviour {
 
         // Given
         out = new ByteArrayOutputStream();
-        reporter = new PrintStreamStoryReporter(new PrintStream(out));
+        reporter = new PrintStreamOutput(new PrintStream(out));
 
         // When
         reporter.beforeScenario("A title");
@@ -293,7 +293,7 @@ public class PrintStreamStoryReporterBehaviour {
         patterns.setProperty("pending", "{0} - {1} - need to implement me\n");
         patterns.setProperty("failed", "{0} <<< {1}\n");
         patterns.setProperty("notPerformed", "{0} : {1} (because of previous pending)\n");
-        StoryReporter reporter = new PrintStreamStoryReporter(new PrintStream(out), patterns, new LocalizedKeywords(),
+        StoryReporter reporter = new PrintStreamOutput(new PrintStream(out), patterns, new LocalizedKeywords(),
                 true);
 
         // When
@@ -319,7 +319,7 @@ public class PrintStreamStoryReporterBehaviour {
         IllegalAccessException exception = new IllegalAccessException("Lasciate in pace i miei soldi!");
         OutputStream out = new ByteArrayOutputStream();
         LocalizedKeywords keywords = new LocalizedKeywords(Locale.ITALIAN);
-        StoryReporter reporter = new PrintStreamStoryReporter(new PrintStream(out), new Properties(), keywords,
+        StoryReporter reporter = new PrintStreamOutput(new PrintStream(out), new Properties(), keywords,
                 true);
 
         // When
@@ -380,7 +380,7 @@ public class PrintStreamStoryReporterBehaviour {
                 switch (format) {
                     case TXT:
                         factory.useConfiguration(new FileConfiguration("text"));
-                        return new PrintStreamStoryReporter(factory.createPrintStream(), new Properties(), new LocalizedKeywords(), true);
+                        return new PrintStreamOutput(factory.createPrintStream(), new Properties(), new LocalizedKeywords(), true);
                     default:
                         return super.reporterFor(format);
                 }

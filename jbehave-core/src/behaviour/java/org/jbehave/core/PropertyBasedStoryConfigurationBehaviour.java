@@ -8,7 +8,7 @@ import org.jbehave.core.errors.ErrorStrategy;
 import org.jbehave.core.errors.PendingErrorStrategy;
 import org.jbehave.core.i18n.LocalizedKeywords;
 import org.jbehave.core.reporters.SilentSuccessFilter;
-import org.jbehave.core.reporters.PrintStreamStoryReporter;
+import org.jbehave.core.reporters.PrintStreamOutput;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -59,7 +59,7 @@ public class PropertyBasedStoryConfigurationBehaviour {
     @Test
     public void shouldOutputAllWhenConfiguredToDoSo() {
         System.setProperty(PropertyBasedStoryConfiguration.OUTPUT_ALL, "true");
-        ensureThat(new PropertyBasedStoryConfiguration().storyReporter(), is(PrintStreamStoryReporter.class));
+        ensureThat(new PropertyBasedStoryConfiguration().storyReporter(), is(PrintStreamOutput.class));
     }
     
     @Test

@@ -5,7 +5,7 @@ import java.io.PrintStream;
 
 import org.jbehave.core.JUnitStory;
 import org.jbehave.core.PropertyBasedStoryConfiguration;
-import org.jbehave.core.reporters.PrintStreamStoryReporter;
+import org.jbehave.core.reporters.PrintStreamOutput;
 import org.jbehave.core.reporters.StoryReporter;
 
 public class MyPendingStory extends JUnitStory {
@@ -15,7 +15,7 @@ public class MyPendingStory extends JUnitStory {
         useConfiguration(new PropertyBasedStoryConfiguration() {
             @Override
             public StoryReporter storyReporter() {
-                return new PrintStreamStoryReporter(new PrintStream(new ByteArrayOutputStream()));
+                return new PrintStreamOutput(new PrintStream(new ByteArrayOutputStream()));
             }
         });
     }

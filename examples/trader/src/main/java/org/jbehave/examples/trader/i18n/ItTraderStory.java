@@ -9,7 +9,7 @@ import org.jbehave.core.model.Keywords;
 import org.jbehave.core.parser.LoadFromClasspath;
 import org.jbehave.core.parser.RegexStoryParser;
 import org.jbehave.core.parser.UnderscoredCamelCaseResolver;
-import org.jbehave.core.reporters.PrintStreamStoryReporter;
+import org.jbehave.core.reporters.PrintStreamOutput;
 import org.jbehave.core.steps.MostUsefulStepsConfiguration;
 import org.jbehave.core.steps.ParameterConverters;
 import org.jbehave.core.steps.StepsConfiguration;
@@ -28,7 +28,7 @@ public class ItTraderStory extends JUnitStory {
         storyConfiguration.useKeywords(keywords);
         storyConfiguration.useStoryParser(new RegexStoryParser(storyConfiguration.keywords()));
         storyConfiguration.useStoryLoader(new LoadFromClasspath(this.getClass().getClassLoader()));
-        storyConfiguration.useStoryReporter(new PrintStreamStoryReporter(storyConfiguration.keywords()));
+        storyConfiguration.useStoryReporter(new PrintStreamOutput(storyConfiguration.keywords()));
         useConfiguration(storyConfiguration);
 
         StepsConfiguration stepsConfiguration = new MostUsefulStepsConfiguration();

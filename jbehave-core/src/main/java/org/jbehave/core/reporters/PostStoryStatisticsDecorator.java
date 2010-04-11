@@ -1,6 +1,7 @@
 package org.jbehave.core.reporters;
 
-import static java.util.Arrays.asList;
+import org.jbehave.core.model.ExamplesTable;
+import org.jbehave.core.model.Story;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -9,16 +10,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.jbehave.core.model.ExamplesTable;
-import org.jbehave.core.model.Story;
+import static java.util.Arrays.asList;
 
 /**
  * <p>
- * Scenario reporter that collects statistics and stores them as properties to
- * output stream
+ * Scenario reporter that collects statistics and writes them as properties to
+ * output stream after each story
  * </p>
  */
-public class StatisticsStoryReporter implements StoryReporter {
+public class PostStoryStatisticsDecorator implements StoryReporter {
 
     private final OutputStream output;
     private final Map<String, Integer> data = new HashMap<String, Integer>();
@@ -27,7 +27,7 @@ public class StatisticsStoryReporter implements StoryReporter {
 
     private Throwable cause;
 
-    public StatisticsStoryReporter(OutputStream output) {
+    public PostStoryStatisticsDecorator(OutputStream output) {
         this.output = output;
     }
 

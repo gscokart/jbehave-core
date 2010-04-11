@@ -8,29 +8,29 @@ import org.jbehave.core.model.Keywords;
 /**
  * <p>
  * Scenario reporter that outputs to a PrintStream, as XML. It extends
- * {@link PrintStreamStoryReporter}, providing XML-based default output
+ * {@link PrintStreamOutput}, providing XML-based default output
  * patterns, which can be overridden via the {@link
- * XmlPrintStreamStoryReporter (PrintStream,Properties)} constructor.
+ * XmlOutput (PrintStream,Properties)} constructor.
  * </p>
  * 
  * @author Mauro Talevi
  */
-public class XmlPrintStreamStoryReporter extends PrintStreamStoryReporter {
+public class XmlOutput extends PrintStreamOutput {
 
-    public XmlPrintStreamStoryReporter(PrintStream output) {
+    public XmlOutput(PrintStream output) {
         this(output, defaultHtmlPatterns());
     }
 
-    public XmlPrintStreamStoryReporter(PrintStream output, Properties outputPatterns) {
+    public XmlOutput(PrintStream output, Properties outputPatterns) {
         super(mergeWithDefault(outputPatterns), Format.XML);
         usePrintStream(output);
     }
     
-    public XmlPrintStreamStoryReporter(PrintStream output, Properties outputPatterns,
+    public XmlOutput(PrintStream output, Properties outputPatterns,
             Keywords keywords, boolean reportErrors) {
         super(output, mergeWithDefault(outputPatterns), Format.XML, keywords, reportErrors);
     }
-    
+
     private static Properties mergeWithDefault(Properties outputPatterns) {
         Properties patterns = defaultHtmlPatterns();
         // override any default pattern

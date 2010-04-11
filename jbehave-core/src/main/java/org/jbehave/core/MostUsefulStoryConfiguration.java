@@ -37,7 +37,7 @@ public class MostUsefulStoryConfiguration extends StoryConfiguration {
         useStoryLoader(new LoadFromClasspath());
         useErrorStrategy(ErrorStrategy.RETHROW);
         usePendingErrorStrategy(PendingErrorStrategy.PASSING);
-        useStoryReporter(new SilentSuccessFilter(new PrintStreamStoryReporter()));
+        useStoryReporter(new SilentSuccessFilter(new PrintStreamOutput()));
         useStepdocReporter(new PrintStreamStepdocReporter(true));
         useStepdocGenerator(new DefaultStepdocGenerator());
     }
