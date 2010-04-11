@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.jbehave.core.JUnitStory;
-import org.jbehave.core.i18n.I18nKeyWords;
+import org.jbehave.core.i18n.LocalizedKeywords;
 import org.jbehave.core.parser.StoryPathResolver;
 import org.jbehave.core.parser.UnderscoredCamelCaseResolver;
 import org.jbehave.core.reporters.FilePrintStreamFactory.FileConfiguration;
@@ -52,7 +52,7 @@ public class StoryReporterBuilderBehaviour {
     @Test
     public void shouldBuildAndOverrideDefaultReporterForAGivenFormat() throws IOException {
         FilePrintStreamFactory factory = filePrintSteamFactoryFor(MyStory.class);
-        final StoryReporter txtReporter = new PrintStreamStoryReporter(factory.createPrintStream(), new Properties(),  new I18nKeyWords(), true);
+        final StoryReporter txtReporter = new PrintStreamStoryReporter(factory.createPrintStream(), new Properties(),  new LocalizedKeywords(), true);
         StoryReporterBuilder builder = new StoryReporterBuilder(factory){
                public StoryReporter reporterFor(Format format){
                        switch (format) {

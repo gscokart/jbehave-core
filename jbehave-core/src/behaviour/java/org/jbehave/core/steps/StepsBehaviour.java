@@ -10,7 +10,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.jbehave.core.annotations.AfterScenario;
-import org.jbehave.core.i18n.I18nKeyWords;
+import org.jbehave.core.i18n.LocalizedKeywords;
 import org.jbehave.core.steps.CandidateStep.StartingWordNotFound;
 import org.jbehave.core.steps.Steps.DuplicateCandidateStepFoundException;
 import org.junit.Test;
@@ -169,7 +169,7 @@ public class StepsBehaviour {
     @Test
     public void shouldAllowI18nOfSteps(){
         StepsConfiguration configuration = new MostUsefulStepsConfiguration();
-        configuration.useKeywords(new I18nKeyWords(new Locale("it")));
+        configuration.useKeywords(new LocalizedKeywords(new Locale("it")));
     	I18nSteps steps = new I18nSteps(configuration);
         CandidateStep[] candidateSteps = steps.getSteps();
         ensureThat(candidateSteps.length, equalTo(3));
@@ -186,7 +186,7 @@ public class StepsBehaviour {
     @Test(expected=StartingWordNotFound.class)
     public void shouldNotCreateStepIfStartingWordNotFound(){
         StepsConfiguration configuration = new MostUsefulStepsConfiguration();
-        configuration.useKeywords(new I18nKeyWords(new Locale("it")));
+        configuration.useKeywords(new LocalizedKeywords(new Locale("it")));
     	I18nSteps steps = new I18nSteps(configuration);
         CandidateStep[] candidateSteps = steps.getSteps();
         ensureThat(candidateSteps.length, equalTo(3));

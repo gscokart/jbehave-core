@@ -1,7 +1,7 @@
 package org.jbehave.core.steps;
 
 import com.thoughtworks.paranamer.NullParanamer;
-import org.jbehave.core.i18n.I18nKeyWords;
+import org.jbehave.core.i18n.LocalizedKeywords;
 import org.jbehave.core.parser.PrefixCapturingPatternBuilder;
 
 import java.util.Locale;
@@ -20,7 +20,7 @@ import java.util.Locale;
 public class MostUsefulStepsConfiguration extends StepsConfiguration {
 
     public MostUsefulStepsConfiguration() {
-        useKeywords(new I18nKeyWords(Locale.ENGLISH));
+        useKeywords(new LocalizedKeywords(Locale.ENGLISH));
         usePatternBuilder(new PrefixCapturingPatternBuilder("$"));
         useMonitor(new SilentStepMonitor());
         useParanamer(new NullParanamer());

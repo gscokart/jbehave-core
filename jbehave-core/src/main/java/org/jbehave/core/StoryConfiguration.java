@@ -1,7 +1,7 @@
 package org.jbehave.core;
 
-import org.jbehave.core.i18n.I18nKeyWords;
-import org.jbehave.core.model.KeyWords;
+import org.jbehave.core.i18n.LocalizedKeywords;
+import org.jbehave.core.model.Keywords;
 import org.jbehave.core.errors.ErrorStrategy;
 import org.jbehave.core.errors.PendingErrorStrategy;
 import org.jbehave.core.parser.*;
@@ -36,7 +36,7 @@ public abstract class StoryConfiguration {
     /**
      * Use English language for keywords
      */
-    private KeyWords keywords = new I18nKeyWords(Locale.ENGLISH);
+    private Keywords keywords = new LocalizedKeywords(Locale.ENGLISH);
     /**
      * Provides pending steps where unmatched steps exist.
      */
@@ -109,7 +109,7 @@ public abstract class StoryConfiguration {
      * @param storyReporter
      * @param pendingErrorStrategy
      */
-    protected StoryConfiguration(KeyWords keywords, StepCreator stepCreator, StoryParser storyParser, StoryLoader storyLoader, StoryPathResolver storyPathResolver, ErrorStrategy errorStrategy, StepdocReporter stepdocReporter, StepdocGenerator stepdocGenerator, StoryReporter storyReporter, PendingErrorStrategy pendingErrorStrategy) {
+    protected StoryConfiguration(Keywords keywords, StepCreator stepCreator, StoryParser storyParser, StoryLoader storyLoader, StoryPathResolver storyPathResolver, ErrorStrategy errorStrategy, StepdocReporter stepdocReporter, StepdocGenerator stepdocGenerator, StoryReporter storyReporter, PendingErrorStrategy pendingErrorStrategy) {
         this.keywords = keywords;
         this.stepCreator = stepCreator;
         this.storyParser = storyParser;
@@ -162,7 +162,7 @@ public abstract class StoryConfiguration {
     }
 
 
-    public KeyWords keywords() {
+    public Keywords keywords() {
         return keywords;
     }
 
@@ -174,7 +174,7 @@ public abstract class StoryConfiguration {
         return stepdocReporter;
     }
 
-    public void useKeywords(KeyWords keywords) {
+    public void useKeywords(Keywords keywords) {
         this.keywords = keywords;
     }
 

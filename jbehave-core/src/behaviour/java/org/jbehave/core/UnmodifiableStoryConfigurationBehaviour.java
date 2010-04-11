@@ -2,7 +2,7 @@ package org.jbehave.core;
 
 import org.jbehave.core.errors.ErrorStrategy;
 import org.jbehave.core.errors.PendingErrorStrategy;
-import org.jbehave.core.model.KeyWords;
+import org.jbehave.core.model.Keywords;
 import org.jbehave.core.parser.StoryLoader;
 import org.jbehave.core.parser.StoryParser;
 import org.jbehave.core.reporters.StepdocReporter;
@@ -38,7 +38,7 @@ public class UnmodifiableStoryConfigurationBehaviour {
     public void shouldNotAllowModificationOfConfigurationElements() throws NoSuchMethodException, IllegalAccessException {
         StoryConfiguration delegate = new MostUsefulStoryConfiguration();
         StoryConfiguration unmodifiable = new UnmodifiableStoryConfiguration(delegate);
-        ensureThatNotAllowed(unmodifiable, "useKeywords", KeyWords.class);
+        ensureThatNotAllowed(unmodifiable, "useKeywords", Keywords.class);
         ensureThatNotAllowed(unmodifiable, "useStepCreator", StepCreator.class);
         ensureThatNotAllowed(unmodifiable, "useStoryLoader", StoryLoader.class);
         ensureThatNotAllowed(unmodifiable, "useStoryParser", StoryParser.class);

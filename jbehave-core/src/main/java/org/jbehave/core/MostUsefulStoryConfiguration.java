@@ -1,9 +1,8 @@
 package org.jbehave.core;
 
-import org.jbehave.core.model.KeyWords;
 import org.jbehave.core.errors.ErrorStrategy;
 import org.jbehave.core.errors.PendingErrorStrategy;
-import org.jbehave.core.i18n.I18nKeyWords;
+import org.jbehave.core.i18n.LocalizedKeywords;
 import org.jbehave.core.parser.*;
 import org.jbehave.core.reporters.*;
 import org.jbehave.core.reporters.StoryReporter;
@@ -18,7 +17,7 @@ import java.util.Locale;
  * The configuration that works for most situations that users are likely to encounter.
  * The elements configured are:
  * <ul>
- * <li>{@link KeyWords}: new I18nKeyWords()</li>
+ * <li>{@link org.jbehave.core.model.Keywords}: new I18nKeyWords()</li>
  * <li>{@link StepCreator}: new UnmatchedToPendingStepCreator()</li>
  * <li>{@link StoryParser}: new PatternStoryParser(keywords())</li>
  * <li>{@link org.jbehave.core.parser.StoryLoader}: new ClasspathLoader()</li>
@@ -32,7 +31,7 @@ import java.util.Locale;
 public class MostUsefulStoryConfiguration extends StoryConfiguration {
 
     public MostUsefulStoryConfiguration() {
-        useKeywords(new I18nKeyWords(Locale.ENGLISH));
+        useKeywords(new LocalizedKeywords(Locale.ENGLISH));
         useStepCreator(new UnmatchedToPendingStepCreator());
         useStoryParser(new PatternStoryParser(keywords()));
         useStoryLoader(new LoadFromClasspath());

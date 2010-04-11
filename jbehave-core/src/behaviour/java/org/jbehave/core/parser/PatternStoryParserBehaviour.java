@@ -5,15 +5,14 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.jbehave.Ensure.ensureThat;
-import static org.mockito.Matchers.isNull;
 
 import java.util.List;
 
+import org.jbehave.core.i18n.LocalizedKeywords;
 import org.jbehave.core.model.ExamplesTable;
 import org.jbehave.core.model.Narrative;
 import org.jbehave.core.model.Scenario;
 import org.jbehave.core.model.Story;
-import org.jbehave.core.i18n.I18nKeyWords;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -21,7 +20,7 @@ import org.junit.Test;
 public class PatternStoryParserBehaviour {
 
     private static final String NL = "\n";
-    private StoryParser parser = new PatternStoryParser(new I18nKeyWords());
+    private StoryParser parser = new PatternStoryParser(new LocalizedKeywords());
     private String storyPath = "path/to/my.story";
 
     @Test
@@ -191,7 +190,7 @@ public class PatternStoryParserBehaviour {
     @Test
     @Ignore("It should fail due to regex stack overflow")
     public void shouldParseLongStoryWithPatternSplitScenarios() {
-        StoryParser parser = new PatternStoryParser(new I18nKeyWords()) {
+        StoryParser parser = new PatternStoryParser(new LocalizedKeywords()) {
 
             @Override
             protected List<String> splitScenarios(String storyAsText) {

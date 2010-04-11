@@ -5,14 +5,14 @@ import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 import java.util.HashMap;
 
-import org.jbehave.core.model.KeyWords.KeywordNotFoundException;
+import org.jbehave.core.model.Keywords.KeywordNotFoundException;
 import org.junit.Test;
 
 public class KeywordsBehaviour {
 
     @Test
     public void shouldHaveAllKeywordsSetByDefault() throws IOException {
-        KeyWords keywords = new KeyWords();
+        Keywords keywords = new Keywords();
         assertEquals("Narrative:", keywords.narrative());
         assertEquals("Scenario:", keywords.scenario());
         assertEquals("GivenStories:", keywords.givenStories());
@@ -32,7 +32,7 @@ public class KeywordsBehaviour {
 
     @Test(expected=KeywordNotFoundException.class)
     public void shouldFailIfSomeKeywordIsMissingInMapConstructor() throws IOException {
-        new KeyWords(new HashMap<String, String>());
+        new Keywords(new HashMap<String, String>());
     }
     
 }

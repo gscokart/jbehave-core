@@ -6,7 +6,7 @@ import static org.jbehave.Ensure.ensureThat;
 
 import org.jbehave.core.errors.ErrorStrategy;
 import org.jbehave.core.errors.PendingErrorStrategy;
-import org.jbehave.core.i18n.I18nKeyWords;
+import org.jbehave.core.i18n.LocalizedKeywords;
 import org.jbehave.core.reporters.SilentSuccessFilter;
 import org.jbehave.core.reporters.PrintStreamStoryReporter;
 import org.junit.After;
@@ -69,6 +69,6 @@ public class PropertyBasedStoryConfigurationBehaviour {
     
     @Test
     public void shouldProvideGivenWhenThenKeywordsByDefault() {
-        ensureThat(new PropertyBasedStoryConfiguration().keywords(), is(I18nKeyWords.class));
+        ensureThat(new PropertyBasedStoryConfiguration().keywords(), is(LocalizedKeywords.class));
     }
 }

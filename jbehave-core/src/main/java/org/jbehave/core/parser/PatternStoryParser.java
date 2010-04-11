@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.jbehave.core.i18n.LocalizedKeywords;
 import org.jbehave.core.model.*;
-import org.jbehave.core.i18n.I18nKeyWords;
 
 /**
  * Pattern-based story parser, which uses the keywords provided to parse the
@@ -20,14 +20,14 @@ public class PatternStoryParser implements StoryParser {
 
     private static final String NONE = "";
     private static final String COMMA = ",";
-    private final KeyWords keywords;
+    private final Keywords keywords;
     private String storyPath;
 
     public PatternStoryParser() {
-        this(new I18nKeyWords());
+        this(new LocalizedKeywords());
     }
 
-    public PatternStoryParser(KeyWords keywords) {
+    public PatternStoryParser(Keywords keywords) {
         this.keywords = keywords;
     }
 

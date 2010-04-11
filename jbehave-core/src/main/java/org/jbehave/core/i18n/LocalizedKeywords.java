@@ -1,6 +1,7 @@
 package org.jbehave.core.i18n;
 
-import static java.util.ResourceBundle.getBundle;
+import org.jbehave.core.StoryClassLoader;
+import org.jbehave.core.model.Keywords;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -8,37 +9,36 @@ import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import org.jbehave.core.StoryClassLoader;
-import org.jbehave.core.model.KeyWords;
+import static java.util.ResourceBundle.getBundle;
 
 /**
  * Add i18n support to Keywords, allowing to read the keywords from resource
  * bundles for a given locale.
  */
-public class I18nKeyWords extends KeyWords {
+public class LocalizedKeywords extends Keywords {
 
     private static final Locale DEFAULT_LOCALE = Locale.ENGLISH;
     private static final StringEncoder DEFAULT_STRING_ENCODER = new StringEncoder();
     private static final String DEFAULT_BUNDLE_NAME = "org/jbehave/core/i18n/keywords";
     private static final ClassLoader DEFAULT_CLASS_LOADER = Thread.currentThread().getContextClassLoader();
 
-    public I18nKeyWords() {
+    public LocalizedKeywords() {
         this(DEFAULT_LOCALE, DEFAULT_STRING_ENCODER, DEFAULT_BUNDLE_NAME, DEFAULT_CLASS_LOADER);
     }
 
-    public I18nKeyWords(Locale locale) {
+    public LocalizedKeywords(Locale locale) {
         this(locale, DEFAULT_STRING_ENCODER, DEFAULT_BUNDLE_NAME, DEFAULT_CLASS_LOADER);
     }
 
-    public I18nKeyWords(Locale locale, StringEncoder encoder) {
+    public LocalizedKeywords(Locale locale, StringEncoder encoder) {
         this(locale, encoder, DEFAULT_BUNDLE_NAME, DEFAULT_CLASS_LOADER);
     }
 
-    public I18nKeyWords(Locale locale, StringEncoder encoder, String bundleName) {
+    public LocalizedKeywords(Locale locale, StringEncoder encoder, String bundleName) {
         super(keywords(bundleName, locale, encoder, DEFAULT_CLASS_LOADER), encoder);
     }
 
-    public I18nKeyWords(Locale locale, StringEncoder encoder, String bundleName, ClassLoader classLoader) {
+    public LocalizedKeywords(Locale locale, StringEncoder encoder, String bundleName, ClassLoader classLoader) {
         super(keywords(bundleName, locale, encoder, classLoader), encoder);
     }
 
@@ -56,7 +56,7 @@ public class I18nKeyWords extends KeyWords {
         try {
             return encoder.encode(bundle.getString(name));
         } catch (MissingResourceException e) {
-            throw new I18nKeywordNotFoundException(name, bundle);
+            throw new LocalizedKeywordNotFoundException(name, bundle);
         }
     }
 
@@ -83,9 +83,9 @@ public class I18nKeyWords extends KeyWords {
     }
 
     @SuppressWarnings("serial")
-    public static final class I18nKeywordNotFoundException extends RuntimeException {
+    public static final class LocalizedKeywordNotFoundException extends RuntimeException {
 
-        public I18nKeywordNotFoundException(String name, ResourceBundle bundle) {
+        public LocalizedKeywordNotFoundException(String name, ResourceBundle bundle) {
             super("I18nKeyword " + name + " not found in resource bundle " + bundle);
         }
 

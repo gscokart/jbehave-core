@@ -1,7 +1,7 @@
 package org.jbehave.core.steps;
 
 import com.thoughtworks.paranamer.Paranamer;
-import org.jbehave.core.model.KeyWords;
+import org.jbehave.core.model.Keywords;
 import org.jbehave.core.parser.StepPatternBuilder;
 
 /**
@@ -60,12 +60,12 @@ public class UnmodifiableStepsConfiguration extends StepsConfiguration {
     }
 
     @Override
-    public KeyWords keywords() {
+    public Keywords keywords() {
         return delegate.keywords();
     }
 
     @Override
-    public void useKeywords(KeyWords keywords) {
+    public void useKeywords(Keywords keywords) {
         notAllowed();
     }
 

@@ -1,6 +1,6 @@
 package org.jbehave.core;
 
-import org.jbehave.core.model.KeyWords;
+import org.jbehave.core.model.Keywords;
 import org.jbehave.core.errors.ErrorStrategy;
 import org.jbehave.core.errors.PendingErrorStrategy;
 import org.jbehave.core.parser.StoryParser;
@@ -91,7 +91,7 @@ public class PropertyBasedStoryConfiguration extends StoryConfiguration {
     /**
      * Returns the default keywords.
      */
-    public KeyWords keywords() {
+    public Keywords keywords() {
         return defaultConfiguration.keywords();
     }
 

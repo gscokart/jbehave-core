@@ -20,7 +20,7 @@ import org.apache.commons.collections.Transformer;
 import org.apache.commons.lang.ArrayUtils;
 import org.jbehave.core.model.*;
 import org.jbehave.core.model.Story;
-import org.jbehave.core.i18n.I18nKeyWords;
+import org.jbehave.core.i18n.LocalizedKeywords;
 
 /**
  * <p>
@@ -53,7 +53,7 @@ import org.jbehave.core.i18n.I18nKeyWords;
  * <p>
  * If the keyword "FAILED" (or any other keyword used by the reporter) needs to
  * be expressed in a different language, all we need to do is to provide an
- * instance of {@link I18nKeyWords} using the appropriate {@link Locale}, e.g.
+ * instance of {@link org.jbehave.core.i18n.LocalizedKeywords} using the appropriate {@link Locale}, e.g.
  * 
  * <pre>
  * KeyWords keywords = new I18nKeyWords(new Locale(&quot;it&quot;);
@@ -70,7 +70,7 @@ public class PrintStreamStoryReporter implements StoryReporter {
     protected PrintStream output;
     private final Properties outputPatterns;
     private final Format format;    
-    private final KeyWords keywords;
+    private final Keywords keywords;
     private final boolean reportErrors;
     private Throwable cause;
     
@@ -79,28 +79,28 @@ public class PrintStreamStoryReporter implements StoryReporter {
     }
 
     public PrintStreamStoryReporter(PrintStream output) {
-        this(output, new Properties(), new I18nKeyWords(), false);
+        this(output, new Properties(), new LocalizedKeywords(), false);
     }
 
     public PrintStreamStoryReporter(Properties outputPatterns) {
-        this(System.out, outputPatterns, new I18nKeyWords(), false);
+        this(System.out, outputPatterns, new LocalizedKeywords(), false);
     }
 
     public PrintStreamStoryReporter(Properties outputPatterns, Format format) {
-        this(System.out, outputPatterns, format, new I18nKeyWords(), false);
+        this(System.out, outputPatterns, format, new LocalizedKeywords(), false);
     }
 
-    public PrintStreamStoryReporter(KeyWords keywords) {
+    public PrintStreamStoryReporter(Keywords keywords) {
         this(System.out, new Properties(), keywords, false);
     }
 
-    public PrintStreamStoryReporter(PrintStream output, Properties outputPatterns, KeyWords keywords,
+    public PrintStreamStoryReporter(PrintStream output, Properties outputPatterns, Keywords keywords,
             boolean reportErrors) {
         this(output, outputPatterns, PLAIN, keywords, reportErrors);
     }
 
     public PrintStreamStoryReporter(PrintStream output, Properties outputPatterns, Format format,
-            KeyWords keywords, boolean reportErrors) {
+            Keywords keywords, boolean reportErrors) {
         this.output = output;
         this.outputPatterns = outputPatterns;
         this.format = format;

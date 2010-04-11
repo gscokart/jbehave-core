@@ -2,7 +2,7 @@ package org.jbehave.core;
 
 import org.jbehave.core.errors.ErrorStrategy;
 import org.jbehave.core.errors.PendingErrorStrategy;
-import org.jbehave.core.model.KeyWords;
+import org.jbehave.core.model.Keywords;
 import org.jbehave.core.parser.StoryParser;
 import org.jbehave.core.reporters.StepdocReporter;
 import org.jbehave.core.reporters.StoryReporter;
@@ -44,7 +44,7 @@ public class UnmodifiableStoryConfiguration extends StoryConfiguration {
         return delegate.errorStrategy();
     }
 
-    public KeyWords keywords() {
+    public Keywords keywords() {
         return delegate.keywords();
     }
 
@@ -57,7 +57,7 @@ public class UnmodifiableStoryConfiguration extends StoryConfiguration {
 	}
 
     @Override
-    public void useKeywords(KeyWords keywords) {
+    public void useKeywords(Keywords keywords) {
         notAllowed();
     }
 

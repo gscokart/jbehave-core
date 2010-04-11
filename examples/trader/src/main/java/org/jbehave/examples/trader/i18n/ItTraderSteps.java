@@ -3,8 +3,6 @@ package org.jbehave.examples.trader.i18n;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.jbehave.Ensure.ensureThat;
 
-import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import org.jbehave.core.model.ExamplesTable;
@@ -13,11 +11,6 @@ import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Named;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
-import org.jbehave.core.model.KeyWords;
-import org.jbehave.core.i18n.I18nKeyWords;
-import org.jbehave.core.i18n.StringEncoder;
-import org.jbehave.core.steps.Steps;
-import org.jbehave.core.steps.StepsConfiguration;
 
 public class ItTraderSteps {
 

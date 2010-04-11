@@ -10,8 +10,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import org.jbehave.core.model.KeyWords;
-import org.jbehave.core.i18n.I18nKeyWords;
+import org.jbehave.core.model.Keywords;
+import org.jbehave.core.i18n.LocalizedKeywords;
 import org.jbehave.core.parser.PrefixCapturingPatternBuilder;
 import org.jbehave.core.parser.StepPatternBuilder;
 
@@ -36,7 +36,7 @@ public abstract class StepsConfiguration {
     /**
      * Use English keywords for step matching
      */
-    private KeyWords keywords = new I18nKeyWords(Locale.ENGLISH);
+    private Keywords keywords = new LocalizedKeywords(Locale.ENGLISH);
     /**
      * Pattern build that uses prefix for identifying parameters 
      */
@@ -76,7 +76,7 @@ public abstract class StepsConfiguration {
      * @param paranamer
      * @param parameterConverters
      */
-    protected StepsConfiguration(KeyWords keywords, StepPatternBuilder patternBuilder,
+    protected StepsConfiguration(Keywords keywords, StepPatternBuilder patternBuilder,
                               StepMonitor monitor, Paranamer paranamer,
                               ParameterConverters parameterConverters) {
         this.keywords = keywords;
@@ -87,7 +87,7 @@ public abstract class StepsConfiguration {
         this.startingWordsByType = startingWordsByType(this.keywords);
     }
 
-    protected Map<StepType, String> startingWordsByType(KeyWords keywords) {
+    protected Map<StepType, String> startingWordsByType(Keywords keywords) {
         Map<StepType, String> words = new HashMap<StepType, String>();
         words.put(GIVEN, keywords.given());
         words.put(WHEN, keywords.when());
@@ -133,11 +133,11 @@ public abstract class StepsConfiguration {
         return startingWordsByType;
     }
 
-    public KeyWords keywords() {
+    public Keywords keywords() {
         return keywords;
     }
 
-    public void useKeywords(KeyWords keywords) {
+    public void useKeywords(Keywords keywords) {
         this.keywords = keywords;
         this.startingWordsByType = startingWordsByType(this.keywords);
     }

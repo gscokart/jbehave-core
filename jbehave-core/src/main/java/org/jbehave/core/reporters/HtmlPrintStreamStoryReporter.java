@@ -3,7 +3,7 @@ package org.jbehave.core.reporters;
 import java.io.PrintStream;
 import java.util.Properties;
 
-import org.jbehave.core.model.KeyWords;
+import org.jbehave.core.model.Keywords;
 
 /**
  * <p>
@@ -28,7 +28,7 @@ public class HtmlPrintStreamStoryReporter extends PrintStreamStoryReporter {
     }
     
     public HtmlPrintStreamStoryReporter(PrintStream output, Properties outputPatterns,
-            KeyWords keywords, boolean reportErrors) {
+            Keywords keywords, boolean reportErrors) {
         super(output, mergeWithDefault(outputPatterns), Format.HTML, keywords, reportErrors);
     }
     

@@ -14,7 +14,7 @@ import org.jbehave.core.i18n.StringEncoder;
  * Then) or though other keywords (And, "!--"). It also provides keywords used
  * in reporting.
  */
-public class KeyWords {
+public class Keywords {
 
     public static final String NARRATIVE = "Narrative";
     public static final String IN_ORDER_TO = "InOrderTo";
@@ -85,7 +85,7 @@ public class KeyWords {
     /**
      * Creates KeyWords with default values {@link #defaultKeywords()}.
      */
-    public KeyWords() {
+    public Keywords() {
         this(defaultKeywords());
     }
 
@@ -94,7 +94,7 @@ public class KeyWords {
      * 
      * @param keywords the Map of keywords indexed by their name
      */
-    public KeyWords(Map<String, String> keywords) {
+    public Keywords(Map<String, String> keywords) {
         this(keywords, new StringEncoder());
     }
 
@@ -104,7 +104,7 @@ public class KeyWords {
      * @param keywords the Map of keywords indexed by their name
      * @param encoder the StringEncoder used to encode the values
      */
-    public KeyWords(Map<String, String> keywords, StringEncoder encoder) {
+    public Keywords(Map<String, String> keywords, StringEncoder encoder) {
         this.narrative = keyword(NARRATIVE, keywords);
         this.inOrderTo = keyword(IN_ORDER_TO, keywords);
         this.asA = keyword(AS_A, keywords);

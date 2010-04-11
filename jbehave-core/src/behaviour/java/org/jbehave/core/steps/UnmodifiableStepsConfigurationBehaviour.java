@@ -1,7 +1,7 @@
 package org.jbehave.core.steps;
 
 import com.thoughtworks.paranamer.Paranamer;
-import org.jbehave.core.model.KeyWords;
+import org.jbehave.core.model.Keywords;
 import org.jbehave.core.parser.StepPatternBuilder;
 import org.junit.Test;
 
@@ -29,7 +29,7 @@ public class UnmodifiableStepsConfigurationBehaviour {
     public void shouldNotAllowModificationOfConfigurationElements() throws NoSuchMethodException, IllegalAccessException {
         StepsConfiguration delegate = new MostUsefulStepsConfiguration();
         StepsConfiguration unmodifiable = new UnmodifiableStepsConfiguration(delegate);
-        ensureThatNotAllowed(unmodifiable, "useKeywords", KeyWords.class);
+        ensureThatNotAllowed(unmodifiable, "useKeywords", Keywords.class);
         ensureThatNotAllowed(unmodifiable, "useMonitor", StepMonitor.class);
         ensureThatNotAllowed(unmodifiable, "useParanamer", Paranamer.class);
         ensureThatNotAllowed(unmodifiable, "usePatternBuilder", StepPatternBuilder.class);

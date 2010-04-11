@@ -1,8 +1,8 @@
 package org.jbehave.core.i18n;
 
-import org.jbehave.core.i18n.I18nKeyWords.I18nKeywordNotFoundException;
-import org.jbehave.core.i18n.I18nKeyWords.ResourceBundleNotFoundException;
-import org.jbehave.core.model.KeyWords;
+import org.jbehave.core.i18n.LocalizedKeywords.LocalizedKeywordNotFoundException;
+import org.jbehave.core.i18n.LocalizedKeywords.ResourceBundleNotFoundException;
+import org.jbehave.core.model.Keywords;
 import org.jbehave.core.steps.MostUsefulStepsConfiguration;
 import org.jbehave.core.steps.StepType;
 import org.jbehave.core.steps.StepsConfiguration;
@@ -16,10 +16,10 @@ import java.util.Properties;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.jbehave.Ensure.ensureThat;
-import static org.jbehave.core.model.KeyWords.*;
+import static org.jbehave.core.model.Keywords.*;
 import static org.junit.Assert.assertEquals;
 
-public class I18nKeywordsBehaviour {
+public class LocalizedKeywordsBehaviour {
 
     private StringEncoder encoder = new StringEncoder("UTF-8", "UTF-8");
 
@@ -38,7 +38,7 @@ public class I18nKeywordsBehaviour {
         ensureKeywordsAreLocalisedFor(new Locale("en"), "unknown");
     }
 
-    @Test(expected = I18nKeywordNotFoundException.class)
+    @Test(expected = LocalizedKeywordNotFoundException.class)
     public void shouldFailIfKeywordIsNotFound() throws IOException {
         ensureKeywordsAreLocalisedFor(new Locale("es"), null);
     }
@@ -47,13 +47,13 @@ public class I18nKeywordsBehaviour {
     public void shouldAllowKeywordsToBeOverriddenInStepsConfiguration() {
         StepsConfiguration configuration = new MostUsefulStepsConfiguration();
         ensureKeywordsAreLocalised(configuration, new Locale("en"));
-        configuration.useKeywords(new I18nKeyWords(new Locale("it")));
+        configuration.useKeywords(new LocalizedKeywords(new Locale("it")));
         ensureKeywordsAreLocalised(configuration, new Locale("it"));
     }
 
     private void ensureKeywordsAreLocalised(StepsConfiguration configuration, Locale locale) {
         Map<StepType, String> startingWordsByType = configuration.getStartingWordsByType();
-        KeyWords keywords = keyWordsFor(locale, null);
+        Keywords keywords = keyWordsFor(locale, null);
         ensureThat(startingWordsByType.get(StepType.GIVEN), equalTo(keywords.given()));
         ensureThat(startingWordsByType.get(StepType.WHEN), equalTo(keywords.when()));
         ensureThat(startingWordsByType.get(StepType.THEN), equalTo(keywords.then()));
@@ -62,7 +62,7 @@ public class I18nKeywordsBehaviour {
     }
 
     private void ensureKeywordsAreLocalisedFor(Locale locale, String bundleName) throws IOException {
-        KeyWords keywords = keyWordsFor(locale, bundleName);
+        Keywords keywords = keyWordsFor(locale, bundleName);
         Properties properties = bundleFor(locale);
         ensureKeywordIs(properties, NARRATIVE, keywords.narrative());
         ensureKeywordIs(properties, IN_ORDER_TO, keywords.inOrderTo());
@@ -84,11 +84,11 @@ public class I18nKeywordsBehaviour {
         ensureKeywordIs(properties, FAILED, keywords.failed());
     }
 
-    private I18nKeyWords keyWordsFor(Locale locale, String bundleName) {
+    private LocalizedKeywords keyWordsFor(Locale locale, String bundleName) {
         if (bundleName == null) {
-            return (locale == null ? new I18nKeyWords() : new I18nKeyWords(locale));
+            return (locale == null ? new LocalizedKeywords() : new LocalizedKeywords(locale));
         } else {
-            return new I18nKeyWords(locale, new StringEncoder(), bundleName, Thread.currentThread()
+            return new LocalizedKeywords(locale, new StringEncoder(), bundleName, Thread.currentThread()
                     .getContextClassLoader());
         }
     }

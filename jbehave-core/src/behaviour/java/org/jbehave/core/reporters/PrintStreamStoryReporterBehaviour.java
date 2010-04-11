@@ -20,9 +20,9 @@ import java.util.Properties;
 
 import org.apache.commons.io.IOUtils;
 import org.jbehave.core.JUnitStory;
+import org.jbehave.core.i18n.LocalizedKeywords;
 import org.jbehave.core.model.*;
 import org.jbehave.core.model.Description;
-import org.jbehave.core.i18n.I18nKeyWords;
 import org.jbehave.core.parser.StoryPathResolver;
 import org.jbehave.core.parser.UnderscoredCamelCaseResolver;
 import org.jbehave.core.reporters.FilePrintStreamFactory.FileConfiguration;
@@ -250,7 +250,7 @@ public class PrintStreamStoryReporterBehaviour {
         exception.printStackTrace(new PrintStream(stackTrace));
         OutputStream out = new ByteArrayOutputStream();
         StoryReporter reporter = new PrintStreamStoryReporter(new PrintStream(out), new Properties(),
-                new I18nKeyWords(), true);
+                new LocalizedKeywords(), true);
 
         // When
         reporter.beforeScenario("A title");
@@ -293,7 +293,7 @@ public class PrintStreamStoryReporterBehaviour {
         patterns.setProperty("pending", "{0} - {1} - need to implement me\n");
         patterns.setProperty("failed", "{0} <<< {1}\n");
         patterns.setProperty("notPerformed", "{0} : {1} (because of previous pending)\n");
-        StoryReporter reporter = new PrintStreamStoryReporter(new PrintStream(out), patterns, new I18nKeyWords(),
+        StoryReporter reporter = new PrintStreamStoryReporter(new PrintStream(out), patterns, new LocalizedKeywords(),
                 true);
 
         // When
@@ -318,7 +318,7 @@ public class PrintStreamStoryReporterBehaviour {
         // Given
         IllegalAccessException exception = new IllegalAccessException("Lasciate in pace i miei soldi!");
         OutputStream out = new ByteArrayOutputStream();
-        I18nKeyWords keywords = new I18nKeyWords(Locale.ITALIAN);
+        LocalizedKeywords keywords = new LocalizedKeywords(Locale.ITALIAN);
         StoryReporter reporter = new PrintStreamStoryReporter(new PrintStream(out), new Properties(), keywords,
                 true);
 
@@ -380,7 +380,7 @@ public class PrintStreamStoryReporterBehaviour {
                 switch (format) {
                     case TXT:
                         factory.useConfiguration(new FileConfiguration("text"));
-                        return new PrintStreamStoryReporter(factory.createPrintStream(), new Properties(), new I18nKeyWords(), true);
+                        return new PrintStreamStoryReporter(factory.createPrintStream(), new Properties(), new LocalizedKeywords(), true);
                     default:
                         return super.reporterFor(format);
                 }
