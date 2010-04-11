@@ -1,11 +1,15 @@
 package org.jbehave.core;
 
-public class RunnerMode {
+public class StoryRunnerMode {
     private boolean batch;
     private boolean skip;
     private boolean ignoreFailure;
 
-    public RunnerMode(boolean batch, boolean skip, boolean ignoreFailure) {
+    public StoryRunnerMode() {
+        this(false, false, false);
+    }
+    
+    public StoryRunnerMode(boolean batch, boolean skip, boolean ignoreFailure) {
         this.batch = batch;
         this.skip = skip;
         this.ignoreFailure = ignoreFailure;

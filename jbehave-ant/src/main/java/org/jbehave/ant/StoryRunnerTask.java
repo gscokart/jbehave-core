@@ -3,13 +3,9 @@ package org.jbehave.ant;
 import static org.apache.tools.ant.Project.MSG_INFO;
 import static org.apache.tools.ant.Project.MSG_WARN;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.tools.ant.BuildException;
-import org.jbehave.core.RunnableStory;
-import org.jbehave.core.RunnerMode;
-import org.jbehave.core.RunnerMonitor;
+import org.jbehave.core.StoryRunnerMode;
+import org.jbehave.core.StoryRunnerMonitor;
 import org.jbehave.core.StoriesRunner;
 
 /**
@@ -25,12 +21,15 @@ public class StoryRunnerTask extends AbstractStoryTask {
     private boolean batch;
 
     public void execute() throws BuildException {
-        StoriesRunner runner = new StoriesRunner(new AntRunnerMonitor(), new RunnerMode(batch, skipStories(), ignoreFailure()));
+        // TODO the runner class should be configurable and instantiated at runtime
+        StoriesRunner runner = new StoriesRunner();
+        runner.useRunnerMonitor(new AntRunnerMonitor());
+        runner.useRunnerMode(new StoryRunnerMode(batch, skipStories(), ignoreFailure()));
         runner.run(stories());
     }
 
-    private class AntRunnerMonitor implements RunnerMonitor {
-        public void batchStoriesFailed(String failedStories) {
+    private class AntRunnerMonitor implements StoryRunnerMonitor {
+        public void storiesBatchFailed(String failedStories) {
             log("Failed to run stories batch: "+failedStories, MSG_WARN);
         }
 

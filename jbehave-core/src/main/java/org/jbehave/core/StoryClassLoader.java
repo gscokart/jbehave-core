@@ -36,7 +36,7 @@ public class StoryClassLoader extends URLClassLoader {
      */
     public RunnableStory newStory(String storyClassName, Class<?>... parameterTypes) {
         try {
-            Class<?> storyClass = loadClass(storyClassName, true);
+            Class<?> storyClass = loadStoryClass(storyClassName);
             RunnableStory story = newInstance(storyClass, parameterTypes);
             Thread.currentThread().setContextClassLoader(this);
             return story;
@@ -48,6 +48,14 @@ public class StoryClassLoader extends URLClassLoader {
             String message = "The story '" + storyClassName + "' could not be instantiated with parameter types '"
                     + asList(parameterTypes) + "' and class loader '" + this + "'";
             throw new RuntimeException(message, e);
+        }
+    }
+
+    public Class<?> loadStoryClass(String storyClassName) {
+        try {
+            return loadClass(storyClassName, true);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException("Failed to load class "+storyClassName, e);
         }
     }
 

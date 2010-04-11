@@ -5,14 +5,19 @@ import java.util.List;
 import java.util.Map;
 
 public class StoriesRunner {
-    private RunnerMonitor runnerMonitor;
-    private RunnerMode runnerMode;
+    private StoryRunnerMonitor runnerMonitor;
+    private StoryRunnerMode runnerMode;
 
-    public StoriesRunner(RunnerMonitor runnerMonitor, RunnerMode runnerMode) {
+    public StoriesRunner() {
+        this(new PrintStreamRunnerMonitor(), new StoryRunnerMode());
+    }
+
+    public StoriesRunner(StoryRunnerMonitor runnerMonitor, StoryRunnerMode runnerMode) {
         this.runnerMonitor = runnerMonitor;
         this.runnerMode = runnerMode;
     }
 
+    // TODO the stories should also be specifiable via paths, or via classes, without need of instantiating them    
     public void run(List<RunnableStory> runnableStories) {
         if (runnerMode.skip()) {
             runnerMonitor.storiesNotRun();
@@ -41,7 +46,7 @@ public class StoriesRunner {
 
         if (runnerMode.batch() && failedStories.size() > 0) {
             if ( runnerMode.ignoreFailure() ){
-                 runnerMonitor.batchStoriesFailed(format(failedStories));
+                 runnerMonitor.storiesBatchFailed(format(failedStories));
             } else {
                 throw new RunningStoriesFailedException("Failed to run stories in batch: "+format(failedStories));
             }
@@ -49,6 +54,13 @@ public class StoriesRunner {
         
     }
 
+    public void useRunnerMode(StoryRunnerMode runnerMode) {
+        this.runnerMode = runnerMode;
+    }
+
+    public void useRunnerMonitor(StoryRunnerMonitor runnerMonitor) {
+        this.runnerMonitor = runnerMonitor;
+    }
 
     private String format(Map<String, Throwable> failedStories) {
         StringBuffer sb = new StringBuffer();

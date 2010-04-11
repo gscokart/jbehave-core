@@ -2,8 +2,8 @@ package org.jbehave.mojo;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
-import org.jbehave.core.RunnerMode;
-import org.jbehave.core.RunnerMonitor;
+import org.jbehave.core.StoryRunnerMode;
+import org.jbehave.core.StoryRunnerMonitor;
 import org.jbehave.core.StoriesRunner;
 
 /**
@@ -22,12 +22,15 @@ public class StoryRunnerMojo extends AbstractStoryMojo {
     private boolean batch;
 
     public void execute() throws MojoExecutionException, MojoFailureException {
-        StoriesRunner runner = new StoriesRunner(new MavenRunnerMonitor(), new RunnerMode(batch, skipStories(), ignoreFailure()));
+        // TODO the runner class should be configurable and instantiated at runtime
+        StoriesRunner runner = new StoriesRunner();
+        runner.useRunnerMonitor(new MavenRunnerMonitor());
+        runner.useRunnerMode(new StoryRunnerMode(batch, skipStories(), ignoreFailure()));
         runner.run(stories());
     }
 
-    private class MavenRunnerMonitor implements RunnerMonitor {
-        public void batchStoriesFailed(String failedStories) {
+    private class MavenRunnerMonitor implements StoryRunnerMonitor {
+        public void storiesBatchFailed(String failedStories) {
             getLog().warn("Failed to run stories batch: "+failedStories);
         }
 
