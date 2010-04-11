@@ -44,7 +44,7 @@ public abstract class StoryConfiguration {
     /**
      * Parses the textual representation via pattern matching of keywords
      */
-    private StoryParser storyParser = new PatternStoryParser(keywords);
+    private StoryParser storyParser = new RegexStoryParser(keywords);
     /**
      * Loads story content from classpath
      */

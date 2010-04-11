@@ -14,7 +14,7 @@ public class TheGridStartsEmpty extends JUnitStory {
         useConfiguration(new PropertyBasedStoryConfiguration() {
             @Override
             public StoryParser storyParser() {
-                return new PatternStoryParser(keywords());
+                return new RegexStoryParser(keywords());
             }
             @Override
             public StoryReporter storyReporter() {

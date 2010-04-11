@@ -17,10 +17,10 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 
-public class PatternStoryParserBehaviour {
+public class RegexStoryParserBehaviour {
 
     private static final String NL = "\n";
-    private StoryParser parser = new PatternStoryParser(new LocalizedKeywords());
+    private StoryParser parser = new RegexStoryParser(new LocalizedKeywords());
     private String storyPath = "path/to/my.story";
 
     @Test
@@ -190,7 +190,7 @@ public class PatternStoryParserBehaviour {
     @Test
     @Ignore("It should fail due to regex stack overflow")
     public void shouldParseLongStoryWithPatternSplitScenarios() {
-        StoryParser parser = new PatternStoryParser(new LocalizedKeywords()) {
+        StoryParser parser = new RegexStoryParser(new LocalizedKeywords()) {
 
             @Override
             protected List<String> splitScenarios(String storyAsText) {

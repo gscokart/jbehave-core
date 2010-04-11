@@ -16,18 +16,18 @@ import org.jbehave.core.model.*;
  * textual story into a {@link Story}, which comprises of a collection of
  * {@link Scenario}s, each of which contains a number of steps.
  */
-public class PatternStoryParser implements StoryParser {
+public class RegexStoryParser implements StoryParser {
 
     private static final String NONE = "";
     private static final String COMMA = ",";
     private final Keywords keywords;
     private String storyPath;
 
-    public PatternStoryParser() {
+    public RegexStoryParser() {
         this(new LocalizedKeywords());
     }
 
-    public PatternStoryParser(Keywords keywords) {
+    public RegexStoryParser(Keywords keywords) {
         this.keywords = keywords;
     }
 

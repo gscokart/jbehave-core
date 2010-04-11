@@ -1,6 +1,7 @@
 package org.jbehave.core.steps;
 
-import static java.util.Arrays.asList;
+import org.jbehave.core.model.Scenario;
+import org.jbehave.core.model.Story;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,8 +9,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-import org.jbehave.core.model.Scenario;
-import org.jbehave.core.model.Story;
+import static java.util.Arrays.asList;
 
 /**
  * StepCreator that marks unmatched steps as {@link StepResult.Pending}
@@ -33,8 +33,8 @@ public class MarkUnmatchedStepsAsPending implements StepCreator {
         return steps;
     }
 
-    public List<Step> createStepsFrom(List<CandidateSteps> candidateSteps, Scenario scenario, Map<String, String> tableRow
-    ) {
+    public List<Step> createStepsFrom(List<CandidateSteps> candidateSteps, Scenario scenario,
+                                      Map<String, String> tableRow) {
         List<Step> steps = new ArrayList<Step>();
 
         addMatchedScenarioSteps(scenario, steps, tableRow, candidateSteps);

@@ -14,7 +14,6 @@ import org.jbehave.examples.trader.converters.CalendarConverter;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Named;
 import org.jbehave.core.annotations.Then;
-import org.jbehave.core.parser.PatternStoryParser;
 import org.jbehave.core.reporters.FilePrintStreamFactory;
 import org.jbehave.core.reporters.StoryReporter;
 import org.jbehave.core.reporters.StoryReporterBuilder;

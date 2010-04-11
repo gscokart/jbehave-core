@@ -11,7 +11,6 @@ import org.jbehave.core.StoryConfiguration;
 import org.jbehave.core.parser.*;
 import org.jbehave.core.steps.MostUsefulStepsConfiguration;
 import org.jbehave.examples.trader.PriorityMatchingSteps;
-import org.jbehave.core.parser.PatternStoryParser;
 import org.jbehave.core.reporters.FilePrintStreamFactory;
 import org.jbehave.core.reporters.StoryReporterBuilder;
 import org.jbehave.core.steps.StepsConfiguration;

@@ -307,7 +307,7 @@ public class StoryRunnerBehaviour {
 
     private StoryConfiguration configurationWithPendingStrategy(StepCreator creator, StoryReporter reporter,
                                                                 PendingErrorStrategy strategy) {
-        return configurationWith(new PatternStoryParser(), new LoadFromClasspath(), reporter, creator,
+        return configurationWith(new RegexStoryParser(), new LoadFromClasspath(), reporter, creator,
                 new ErrorStrategyInWhichWeTrustTheReporter(), strategy);
     }
 
@@ -316,7 +316,7 @@ public class StoryRunnerBehaviour {
     }
 
     private StoryConfiguration configurationWith(StoryReporter reporter, StepCreator creator, ErrorStrategy errorStrategy) {
-        return configurationWith(new PatternStoryParser(), new LoadFromClasspath(), reporter, creator, errorStrategy);
+        return configurationWith(new RegexStoryParser(), new LoadFromClasspath(), reporter, creator, errorStrategy);
     }
 
     private StoryConfiguration configurationWith(StoryParser parser, final StoryLoader storyLoader, final StoryReporter reporter,
