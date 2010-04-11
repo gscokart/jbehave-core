@@ -13,7 +13,7 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 import org.jbehave.core.RunnableStory;
 import org.jbehave.core.StoryClassLoader;
-import org.jbehave.core.parser.StoryClassNameFinder;
+import org.jbehave.core.parser.StoryPathFinder;
 
 /**
  * Abstract task that holds all the configuration parameters to specify and load
@@ -68,9 +68,9 @@ public abstract class AbstractStoryTask extends Task {
     private boolean ignoreFailure = false;
 
     /**
-     * Used to find story class names
+     * Used to find story paths
      */
-    private StoryClassNameFinder finder = new StoryClassNameFinder();
+    private StoryPathFinder finder = new StoryPathFinder();
 
     /**
      * Determines if the scope of the source directory is "test"
@@ -90,7 +90,7 @@ public abstract class AbstractStoryTask extends Task {
 
     private List<String> findStoryClassNames() {
         log("Searching for story class names including "+ storyIncludes +" and excluding "+ storyExcludes, MSG_DEBUG);
-        List<String> storyClassNames = finder.listStoryClassNames(rootSourceDirectory(), null, storyIncludes,
+        List<String> storyClassNames = finder.listStoryPaths(rootSourceDirectory(), null, storyIncludes,
                 storyExcludes);
         log("Found story class names: " + storyClassNames, MSG_DEBUG);
         return storyClassNames;
@@ -103,7 +103,7 @@ public abstract class AbstractStoryTask extends Task {
      * @return A StoryClassLoader
      * @throws MalformedURLException
      */
-    private StoryClassLoader createStoryClassLoader() throws MalformedURLException {
+    protected StoryClassLoader createStoryClassLoader() throws MalformedURLException {
         return new StoryClassLoader(asList(new String[]{}));
     }
 
@@ -125,12 +125,21 @@ public abstract class AbstractStoryTask extends Task {
         return skip;
     }
 
+
+    protected List<String> storyPaths() {
+        log("Searching for story paths including "+ storyIncludes +" and excluding "+ storyExcludes, MSG_DEBUG);
+        List<String> storyPaths = finder.listStoryPaths(rootSourceDirectory(), null, storyIncludes,
+                storyExcludes);
+        log("Found story paths: " + storyPaths, MSG_DEBUG);
+        return storyPaths;
+    }
+
     /**
      * Returns the list of story instances, whose class names are either
      * specified via the parameter "storyClassNames" (which takes precedence)
      * or found using the parameters "storyIncludes" and "storyExcludes".
      * 
-     * @return A List of Storys
+     * @return A List of RunnableStories
      * @throws BuildException
      */
     protected List<RunnableStory> stories() throws BuildException {

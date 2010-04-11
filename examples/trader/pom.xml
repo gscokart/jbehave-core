@@ -104,6 +104,26 @@
             </goals>
           </execution>
           <execution>
+            <id>run-stories-as-paths</id>
+            <phase>integration-test</phase>
+            <configuration>
+              <storyEmbedder>org.jbehave.examples.trader.TraderStoryEmbedder</storyEmbedder>
+              <storyIncludes>
+                <storyInclude>**/stories/*.story</storyInclude>
+             </storyIncludes>
+              <storyExcludes>
+                <storyExclude>**/stories/*NonSuccessful.story</storyExclude>
+              </storyExcludes>
+              <skip>false</skip>
+              <batch>false</batch>
+              <ignoreFailure>false</ignoreFailure>
+              <classLoaderInjected>false</classLoaderInjected>
+            </configuration>
+            <goals>
+              <goal>run-stories-as-paths</goal>
+            </goals>
+          </execution>
+          <execution>
             <id>run-stories-in-batch-mode</id>
             <phase>integration-test</phase>
             <configuration>

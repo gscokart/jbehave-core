@@ -6,7 +6,7 @@ import static org.apache.tools.ant.Project.MSG_WARN;
 import org.apache.tools.ant.BuildException;
 import org.jbehave.core.StoryRunnerMode;
 import org.jbehave.core.StoryRunnerMonitor;
-import org.jbehave.core.StoriesRunner;
+import org.jbehave.core.StoryEmbedder;
 
 /**
  * Ant task that runs stories
@@ -21,11 +21,10 @@ public class StoryRunnerTask extends AbstractStoryTask {
     private boolean batch;
 
     public void execute() throws BuildException {
-        // TODO the runner class should be configurable and instantiated at runtime
-        StoriesRunner runner = new StoriesRunner();
-        runner.useRunnerMonitor(new AntRunnerMonitor());
-        runner.useRunnerMode(new StoryRunnerMode(batch, skipStories(), ignoreFailure()));
-        runner.run(stories());
+        StoryEmbedder embedder = new StoryEmbedder();
+        embedder.useRunnerMonitor(new AntRunnerMonitor());
+        embedder.useRunnerMode(new StoryRunnerMode(batch, skipStories(), ignoreFailure()));
+        embedder.run(stories());
     }
 
     private class AntRunnerMonitor implements StoryRunnerMonitor {

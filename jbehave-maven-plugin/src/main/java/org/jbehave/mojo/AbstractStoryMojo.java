@@ -4,7 +4,7 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.jbehave.core.RunnableStory;
 import org.jbehave.core.StoryClassLoader;
-import org.jbehave.core.parser.StoryClassNameFinder;
+import org.jbehave.core.parser.StoryPathFinder;
 
 import java.lang.reflect.Modifier;
 import java.net.MalformedURLException;
@@ -108,7 +108,7 @@ public abstract class AbstractStoryMojo extends AbstractMojo {
     /**
      * Used to find story class names
      */
-    private StoryClassNameFinder finder = new StoryClassNameFinder();
+    private StoryPathFinder finder = new StoryPathFinder();
 
     /**
      * Determines if the scope of the mojo classpath is "test"
@@ -128,7 +128,7 @@ public abstract class AbstractStoryMojo extends AbstractMojo {
 
     private List<String> findStoryClassNames() {
         getLog().debug("Searching for story class names including "+storyIncludes+" and excluding "+storyExcludes);
-        List<String> storyClassNames = finder.listStoryClassNames(rootSourceDirectory(), null, storyIncludes,
+        List<String> storyClassNames = finder.listStoryPaths(rootSourceDirectory(), null, storyIncludes,
                 storyExcludes);
         getLog().debug("Found story class names: " + storyClassNames);
         return storyClassNames;
@@ -141,7 +141,7 @@ public abstract class AbstractStoryMojo extends AbstractMojo {
      * @return A StoryClassLoader
      * @throws MalformedURLException
      */
-    private StoryClassLoader createStoryClassLoader() throws MalformedURLException {
+    protected StoryClassLoader createStoryClassLoader() throws MalformedURLException {
         return new StoryClassLoader(classpathElements());
     }
 
@@ -169,6 +169,14 @@ public abstract class AbstractStoryMojo extends AbstractMojo {
      */
     protected boolean skipStories() {
         return skip;
+    }
+
+    protected List<String> storyPaths() {
+        getLog().debug("Searching for story paths including "+ storyIncludes +" and excluding "+ storyExcludes);
+        List<String> storyPaths = finder.listStoryPaths(rootSourceDirectory(), null, storyIncludes,
+                storyExcludes);
+        getLog().info("Found story paths: " + storyPaths);
+        return storyPaths;
     }
     
     /**

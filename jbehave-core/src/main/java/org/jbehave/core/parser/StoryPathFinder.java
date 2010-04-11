@@ -5,14 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.tools.ant.DirectoryScanner;
-import org.jbehave.core.errors.InvalidStoryClassPathException;
 
 /**
- * Finds story class names from a base directory using Ant's directory scanner.
+ * Finds story paths from a filesystem.
  * 
  * @author Mauro Talevi
  */
-public class StoryClassNameFinder {
+public class StoryPathFinder {
 
     private static final String JAVA = ".java";
     private static final String EMPTY = "";
@@ -23,7 +22,8 @@ public class StoryClassNameFinder {
     private DirectoryScanner scanner = new DirectoryScanner();
 
     /**
-     * Lists story class names from a base directory, allowing for includes/excludes
+     * Lists story paths from a base directory, allowing for includes/excludes.
+     * If Java paths are found, these are normalised to Java class names.
      * 
      * @param basedir the base directory path
      * @param rootPath the root path prefixed to all paths found, or
@@ -34,23 +34,27 @@ public class StoryClassNameFinder {
      *            none
      * @return A List of paths
      */
-    public List<String> listStoryClassNames(String basedir, String rootPath, List<String> includes,
+    public List<String> listStoryPaths(String basedir, String rootPath, List<String> includes,
             List<String> excludes) {
-        List<String> classNames = new ArrayList<String>();
+        List<String> paths = new ArrayList<String>();
         for (String path : listPaths(basedir, rootPath, includes, excludes)) {
-            classNames.add(classNameFor(path));
+            paths.add(normalise(path));
         }
-        return classNames;
+        return paths;
     }
 
-    private String classNameFor(String path) {
-        int javaPath = path.indexOf(JAVA);
-        if ( javaPath != -1 ){
-            String className = path.substring(0, javaPath);
+    private String normalise(String path) {
+        if ( path.indexOf(JAVA) != -1 ){
+            String className = path.substring(0, path.indexOf(JAVA));
             className = className.replaceAll(SLASH, DOT_REGEX); 
             return className.replaceAll(BACKSLASH, DOT_REGEX);            
+        } else {
+            if ( path.startsWith("/") ){
+                return path.substring(1);
+            }           
+            return path;
+
         }
-        throw new InvalidStoryClassPathException("Invalid story class path "+path);
     }
 
     private List<String> listPaths(String basedir, String rootPath, List<String> includes, List<String> excludes) {

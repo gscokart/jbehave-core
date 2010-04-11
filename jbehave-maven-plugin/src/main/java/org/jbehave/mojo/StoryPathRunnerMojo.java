@@ -6,13 +6,23 @@ import org.jbehave.core.StoryEmbedder;
 import org.jbehave.core.StoryRunnerMode;
 import org.jbehave.core.StoryRunnerMonitor;
 
+import java.net.MalformedURLException;
+
+
 /**
- * Mojo to run stories
+ * Mojo to run stories via paths
  *
  * @author Mauro Talevi
- * @goal run-stories
+ * @goal run-stories-as-paths
  */
-public class StoryRunnerMojo extends AbstractStoryMojo {
+public class StoryPathRunnerMojo extends AbstractStoryMojo {
+
+    /**
+     * The story embedder to run the stories
+     *
+     * @parameter default-value="org.jbehave.core.StoryEmbedder"
+     */
+    private String storyEmbedder;
 
     /**
      * The boolean flag to run in batch mode
@@ -22,13 +32,21 @@ public class StoryRunnerMojo extends AbstractStoryMojo {
     private boolean batch;
 
     public void execute() throws MojoExecutionException, MojoFailureException {
-        StoryEmbedder embedder = new StoryEmbedder();
+        StoryEmbedder embedder = newStoryEmbedder();
         embedder.useRunnerMonitor(new MavenRunnerMonitor());
         embedder.useRunnerMode(new StoryRunnerMode(batch, skipStories(), ignoreFailure()));
-        embedder.run(stories());
+        embedder.runStoriesAsPaths(storyPaths());
     }
 
-    private class MavenRunnerMonitor implements StoryRunnerMonitor {
+    private StoryEmbedder newStoryEmbedder() {
+        try {
+            return (StoryEmbedder)createStoryClassLoader().loadClass(storyEmbedder).newInstance();
+        } catch ( Exception e) {
+            throw new RuntimeException("Failed to create story embedder "+storyEmbedder);
+        }
+    }
+
+    protected class MavenRunnerMonitor implements StoryRunnerMonitor {
         public void storiesBatchFailed(String failedStories) {
             getLog().warn("Failed to run stories batch: "+failedStories);
         }
@@ -46,5 +64,3 @@ public class StoryRunnerMojo extends AbstractStoryMojo {
         }
     }
 }
-
-
