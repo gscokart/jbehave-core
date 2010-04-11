@@ -13,7 +13,7 @@ writing stories in the <a href="http://en.wikipedia.org/wiki/Language">language<
 spoken by the business users is essential. And even though the patterns
 used to match the scenario steps to Java methods can be written in any
 language, the <a
-    href="javadoc/core/org/jbehave/core/definition/KeyWords.html">KeyWords</a>
+    href="javadoc/core/org/jbehave/core/definition/Keywords.html">Keywords</a>
 still need to be expressed in different languages.</p>
 
 <p>JBehave by default supports English as the scenario language. By
@@ -21,7 +21,7 @@ supporting the internationalisation (i18n) of keywords by Java <a
     href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Locale.html">Locale</a>,
 it also allows the stories to be written in any language. All is
 needed to configure the use of <a
-    href="javadoc/core/org/jbehave/core/i18n/I18nKeyWords.html">I18nKeyWords</a>
+    href="javadoc/core/org/jbehave/core/i18n/LocalizedKeywords.html">LocalizedKeywords</a>
 for a given Locale. Each locale has a separate keywords properties file.
 E.g. for Italian locale, the file <b>keywords_it.properties</b> is:</p>
 <pre class="brush: bdd">
@@ -53,10 +53,10 @@ public class ItTraderStory extends JUnitStory {
         storyConfiguration.useStoryPathResolver(new UnderscoredCamelCaseResolver(".story"));
         ClassLoader classLoader = this.getClass().getClassLoader();
         // use Italian for keywords
-        KeyWords keywords = new I18nKeyWords(new Locale("it"), new StringEncoder(), "org/jbehave/examples/trader/i18n/keywords", classLoader);
+        Keywords keywords = new LocalizedKeywords(new Locale("it"), new StringEncoder(), "org/jbehave/examples/trader/i18n/keywords", classLoader);
         storyConfiguration.useKeywords(keywords);
-        storyConfiguration.useStoryPatter(new PatternStoryParser(storyConfiguration.keywords());
-        storyConfiguration.useStoryReporter(new PrintStreamStoryReporter(storyConfiguration.keywords()));
+        storyConfiguration.useStoryPatter(new RegexStoryParser(storyConfiguration.keywords());
+        storyConfiguration.useStoryReporter(new PrintStreamOutput(storyConfiguration.keywords()));
         useConfiguration(storyConfiguration);
 
         StepsConfiguration stepsConfiguration = new MostUsefulStepsConfiguration();

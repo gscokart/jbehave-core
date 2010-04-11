@@ -17,16 +17,16 @@ which is used to report events as they occur.</p>
 <p>Currently, the story reporters supported are:</p>
 <ul>
     <li><a
-        href="javadoc/core/org/jbehave/core/reporters/PrintStreamStoryReporter.html">PrintStreamStoryReporter</a>:
+        href="javadoc/core/org/jbehave/core/reporters/PrintStreamOutput.html">PrintStreamOutput</a>:
     generic reporter to a print stream, using formats that are
     configurable</li>
     <li><a
-        href="javadoc/core/org/jbehave/core/reporters/HtmlPrintStreamStoryReporter.html">HtmlPrintStreamStoryReporter</a>:
-    specialises the <b>PrintStreamStoryReporter</b> to use HTML
+        href="javadoc/core/org/jbehave/core/reporters/HtmlOutput.html">HtmlOutput</a>:
+    specialises the <b>PrintStreamOutput</b> to use HTML
     formats</li>
     <li><a
-        href="javadoc/core/org/jbehave/core/reporters/XmlPrintStreamStoryReporter.html">XmlPrintStreamStoryReporter</a>:
-    specialises the <b>PrintStreamStoryReporter</b> to use XML
+        href="javadoc/core/org/jbehave/core/reporters/XmlOutput.html">XmlOutput</a>:
+    specialises the <b>PrintStreamOutput</b> to use XML
     formats</li>
     <li><a
         href="javadoc/core/org/jbehave/core/reporters/StatisticsStoryReporter.html">StatisticsStoryReporter</a>:
@@ -98,8 +98,8 @@ override the reporter for <b>TXT</b> format to use a ".text" extension
                        switch (format) {
                            case TXT:
                                factory.useConfiguration(new FileConfiguration("text"));
-                               return new PrintStreamStoryReporter(factory.getPrintStream(),
-                                            new Properties(), new I18nKeyWords(Locale.ITALIAN), true);
+                               return new PrintStreamOutput(factory.getPrintStream(),
+                                            new Properties(), new LocalizedKeywords(Locale.ITALIAN), true);
                             default:
                                return super.reporterFor(format);
                        }

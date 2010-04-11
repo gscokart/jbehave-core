@@ -170,17 +170,17 @@ is the main interface for configuring all the components of a story.</p>
 Represents the strategy for the creation of executable steps from a
 given story definition matching a list of candidate steps. The
 default implementation is <a
-    href="javadoc/core/org/jbehave/core/steps/UnmatchedToPendingStepCreator.html">UnmatchedToPendingStepCreator</a>.</p>
+    href="javadoc/core/org/jbehave/core/steps/MarkUnmatchedStepsAsPending.html">MarkUnmatchedStepsAsPending</a>.</p>
 <p><a
     href="javadoc/core/org/jbehave/core/parser/StoryParser.html">StoryParser</a>:
 Parses stories contained in a textual story file. The
 default implementation is <a
-    href="javadoc/core/org/jbehave/core/parser/PatternStoryParser.html">PatternStoryParser</a>.</p>
+    href="javadoc/core/org/jbehave/core/parser/RegexStoryParser.html">RegexStoryParser</a>.</p>
 <p><a
     href="javadoc/core/org/jbehave/core/reporters/StoryReporter.html">StoryReporter</a>:
 Allows the runner to report the state of running stories. The default
 implementation is <a
-    href="javadoc/core/org/jbehave/core/reporters/PrintStreamStoryReporter.html">PrintStreamStoryReporter</a>.</p>
+    href="javadoc/core/org/jbehave/core/reporters/PrintStreamOutput.html">PrintStreamOutput</a>.</p>
 
 <p><a
     href="javadoc/core/org/jbehave/core/errors/ErrorStrategy.html">ErrorStrategy</a>:
@@ -188,9 +188,9 @@ Allows to define the strategy for error handling. The default value is <a
     href="javadoc/core/org/jbehave/core/errors/ErrorStrategy.html#RETHROW">RETHROW</a>.</p>
 
 <p><a
-    href="javadoc/core/org/jbehave/core/model/KeyWords.html">KeyWords</a>:
+    href="javadoc/core/org/jbehave/core/model/Keywords.html">Keywords</a>:
 Allows to specify the keywords used. The default value is <a
-    href="javadoc/core/org/jbehave/core/i18n/I18nKeyWords.html">I18nKeyWords</a>.</p>
+    href="javadoc/core/org/jbehave/core/i18n/LocalizedKeywords.html">LocalizedKeywords</a>.</p>
 
 <p>JBehave provides two useful base implementations that users can
 extend to override only the elements that differ from default behaviour:</p>
@@ -221,9 +221,9 @@ performed to some output.</p>
 facade for collecting user-defined <a
     href="javadoc/core/org/jbehave/core/steps/ParameterConverters.ParameterConverter.html">ParameterConverters</a>.</p>
 <p><a
-    href="javadoc/core/org/jbehave/core/model/KeyWords.html">KeyWords</a>:
+    href="javadoc/core/org/jbehave/core/model/Keywords.html">Keywords</a>:
 defaults to <a
-    href="javadoc/core/org/jbehave/core/i18n/I18nKeyWords.html">I18nKeyWords</a>.</p>
+    href="javadoc/core/org/jbehave/core/i18n/LocalizedKeywords.html">LocalizedKeywords</a>.</p>
 
 <div class="clear">
 <hr />
