@@ -29,6 +29,4 @@ public interface RunnableStory {
 
     List<CandidateSteps> getSteps();
 
-	void generateStepdoc();
-
 }

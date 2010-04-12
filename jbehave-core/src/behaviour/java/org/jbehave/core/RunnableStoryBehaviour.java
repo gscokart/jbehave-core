@@ -17,120 +17,97 @@ public class RunnableStoryBehaviour {
     @Test
     public void shouldRunASingleStoryViaClass() throws Throwable {
         // Given
-        StoryRunner runner = mock(StoryRunner.class);
+        StoryEmbedder embedder = mock(StoryEmbedder.class);
         StoryConfiguration configuration = mock(StoryConfiguration.class);
         CandidateSteps steps = mock(CandidateSteps.class);
         Class<MyStory> storyClass = MyStory.class;
 
         // When
-        RunnableStory story = new MyStory(runner, configuration, steps);
+        RunnableStory story = new MyStory(embedder, configuration, steps);
         story.run();
 
         // Then
-        verify(runner).run(configuration, asList(steps), storyClass);
+        verify(embedder).runStoriesAsClasses(asList(storyClass));
     }
 
 
     @Test
     public void shouldRunMultipleStoriesViaPaths() throws Throwable {
         // Given
-        StoryRunner runner = mock(StoryRunner.class);
+        StoryEmbedder embedder = mock(StoryEmbedder.class);
         StoryConfiguration configuration = mock(StoryConfiguration.class);
         CandidateSteps steps = mock(CandidateSteps.class);
 
         // When
-        MyStories story = new MyStories(runner, configuration, steps);
+        MyStories story = new MyStories(embedder, configuration, steps);
         story.run();
 
         // Then
-        verify(runner).run(configuration, asList(steps), "org/jbehave/core/story1");
-        verify(runner).run(configuration, asList(steps), "org/jbehave/core/story2");
-    }
-
-    @Test(expected= InvalidRunnableStoryException.class)
-    public void shouldFailIfNotAllParametersAreProvidedToStoryRunner() throws Throwable {
-        // Given
-        StoryRunner runner = mock(StoryRunner.class);
-        StoryConfiguration configuration = mock(StoryConfiguration.class);
-        CandidateSteps steps = mock(CandidateSteps.class);
-
-        // When
-        MyInvalidStories story = new MyInvalidStories(runner, configuration, steps);
-        story.run();
-
-    }
-
-
-    @Test(expected= InvalidRunnableStoryException.class)
-    public void shouldFailIfUsingInvalidDelegator() throws Throwable {
-        // Given
-        StoryRunner runner = mock(StoryRunner.class);
-        StoryConfiguration configuration = mock(StoryConfiguration.class);
-        CandidateSteps steps = mock(CandidateSteps.class);
-
-        // When
-        MyInvalidDelegator story = new MyInvalidDelegator();
-        story.run();
-
+        verify(embedder).runStoriesAsPaths(asList("org/jbehave/core/story1", "org/jbehave/core/story2"));
     }
 
     @Test
     public void shouldAllowOverrideOfDefaultConfiguration() throws Throwable {
         // Given
-        StoryRunner runner = mock(StoryRunner.class);
+        StoryEmbedder embedder = mock(StoryEmbedder.class);
         StoryConfiguration configuration = mock(StoryConfiguration.class);
         CandidateSteps steps = mock(CandidateSteps.class);
         Class<MyStory> storyClass = MyStory.class;
 
         // When
-        RunnableStory story = new MyStory(runner, steps);
+        RunnableStory story = new MyStory(embedder, steps);
         ensureThat(story.getConfiguration(), Matchers.not(Matchers.sameInstance(configuration)));
         story.useConfiguration(configuration);
         story.run();
 
         // Then
         ensureThat(!(story.getConfiguration() instanceof PropertyBasedStoryConfiguration));
-        verify(runner).run(configuration,  asList(steps), storyClass);
+        verify(embedder).runStoriesAsClasses(asList(storyClass));
     }
 
 
     @Test
     public void shouldAllowAdditionOfSteps() throws Throwable {
         // Given
-        StoryRunner runner = mock(StoryRunner.class);
+        StoryEmbedder embedder = mock(StoryEmbedder.class);
         StoryConfiguration configuration = mock(StoryConfiguration.class);
         CandidateSteps steps = mock(CandidateSteps.class);
         Class<MyStory> storyClass = MyStory.class;
 
         // When
-        RunnableStory story = new MyStory(runner, configuration);
+        RunnableStory story = new MyStory(embedder, configuration);
         story.addSteps(steps);
         story.run();
 
         // Then
-        verify(runner).run(configuration,  asList(steps), storyClass);
+        verify(embedder).runStoriesAsClasses(asList(storyClass));
     }
 
     private class MyStory extends JUnitStory {
+        private StoryEmbedder embedder;
 
-        public MyStory(StoryRunner runner, CandidateSteps... steps) {
-            super(runner);
+        public MyStory(StoryEmbedder embedder, CandidateSteps... steps) {
+            this.embedder = embedder;
             addSteps(steps);
         }
 
-        public MyStory(StoryRunner runner, StoryConfiguration configuration, CandidateSteps... steps) {
-            super(runner);
+        public MyStory(StoryEmbedder embedder, StoryConfiguration configuration, CandidateSteps... steps) {
+            this.embedder = embedder;
             useConfiguration(configuration);
             addSteps(steps);
         }
 
+        @Override
+        protected StoryEmbedder storyEmbedder() {
+            return embedder;
+        }
     }
 
     private class MyStories extends JUnitStories {
+        private StoryEmbedder embedder;
 
-
-        public MyStories(StoryRunner runner, StoryConfiguration configuration, CandidateSteps... steps) {
-            super(runner);
+        public MyStories(StoryEmbedder embedder, StoryConfiguration configuration, CandidateSteps... steps) {
+            this.embedder = embedder;
             useConfiguration(configuration);
             addSteps(steps);
         }
@@ -139,26 +116,11 @@ public class RunnableStoryBehaviour {
         protected List<String> storyPaths() {
             return asList("org/jbehave/core/story1", "org/jbehave/core/story2");
         }
-    }
 
-
-    private class MyInvalidStories extends JUnitStories {
-
-
-        public MyInvalidStories(StoryRunner runner, StoryConfiguration configuration, CandidateSteps... steps) {
-            super(runner);
-            useConfiguration(configuration);
-            addSteps(steps);
-        }
-
-        @Override
-        protected List<String> storyPaths() {
-            return null;
+        protected StoryEmbedder storyEmbedder() {
+            return embedder;
         }
     }
 
-    private class MyInvalidDelegator extends RunnableStoryDelegator {
-        // not delegating to anything, defaults to no-op impl
-    }
 
 }

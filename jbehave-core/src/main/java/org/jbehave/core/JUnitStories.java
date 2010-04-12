@@ -1,40 +1,26 @@
 package org.jbehave.core;
 
+import org.jbehave.core.steps.CandidateSteps;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import static java.util.Arrays.asList;
 
 /**
  * <p>
- * {@link RunnableStoryDelegator} that runs multiple stories via their story paths.
+ * JUnit-runnable entry-point to run a single story specified by a {@link RunnableStory} class.
  * </p>
- *
- * @see RunnableStoryDelegator
  */
-public abstract class JUnitStories extends RunnableStoryDelegator {
-
-    public JUnitStories() {
-        this(new StoryRunner());
-    }
-
-    public JUnitStories(StoryRunner storyRunner) {
-        delegateTo(new JUnitStoriesDelegate(storyRunner, storyPaths()));
-    }
+public abstract class JUnitStories extends AbstractStory {
 
     @Test
     public void run() throws Throwable {
-        super.run();
+        StoryEmbedder embedder = storyEmbedder();
+        embedder.runStoriesAsPaths(storyPaths());
     }
 
     protected abstract List<String> storyPaths();
-
-    public static class JUnitStoriesDelegate extends AbstractStory {
-
-        public JUnitStoriesDelegate(StoryRunner storyRunner, List<String> storyPaths) {
-            super(storyRunner, storyPaths);
-        }
-
-
-    }
 
 }

@@ -26,56 +26,39 @@ import org.jbehave.core.steps.CandidateSteps;
  */
 public abstract class AbstractStory implements RunnableStory {
 
-    private final StoryRunner storyRunner;
-    private StoryConfiguration configuration = new MostUsefulStoryConfiguration();
-    private Class<? extends RunnableStory> storyClass;
-    private List<String> storyPaths;
-    private List<CandidateSteps> candidateSteps = new ArrayList<CandidateSteps>();
-
-    protected AbstractStory() {
-        this.storyRunner = new StoryRunner();
-    }
-
-    protected AbstractStory(StoryRunner storyRunner, Class<? extends RunnableStory> storyClass) {
-        this.storyRunner = storyRunner;
-        this.storyClass = storyClass;
-    }
-
-    protected AbstractStory(StoryRunner storyRunner, List<String> storyPaths) {
-        this.storyRunner = storyRunner;
-        this.storyPaths = storyPaths;
-    }
-
-    public void run() throws Throwable {
-        if (storyClass != null) {
-            storyRunner.run(configuration, candidateSteps, storyClass);
-        } else if (storyPaths != null) {
-            for (String storyPath : storyPaths) {
-                storyRunner.run(configuration, candidateSteps, storyPath);
-            }
-        } else {
-            throw new InvalidRunnableStoryException("Either a RunnableStory class or a list of story paths must be provided");
-        }
-    }
+    protected StoryConfiguration configuration = new MostUsefulStoryConfiguration();
+    protected List<CandidateSteps> candidateSteps = new ArrayList<CandidateSteps>();
 
     public void useConfiguration(StoryConfiguration configuration) {
         this.configuration = configuration;
-    }
-
-    public StoryConfiguration getConfiguration() {
-        return configuration;
     }
 
     public void addSteps(CandidateSteps... steps) {
         this.candidateSteps.addAll(asList(steps));
     }
 
+    public StoryConfiguration getConfiguration() {
+        return configuration;
+    }
+
     public List<CandidateSteps> getSteps() {
         return candidateSteps;
     }
 
-    public void generateStepdoc() {
-        configuration.stepdocReporter().report(configuration.stepdocGenerator().generate(candidateSteps.toArray(new CandidateSteps[candidateSteps.size()])));
-    }
+    protected StoryEmbedder storyEmbedder() {
+         StoryEmbedder embedder = new StoryEmbedder(){
+             @Override
+             public List<CandidateSteps> candidateSteps() {
+                 return candidateSteps;
+             }
 
+             @Override
+             public StoryConfiguration configuration() {
+                 return configuration;
+             }
+         };
+         return embedder;
+     }
+
+      
 }

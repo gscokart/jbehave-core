@@ -4,6 +4,8 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.jbehave.core.RunnableStory;
 import org.jbehave.core.StoryClassLoader;
+import org.jbehave.core.StoryEmbedder;
+import org.jbehave.core.StoryRunnerMonitor;
 import org.jbehave.core.parser.StoryPathFinder;
 
 import java.lang.reflect.Modifier;
@@ -104,6 +106,20 @@ public abstract class AbstractStoryMojo extends AbstractMojo {
      * @parameter default-value="false"
      */
     private boolean ignoreFailure;
+
+    /**
+     * The boolean flag to run in batch mode
+     *
+     * @parameter default-value="false"
+     */
+    private boolean batch;
+
+    /**
+     * The story embedder to run the stories
+     *
+     * @parameter default-value="org.jbehave.core.StoryEmbedder"
+     */
+    private String storyEmbedder;
     
     /**
      * Used to find story class names
@@ -171,6 +187,15 @@ public abstract class AbstractStoryMojo extends AbstractMojo {
         return skip;
     }
 
+    /**
+     * Indicates if stories are batched
+     *
+     * @return A boolean flag, <code>true</code> if stories are batched
+     */
+    protected boolean batch() {
+        return batch;
+    }
+
     protected List<String> storyPaths() {
         getLog().debug("Searching for story paths including "+ storyIncludes +" and excluding "+ storyExcludes);
         List<String> storyPaths = finder.listStoryPaths(rootSourceDirectory(), null, storyIncludes,
@@ -230,5 +255,31 @@ public abstract class AbstractStoryMojo extends AbstractMojo {
             }
         }
         return classLoader.newStory(name);
+    }
+
+    protected StoryEmbedder newStoryEmbedder() {
+        try {
+            return (StoryEmbedder)createStoryClassLoader().loadClass(storyEmbedder).newInstance();
+        } catch ( Exception e) {
+            throw new RuntimeException("Failed to create story embedder "+storyEmbedder, e);
+        }
+    }
+
+    protected class MavenRunnerMonitor implements StoryRunnerMonitor {
+        public void storiesBatchFailed(String failedStories) {
+            getLog().warn("Failed to run stories batch: "+failedStories);
+        }
+
+        public void storyFailed(String storyName, Throwable e) {
+            getLog().warn("Failed to run story "+storyName, e);
+        }
+
+        public void runningStory(String storyName) {
+            getLog().info("Running story "+storyName);
+        }
+
+        public void storiesNotRun() {
+            getLog().info("Stories not run");
+        }
     }
 }

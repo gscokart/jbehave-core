@@ -231,7 +231,8 @@
               <tasks>
                 <taskdef name="stepdoc" classname="org.jbehave.ant.StepdocTask"
                   classpathref="maven.runtime.classpath" />
-                <stepdoc storyIncludes="**/stories/*.java"
+                <stepdoc storyEmbedder="org.jbehave.examples.trader.TraderStoryEmbedder"
+                  storyIncludes="**/stories/*.java"
                   storyExcludes="**/i18n/stories/*.java"
                   classLoaderInjected="false" skip="${skip.ant.stepdoc}" />
               </tasks>

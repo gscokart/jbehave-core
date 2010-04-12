@@ -1,36 +1,26 @@
 package org.jbehave.core;
 
+import org.jbehave.core.steps.CandidateSteps;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static java.util.Arrays.asList;
 
 /**
  * <p>
- * {@link RunnableStoryDelegator} that runs a story via a single {@link RunnableStory} class.
+ * JUnit-runnable entry-point to run a single story specified by a {@link RunnableStory} class.
  * </p>
- *
- * @see RunnableStoryDelegator
  */
-public abstract class JUnitStory extends RunnableStoryDelegator {
-
-    public JUnitStory() {
-        this(new StoryRunner());
-    }
-
-    public JUnitStory(StoryRunner storyRunner) {
-        delegateTo(new JUnitStoryDelegate(storyRunner, this.getClass()));
-    }
-
+public abstract class JUnitStory extends AbstractStory {
+    
     @Test
     public void run() throws Throwable {
-        super.run();
+        StoryEmbedder embedder = storyEmbedder();
+        Class<? extends RunnableStory> storyClss = this.getClass();
+        embedder.runStoriesAsClasses(asList(storyClss));
     }
 
-    public static class JUnitStoryDelegate extends AbstractStory {
-
-        public JUnitStoryDelegate(StoryRunner storyRunner, Class<? extends RunnableStory> storyClass) {
-            super(storyRunner, storyClass);
-        }
-
-
-    }
-
+ 
 }

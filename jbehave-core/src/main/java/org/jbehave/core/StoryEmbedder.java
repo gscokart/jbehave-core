@@ -1,5 +1,6 @@
 package org.jbehave.core;
 
+import org.jbehave.core.parser.StoryPathResolver;
 import org.jbehave.core.reporters.FilePrintStreamFactory;
 import org.jbehave.core.reporters.StoryReporter;
 import org.jbehave.core.reporters.StoryReporterBuilder;
@@ -8,6 +9,7 @@ import org.jbehave.core.steps.CandidateSteps;
 import org.jbehave.core.steps.MostUsefulStepsConfiguration;
 import org.jbehave.core.steps.StepsFactory;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,15 +18,16 @@ import static java.util.Arrays.asList;
 import static org.jbehave.core.reporters.StoryReporterBuilder.Format.*;
 
 public class StoryEmbedder {
-    private StoryRunnerMonitor runnerMonitor;
+    private StoryRunner runner;
     private StoryRunnerMode runnerMode;
-    private StoryRunner runner = new StoryRunner();
+    private StoryRunnerMonitor runnerMonitor;
 
     public StoryEmbedder() {
-        this(new PrintStreamRunnerMonitor(), new StoryRunnerMode());
+        this(new StoryRunner(), new StoryRunnerMode(), new PrintStreamRunnerMonitor());
     }
 
-    public StoryEmbedder(StoryRunnerMonitor runnerMonitor, StoryRunnerMode runnerMode) {
+    public StoryEmbedder(StoryRunner runner, StoryRunnerMode runnerMode, StoryRunnerMonitor runnerMonitor) {
+        this.runner = runner;
         this.runnerMonitor = runnerMonitor;
         this.runnerMode = runnerMode;
     }
@@ -65,6 +68,15 @@ public class StoryEmbedder {
 
     }
 
+    public void runStoriesAsClasses(List<? extends Class<? extends RunnableStory>> storyClasses) {
+        List<String> storyPaths = new ArrayList<String>();
+        StoryPathResolver resolver = configuration().storyPathResolver();
+        for (Class<? extends RunnableStory> storyClass : storyClasses) {
+            storyPaths.add(resolver.resolve(storyClass));
+        }
+        runStoriesAsPaths(storyPaths);
+    }
+
     public void runStoriesAsPaths(List<String> storyPaths) {
         if (runnerMode.skip()) {
             runnerMonitor.storiesNotRun();
@@ -77,7 +89,7 @@ public class StoryEmbedder {
                 runnerMonitor.runningStory(storyPath);
                 StoryReporter storyReporter = storyReporter(storyPath, storyReporterFormats());
                 StoryConfiguration configuration = configuration();
-                configuration.addStoryReporter(storyPath, storyReporter);                
+                configuration.addStoryReporter(storyPath, storyReporter);
                 runner.run(configuration, candidateSteps(), storyPath);
             } catch (Throwable e) {
                 if (runnerMode.batch()) {
@@ -103,6 +115,12 @@ public class StoryEmbedder {
 
     }
 
+    public void generateStepdoc() {
+        StoryConfiguration configuration = configuration();
+        List<CandidateSteps> candidateSteps = candidateSteps();
+        configuration.stepdocReporter().report(configuration.stepdocGenerator().generate(candidateSteps.toArray(new CandidateSteps[candidateSteps.size()])));
+    }
+    
     public StoryConfiguration configuration() {
         return new MostUsefulStoryConfiguration();
     }
@@ -119,8 +137,12 @@ public class StoryEmbedder {
         return builder.build();
     }
 
-    protected StoryReporterBuilder.Format[] storyReporterFormats(){
+    protected StoryReporterBuilder.Format[] storyReporterFormats() {
         return new StoryReporterBuilder.Format[]{CONSOLE};
+    }
+
+    public void useStoryRunner(StoryRunner runner) {
+        this.runner = runner;
     }
 
     public void useRunnerMode(StoryRunnerMode runnerMode) {
