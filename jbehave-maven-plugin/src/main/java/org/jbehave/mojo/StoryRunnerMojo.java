@@ -25,7 +25,7 @@ public class StoryRunnerMojo extends AbstractStoryMojo {
         StoryEmbedder embedder = new StoryEmbedder();
         embedder.useRunnerMonitor(new MavenRunnerMonitor());
         embedder.useRunnerMode(new StoryRunnerMode(batch, skipStories(), ignoreFailure()));
-        embedder.run(stories());
+        embedder.runStories(stories());
     }
 
     private class MavenRunnerMonitor implements StoryRunnerMonitor {

@@ -32,7 +32,7 @@ public class StoryEmbedder {
         this.runnerMode = runnerMode;
     }
 
-    public void run(List<RunnableStory> runnableStories) {
+    public void runStories(List<RunnableStory> runnableStories) {
         if (runnerMode.skip()) {
             runnerMonitor.storiesNotRun();
             return;

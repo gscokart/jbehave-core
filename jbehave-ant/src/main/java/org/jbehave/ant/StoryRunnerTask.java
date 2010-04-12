@@ -24,7 +24,7 @@ public class StoryRunnerTask extends AbstractStoryTask {
         StoryEmbedder embedder = new StoryEmbedder();
         embedder.useRunnerMonitor(new AntRunnerMonitor());
         embedder.useRunnerMode(new StoryRunnerMode(batch, skipStories(), ignoreFailure()));
-        embedder.run(stories());
+        embedder.runStories(stories());
     }
 
     private class AntRunnerMonitor implements StoryRunnerMonitor {

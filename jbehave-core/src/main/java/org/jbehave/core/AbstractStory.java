@@ -12,14 +12,12 @@ import org.jbehave.core.steps.CandidateSteps;
  * <p>
  * Abstract implementation of RunnableStory which is intended as a base
  * class for delegate implementations of RunnableStory. As such, it has no explicit
- * supports for any test framework, i.e. it requires the {@link RunnableStory#run()}
- * method to be invoked directly, and the class of the story being run needs
- * to be provided explicitly.  The {@link RunnableStory#run ()} method then
- * uses the {@link StoryRunner} to run the story or stories, using the provided
+ * supports for any test framework.  It provides the
+ * {@link StoryEmbedder} used to run the story or stories, with the provided
  * {@link StoryConfiguration} and the {@link CandidateSteps}.
  * </p>
  * <p>
- * Typically, users will find it easier to extend decorator stories, such as
+ * Typically, users will find it easier to extend other implementations such as
  * {@link JUnitStory} or {@link JUnitStories} which also provide support for test frameworks
  * and also provide the story class or story paths being implemented by the user.
  * </p>
@@ -46,19 +44,19 @@ public abstract class AbstractStory implements RunnableStory {
     }
 
     protected StoryEmbedder storyEmbedder() {
-         StoryEmbedder embedder = new StoryEmbedder(){
-             @Override
-             public List<CandidateSteps> candidateSteps() {
-                 return candidateSteps;
-             }
+        StoryEmbedder embedder = new StoryEmbedder() {
+            @Override
+            public List<CandidateSteps> candidateSteps() {
+                return candidateSteps;
+            }
 
-             @Override
-             public StoryConfiguration configuration() {
-                 return configuration;
-             }
-         };
-         return embedder;
-     }
+            @Override
+            public StoryConfiguration configuration() {
+                return configuration;
+            }
+        };
+        return embedder;
+    }
 
-      
+
 }
