@@ -71,6 +71,11 @@
     </dependency>
   </dependencies>
 
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <resource.encoding>UTF-8</resource.encoding>  
+  </properties>
+
   <build>
     <sourceDirectory>src/main/java</sourceDirectory>
     <testSourceDirectory>src/behaviour/java</testSourceDirectory>
@@ -177,7 +182,7 @@
           <artifactId>maven-resources-plugin</artifactId>
           <version>2.4</version>
           <configuration>
-            <encoding>UTF-8</encoding>
+            <encoding>${resource.encoding}</encoding>
           </configuration>
         </plugin>
         <plugin>

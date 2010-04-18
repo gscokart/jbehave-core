@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.jbehave.core.i18n.StringEncoder;
+import org.jbehave.core.i18n.StringCoder;
 
 /**
  * Provides the keywords which allow parsers to find steps in stories and
@@ -57,7 +57,7 @@ public class Keywords {
     private final String notPerformed;
     private final String failed;
     private final String[] others;
-    private StringEncoder encoder;
+    private StringCoder encoder;
 
     public static Map<String, String> defaultKeywords() {
         Map<String, String> keywords = new HashMap<String, String>();
@@ -95,7 +95,7 @@ public class Keywords {
      * @param keywords the Map of keywords indexed by their name
      */
     public Keywords(Map<String, String> keywords) {
-        this(keywords, new StringEncoder());
+        this(keywords, new StringCoder());
     }
 
     /**
@@ -104,7 +104,7 @@ public class Keywords {
      * @param keywords the Map of keywords indexed by their name
      * @param encoder the StringEncoder used to encode the values
      */
-    public Keywords(Map<String, String> keywords, StringEncoder encoder) {
+    public Keywords(Map<String, String> keywords, StringCoder encoder) {
         this.narrative = keyword(NARRATIVE, keywords);
         this.inOrderTo = keyword(IN_ORDER_TO, keywords);
         this.asA = keyword(AS_A, keywords);
@@ -213,7 +213,7 @@ public class Keywords {
 
     public String encode(String value) {
         if (encoder != null) {
-            return encoder.encode(value);
+            return encoder.canonicalize(value);
         }
         return value;
     }

@@ -18,7 +18,7 @@ import static java.util.ResourceBundle.getBundle;
 public class LocalizedKeywords extends Keywords {
 
     private static final Locale DEFAULT_LOCALE = Locale.ENGLISH;
-    private static final StringEncoder DEFAULT_STRING_ENCODER = new StringEncoder();
+    private static final StringCoder DEFAULT_STRING_ENCODER = new StringCoder();
     private static final String DEFAULT_BUNDLE_NAME = "org/jbehave/core/i18n/keywords";
     private static final ClassLoader DEFAULT_CLASS_LOADER = Thread.currentThread().getContextClassLoader();
 
@@ -30,19 +30,19 @@ public class LocalizedKeywords extends Keywords {
         this(locale, DEFAULT_STRING_ENCODER, DEFAULT_BUNDLE_NAME, DEFAULT_CLASS_LOADER);
     }
 
-    public LocalizedKeywords(Locale locale, StringEncoder encoder) {
+    public LocalizedKeywords(Locale locale, StringCoder encoder) {
         this(locale, encoder, DEFAULT_BUNDLE_NAME, DEFAULT_CLASS_LOADER);
     }
 
-    public LocalizedKeywords(Locale locale, StringEncoder encoder, String bundleName) {
+    public LocalizedKeywords(Locale locale, StringCoder encoder, String bundleName) {
         super(keywords(bundleName, locale, encoder, DEFAULT_CLASS_LOADER), encoder);
     }
 
-    public LocalizedKeywords(Locale locale, StringEncoder encoder, String bundleName, ClassLoader classLoader) {
+    public LocalizedKeywords(Locale locale, StringCoder encoder, String bundleName, ClassLoader classLoader) {
         super(keywords(bundleName, locale, encoder, classLoader), encoder);
     }
 
-    private static Map<String, String> keywords(String bundleName, Locale locale, StringEncoder encoder,
+    private static Map<String, String> keywords(String bundleName, Locale locale, StringCoder encoder,
             ClassLoader classLoader) {
         ResourceBundle bundle = lookupBunde(bundleName.trim(), locale, classLoader);
         Map<String, String> keywords = new HashMap<String, String>();
@@ -52,9 +52,9 @@ public class LocalizedKeywords extends Keywords {
         return keywords;
     }
 
-    private static String keyword(String name, ResourceBundle bundle, StringEncoder encoder) {
+    private static String keyword(String name, ResourceBundle bundle, StringCoder encoder) {
         try {
-            return encoder.encode(bundle.getString(name));
+            return encoder.canonicalize(bundle.getString(name));
         } catch (MissingResourceException e) {
             throw new LocalizedKeywordNotFoundException(name, bundle);
         }

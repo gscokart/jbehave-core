@@ -4,7 +4,7 @@ import org.jbehave.core.JUnitStory;
 import org.jbehave.core.MostUsefulStoryConfiguration;
 import org.jbehave.core.StoryConfiguration;
 import org.jbehave.core.i18n.LocalizedKeywords;
-import org.jbehave.core.i18n.StringEncoder;
+import org.jbehave.core.i18n.StringCoder;
 import org.jbehave.core.model.Keywords;
 import org.jbehave.core.parser.LoadFromClasspath;
 import org.jbehave.core.parser.RegexStoryParser;
@@ -23,7 +23,7 @@ public class ItTraderStory extends JUnitStory {
         StoryConfiguration storyConfiguration = new MostUsefulStoryConfiguration();
         storyConfiguration.useStoryPathResolver(new UnderscoredCamelCaseResolver(".story"));
         ClassLoader classLoader = this.getClass().getClassLoader();
-        Keywords keywords = new LocalizedKeywords(new Locale("it"), new StringEncoder(), "org/jbehave/examples/trader/i18n/keywords", classLoader);
+        Keywords keywords = new LocalizedKeywords(new Locale("it"), new StringCoder(), "org/jbehave/examples/trader/i18n/keywords", classLoader);
         // use Italian for keywords
         storyConfiguration.useKeywords(keywords);
         storyConfiguration.useStoryParser(new RegexStoryParser(storyConfiguration.keywords()));

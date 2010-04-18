@@ -1,56 +1,75 @@
-/**
- * 
- */
 package org.jbehave.core.i18n;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+
+import org.apache.commons.lang.CharEncoding;
 
 /**
- * Supports encoding of strings using specified charsets for encoding (i.e. from
- * String to byte[]) and decoding (i.e. from byte[] to String).
+ * Supports encoding and decoding of strings using specified charsets.
  */
-public class StringEncoder {
+public class StringCoder {
 
-	public static final String UTF_8 = "UTF-8";
-	private String encoding;
-	private String decoding;
+    public enum Mode {
+        STRICT, WARN
+    }
 
-	/**
-	 * Creates an encoder using "UTF-8" for encoding and decoding
-	 */
-	public StringEncoder() {
-		this(UTF_8, UTF_8);
-	}
+    private final String charsetName;
 
-	/**
-	 * Creates an encoder using the specifed charsets for encoding and decoding
-	 * 
-	 * @param encoding
-	 *            the name of the encoding charset
-	 * @param decoding
-	 *            the name of the decoding charset
-	 */
-	public StringEncoder(String encoding, String decoding) {
-		this.encoding = encoding;
-		this.decoding = decoding;
-	}
+    /**
+     * Creates a StringCoder using {@link Charset.defaultCharset().name()}
+     */
+    public StringCoder() {
+        this(Charset.defaultCharset().name());
+    }
 
-	public String encode(String value) {
-		try {
-			return new String(value.getBytes(encoding), decoding);
-		} catch (UnsupportedEncodingException e) {
-			throw new InvalidEncodingExcepion(value, e);
-		}
-	}
+    /**
+     * Creates a StringCoder using the specified charset
+     * 
+     * @param charsetName the name of the charset
+     */
+    public StringCoder(String charsetName) {
+        this.charsetName = charsetName;
+    }
 
-	@SuppressWarnings("serial")
-	public static final class InvalidEncodingExcepion extends RuntimeException {
+    public String getCharsetName() {
+        return charsetName;
+    }
+    
+    public boolean isCharsetSupported() {
+        return CharEncoding.isSupported(charsetName);
+    }
 
-		public InvalidEncodingExcepion(String value,
-				UnsupportedEncodingException cause) {
-			super(value, cause);
-		}
+    /**
+     * Encodes and decodes input using the coder charset
+     * 
+     * @param input the String input 
+     * @return String after encoding and decoding
+     * @throws InvalidEncodingException if encoding is not supported for charset
+     */
+    public String canonicalize(String input) {
+        try {
+            return new String(input.getBytes(charsetName), charsetName);
+        } catch (UnsupportedEncodingException e) {
+            throw new InvalidEncodingException(input, e);
+        }
+    }
 
-	}
+    public void validateEncoding(String input, Mode mode) {
+        // TODO implement validation
+    }
+
+    @SuppressWarnings("serial")
+    public static final class InvalidEncodingException extends RuntimeException {
+
+        public InvalidEncodingException(String message) {
+            super(message);
+        }
+
+        public InvalidEncodingException(String input, UnsupportedEncodingException cause) {
+            super(input, cause);
+        }
+
+    }
 
 }

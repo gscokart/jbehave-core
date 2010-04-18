@@ -1,56 +1,17 @@
-/**
- * 
- */
 package org.jbehave.core.i18n;
 
-import java.io.UnsupportedEncodingException;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-/**
- * Supports encoding of strings using specified charsets for encoding (i.e. from
- * String to byte[]) and decoding (i.e. from byte[] to String).
- */
-public class StringEncoderBehaviour {
+import org.junit.Test;
 
-	public static final String UTF_8 = "UTF-8";
-	private String encoding;
-	private String decoding;
-
-	/**
-	 * Creates an encoder using "UTF-8" for encoding and decoding
-	 */
-	public StringEncoderBehaviour() {
-		this(UTF_8, UTF_8);
-	}
-
-	/**
-	 * Creates an encoder using the specifed charsets for encoding and decoding
-	 *
-	 * @param encoding
-	 *            the name of the encoding charset
-	 * @param decoding
-	 *            the name of the decoding charset
-	 */
-	public StringEncoderBehaviour(String encoding, String decoding) {
-		this.encoding = encoding;
-		this.decoding = decoding;
-	}
-
-	public String encode(String value) {
-		try {
-			return new String(value.getBytes(encoding), decoding);
-		} catch (UnsupportedEncodingException e) {
-			throw new InvalidEncodingExcepion(value, e);
-		}
-	}
-
-	@SuppressWarnings("serial")
-	public static final class InvalidEncodingExcepion extends RuntimeException {
-
-		public InvalidEncodingExcepion(String value,
-				UnsupportedEncodingException cause) {
-			super(value, cause);
-		}
-
-	}
+public class StringCoderBehaviour {
+    
+    @Test
+    public void shouldSupportUTF8() {        
+        StringCoder coder = new StringCoder("UTF-8");
+        assertTrue(coder.isCharsetSupported());
+        assertEquals("UTF-8", coder.getCharsetName());
+    }
 
 }

@@ -21,7 +21,7 @@ import static org.junit.Assert.assertEquals;
 
 public class LocalizedKeywordsBehaviour {
 
-    private StringEncoder encoder = new StringEncoder("UTF-8", "UTF-8");
+    private StringCoder encoder = new StringCoder("UTF-8");
 
     @Test
     public void shouldAllowKeywordsInEnglishAsDefault() throws IOException {
@@ -53,7 +53,7 @@ public class LocalizedKeywordsBehaviour {
 
     private void ensureKeywordsAreLocalised(StepsConfiguration configuration, Locale locale) {
         Map<StepType, String> startingWordsByType = configuration.getStartingWordsByType();
-        Keywords keywords = keyWordsFor(locale, null);
+        Keywords keywords = keywordsFor(locale, null);
         ensureThat(startingWordsByType.get(StepType.GIVEN), equalTo(keywords.given()));
         ensureThat(startingWordsByType.get(StepType.WHEN), equalTo(keywords.when()));
         ensureThat(startingWordsByType.get(StepType.THEN), equalTo(keywords.then()));
@@ -62,7 +62,7 @@ public class LocalizedKeywordsBehaviour {
     }
 
     private void ensureKeywordsAreLocalisedFor(Locale locale, String bundleName) throws IOException {
-        Keywords keywords = keyWordsFor(locale, bundleName);
+        Keywords keywords = keywordsFor(locale, bundleName);
         Properties properties = bundleFor(locale);
         ensureKeywordIs(properties, NARRATIVE, keywords.narrative());
         ensureKeywordIs(properties, IN_ORDER_TO, keywords.inOrderTo());
@@ -84,11 +84,11 @@ public class LocalizedKeywordsBehaviour {
         ensureKeywordIs(properties, FAILED, keywords.failed());
     }
 
-    private LocalizedKeywords keyWordsFor(Locale locale, String bundleName) {
+    private LocalizedKeywords keywordsFor(Locale locale, String bundleName) {
         if (bundleName == null) {
             return (locale == null ? new LocalizedKeywords() : new LocalizedKeywords(locale));
         } else {
-            return new LocalizedKeywords(locale, new StringEncoder(), bundleName, Thread.currentThread()
+            return new LocalizedKeywords(locale, new StringCoder(), bundleName, Thread.currentThread()
                     .getContextClassLoader());
         }
     }
@@ -105,7 +105,7 @@ public class LocalizedKeywordsBehaviour {
     }
 
     private void ensureKeywordIs(Properties properties, String key, String value) {
-        assertEquals(encoder.encode(properties.getProperty(key, value)), value);
+        assertEquals(encoder.canonicalize(properties.getProperty(key, value)), value);
     }
 
 }
