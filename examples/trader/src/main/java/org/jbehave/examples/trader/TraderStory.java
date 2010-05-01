@@ -25,7 +25,7 @@ import static org.jbehave.core.reporters.StoryReporterBuilder.Format.HTML;
 import static org.jbehave.core.reporters.StoryReporterBuilder.Format.TXT;
 import static org.jbehave.core.reporters.StoryReporterBuilder.Format.XML;
 
-public class TraderStory extends JUnitStory {
+public abstract class TraderStory extends JUnitStory {
 
     public TraderStory() {
         // start with default story configuration, overriding story definer and reporter
@@ -34,6 +34,8 @@ public class TraderStory extends JUnitStory {
         String storyPath = storyConfiguration.storyPathResolver().resolve(this.getClass());
         storyConfiguration.useStoryLoader(new LoadFromClasspath(this.getClass().getClassLoader()));
         storyConfiguration.useStoryReporter(new StoryReporterBuilder(new FilePrintStreamFactory(storyPath))
+        		.outputTo("target/jbehave-reports").outputAsAbsolute(true)
+        		.withDefaultFormats()
                 .with(CONSOLE)
                 .with(TXT)
                 .with(HTML)

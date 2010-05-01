@@ -31,6 +31,7 @@ public class TraderStories extends JUnitStories {
         List<String> storyPaths = storyPaths();
         for ( String storyPath : storyPaths ){
             StoryReporter storyReporter = new StoryReporterBuilder(new FilePrintStreamFactory(storyPath))
+            				.withDefaultFormats()
                             .with(CONSOLE)
                             .with(TXT)
                             .with(HTML)

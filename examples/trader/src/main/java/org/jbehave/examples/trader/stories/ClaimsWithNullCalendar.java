@@ -1,53 +1,37 @@
 package org.jbehave.examples.trader.stories;
 
-import static org.jbehave.core.reporters.StoryReporterBuilder.Format.CONSOLE;
-import static org.jbehave.core.reporters.StoryReporterBuilder.Format.HTML;
-import static org.jbehave.core.reporters.StoryReporterBuilder.Format.TXT;
-import static org.jbehave.core.reporters.StoryReporterBuilder.Format.XML;
-
 import java.util.Calendar;
 
-import org.jbehave.core.*;
-import org.jbehave.core.parser.*;
-import org.jbehave.core.steps.*;
-import org.jbehave.examples.trader.converters.CalendarConverter;
+import org.jbehave.core.JUnitStory;
+import org.jbehave.core.MostUsefulStoryConfiguration;
+import org.jbehave.core.StoryConfiguration;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Named;
 import org.jbehave.core.annotations.Then;
-import org.jbehave.core.reporters.FilePrintStreamFactory;
-import org.jbehave.core.reporters.StoryReporter;
-import org.jbehave.core.reporters.StoryReporterBuilder;
+import org.jbehave.core.parser.UnderscoredCamelCaseResolver;
+import org.jbehave.core.reporters.PrintStreamOutput;
+import org.jbehave.core.steps.MostUsefulStepsConfiguration;
+import org.jbehave.core.steps.ParameterConverters;
+import org.jbehave.core.steps.StepsConfiguration;
+import org.jbehave.core.steps.StepsFactory;
+import org.jbehave.examples.trader.converters.CalendarConverter;
 
 public class ClaimsWithNullCalendar extends JUnitStory {
 
     public ClaimsWithNullCalendar() {
-        // here we show how we can override the default configuration via an inner class
-        final StoryPathResolver resolver = new UnderscoredCamelCaseResolver(".story");
-        StoryConfiguration storyConfiguration = new MostUsefulStoryConfiguration(){
-            @Override
-            public StoryReporter storyReporter() {
-                return new StoryReporterBuilder(new FilePrintStreamFactory(resolver.resolve(ClaimsWithNullCalendar.class)))
-                .with(CONSOLE)
-                .with(TXT)
-                .with(HTML)
-                .with(XML)
-                .build();
-            }
-        };
-        storyConfiguration.useStoryPathResolver(resolver);
+        StoryConfiguration storyConfiguration = new MostUsefulStoryConfiguration();
+        storyConfiguration.useStoryPathResolver(new UnderscoredCamelCaseResolver(".story"));        
+        storyConfiguration.useStoryReporter(new PrintStreamOutput());
         useConfiguration(storyConfiguration);
 
         StepsConfiguration stepsConfiguration = new MostUsefulStepsConfiguration();
-        StepMonitor monitor = new SilentStepMonitor();
 		stepsConfiguration.useParameterConverters(new ParameterConverters(
-        		monitor, new CalendarConverter("dd/MM/yyyy"))); 
-		stepsConfiguration.useMonitor(monitor);
+				stepsConfiguration.monitor(), new CalendarConverter("dd/MM/yyyy"))); 
         addSteps(new StepsFactory(stepsConfiguration).createCandidateSteps(new CalendarSteps()));
     }
 
     public static class CalendarSteps {
      
-
         @Given("a plan with calendar date of <date>") 
         public void aPlanWithCalendar(@Named("date") Calendar calendar) {
             System.out.println(calendar);

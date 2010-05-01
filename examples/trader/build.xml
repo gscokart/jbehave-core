@@ -3,7 +3,7 @@
     Note: Use of <artifact:dependencies/> requires maven-ant-tasks-2.1.jar in $ANT_HOME/lib
           Download it from http://maven.apache.org/ant-tasks/download.html
   -->
-<project name="trader" default="all"
+<project name="trader" default="build"
   xmlns:artifact="antlib:org.apache.maven.artifact.ant">
 
   <artifact:pom id="pom" file="pom.xml" />
@@ -23,7 +23,9 @@
     </copy>
     <copy todir="target/classes">
       <fileset dir="src/main/java">
-        <exclude name="**/*.java" />
+        <include name="**/*.story" />
+        <include name="**/*.properties" />
+        <include name="**/*.xml" />        
       </fileset>
     </copy>
 
@@ -48,7 +50,8 @@
   </target>
 
   <target name="run-stories" depends="compile">
-    <taskdef name="storyRunner" classname="org.jbehave.ant.StoryRunnerTask" classpathref="story.classpath" />
+    <taskdef name="storyRunner" classname="org.jbehave.ant.StoryRunnerTask"
+      classpathref="story.classpath" />
 
     <storyRunner storyIncludes="**/stories/*.java"
       sourceDirectory="${basedir}/src/main/java"
@@ -92,7 +95,7 @@
       classpathref="story.classpath" />
 
     <reportRenderer outputDirectory="${basedir}/target/jbehave-reports"
-      formats="txt,html,xml" templateProperties="defaultFormats=stats\nrenderedDirectory=rendered" />
+      formats="txt,html,xml" templateProperties="defaultFormats=stats" />
 
   </target>
 
@@ -103,7 +106,7 @@
       storyExcludes="**/i18n/stories/*.java" classLoaderInjected="false" />
   </target>
 
-  <target name="all" depends="run-stories,render-reports,stepdoc">
+  <target name="build" depends="run-stories,render-reports,stepdoc">
   </target>
 
 </project> 

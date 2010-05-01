@@ -5,107 +5,120 @@ import org.jbehave.core.parser.StoryLocation;
 import java.io.*;
 
 /**
- * Creates {@link PrintStream} instances that write to a file.  {@link FileConfiguration}
- * specifies file directory and the extension, providing useful defaults values.
+ * Creates {@link PrintStream} instances that write to a file.
+ * {@link FileConfiguration} specifies file directory and the extension,
+ * providing useful defaults values.
  */
 public class FilePrintStreamFactory implements PrintStreamFactory {
 
-    private final String storyPath;
-    private FileConfiguration configuration;
-    private File outputFile;
+	private final String storyPath;
+	private FileConfiguration configuration;
+	private File outputFile;
 
-    public FilePrintStreamFactory(String storyPath) {
-        this(storyPath, new FileConfiguration());
-    }
+	public FilePrintStreamFactory(String storyPath) {
+		this(storyPath, new FileConfiguration());
+	}
 
-    public FilePrintStreamFactory(String storyPath, FileConfiguration configuration) {
-        this.storyPath = storyPath;
-        this.configuration = configuration;
-        this.outputFile = outputFile();
-    }
+	public FilePrintStreamFactory(String storyPath,
+			FileConfiguration configuration) {
+		this.storyPath = storyPath;
+		this.configuration = configuration;
+		this.outputFile = outputFile();
+	}
 
-    public PrintStream createPrintStream() {
-        try {
-            outputFile.getParentFile().mkdirs();
-            return new PrintStream(new FileOutputStream(outputFile, true));
-        } catch (IOException e) {
-            throw new PrintStreamCreationFailedException(outputFile, e);
-        }
-    }
+	public PrintStream createPrintStream() {
+		try {
+			outputFile.getParentFile().mkdirs();
+			return new PrintStream(new FileOutputStream(outputFile, true));
+		} catch (IOException e) {
+			throw new PrintStreamCreationFailedException(outputFile, e);
+		}
+	}
 
-    public File getOutputFile() {
-        return outputFile;
-    }
+	public File getOutputFile() {
+		return outputFile;
+	}
 
-    public void useConfiguration(FileConfiguration configuration) {
-        this.configuration = configuration;
-        this.outputFile = outputFile();
-    }
+	public void useConfiguration(FileConfiguration configuration) {
+		this.configuration = configuration;
+		this.outputFile = outputFile();
+	}
 
-    protected File outputFile() {
-        File outputDirectory = outputDirectory();
-        String fileName = fileName();
-        return new File(outputDirectory, fileName);
-    }
+	protected File outputFile() {
+		File outputDirectory = outputDirectory();
+		String fileName = fileName();
+		return new File(outputDirectory, fileName);
+	}
 
-    protected String fileName() {
-        String storyName = storyName();
-        String name = storyName.substring(0, storyName.lastIndexOf("."));
-        return name + "." + configuration.getExtension();
-    }
+	protected String fileName() {
+		String storyName = storyName();
+		String name = storyName.substring(0, storyName.lastIndexOf("."));
+		return name + "." + configuration.getExtension();
+	}
 
-    protected File outputDirectory() {
-        File targetDirectory = new File(storyLocation()).getParentFile();
-        return new File(targetDirectory, configuration.getDirectory());
-    }
+	protected File outputDirectory() {
+		if (configuration.isOutputDirectoryAbsolute()) {
+			return new File(configuration.getOutputDirectory());
+		}
+		File targetDirectory = new File(storyLocation()).getParentFile();
+		return new File(targetDirectory, configuration.getOutputDirectory());
+	}
 
-    private String storyLocation() {
-        return new StoryLocation(storyPath).getLocation().replace("file:", "");
-    }
+	private String storyLocation() {
+		return new StoryLocation(storyPath).getLocation().replace("file:", "");
+	}
 
-    private String storyName() {
-        return new StoryLocation(storyPath).getName().replace('/', '.');
-    }
+	private String storyName() {
+		return new StoryLocation(storyPath).getName().replace('/', '.');
+	}
 
-    /**
-     * StoryConfiguration class for file print streams. Allows specification of the
-     * file directory (relative to the core class code source location) and
-     * the file extension. Provides as defaults {@link #DIRECTORY} and
-     * {@link #HTML}.
-     */
-    public static class FileConfiguration {
-        public static final String DIRECTORY = "jbehave-reports";
-        public static final String HTML = "html";
+	/**
+	 * Configuration class for file print streams. Allows specification the
+	 * output directory (either absolute or relative to the code location) and
+	 * the file extension. Provides as defaults {@link #OUTPUT_DIRECTORY}
+	 * (relative to class code location) and {@link #HTML}.
+	 */
+	public static class FileConfiguration {
+		public static final String OUTPUT_DIRECTORY = "jbehave-reports";
+		public static final String HTML = "html";
 
-        private final String directory;
-        private final String extension;
+		private final String outputDirectory;
+		private final String extension;
+		private final boolean outputAbsolute;
 
-        public FileConfiguration() {
-            this(DIRECTORY, HTML);
-        }
+		public FileConfiguration() {
+			this(HTML);
+		}
 
-        public FileConfiguration(String extension) {
-            this(DIRECTORY, extension);
-        }
+		public FileConfiguration(String extension) {
+			this(OUTPUT_DIRECTORY, false, extension);
+		}
 
-        public FileConfiguration(String directory, String extension) {
-            this.directory = directory;
-            this.extension = extension;
-        }
+		public FileConfiguration(String outputDirectory,
+				boolean outputAbsolute, String extension) {
+			this.outputDirectory = outputDirectory;
+			this.outputAbsolute = outputAbsolute;
+			this.extension = extension;
+		}
 
-        public String getDirectory() {
-            return directory;
-        }
+		public String getOutputDirectory() {
+			return outputDirectory;
+		}
 
-        public String getExtension() {
-            return extension;
-        }
+		public String getExtension() {
+			return extension;
+		}
 
-    }
+		public boolean isOutputDirectoryAbsolute() {
+			return outputAbsolute;
+		}
 
-    private class PrintStreamCreationFailedException extends RuntimeException {
-        public PrintStreamCreationFailedException(File file, IOException cause) {
-            super("Failed to create print stream for file "+file, cause);
-        }
-    }
+	}
+
+	@SuppressWarnings("serial")
+	private class PrintStreamCreationFailedException extends RuntimeException {
+		public PrintStreamCreationFailedException(File file, IOException cause) {
+			super("Failed to create print stream for file " + file, cause);
+		}
+	}
 }

@@ -1,7 +1,6 @@
 package org.jbehave.core.steps;
 
-import org.jbehave.core.model.Scenario;
-import org.jbehave.core.model.Story;
+import static java.util.Arrays.asList;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,7 +8,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-import static java.util.Arrays.asList;
+import org.jbehave.core.model.Scenario;
+import org.jbehave.core.model.Story;
 
 /**
  * StepCreator that marks unmatched steps as {@link StepResult.Pending}
@@ -56,22 +56,32 @@ public class MarkUnmatchedStepsAsPending implements StepCreator {
     private void addMatchedScenarioSteps(Scenario scenario, List<Step> steps,
                                          Map<String, String> tableRow, List<CandidateSteps> candidateSteps) {
         List<CandidateStep> prioritised = prioritise(candidateSteps);
-        for (String stringStep : scenario.getSteps()) {
+        String previousStep = null;
+        for (String stringStep : scenario.getSteps()) {        	
             Step step = new PendingStep(stringStep);
             for (CandidateStep candidate : prioritised) {
                 if (candidate.ignore(stringStep)) { // ignorable steps are added
-                    // so they can be reported
+                                                    // so they can be reported
                     step = new IgnorableStep(stringStep);
                     break;
                 }
-                if (candidate.matches(stringStep)) {
+                if (matchesCandidate(stringStep, previousStep, candidate)) {
                     step = candidate.createFrom(tableRow, stringStep);
                     break;
                 }
             }
             steps.add(step);
+            previousStep = stringStep;
         }
     }
+
+	private boolean matchesCandidate(String stringStep, String previousStep,
+			CandidateStep candidate) {
+		if ( previousStep != null ){
+			return candidate.matches(stringStep, previousStep);			
+		}
+		return candidate.matches(stringStep);
+	}
 
     private List<CandidateStep> prioritise(List<CandidateSteps> candidateSteps) {
         List<CandidateStep> steps = new ArrayList<CandidateStep>();

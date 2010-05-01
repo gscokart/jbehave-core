@@ -14,7 +14,7 @@ import static java.util.Arrays.asList;
 
 /**
  * <p>
- * Scenario reporter that collects statistics and writes them as properties to
+ * Reporter that collects statistics and writes them as properties to
  * output stream after each story
  * </p>
  */

@@ -9,6 +9,9 @@ import java.lang.reflect.Type;
  */
 public interface StepMonitor {
 
+	void stepMatchesType(String stepAsString, String previousAsString,
+			boolean matchesType, StepType stepType);
+
     void stepMatchesPattern(String step, boolean matches, String pattern);
 
     void convertedValueOfType(String value, Type type, Object converted, Class<?> converterClass);

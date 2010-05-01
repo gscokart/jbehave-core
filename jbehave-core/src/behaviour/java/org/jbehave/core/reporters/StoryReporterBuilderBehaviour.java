@@ -25,7 +25,7 @@ public class StoryReporterBuilderBehaviour {
         StoryReporterBuilder builder = new StoryReporterBuilder(factory);
 
         // When
-        StoryReporter reporter = builder.build();
+        StoryReporter reporter = builder.withDefaultFormats().build();
         
         // Then
         ensureThat(reporter instanceof DelegatingStoryReporter);
@@ -35,17 +35,18 @@ public class StoryReporterBuilderBehaviour {
     }
 
     @Test
-    public void shouldAllowOverrideOfDefaultFileDirectory() throws IOException {
+    public void shouldAllowOverrideOfDefaultOuputDirectory() throws IOException {
 
         FilePrintStreamFactory factory = filePrintSteamFactoryFor(MyStory.class);
         StoryReporterBuilder builder = new StoryReporterBuilder(factory);
 
         // When
-        String fileDirectory = "my-reports";
-        builder.outputTo(fileDirectory);
+        String outputDirectory = "my-reports";
+        builder.outputTo(outputDirectory).outputAsAbsolute(true);
         
         // Then
-        ensureThat(builder.fileConfiguration("").getDirectory().endsWith(fileDirectory));
+        ensureThat(builder.fileConfiguration("").getOutputDirectory(), equalTo((outputDirectory)));
+        ensureThat(builder.fileConfiguration("").isOutputDirectoryAbsolute());
     }
 
     @Test
@@ -65,7 +66,7 @@ public class StoryReporterBuilderBehaviour {
         };
         
         // When
-        StoryReporter reporter = builder.with(TXT).build();
+        StoryReporter reporter = builder.withDefaultFormats().with(TXT).build();
         
         // Then
         ensureThat(reporter instanceof DelegatingStoryReporter);

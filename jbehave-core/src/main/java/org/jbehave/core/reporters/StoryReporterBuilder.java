@@ -22,7 +22,8 @@ import org.jbehave.core.reporters.FilePrintStreamFactory.FileConfiguration;
  * StoryPathResolver resolver = new UnderscoredCamelCaseResolver();
  * String storyPath = resolver.resolve(storyClass);
  * FilePrintStreamFactory printStreamFactory = new FilePrintStreamFactory(storyPath);
- * StoryReporter reporter = new StoryReporterBuilder(printStreamFactory).with(HTML).with(TXT).build();
+ * StoryReporter reporter = new StoryReporterBuilder(printStreamFactory)
+ * 								.withDefaultFormats().with(HTML).with(TXT).build();
  * </pre> 
  * </p>
  * <p>The builder is configured to build with the {@link Format#STATS} format by default.  To change the default formats
@@ -65,23 +66,28 @@ public class StoryReporterBuilder {
 
     protected final FilePrintStreamFactory factory;
     protected Map<Format, StoryReporter> delegates = new HashMap<Format, StoryReporter>();
-    private String fileDirectory = new FileConfiguration().getDirectory();
+    private String outputDirectory = new FileConfiguration().getOutputDirectory();
+    private boolean outputAbsolute = new FileConfiguration().isOutputDirectoryAbsolute();
 
     public StoryReporterBuilder(FilePrintStreamFactory factory) {
         this.factory = factory;
-        withDefaultFormats();
     }
 
-    protected void withDefaultFormats() {
-        with(Format.STATS);
+    public StoryReporterBuilder withDefaultFormats() {
+    	return with(Format.STATS);
     }
 
     public StoryReporter build() {
         return new DelegatingStoryReporter(delegates.values());
     }
 
-    public StoryReporterBuilder outputTo(String fileDirectory){
-        this.fileDirectory = fileDirectory;
+    public StoryReporterBuilder outputTo(String outputDirectory){
+        this.outputDirectory = outputDirectory;
+        return this;
+    }
+    
+    public StoryReporterBuilder outputAsAbsolute(boolean outputAbsolute) {
+        this.outputAbsolute = outputAbsolute;
         return this;
     }
     
@@ -116,7 +122,7 @@ public class StoryReporterBuilder {
     }
 
     protected FileConfiguration fileConfiguration(String extension) {
-        return new FileConfiguration(fileDirectory, extension);
+        return new FileConfiguration(outputDirectory, outputAbsolute, extension);
     }
 
     @SuppressWarnings("serial")

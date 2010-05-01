@@ -12,6 +12,7 @@ import java.lang.reflect.Type;
 public class PrintStreamStepMonitor implements StepMonitor {
 	
 	private static final String CONVERTED_VALUE_OF_TYPE = "Converted value ''{0}'' of type ''{1}'' to ''{2}'' with converter ''{3}''";
+	private static final String STEP_MATCHES_TYPE = "Step ''{0}'' (with previous step ''{1}'') ''{2}'' type ''{3}''";
 	private static final String STEP_MATCHES_PATTERN = "Step ''{0}'' {1} pattern ''{2}''";
 	private static final String MATCHES = "matches";
 	private static final String DOES_NOT_MATCH = "does not match";
@@ -31,6 +32,13 @@ public class PrintStreamStepMonitor implements StepMonitor {
 
 	public PrintStreamStepMonitor(PrintStream output) {
 		this.output = output;
+	}
+
+	public void stepMatchesType(String step, String previous, boolean matches,
+			StepType stepType) {
+		String message = format(STEP_MATCHES_TYPE, step, previous,
+				(matches ? MATCHES : DOES_NOT_MATCH), stepType);
+		print(output, message);
 	}
 
 	public void stepMatchesPattern(String step, boolean matches, String pattern) {

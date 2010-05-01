@@ -36,7 +36,7 @@ public class FilePrintStreamFactoryBehaviour {
         FilePrintStreamFactory.FileConfiguration configuration = new FilePrintStreamFactory.FileConfiguration("ext");
         FilePrintStreamFactory factory = new FilePrintStreamFactory(storyPath, configuration);
         File outputFile = factory.getOutputFile();
-        String expected = codeLocation + "org/jbehave/examples/trader/stories/" + configuration.getDirectory() + "/"
+        String expected = codeLocation + "org/jbehave/examples/trader/stories/" + configuration.getOutputDirectory() + "/"
                 + "org.jbehave.examples.trader.stories.my_given." + configuration.getExtension();
         ensureThat(outputFile.toString(), equalTo(expected));
 
