@@ -7,7 +7,7 @@ import org.jbehave.core.parser.StoryPathFinder;
 import org.jbehave.core.steps.*;
 import org.jbehave.examples.trader.BeforeAfterSteps;
 import org.jbehave.examples.trader.TraderSteps;
-import org.jbehave.examples.trader.TraderStoryEmbedder;
+import org.jbehave.examples.trader.ClasspathTraderStoryEmbedder;
 import org.jbehave.examples.trader.converters.TraderConverter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,7 +34,7 @@ public class SpringTraderRunner {
 
     @Test
     public void runAsJUnit() {
-        StoryEmbedder embedder = new TraderStoryEmbedder() {
+        StoryEmbedder embedder = new ClasspathTraderStoryEmbedder() {
             @Override
             public List<CandidateSteps> candidateSteps() {
 

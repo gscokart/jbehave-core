@@ -1,10 +1,6 @@
 package org.jbehave.ant;
 
-import static org.apache.tools.ant.Project.MSG_INFO;
-import static org.apache.tools.ant.Project.MSG_WARN;
-
 import org.apache.tools.ant.BuildException;
-import org.jbehave.core.RunnableStory;
 import org.jbehave.core.StoryEmbedder;
 
 /**

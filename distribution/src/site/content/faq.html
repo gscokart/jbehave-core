@@ -51,8 +51,8 @@ with @Test</p>
 public class YourStory extends JUnitStory {
 
     @Test
-    public void runStory() throws Throwable {
-        super.runStory();
+    public void run() throws Throwable {
+        super.run();
     }
 
 }
@@ -70,8 +70,8 @@ root Story class with the TestNG @Test annotation.</p>
 public class YourStory extends JUnitStory {
 
     @org.testng.annotations.Test 
-    public void runStory() throws Throwable {
-        super.runStory();
+    public void run() throws Throwable {
+        super.run();
     }
 
 }
@@ -91,8 +91,7 @@ in <a href="javadoc/core/org/jbehave/core/StoryConfiguration.html">StoryConfigur
    storyConfiguration.usePendingErrorStrategy(PendingErrorStrategy.FAILING);  
 </pre>
 
-<h3>How do I output all my story steps - and not just when a
-story fails?</h3>
+<h3>How do I output my story steps just when a story fails?</h3>
 
 <p>Configure the <a
     href="javadoc/core/org/jbehave/core/reporters/StoryReporter.html">StoryReporter</a>
@@ -100,7 +99,7 @@ in <a href="javadoc/core/org/jbehave/core/StoryConfiguration.html">StoryConfigur
 
 <pre class="brush: java">
    StoryConfiguration storyConfiguration = new MostUsefulStoryConfiguration();
-   storyConfiguration.useStoryReporter(new PrintStreamOutput());
+   storyConfiguration.useStoryReporter(new SilentSuccessFilter(ConsoleOutput()));
 
 </pre>
 

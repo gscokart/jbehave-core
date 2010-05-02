@@ -1,16 +1,12 @@
 package org.jbehave.core;
 
-import org.jbehave.core.steps.CandidateSteps;
-import org.junit.Test;
-
-import java.util.ArrayList;
 import java.util.List;
 
-import static java.util.Arrays.asList;
+import org.junit.Test;
 
 /**
  * <p>
- * JUnit-runnable entry-point to run a single story specified by a {@link RunnableStory} class.
+ * JUnit-runnable entry-point to run multiple stories specified by {@link JUnitStories#storyPaths()}.
  * </p>
  */
 public abstract class JUnitStories extends AbstractStory {

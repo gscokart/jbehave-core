@@ -9,7 +9,7 @@
 
 <h2>Running Stories</h2>
 
-<p>JBehave was designed to be embeddable in different development
+<p>JBehave is designed to be embedded in different development
     environments. The JBehave Core module contains support for running
     stories as JUnit tests - which can be run either in your favourite IDE
     or in your command-line build that supports JUnit tests. Other unit
@@ -21,44 +21,98 @@
     story classes or by Java path includes/excludes pattern. Below are
     examples on how to configure both extensions - using the trader example.</p>
 
-<h2>Running via JUnit</h2>
+<h2>Story Embedder</h2>
 
-<p>Ensure the <a
-        href="javadoc/core/org/jbehave/core/RunnableStory.html">RunnableStory</a> implementation extends
-    <a
-            href="javadoc/core/org/jbehave/core/JUnitStory.html">JUnitStory</a> or <a
-            href="javadoc/core/org/jbehave/core/JUnitStories.html">JUnitStories</a>. You can also use an instance
-    of <a
-            href="javadoc/core/org/jbehave/core/RunnableStoryDelegator.html">RunnableStoryDelegator</a> 
-    via a composition
-    design if you prefer to extend other unit-test frameworks or JUnit-support tools that require a different
-    hierarchical structure.  In this case, you'll need to ensure that the method <b>runStory()</b> is invoked.
+<p>JBehave provides a <a href="javadoc/core/org/jbehave/core/StoryEmbedder.html">StoryEmbedder</a>
+as an entry point to running stories.  The embedder allows the specification of the configuration 
+and the candidate steps.  Then one needs only to specify the paths of the stories to run.
 </p>
 
-<p>If extending <a
-        href="javadoc/core/org/jbehave/core/JUnitStories.html">JUnitStories</a> you'll need to implement the abstract
-    method to specify the story paths that need to run via the same RunnableStory instance:
+<p>The StoryEmbedder can also be used to run the stories in any IDE environment, e.g. via JUnit, without
+the need to extend any base class. 
 </p>
 
-<script type="syntaxhighlighter" class="brush: java"><![CDATA[
-    @Override
-    protected List storyPaths() {
-        return asList("org/jbehave/example/trader/trader_is_alerted_of_status.story",
-                      "org/jbehave/example/trader/wildcard_search.story");
-    }
-    ]]>
-</script>
+<script type="syntaxhighlighter" class="brush: xml"><![CDATA[
+public class TraderStoryRunner {
+
+	@Test
+	public void runClasspathLoadedStoriesAsJUnit() {
+		// Embedder defines the configuration and candidate steps
+		ClasspathTraderStoryEmbedder embedder = new ClasspathTraderStoryEmbedder();
+		embedder.runStoriesAsPaths(embedder.storyPaths());
+	}
+
+	@Test
+	public void runURLLoadedStoriesAsJUnit() {
+		// Embedder defines the configuration and candidate steps
+		URLTraderStoryEmbedder embedder = new URLTraderStoryEmbedder();
+		embedder.runStoriesAsPaths(embedder.storyPaths());
+	}
+
+}
+]]></script>
+
+<p>where the Classpath/URLTraderStoryEmbedder define the configuration using the loading from the 
+classpath and URL resources, respectively.  E.g.:</p>
+
+<script type="syntaxhighlighter" class="brush: xml"><![CDATA[
+public class ClasspathTraderStoryEmbedder extends StoryEmbedder {
+
+	@Override
+	public StoryConfiguration configuration() {
+		// start with default story configuration, overriding story loader and
+		// reporter
+		StoryConfiguration storyConfiguration = new MostUsefulStoryConfiguration();
+		storyConfiguration.useStoryLoader(new LoadFromClasspath(this.getClass()
+				.getClassLoader()));
+		storyConfiguration.useStoryReporters(new StoryReporterBuilder()
+				.outputLocationClass(this.getClass())
+				.withDefaultFormats()
+				.withFormats(CONSOLE, TXT, HTML, XML)
+				.withStoryPaths(storyPaths())
+				.buildAll());
+		return storyConfiguration;
+	}
+
+	@Override
+	public List<CandidateSteps> candidateSteps() {
+		// start with default steps configuration, overriding parameter
+		// converters, pattern builder and monitor
+		StepsConfiguration stepsConfiguration = new MostUsefulStepsConfiguration();
+		StepMonitor monitor = new SilentStepMonitor();
+		stepsConfiguration.useParameterConverters(new ParameterConverters(
+				monitor, new TraderConverter(mockTradePersister()))); 
+		stepsConfiguration.usePatternBuilder(new PrefixCapturingPatternBuilder(
+				"%")); // use '%' instead of '$' to identify parameters
+		stepsConfiguration.useMonitor(monitor);
+		return asList(new StepsFactory(stepsConfiguration)
+				.createCandidateSteps(new TraderSteps(new TradingService()),
+						new BeforeAfterSteps()));
+	}
+
+	protected TraderPersister mockTradePersister() {
+		return new TraderPersister(new Trader("Mauro", asList(new Stock("STK1", 10.d))));
+	}
+
+	public List<String> storyPaths() {
+		StoryPathFinder finder = new StoryPathFinder();
+		return finder.listStoryPaths("target/classes", "", asList("**/*.story"), asList(""));
+	}
+
+}
+]]></script>
 
 <h2>Running as Ant task</h2>
 
 <script type="syntaxhighlighter" class="brush: xml"><![CDATA[
-    <taskdef name="storyRunner"
-             classname="org.jbehave.ant.StoryRunnerTask"
+    <taskdef name="storyPathRunner"
+             classname="org.jbehave.ant.StoryPathRunnerTask"
              classpathref="your.runtime.classpath"/>
 
-    <storyRunner
-            storyIncludes="**/stories/*.java"
-            storyExcludes="**/*Steps.java"
+    <storyPathRunner
+    		storyEmbedder="org.jbehave.examples.trader.ClasspathTraderStoryEmbedder"
+            storyIncludes="**/stories/*.story"
+            storyExcludes="**/stories/*NonSuccessful.story"
             classLoaderInjected="[true|false]"
             skip="[true|false]"
             ignoreFailure="[true|false]"
@@ -97,15 +151,16 @@
         <version>[version]</version>
         <executions>
             <execution>
-                <id>run-stories-found</id>
+                <id>run-stories-as-paths</id>
                 <phase>integration-test</phase>
                 <configuration>
-                    <storyIncludes>
-                        <storyInclude>**/stories/*.java</storyInclude>
-                    </storyIncludes>
-                    <storyExcludes>
-                        <storyExclude>**/*Steps.java</storyExclude>
-                    </storyExcludes>
+                	<storyEmbedder>org.jbehave.examples.trader.ClasspathTraderStoryEmbedder</storyEmbedder>                	
+		            <storyIncludes>
+                		<storyInclude>**/stories/*.story</storyInclude>
+             		</storyIncludes>
+              		<storyExcludes>
+                		<storyExclude>**/stories/*NonSuccessful.story</storyExclude>
+              		</storyExcludes>
                     <classLoaderInjected>[true|false]</classLoaderInjected>
                     <skip>[true|false]</skip>
                     <ignoreFailure>[true|false]</ignoreFailure>
@@ -113,7 +168,7 @@
                     <scope>[compile|test]</scope>
                 </configuration>
                 <goals>
-                    <goal>run-stories</goal>
+                    <goal>run-stories-as-paths</goal>
                 </goals>
             </execution>
             <execution>
@@ -150,12 +205,6 @@
     that the stories will be looked up in the POM source directory. If the
     scope is set to <b>test</b> the stories will be looked up in the POM
     test source directory.</p>
-
-<h2>Instantiating RunnableStory classes with injected ClassLoader</h2>
-
-<p>Both Ant and Maven can be configured to instantiate the RunnableStory class via
-    a public constructor with a single ClassLoader parameter (i.e. with
-    property <b>classLoaderInjected</b> set to <b>true</b>).</p>
 
 <h2>Running Stories for reports</h2>
 

@@ -6,11 +6,14 @@ import static org.jbehave.core.reporters.StoryReporterBuilder.Format.HTML;
 import static org.jbehave.core.reporters.StoryReporterBuilder.Format.TXT;
 import static org.jbehave.core.reporters.StoryReporterBuilder.Format.XML;
 
-import org.jbehave.core.JUnitStory;
+import java.util.List;
+
 import org.jbehave.core.MostUsefulStoryConfiguration;
 import org.jbehave.core.StoryConfiguration;
+import org.jbehave.core.StoryEmbedder;
 import org.jbehave.core.parser.LoadFromClasspath;
 import org.jbehave.core.parser.PrefixCapturingPatternBuilder;
+import org.jbehave.core.parser.StoryPathFinder;
 import org.jbehave.core.reporters.StoryReporterBuilder;
 import org.jbehave.core.steps.CandidateSteps;
 import org.jbehave.core.steps.MostUsefulStepsConfiguration;
@@ -26,54 +29,50 @@ import org.jbehave.examples.trader.persistence.TraderPersister;
 import org.jbehave.examples.trader.service.TradingService;
 
 /**
- * Example of how to run a story using a JBehave2-style inheritance. A story
- * just need to extend this abstract class and are out-of-the-box runnable via
- * JUnit.
+ * Specifies the StoryEmbedder for the Trader example, providing the
+ * StoryConfiguration and the CandidateSteps, using classpath story loading.
  */
-public abstract class TraderStory extends JUnitStory {
+public class ClasspathTraderStoryEmbedder extends StoryEmbedder {
 
-	public TraderStory() {
+	@Override
+	public StoryConfiguration configuration() {
 		// start with default story configuration, overriding story loader and
 		// reporter
 		StoryConfiguration storyConfiguration = new MostUsefulStoryConfiguration();
-		Class<? extends TraderStory> storyClass = this.getClass();
-		storyConfiguration.useStoryLoader(new LoadFromClasspath(storyClass
+		storyConfiguration.useStoryLoader(new LoadFromClasspath(this.getClass()
 				.getClassLoader()));
-		String storyPath = storyConfiguration.storyPathResolver().resolve(
-				storyClass);
-		storyConfiguration.useStoryReporter(new StoryReporterBuilder()
-				// use absolute output with Ant, as the code source location
-				// defaults to $ANT_HOME/lib
-				// .outputTo("target/jbehave-reports").outputAsAbsolute(true)
-				.outputLocationClass(storyClass).withDefaultFormats()
-				.withFormats(CONSOLE, TXT, HTML, XML).build(storyPath));
-		useConfiguration(storyConfiguration);
+		storyConfiguration.useStoryReporters(new StoryReporterBuilder()
+				.outputLocationClass(this.getClass())
+				.withDefaultFormats()
+				.withFormats(CONSOLE, TXT, HTML, XML)
+				.withStoryPaths(storyPaths())
+				.buildAll());
+		return storyConfiguration;
+	}
 
+	@Override
+	public List<CandidateSteps> candidateSteps() {
 		// start with default steps configuration, overriding parameter
 		// converters, pattern builder and monitor
 		StepsConfiguration stepsConfiguration = new MostUsefulStepsConfiguration();
 		StepMonitor monitor = new SilentStepMonitor();
 		stepsConfiguration.useParameterConverters(new ParameterConverters(
-				monitor, new TraderConverter(mockTradePersister()))); // define
-																		// converter
-																		// for
-																		// custom
-																		// type
-																		// Trader
+				monitor, new TraderConverter(mockTradePersister()))); 
 		stepsConfiguration.usePatternBuilder(new PrefixCapturingPatternBuilder(
 				"%")); // use '%' instead of '$' to identify parameters
 		stepsConfiguration.useMonitor(monitor);
-		addSteps(createSteps(stepsConfiguration));
+		return asList(new StepsFactory(stepsConfiguration)
+				.createCandidateSteps(new TraderSteps(new TradingService()),
+						new BeforeAfterSteps()));
 	}
 
-	protected CandidateSteps[] createSteps(StepsConfiguration configuration) {
-		return new StepsFactory(configuration).createCandidateSteps(
-				new TraderSteps(new TradingService()), new BeforeAfterSteps());
+	protected TraderPersister mockTradePersister() {
+		return new TraderPersister(new Trader("Mauro", asList(new Stock("STK1", 10.d))));
 	}
 
-	private TraderPersister mockTradePersister() {
-		return new TraderPersister(new Trader("Mauro", asList(new Stock("STK1",
-				10.d))));
+	public List<String> storyPaths() {
+		StoryPathFinder finder = new StoryPathFinder();
+		return finder.listStoryPaths("target/classes", "", asList("**/*.story"), asList(""));
 	}
 
 }
