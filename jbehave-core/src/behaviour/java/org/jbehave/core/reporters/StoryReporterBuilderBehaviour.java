@@ -22,11 +22,12 @@ public class StoryReporterBuilderBehaviour {
 
     @Test
     public void shouldBuildWithStatsByDefault() throws IOException {
-        FilePrintStreamFactory factory = filePrintSteamFactoryFor(MyStory.class);
-        StoryReporterBuilder builder = new StoryReporterBuilder(factory);
+    	// Given
+        StoryReporterBuilder builder = new StoryReporterBuilder();
+        String storyPath = storyPath(MyStory.class);
 
         // When
-        StoryReporter reporter = builder.withDefaultFormats().build();
+        StoryReporter reporter = builder.withDefaultFormats().build(storyPath);
         
         // Then
         ensureThat(reporter instanceof DelegatingStoryReporter);
@@ -37,13 +38,14 @@ public class StoryReporterBuilderBehaviour {
 
     @Test
     public void shouldAllowOverrideOfDefaultOuputDirectory() throws IOException {
-
-        FilePrintStreamFactory factory = filePrintSteamFactoryFor(MyStory.class);
-        StoryReporterBuilder builder = new StoryReporterBuilder(factory);
+    	
+    	// Given
+        StoryReporterBuilder builder = new StoryReporterBuilder();
+        String storyPath = storyPath(MyStory.class);
 
         // When
         String outputDirectory = "my-reports";
-        builder.outputTo(outputDirectory).outputAsAbsolute(true);
+        builder.outputTo(outputDirectory).outputAsAbsolute(true).withStoryPaths(storyPath);
         
         // Then
         ensureThat(builder.fileConfiguration("").getOutputDirectory(), equalTo((outputDirectory)));
@@ -52,22 +54,24 @@ public class StoryReporterBuilderBehaviour {
 
     @Test
     public void shouldBuildAndOverrideDefaultReporterForAGivenFormat() throws IOException {
-        FilePrintStreamFactory factory = filePrintSteamFactoryFor(MyStory.class);
+    	// Given
+        String storyPath = storyPath(MyStory.class);
+        final FilePrintStreamFactory factory = new FilePrintStreamFactory(new StoryLocation(storyPath, MyStory.class));
         final StoryReporter txtReporter = new PrintStreamOutput(factory.createPrintStream(), new Properties(),  new LocalizedKeywords(), true);
-        StoryReporterBuilder builder = new StoryReporterBuilder(factory){
-               public StoryReporter reporterFor(Format format){
+        StoryReporterBuilder builder = new StoryReporterBuilder(){
+               public StoryReporter reporterFor(String storyPath, Format format){
                        switch (format) {
                            case TXT:
                                factory.useConfiguration(new FileConfiguration("text"));
                                return txtReporter;
                             default:
-                               return super.reporterFor(format);
+                               return super.reporterFor(storyPath, format);
                        }
                    }
         };
         
         // When
-        StoryReporter reporter = builder.withDefaultFormats().withFormats(TXT).build();
+        StoryReporter reporter = builder.withDefaultFormats().withFormats(TXT).build(storyPath);
         
         // Then
         ensureThat(reporter instanceof DelegatingStoryReporter);
@@ -76,10 +80,9 @@ public class StoryReporterBuilderBehaviour {
         ensureThat(delegates.get(TXT), equalTo(txtReporter));
     }
 
-    private FilePrintStreamFactory filePrintSteamFactoryFor(Class<MyStory> storyClass) {
+    private String storyPath(Class<MyStory> storyClass) {
         StoryPathResolver resolver = new UnderscoredCamelCaseResolver(".story");
-        String storyPath = resolver.resolve(storyClass);
-        return new FilePrintStreamFactory(new StoryLocation(storyPath, this.getClass()));
+        return resolver.resolve(storyClass);
     }
 
 

@@ -213,9 +213,13 @@ public abstract class StoryConfiguration {
         this.storyReporter = storyReporter;
     }
     
-    public void addStoryReporter(String storyPath, StoryReporter storyReporter){
+    public void useStoryReporter(String storyPath, StoryReporter storyReporter){
         this.storyReporters.put(storyPath, storyReporter);
     }
+
+	public void useStoryReporters(Map<String, StoryReporter> storyReporters) {
+		this.storyReporters.putAll(storyReporters);
+	}
 
     public void useStepdocReporter(StepdocReporter stepdocReporter) {
         this.stepdocReporter = stepdocReporter;

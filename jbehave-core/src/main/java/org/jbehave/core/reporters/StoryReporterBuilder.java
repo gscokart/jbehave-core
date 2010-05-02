@@ -1,10 +1,14 @@
 package org.jbehave.core.reporters;
 
-import java.util.Collection;
+import static java.util.Arrays.asList;
+
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.jbehave.core.parser.StoryLocation;
 import org.jbehave.core.reporters.FilePrintStreamFactory.FileConfiguration;
 
 /**
@@ -17,16 +21,17 @@ import org.jbehave.core.reporters.FilePrintStreamFactory.FileConfiguration;
  * each format.
  * </p>
  * <p>
- * To build reporter with default delegates for given formats:
+ * To build a reporter for a single story path with default and given formats:
  * <pre>
  * Class&lt;MyStory&gt; storyClass = MyStory.class;
  * StoryPathResolver resolver = new UnderscoredCamelCaseResolver();
  * String storyPath = resolver.resolve(storyClass);
  * FilePrintStreamFactory printStreamFactory = new FilePrintStreamFactory(storyPath);
  * StoryReporter reporter = new StoryReporterBuilder(printStreamFactory)
+ * 								.outputLocationClass(storyClass)
  * 								.withDefaultFormats()
  * 								.withFormats(HTML, TXT)
- * 								.build();
+ * 								.build(storyPath);
  * </pre> 
  * </p>
  * <p>The builder is configured to build with the {@link Format#STATS} as default format.  To change the default formats
@@ -39,11 +44,14 @@ import org.jbehave.core.reporters.FilePrintStreamFactory.FileConfiguration;
  *  }
  * </pre>
  * </p>
- * <p>The builder configures the file-based reporters to output to the default file directory {@link FileConfiguration#DIRECTORY}.
+ * <p>The builder configures the file-based reporters to output to the default file directory {@link FileConfiguration#OUTPUT_DIRECTORY}
+ * as relative to the output location class source. In some case, e.g. with Ant class loader, the code source location may not be 
+ * properly set.  In this case, we may specify the absolute output directory.
  * To change the default:
  * <pre>
- * new StoryReporterBuilder(printStreamFactory).outputTo("my-reports")
- * 					.withDefaultFormats().withFormats(HTML,TXT).build();
+ * new StoryReporterBuilder(printStreamFactory).outputTo("my-reports").outputAsAbsolute(true)
+ * 					.withDefaultFormats().withFormats(HTML,TXT)
+ * 					.build(storyPath);
  * </pre>
  * </p> 
  * <p>The builder provides default instances for all reporters.  To change the reporter for a specific instance, 
@@ -51,7 +59,8 @@ import org.jbehave.core.reporters.FilePrintStreamFactory.FileConfiguration;
  * such as keywords for a different locale:
  * <pre>
  * new StoryReporterBuilder(printStreamFactory){
- *   public StoryReporter reporterFor(Format format){
+ *   public StoryReporter reporterFor(String storyPath, Format format){
+ *       FilePrintStreamFactory factory = new FilePrintStreamFactory(new StoryLocation(storyPath, codeLocationClass));
  *       switch (format) {
  *           case TXT:
  *               factory.useConfiguration(new FileConfiguration("text"));
@@ -68,13 +77,14 @@ public class StoryReporterBuilder {
         CONSOLE, TXT, HTML, XML, STATS
     }
 
-    protected final FilePrintStreamFactory factory;
+    protected List<Format> formats = new ArrayList<Format>();
+    protected List<String> storyPaths = new ArrayList<String>();
     protected Map<Format, StoryReporter> delegates = new HashMap<Format, StoryReporter>();
     private String outputDirectory = new FileConfiguration().getOutputDirectory();
     private boolean outputAbsolute = new FileConfiguration().isOutputDirectoryAbsolute();
+	private Class<?> ouputLocationClass = this.getClass();
 
-    public StoryReporterBuilder(FilePrintStreamFactory factory) {
-        this.factory = factory;
+    public StoryReporterBuilder() {
     }
 
     public StoryReporterBuilder outputTo(String outputDirectory){
@@ -87,23 +97,46 @@ public class StoryReporterBuilder {
         return this;
     }
     
-    public StoryReporterBuilder withDefaultFormats() {
+	public StoryReporterBuilder outputLocationClass(Class<?> outputLocationClass) {
+		this.ouputLocationClass = outputLocationClass;
+		return this;
+	}
+
+   public StoryReporterBuilder withDefaultFormats() {
     	return withFormats(Format.STATS);
     }
 
     public StoryReporterBuilder withFormats(Format... formats) {
-    	for (Format format : formats ){
-    		delegates.put(format, reporterFor(format));
-    	}
+    	this.formats.addAll(asList(formats));
         return this;
     }
 
-    public StoryReporter build() {
-    	Collection<StoryReporter> reporters = delegates.values();
-    	return new DelegatingStoryReporter(reporters);
+	public StoryReporterBuilder withStoryPaths(String... storyPaths) {
+		return withStoryPaths(asList(storyPaths));
+	}
+
+	public StoryReporterBuilder withStoryPaths(List<String> storyPaths) {
+		this.storyPaths.addAll(storyPaths);
+		return this;
+	}
+
+    public StoryReporter build(String storyPath) {
+    	for (Format format : formats ){
+			delegates.put(format, reporterFor(storyPath, format));
+    	}
+    	return new DelegatingStoryReporter(delegates.values());
     }
 
-    public StoryReporter reporterFor(Format format) {
+	public Map<String,StoryReporter> buildAll() {
+		Map<String,StoryReporter> reporters = new HashMap<String, StoryReporter>();
+		for ( String storyPath : storyPaths ){
+			reporters.put(storyPath, build(storyPath));
+		}
+		return reporters;
+	}
+
+    public StoryReporter reporterFor(String storyPath, Format format) {
+        FilePrintStreamFactory factory = new FilePrintStreamFactory(new StoryLocation(storyPath, ouputLocationClass));
         switch (format) {
             case CONSOLE:
                 return new ConsoleOutput();
@@ -140,5 +173,6 @@ public class StoryReporterBuilder {
         }
 
     }
+
 
 }

@@ -8,7 +8,7 @@ import org.jbehave.core.PropertyBasedStoryConfiguration;
 import org.jbehave.core.reporters.PrintStreamOutput;
 import org.jbehave.core.reporters.StoryReporter;
 
-public class MyMultipleStory extends JUnitStory {
+public abstract class MyMultipleStory extends JUnitStory {
     public MyMultipleStory() {
         // Making sure this doesn't output to the build while it's running
         useConfiguration(new PropertyBasedStoryConfiguration() {

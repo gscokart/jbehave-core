@@ -11,9 +11,7 @@ import org.jbehave.core.MostUsefulStoryConfiguration;
 import org.jbehave.core.StoryConfiguration;
 import org.jbehave.core.parser.LoadFromClasspath;
 import org.jbehave.core.parser.PrefixCapturingPatternBuilder;
-import org.jbehave.core.parser.StoryLocation;
 import org.jbehave.core.parser.UnderscoredCamelCaseResolver;
-import org.jbehave.core.reporters.FilePrintStreamFactory;
 import org.jbehave.core.reporters.StoryReporterBuilder;
 import org.jbehave.core.steps.CandidateSteps;
 import org.jbehave.core.steps.MostUsefulStepsConfiguration;
@@ -37,12 +35,12 @@ public abstract class TraderStory extends JUnitStory {
         Class<? extends TraderStory> storyClass = this.getClass();
 		storyConfiguration.useStoryLoader(new LoadFromClasspath(storyClass.getClassLoader()));
         String storyPath = storyConfiguration.storyPathResolver().resolve(storyClass);
-        StoryLocation storyLocation = new StoryLocation(storyPath, storyClass);
-		storyConfiguration.useStoryReporter(new StoryReporterBuilder(new FilePrintStreamFactory(storyLocation))
+		storyConfiguration.useStoryReporter(new StoryReporterBuilder()
         		//.outputTo("target/jbehave-reports").outputAsAbsolute(true)
         		.withDefaultFormats()
                 .withFormats(CONSOLE, TXT, HTML, XML)
-                .build());
+                .outputLocationClass(storyClass)
+                .build(storyPath));
         useConfiguration(storyConfiguration);
 
         // start with default steps configuration, overriding parameter converters, pattern builder and monitor

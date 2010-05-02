@@ -56,7 +56,7 @@ to a file:</p>
                 .outputTo("target/jbehave-reports").outputAsAbsolute(true) // only required with Ant (cf note below)
                 .withDefaultFormats() // add default formats 
                 .withFormats(CONSOLE, TXT, HTML, XML)
-                .build());
+                .build(storyPath));
         useConfiguration(storyConfiguration);
 
         // start with default steps configuration
@@ -116,7 +116,8 @@ override the reporter for <b>TXT</b> format to use a ".text" extension
 <pre class="brush: java">
 
         StoryReporter reporter = new StoryReporterBuilder(factory){
-               public StoryReporter reporterFor(Format format){
+               public StoryReporter reporterFor(String storyPath, Format format){
+			           FilePrintStreamFactory factory = new FilePrintStreamFactory(new StoryLocation(storyPath, ouputLocationClass));
                        switch (format) {
                            case TXT:
                                factory.useConfiguration(new FileConfiguration("text"));

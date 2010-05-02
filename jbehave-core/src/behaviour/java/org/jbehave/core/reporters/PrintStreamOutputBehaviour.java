@@ -346,7 +346,8 @@ public class PrintStreamOutputBehaviour {
     public void shouldCreateAndWriteToFilePrintStreamForStoryClass() throws IOException {
 
         // Given
-        FilePrintStreamFactory factory = filePrintSteamFactoryFor(MyStory.class);
+        String storyPath = storyPath(MyStory.class);
+        FilePrintStreamFactory factory = new FilePrintStreamFactory(new StoryLocation(storyPath, this.getClass()));
         File file = factory.getOutputFile();
         file.delete();
         ensureThat(!file.exists());
@@ -362,13 +363,14 @@ public class PrintStreamOutputBehaviour {
 
     @Test
     public void shouldReportEventsToFilePrintStreamsAndRenderAggregatedIndex() throws IOException {
-        FilePrintStreamFactory factory = filePrintSteamFactoryFor(MyStory.class);
-        StoryReporter reporter = new StoryReporterBuilder(factory).withFormats(HTML, TXT)
-                .build();
+        final String storyPath = storyPath(MyStory.class);
+        File outputDirectory = new File("target/output");
+        StoryReporter reporter = new StoryReporterBuilder().outputTo(outputDirectory.getName())
+        		.withFormats(HTML, TXT)
+                .build(storyPath);
 
         // When
         narrateAnInterestingStory(reporter);
-        File outputDirectory = factory.getOutputFile().getParentFile();
         ReportRenderer renderer = new FreemarkerReportRenderer();
         renderer.render(outputDirectory, asList("html", "txt"));
 
@@ -378,18 +380,19 @@ public class PrintStreamOutputBehaviour {
 
     @Test
     public void shouldBuildPrintStreamReportersAndOverrideDefaultForAGivenFormat() throws IOException {
-        FilePrintStreamFactory factory = filePrintSteamFactoryFor(MyStory.class);
-        StoryReporter reporter = new StoryReporterBuilder(factory) {
-            public StoryReporter reporterFor(Format format) {
+        final String storyPath = storyPath(MyStory.class);
+        final FilePrintStreamFactory factory = new FilePrintStreamFactory(new StoryLocation(storyPath, this.getClass()));
+        StoryReporter reporter = new StoryReporterBuilder() {
+            public StoryReporter reporterFor(String storyPath, Format format) {
                 switch (format) {
                     case TXT:
                         factory.useConfiguration(new FileConfiguration("text"));
                         return new PrintStreamOutput(factory.createPrintStream(), new Properties(), new LocalizedKeywords(), true);
                     default:
-                        return super.reporterFor(format);
+                        return super.reporterFor(storyPath, format);
                 }
             }
-        }.withFormats(TXT).build();
+        }.withFormats(TXT).build(storyPath);
 
         // When
         narrateAnInterestingStory(reporter);
@@ -416,10 +419,9 @@ public class PrintStreamOutputBehaviour {
         // Then ... fail as expected
     }
 
-    private FilePrintStreamFactory filePrintSteamFactoryFor(Class<MyStory> storyClass) {
+    private String storyPath(Class<MyStory> storyClass) {
         StoryPathResolver resolver = new UnderscoredCamelCaseResolver(".story");
-        String storyPath = resolver.resolve(storyClass);
-        return new FilePrintStreamFactory(new StoryLocation(storyPath, this.getClass()));
+        return resolver.resolve(storyClass);
     }
 
     private static class MyStory extends JUnitStory {
