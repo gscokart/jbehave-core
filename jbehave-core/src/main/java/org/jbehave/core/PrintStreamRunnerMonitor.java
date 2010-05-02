@@ -24,7 +24,6 @@ public class PrintStreamRunnerMonitor implements StoryRunnerMonitor {
 
     public void runningStory(String storyName) {
         output.println("Running story "+storyName);
-
     }
 
     public void storiesNotRun() {

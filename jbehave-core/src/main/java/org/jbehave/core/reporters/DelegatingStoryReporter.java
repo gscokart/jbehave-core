@@ -31,7 +31,7 @@ public class DelegatingStoryReporter implements StoryReporter {
     /**
      * Creates DelegatingStoryReporter with a given varargs of delegates
      * 
-     * @param delegates the ScenarioReporters to delegate to
+     * @param delegates the StoryReporters to delegate to
      */
     public DelegatingStoryReporter(StoryReporter... delegates) {
         this(asList(delegates));

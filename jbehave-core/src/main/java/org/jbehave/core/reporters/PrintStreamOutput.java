@@ -1,13 +1,10 @@
 package org.jbehave.core.reporters;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.Transformer;
-import org.apache.commons.lang.ArrayUtils;
-import org.jbehave.core.i18n.LocalizedKeywords;
-import org.jbehave.core.model.ExamplesTable;
-import org.jbehave.core.model.Keywords;
-import org.jbehave.core.model.Narrative;
-import org.jbehave.core.model.Story;
+import static org.apache.commons.lang.StringEscapeUtils.escapeHtml;
+import static org.apache.commons.lang.StringEscapeUtils.escapeXml;
+import static org.jbehave.core.reporters.PrintStreamOutput.Format.PLAIN;
+import static org.jbehave.core.steps.CandidateStep.PARAMETER_VALUE_END;
+import static org.jbehave.core.steps.CandidateStep.PARAMETER_VALUE_START;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -18,11 +15,16 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
-import static org.apache.commons.lang.StringEscapeUtils.escapeHtml;
-import static org.apache.commons.lang.StringEscapeUtils.escapeXml;
-import static org.jbehave.core.reporters.PrintStreamOutput.Format.PLAIN;
-import static org.jbehave.core.steps.CandidateStep.PARAMETER_VALUE_END;
-import static org.jbehave.core.steps.CandidateStep.PARAMETER_VALUE_START;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Transformer;
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+import org.jbehave.core.i18n.LocalizedKeywords;
+import org.jbehave.core.model.ExamplesTable;
+import org.jbehave.core.model.Keywords;
+import org.jbehave.core.model.Narrative;
+import org.jbehave.core.model.Story;
 
 /**
  * <p>
@@ -288,5 +290,11 @@ public class PrintStreamOutput implements StoryReporter {
         output.print(text.replace(format(PARAMETER_VALUE_START, PARAMETER_VALUE_START), format("parameterValueStart", EMPTY))
                          .replace(format(PARAMETER_VALUE_END, PARAMETER_VALUE_END), format("parameterValueEnd", EMPTY)));
     }
+    
+	@Override
+	public String toString() {
+		return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+				.append(output).toString();
+	}
 
 }

@@ -1,10 +1,13 @@
 package org.jbehave.core.reporters;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.jbehave.core.parser.StoryLocation;
 
 /**
@@ -33,7 +36,7 @@ public class FilePrintStreamFactory implements PrintStreamFactory {
 	public PrintStream createPrintStream() {
 		try {
 			outputFile.getParentFile().mkdirs();
-			return new PrintStream(new FileOutputStream(outputFile, true));
+			return new FilePrintStream(outputFile, true);
 		} catch (IOException e) {
 			throw new PrintStreamCreationFailedException(outputFile, e);
 		}
@@ -67,6 +70,33 @@ public class FilePrintStreamFactory implements PrintStreamFactory {
 		}
 		String name = storyName.substring(0, storyName.lastIndexOf("."));
 		return name + "." + configuration.getExtension();
+	}
+	
+	public static class FilePrintStream extends PrintStream {
+
+		private final File outputFile;
+		private final boolean append;
+
+		public FilePrintStream(File outputFile, boolean append) throws FileNotFoundException {
+			super(new FileOutputStream(outputFile, append));
+			this.outputFile = outputFile;
+			this.append = append;
+		}
+
+		public File getOutputFile() {
+			return outputFile;
+		}
+
+		public boolean isAppend() {
+			return append;
+		}
+		
+		@Override
+		public String toString() {
+			return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+					.append(outputFile).append(append).toString();
+		}
+		
 	}
 
 	/**

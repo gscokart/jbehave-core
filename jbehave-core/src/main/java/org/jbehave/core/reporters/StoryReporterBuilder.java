@@ -1,5 +1,6 @@
 package org.jbehave.core.reporters;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -78,7 +79,8 @@ public class StoryReporterBuilder {
     }
 
     public StoryReporter build() {
-        return new DelegatingStoryReporter(delegates.values());
+    	Collection<StoryReporter> reporters = delegates.values();
+    	return new DelegatingStoryReporter(reporters);
     }
 
     public StoryReporterBuilder outputTo(String outputDirectory){

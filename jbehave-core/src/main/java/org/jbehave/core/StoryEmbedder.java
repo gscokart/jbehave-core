@@ -1,18 +1,13 @@
 package org.jbehave.core;
 
 import static java.util.Arrays.asList;
-import static org.jbehave.core.reporters.StoryReporterBuilder.Format.CONSOLE;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.jbehave.core.parser.StoryLocation;
 import org.jbehave.core.parser.StoryPathResolver;
-import org.jbehave.core.reporters.FilePrintStreamFactory;
-import org.jbehave.core.reporters.StoryReporter;
-import org.jbehave.core.reporters.StoryReporterBuilder;
 import org.jbehave.core.steps.CandidateSteps;
 
 public class StoryEmbedder {
@@ -82,13 +77,10 @@ public class StoryEmbedder {
         }
 
         Map<String, Throwable> failedStories = new HashMap<String, Throwable>();
-        Class<?> codeLocationClass = this.getClass();
         for (String storyPath : storyPaths) {
             try {
                 runnerMonitor.runningStory(storyPath);
-				StoryReporter storyReporter = storyReporter(new StoryLocation(storyPath, codeLocationClass), storyReporterFormats());
                 StoryConfiguration configuration = configuration();
-                configuration.addStoryReporter(storyPath, storyReporter);
                 runner.run(configuration, candidateSteps(), storyPath);
             } catch (Throwable e) {
                 if (runnerMode.batch()) {
@@ -126,18 +118,6 @@ public class StoryEmbedder {
 
     public List<CandidateSteps> candidateSteps() {
         return asList(new CandidateSteps[]{});
-    }
-
-    protected StoryReporter storyReporter(StoryLocation storyLocation, StoryReporterBuilder.Format... formats) {
-		StoryReporterBuilder builder = new StoryReporterBuilder(new FilePrintStreamFactory(storyLocation));
-        for (StoryReporterBuilder.Format format : formats) {
-            builder = builder.with(format);
-        }
-        return builder.build();
-    }
-
-    protected StoryReporterBuilder.Format[] storyReporterFormats() {
-        return new StoryReporterBuilder.Format[]{CONSOLE};
     }
 
     public void useStoryRunner(StoryRunner runner) {
