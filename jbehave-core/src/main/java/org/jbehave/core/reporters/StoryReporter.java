@@ -3,7 +3,6 @@ package org.jbehave.core.reporters;
 import java.util.List;
 import java.util.Map;
 
-import org.jbehave.core.model.Description;
 import org.jbehave.core.model.ExamplesTable;
 import org.jbehave.core.model.Story;
 
@@ -23,7 +22,7 @@ public interface StoryReporter {
     
     void afterScenario();
     
-	void givenStoryPaths(List<String> givenStoryPaths);
+	void givenStories(List<String> storyPaths);
 
     void beforeExamples(List<String> steps, ExamplesTable table);
 

@@ -91,10 +91,10 @@ public class StoryRunner {
                                  List<CandidateSteps> candidateSteps, Scenario scenario)
             throws Throwable {
         // run given story in embedded mode
-        List<String> givenStoryPaths = scenario.getGivenStoryPaths();
-        if (givenStoryPaths.size() > 0) {
-            reporter.givenStoryPaths(givenStoryPaths);
-            for (String storyPath : givenStoryPaths) {
+        List<String> storyPaths = scenario.getGivenStoryPaths();
+        if (storyPaths.size() > 0) {
+            reporter.givenStories(storyPaths);
+            for (String storyPath : storyPaths) {
                 run(configuration, candidateSteps, storyPath, true);
             }
         }

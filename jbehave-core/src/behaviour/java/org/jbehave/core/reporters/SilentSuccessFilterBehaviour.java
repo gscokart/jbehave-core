@@ -34,7 +34,7 @@ public class SilentSuccessFilterBehaviour {
         decorator.afterScenario();
         
         decorator.beforeScenario("My core 2");
-		decorator.givenStoryPaths(givenStories);
+		decorator.givenStories(givenStories);
         decorator.successful("Given step 2.1");
         decorator.pending("When step 2.2");
         decorator.notPerformed("Then step 2.3");
@@ -69,7 +69,7 @@ public class SilentSuccessFilterBehaviour {
         
         inOrder.verify(delegate).beforeStory(story, embeddedStory);
         inOrder.verify(delegate).beforeScenario("My core 2");
-        inOrder.verify(delegate).givenStoryPaths(givenStories);
+        inOrder.verify(delegate).givenStories(givenStories);
         inOrder.verify(delegate).successful("Given step 2.1");
         inOrder.verify(delegate).pending("When step 2.2");
         inOrder.verify(delegate).notPerformed("Then step 2.3");

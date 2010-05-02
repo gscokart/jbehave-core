@@ -67,8 +67,8 @@ public class StepFailureDecorator implements StoryReporter {
 		delegate.successful(step);
 	}
 
-	public void givenStoryPaths(List<String> givenStoryPaths) {
-		delegate.givenStoryPaths(givenStoryPaths);
+	public void givenStories(List<String> storyPaths) {
+		delegate.givenStories(storyPaths);
 	}
 
 	public void beforeExamples(List<String> steps, ExamplesTable table) {

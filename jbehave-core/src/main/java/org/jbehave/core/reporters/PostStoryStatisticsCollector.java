@@ -18,7 +18,7 @@ import static java.util.Arrays.asList;
  * output stream after each story
  * </p>
  */
-public class PostStoryStatisticsDecorator implements StoryReporter {
+public class PostStoryStatisticsCollector implements StoryReporter {
 
     private final OutputStream output;
     private final Map<String, Integer> data = new HashMap<String, Integer>();
@@ -27,7 +27,7 @@ public class PostStoryStatisticsDecorator implements StoryReporter {
 
     private Throwable cause;
 
-    public PostStoryStatisticsDecorator(OutputStream output) {
+    public PostStoryStatisticsCollector(OutputStream output) {
         this.output = output;
     }
 
@@ -65,7 +65,7 @@ public class PostStoryStatisticsDecorator implements StoryReporter {
         writeData();
     }
 
-    public void givenStoryPaths(List<String> givenScenarios) {
+    public void givenStories(List<String> storyPaths) {
         count("givenStories");
     }
 

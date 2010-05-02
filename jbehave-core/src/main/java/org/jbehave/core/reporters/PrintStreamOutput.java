@@ -147,8 +147,8 @@ public class PrintStreamOutput implements StoryReporter {
         }
     }
 
-    public void givenStoryPaths(List<String> givenScenarios) {
-        print(format("givenStories", "{0} {1}\n", keywords.givenStories(), givenScenarios));
+    public void givenStories(List<String> storyPaths) {
+        print(format("givenStories", "{0} {1}\n", keywords.givenStories(), storyPaths));
     }
 
     public void beforeScenario(String title) {

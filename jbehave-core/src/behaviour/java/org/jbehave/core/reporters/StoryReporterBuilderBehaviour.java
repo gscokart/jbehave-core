@@ -32,7 +32,7 @@ public class StoryReporterBuilderBehaviour {
         ensureThat(reporter instanceof DelegatingStoryReporter);
         Map<Format, StoryReporter> delegates = builder.getDelegates();
         ensureThat(delegates.size(), equalTo(1));
-        ensureThat(delegates.get(STATS) instanceof PostStoryStatisticsDecorator);
+        ensureThat(delegates.get(STATS) instanceof PostStoryStatisticsCollector);
     }
 
     @Test

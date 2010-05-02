@@ -116,10 +116,10 @@ public class SilentSuccessFilter implements StoryReporter {
         });
     }
 
-	public void givenStoryPaths(final List<String> givenStoryPaths) {
+	public void givenStories(final List<String> storyPaths) {
         currentScenario.add(new Todo() {
             public void doNow() {
-                delegate.givenStoryPaths(givenStoryPaths);
+                delegate.givenStories(storyPaths);
             }
         });
 	}

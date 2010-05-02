@@ -102,7 +102,7 @@ public class StoryReporterBuilder {
                 return new PrintStreamOutput();
             case STATS:
                 factory.useConfiguration(fileConfiguration("stats"));
-                return new PostStoryStatisticsDecorator(factory.createPrintStream());
+                return new PostStoryStatisticsCollector(factory.createPrintStream());
             case TXT:
                 factory.useConfiguration(fileConfiguration("txt"));
                 return new PrintStreamOutput(factory.createPrintStream());

@@ -85,9 +85,9 @@ public class DelegatingStoryReporter implements StoryReporter {
         }
     }
 
-    public void givenStoryPaths(List<String> givenStoryPaths) {
+    public void givenStories(List<String> storyPaths) {
         for (StoryReporter reporter : delegates) {
-            reporter.givenStoryPaths(givenStoryPaths);
+            reporter.givenStories(storyPaths);
         }
     }
 
