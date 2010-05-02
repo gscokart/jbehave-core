@@ -26,7 +26,7 @@ import static org.jbehave.core.steps.CandidateStep.PARAMETER_VALUE_START;
 
 /**
  * <p>
- * Scenario reporter that outputs to a PrintStream, defaulting to System.out.
+ * Story reporter that outputs to a PrintStream, defaulting to System.out.
  * </p>
  * <p>
  * The output of the reported event is also configurable via two other means:

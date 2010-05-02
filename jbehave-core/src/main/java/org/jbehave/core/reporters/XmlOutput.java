@@ -7,7 +7,7 @@ import org.jbehave.core.model.Keywords;
 
 /**
  * <p>
- * Scenario reporter that outputs to a PrintStream, as XML. It extends
+ * Story reporter that outputs to a PrintStream, as XML. It extends
  * {@link PrintStreamOutput}, providing XML-based default output
  * patterns, which can be overridden via the {@link
  * XmlOutput (PrintStream,Properties)} constructor.

@@ -7,7 +7,7 @@ import org.jbehave.core.model.Keywords;
 
 /**
  * <p>
- * Scenario reporter that outputs to a PrintStream, as HTML. It extends
+ * Story reporter that outputs to a PrintStream, as HTML. It extends
  * {@link PrintStreamOutput}, providing HTML-based default output
  * patterns, which can be overridden via the {@link
  * HtmlOutput (PrintStream,Properties)} constructor.
