@@ -53,7 +53,7 @@ public class SpringTraderRunner {
 
     protected List<String> storyPaths() {
         StoryPathFinder finder = new StoryPathFinder();
-        String basedir = new StoryLocation("", this.getClass()).getCodeLocation();
+        String basedir = new StoryLocation("", this.getClass()).getCodeLocation().getFile();
         return finder.listStoryPaths(basedir, "", asList("**/*.story"), asList(""));
     }
 

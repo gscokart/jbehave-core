@@ -21,8 +21,12 @@ import java.util.Properties;
 import org.apache.commons.io.IOUtils;
 import org.jbehave.core.JUnitStory;
 import org.jbehave.core.i18n.LocalizedKeywords;
-import org.jbehave.core.model.*;
 import org.jbehave.core.model.Description;
+import org.jbehave.core.model.ExamplesTable;
+import org.jbehave.core.model.Narrative;
+import org.jbehave.core.model.Scenario;
+import org.jbehave.core.model.Story;
+import org.jbehave.core.parser.StoryLocation;
 import org.jbehave.core.parser.StoryPathResolver;
 import org.jbehave.core.parser.UnderscoredCamelCaseResolver;
 import org.jbehave.core.reporters.FilePrintStreamFactory.FileConfiguration;
@@ -415,7 +419,7 @@ public class PrintStreamOutputBehaviour {
     private FilePrintStreamFactory filePrintSteamFactoryFor(Class<MyStory> storyClass) {
         StoryPathResolver resolver = new UnderscoredCamelCaseResolver(".story");
         String storyPath = resolver.resolve(storyClass);
-        return new FilePrintStreamFactory(storyPath);
+        return new FilePrintStreamFactory(new StoryLocation(storyPath, this.getClass()));
     }
 
     private static class MyStory extends JUnitStory {

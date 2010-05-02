@@ -1,10 +1,10 @@
 package org.jbehave.core.parser;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
-
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
  * Abstraction of story location, handling cases in which story path is defined as URL or as resource in classpath.
@@ -14,12 +14,6 @@ public class StoryLocation {
     private final String storyPath;
     private URL codeLocation;
     private boolean url;
-
-    public StoryLocation(String storyPath) {
-        this.storyPath = storyPath;
-        this.codeLocation = this.getClass().getProtectionDomain().getCodeSource().getLocation();
-        this.url = url();
-    }
 
     public StoryLocation(String storyPath, Class<?> codeLocationClass) {
         this.storyPath = storyPath;
@@ -31,8 +25,8 @@ public class StoryLocation {
         return storyPath;
     }
 
-    public String getCodeLocation() {
-        return codeLocation.getFile();
+    public URL getCodeLocation() {
+        return codeLocation;
     }
 
     public String getLocation() {

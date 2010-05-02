@@ -1,9 +1,18 @@
 package org.jbehave.examples.trader;
 
+import static java.util.Arrays.asList;
+import static org.jbehave.core.reporters.StoryReporterBuilder.Format.CONSOLE;
+import static org.jbehave.core.reporters.StoryReporterBuilder.Format.HTML;
+import static org.jbehave.core.reporters.StoryReporterBuilder.Format.TXT;
+import static org.jbehave.core.reporters.StoryReporterBuilder.Format.XML;
+
 import org.jbehave.core.JUnitStory;
 import org.jbehave.core.MostUsefulStoryConfiguration;
 import org.jbehave.core.StoryConfiguration;
-import org.jbehave.core.parser.*;
+import org.jbehave.core.parser.LoadFromClasspath;
+import org.jbehave.core.parser.PrefixCapturingPatternBuilder;
+import org.jbehave.core.parser.StoryLocation;
+import org.jbehave.core.parser.UnderscoredCamelCaseResolver;
 import org.jbehave.core.reporters.FilePrintStreamFactory;
 import org.jbehave.core.reporters.StoryReporterBuilder;
 import org.jbehave.core.steps.CandidateSteps;
@@ -19,12 +28,6 @@ import org.jbehave.examples.trader.model.Trader;
 import org.jbehave.examples.trader.persistence.TraderPersister;
 import org.jbehave.examples.trader.service.TradingService;
 
-import static java.util.Arrays.asList;
-import static org.jbehave.core.reporters.StoryReporterBuilder.Format.CONSOLE;
-import static org.jbehave.core.reporters.StoryReporterBuilder.Format.HTML;
-import static org.jbehave.core.reporters.StoryReporterBuilder.Format.TXT;
-import static org.jbehave.core.reporters.StoryReporterBuilder.Format.XML;
-
 public abstract class TraderStory extends JUnitStory {
 
     public TraderStory() {
@@ -33,8 +36,9 @@ public abstract class TraderStory extends JUnitStory {
         storyConfiguration.useStoryPathResolver(new UnderscoredCamelCaseResolver(".story"));
         String storyPath = storyConfiguration.storyPathResolver().resolve(this.getClass());
         storyConfiguration.useStoryLoader(new LoadFromClasspath(this.getClass().getClassLoader()));
-        storyConfiguration.useStoryReporter(new StoryReporterBuilder(new FilePrintStreamFactory(storyPath))
-        		.outputTo("target/jbehave-reports").outputAsAbsolute(true)
+        StoryLocation storyLocation = new StoryLocation(storyPath, this.getClass());
+		storyConfiguration.useStoryReporter(new StoryReporterBuilder(new FilePrintStreamFactory(storyLocation))
+        		//.outputTo("target/jbehave-reports").outputAsAbsolute(true)
         		.withDefaultFormats()
                 .with(CONSOLE)
                 .with(TXT)

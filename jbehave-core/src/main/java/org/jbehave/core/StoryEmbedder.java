@@ -1,21 +1,19 @@
 package org.jbehave.core;
 
-import org.jbehave.core.parser.StoryPathResolver;
-import org.jbehave.core.reporters.FilePrintStreamFactory;
-import org.jbehave.core.reporters.StoryReporter;
-import org.jbehave.core.reporters.StoryReporterBuilder;
-import org.jbehave.core.steps.CandidateStep;
-import org.jbehave.core.steps.CandidateSteps;
-import org.jbehave.core.steps.MostUsefulStepsConfiguration;
-import org.jbehave.core.steps.StepsFactory;
+import static java.util.Arrays.asList;
+import static org.jbehave.core.reporters.StoryReporterBuilder.Format.CONSOLE;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static java.util.Arrays.asList;
-import static org.jbehave.core.reporters.StoryReporterBuilder.Format.*;
+import org.jbehave.core.parser.StoryLocation;
+import org.jbehave.core.parser.StoryPathResolver;
+import org.jbehave.core.reporters.FilePrintStreamFactory;
+import org.jbehave.core.reporters.StoryReporter;
+import org.jbehave.core.reporters.StoryReporterBuilder;
+import org.jbehave.core.steps.CandidateSteps;
 
 public class StoryEmbedder {
     private StoryRunner runner;
@@ -84,10 +82,11 @@ public class StoryEmbedder {
         }
 
         Map<String, Throwable> failedStories = new HashMap<String, Throwable>();
+        Class<?> codeLocationClass = this.getClass();
         for (String storyPath : storyPaths) {
             try {
                 runnerMonitor.runningStory(storyPath);
-                StoryReporter storyReporter = storyReporter(storyPath, storyReporterFormats());
+				StoryReporter storyReporter = storyReporter(new StoryLocation(storyPath, codeLocationClass), storyReporterFormats());
                 StoryConfiguration configuration = configuration();
                 configuration.addStoryReporter(storyPath, storyReporter);
                 runner.run(configuration, candidateSteps(), storyPath);
@@ -126,11 +125,11 @@ public class StoryEmbedder {
     }
 
     public List<CandidateSteps> candidateSteps() {
-        return asList(new StepsFactory(new MostUsefulStepsConfiguration()).createCandidateSteps(new CandidateStep[]{}));
+        return asList(new CandidateSteps[]{});
     }
 
-    protected StoryReporter storyReporter(String storyPath, StoryReporterBuilder.Format... formats) {
-        StoryReporterBuilder builder = new StoryReporterBuilder(new FilePrintStreamFactory(storyPath));
+    protected StoryReporter storyReporter(StoryLocation storyLocation, StoryReporterBuilder.Format... formats) {
+		StoryReporterBuilder builder = new StoryReporterBuilder(new FilePrintStreamFactory(storyLocation));
         for (StoryReporterBuilder.Format format : formats) {
             builder = builder.with(format);
         }
@@ -165,7 +164,8 @@ public class StoryEmbedder {
         return sb.toString();
     }
 
-    private class RunningStoriesFailedException extends RuntimeException {
+    @SuppressWarnings("serial")
+	private class RunningStoriesFailedException extends RuntimeException {
         public RunningStoriesFailedException(String message, Throwable cause) {
             super(message, cause);
         }

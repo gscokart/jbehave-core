@@ -1,27 +1,31 @@
 package org.jbehave.core.reporters;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+
 import org.jbehave.core.parser.StoryLocation;
 
-import java.io.*;
-
 /**
- * Creates {@link PrintStream} instances that write to a file.
+ * Creates {@link PrintStream} instances that write to a file
+ * identified by the {@link StoryLocation}.
  * {@link FileConfiguration} specifies file directory and the extension,
  * providing useful defaults values.
  */
 public class FilePrintStreamFactory implements PrintStreamFactory {
 
-	private final String storyPath;
+	private final StoryLocation storyLocation;
 	private FileConfiguration configuration;
 	private File outputFile;
 
-	public FilePrintStreamFactory(String storyPath) {
-		this(storyPath, new FileConfiguration());
+	public FilePrintStreamFactory(StoryLocation storyLocation) {
+		this(storyLocation, new FileConfiguration());
 	}
 
-	public FilePrintStreamFactory(String storyPath,
+	public FilePrintStreamFactory(StoryLocation storyLocation,
 			FileConfiguration configuration) {
-		this.storyPath = storyPath;
+		this.storyLocation = storyLocation;
 		this.configuration = configuration;
 		this.outputFile = outputFile();
 	}
@@ -45,31 +49,24 @@ public class FilePrintStreamFactory implements PrintStreamFactory {
 	}
 
 	protected File outputFile() {
-		File outputDirectory = outputDirectory();
-		String fileName = fileName();
-		return new File(outputDirectory, fileName);
-	}
-
-	protected String fileName() {
-		String storyName = storyName();
-		String name = storyName.substring(0, storyName.lastIndexOf("."));
-		return name + "." + configuration.getExtension();
+		return new File(outputDirectory(), outputName());
 	}
 
 	protected File outputDirectory() {
 		if (configuration.isOutputDirectoryAbsolute()) {
 			return new File(configuration.getOutputDirectory());
 		}
-		File targetDirectory = new File(storyLocation()).getParentFile();
+		File targetDirectory = new File(storyLocation.getCodeLocation().getFile()).getParentFile();
 		return new File(targetDirectory, configuration.getOutputDirectory());
 	}
 
-	private String storyLocation() {
-		return new StoryLocation(storyPath).getLocation().replace("file:", "");
-	}
-
-	private String storyName() {
-		return new StoryLocation(storyPath).getName().replace('/', '.');
+	protected String outputName() {
+		String storyName = storyLocation.getName().replace('/', '.');
+		if ( storyName.startsWith(".") ){
+			storyName = storyName.substring(1);
+		}
+		String name = storyName.substring(0, storyName.lastIndexOf("."));
+		return name + "." + configuration.getExtension();
 	}
 
 	/**

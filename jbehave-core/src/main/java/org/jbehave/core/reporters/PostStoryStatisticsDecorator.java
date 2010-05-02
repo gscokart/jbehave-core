@@ -23,7 +23,7 @@ public class PostStoryStatisticsDecorator implements StoryReporter {
     private final OutputStream output;
     private final Map<String, Integer> data = new HashMap<String, Integer>();
     private final List<String> events = asList("steps", "stepsSuccessful", "stepsIgnorable", "stepsPending",
-            "stepsNotPerformed", "stepsFailed", "stories", "scenariosFailed", "givenStories", "examples");
+            "stepsNotPerformed", "stepsFailed", "scenarios", "scenariosFailed", "givenStories", "examples");
 
     private Throwable cause;
 
@@ -74,7 +74,7 @@ public class PostStoryStatisticsDecorator implements StoryReporter {
     }
 
     public void afterScenario() {
-        count("stories");
+        count("scenarios");
         if (cause != null) {
             count("scenariosFailed");
         }
