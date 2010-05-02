@@ -45,8 +45,7 @@ public class ClasspathTraderStoryEmbedder extends StoryEmbedder {
 				.outputLocationClass(this.getClass())
 				.withDefaultFormats()
 				.withFormats(CONSOLE, TXT, HTML, XML)
-				.withStoryPaths(storyPaths())
-				.buildAll());
+				.build(storyPaths()));
 		return storyConfiguration;
 	}
 

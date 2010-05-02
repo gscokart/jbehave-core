@@ -26,7 +26,7 @@ import org.jbehave.examples.trader.persistence.TraderPersister;
 import org.jbehave.examples.trader.service.TradingService;
 
 /**
- * Example of how to run a story using a JBehave2-style inheritance. A story
+ * Example of how to run a story using a JBehave 2-style inheritance. A story
  * just need to extend this abstract class and are out-of-the-box runnable via
  * JUnit.
  */
@@ -54,12 +54,7 @@ public abstract class TraderStory extends JUnitStory {
 		StepsConfiguration stepsConfiguration = new MostUsefulStepsConfiguration();
 		StepMonitor monitor = new SilentStepMonitor();
 		stepsConfiguration.useParameterConverters(new ParameterConverters(
-				monitor, new TraderConverter(mockTradePersister()))); // define
-																		// converter
-																		// for
-																		// custom
-																		// type
-																		// Trader
+				monitor, new TraderConverter(mockTradePersister()))); 
 		stepsConfiguration.usePatternBuilder(new PrefixCapturingPatternBuilder(
 				"%")); // use '%' instead of '$' to identify parameters
 		stepsConfiguration.useMonitor(monitor);

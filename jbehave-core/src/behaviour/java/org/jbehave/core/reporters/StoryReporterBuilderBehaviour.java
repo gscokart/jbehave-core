@@ -45,7 +45,7 @@ public class StoryReporterBuilderBehaviour {
 
         // When
         String outputDirectory = "my-reports";
-        builder.outputTo(outputDirectory).outputAsAbsolute(true).withStoryPaths(storyPath);
+        builder.outputTo(outputDirectory).outputAsAbsolute(true).build(storyPath);
         
         // Then
         ensureThat(builder.fileConfiguration("").getOutputDirectory(), equalTo((outputDirectory)));

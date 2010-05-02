@@ -78,7 +78,6 @@ public class StoryReporterBuilder {
     }
 
     protected List<Format> formats = new ArrayList<Format>();
-    protected List<String> storyPaths = new ArrayList<String>();
     protected Map<Format, StoryReporter> delegates = new HashMap<Format, StoryReporter>();
     private String outputDirectory = new FileConfiguration().getOutputDirectory();
     private boolean outputAbsolute = new FileConfiguration().isOutputDirectoryAbsolute();
@@ -111,15 +110,6 @@ public class StoryReporterBuilder {
         return this;
     }
 
-	public StoryReporterBuilder withStoryPaths(String... storyPaths) {
-		return withStoryPaths(asList(storyPaths));
-	}
-
-	public StoryReporterBuilder withStoryPaths(List<String> storyPaths) {
-		this.storyPaths.addAll(storyPaths);
-		return this;
-	}
-
     public StoryReporter build(String storyPath) {
     	for (Format format : formats ){
 			delegates.put(format, reporterFor(storyPath, format));
@@ -127,7 +117,7 @@ public class StoryReporterBuilder {
     	return new DelegatingStoryReporter(delegates.values());
     }
 
-	public Map<String,StoryReporter> buildAll() {
+	public Map<String,StoryReporter> build(List<String> storyPaths) {
 		Map<String,StoryReporter> reporters = new HashMap<String, StoryReporter>();
 		for ( String storyPath : storyPaths ){
 			reporters.put(storyPath, build(storyPath));
@@ -173,6 +163,5 @@ public class StoryReporterBuilder {
         }
 
     }
-
 
 }
