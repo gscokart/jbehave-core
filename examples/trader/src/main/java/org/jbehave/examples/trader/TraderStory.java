@@ -41,10 +41,7 @@ public abstract class TraderStory extends JUnitStory {
 		storyConfiguration.useStoryReporter(new StoryReporterBuilder(new FilePrintStreamFactory(storyLocation))
         		//.outputTo("target/jbehave-reports").outputAsAbsolute(true)
         		.withDefaultFormats()
-                .with(CONSOLE)
-                .with(TXT)
-                .with(HTML)
-                .with(XML)
+                .withFormats(CONSOLE, TXT, HTML, XML)
                 .build());
         useConfiguration(storyConfiguration);
 

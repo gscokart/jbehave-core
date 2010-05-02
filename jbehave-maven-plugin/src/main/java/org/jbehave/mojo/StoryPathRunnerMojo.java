@@ -4,9 +4,6 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.jbehave.core.StoryEmbedder;
 import org.jbehave.core.StoryRunnerMode;
-import org.jbehave.core.StoryRunnerMonitor;
-
-import java.net.MalformedURLException;
 
 
 /**

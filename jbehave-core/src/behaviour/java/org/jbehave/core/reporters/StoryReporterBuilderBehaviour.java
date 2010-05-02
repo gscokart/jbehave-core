@@ -67,7 +67,7 @@ public class StoryReporterBuilderBehaviour {
         };
         
         // When
-        StoryReporter reporter = builder.withDefaultFormats().with(TXT).build();
+        StoryReporter reporter = builder.withDefaultFormats().withFormats(TXT).build();
         
         // Then
         ensureThat(reporter instanceof DelegatingStoryReporter);

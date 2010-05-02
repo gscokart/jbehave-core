@@ -2,9 +2,7 @@ package org.jbehave.mojo;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
-import org.jbehave.core.RunnableStory;
 import org.jbehave.core.StoryEmbedder;
-import org.jbehave.core.StoryRunnerMode;
 
 /**
  * Mojo to generate stepdocs

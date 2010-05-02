@@ -24,15 +24,17 @@ import org.jbehave.core.reporters.FilePrintStreamFactory.FileConfiguration;
  * String storyPath = resolver.resolve(storyClass);
  * FilePrintStreamFactory printStreamFactory = new FilePrintStreamFactory(storyPath);
  * StoryReporter reporter = new StoryReporterBuilder(printStreamFactory)
- * 								.withDefaultFormats().with(HTML).with(TXT).build();
+ * 								.withDefaultFormats()
+ * 								.withFormats(HTML, TXT)
+ * 								.build();
  * </pre> 
  * </p>
- * <p>The builder is configured to build with the {@link Format#STATS} format by default.  To change the default formats
+ * <p>The builder is configured to build with the {@link Format#STATS} as default format.  To change the default formats
  * the user can override the method:
  * <pre>
  * new StoryReporterBuilder(printStreamFactory){
- *    protected void withDefaultFormats() {
- *      with(Format.STATS);
+ *    protected StoryReporterBuilder withDefaultFormats() {
+ *       return withFormats(STATS);
  *    }
  *  }
  * </pre>
@@ -40,7 +42,8 @@ import org.jbehave.core.reporters.FilePrintStreamFactory.FileConfiguration;
  * <p>The builder configures the file-based reporters to output to the default file directory {@link FileConfiguration#DIRECTORY}.
  * To change the default:
  * <pre>
- * new StoryReporterBuilder(printStreamFactory).outputTo("my-reports").with(HTML).with(TXT).build();
+ * new StoryReporterBuilder(printStreamFactory).outputTo("my-reports")
+ * 					.withDefaultFormats().withFormats(HTML,TXT).build();
  * </pre>
  * </p> 
  * <p>The builder provides default instances for all reporters.  To change the reporter for a specific instance, 
@@ -62,7 +65,7 @@ import org.jbehave.core.reporters.FilePrintStreamFactory.FileConfiguration;
 public class StoryReporterBuilder {
 
     public enum Format {
-        CONSOLE, STATS, TXT, HTML, XML
+        CONSOLE, TXT, HTML, XML, STATS
     }
 
     protected final FilePrintStreamFactory factory;
@@ -72,15 +75,6 @@ public class StoryReporterBuilder {
 
     public StoryReporterBuilder(FilePrintStreamFactory factory) {
         this.factory = factory;
-    }
-
-    public StoryReporterBuilder withDefaultFormats() {
-    	return with(Format.STATS);
-    }
-
-    public StoryReporter build() {
-    	Collection<StoryReporter> reporters = delegates.values();
-    	return new DelegatingStoryReporter(reporters);
     }
 
     public StoryReporterBuilder outputTo(String outputDirectory){
@@ -93,9 +87,20 @@ public class StoryReporterBuilder {
         return this;
     }
     
-    public StoryReporterBuilder with(Format format) {
-        delegates.put(format, reporterFor(format));
+    public StoryReporterBuilder withDefaultFormats() {
+    	return withFormats(Format.STATS);
+    }
+
+    public StoryReporterBuilder withFormats(Format... formats) {
+    	for (Format format : formats ){
+    		delegates.put(format, reporterFor(format));
+    	}
         return this;
+    }
+
+    public StoryReporter build() {
+    	Collection<StoryReporter> reporters = delegates.values();
+    	return new DelegatingStoryReporter(reporters);
     }
 
     public StoryReporter reporterFor(Format format) {

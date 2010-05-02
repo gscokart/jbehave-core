@@ -363,7 +363,7 @@ public class PrintStreamOutputBehaviour {
     @Test
     public void shouldReportEventsToFilePrintStreamsAndRenderAggregatedIndex() throws IOException {
         FilePrintStreamFactory factory = filePrintSteamFactoryFor(MyStory.class);
-        StoryReporter reporter = new StoryReporterBuilder(factory).with(HTML).with(TXT)
+        StoryReporter reporter = new StoryReporterBuilder(factory).withFormats(HTML, TXT)
                 .build();
 
         // When
@@ -389,7 +389,7 @@ public class PrintStreamOutputBehaviour {
                         return super.reporterFor(format);
                 }
             }
-        }.with(TXT).build();
+        }.withFormats(TXT).build();
 
         // When
         narrateAnInterestingStory(reporter);

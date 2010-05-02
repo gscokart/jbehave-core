@@ -18,19 +18,22 @@ which is used to report events as they occur.</p>
 <ul>
     <li><a
         href="javadoc/core/org/jbehave/core/reporters/PrintStreamOutput.html">PrintStreamOutput</a>:
-    generic reporter to a print stream, using formats that are
-    configurable</li>
+    generic reporter to a print stream, using formats that are configurable</li>
+    <li><a
+        href="javadoc/core/org/jbehave/core/reporters/ConsoleOutput.html">ConsoleOutput</a>:
+    specialises the <b>PrintStreamOutput</b> to use TXT console output</li>
+    <li><a
+        href="javadoc/core/org/jbehave/core/reporters/TxtOutput.html">TxtOutput</a>:
+    specialises the <b>PrintStreamOutput</b> to use TXT file output</li>
     <li><a
         href="javadoc/core/org/jbehave/core/reporters/HtmlOutput.html">HtmlOutput</a>:
-    specialises the <b>PrintStreamOutput</b> to use HTML
-    formats</li>
+    specialises the <b>PrintStreamOutput</b> to use HTML file output</li>
     <li><a
         href="javadoc/core/org/jbehave/core/reporters/XmlOutput.html">XmlOutput</a>:
-    specialises the <b>PrintStreamOutput</b> to use XML
-    formats</li>
+    specialises the <b>PrintStreamOutput</b> to use XML file output</li>
     <li><a
-        href="javadoc/core/org/jbehave/core/reporters/StatisticsStoryReporter.html">StatisticsStoryReporter</a>:
-    collects statistics and stores them as properties</li>
+        href="javadoc/core/org/jbehave/core/reporters/PostStoryStatisticsCollector.html">PostStoryStatisticsCollector</a>:
+    collects statistics and stores them as properties after story is run</li>
     <li><a
         href="javadoc/core/org/jbehave/core/reporters/DelegatingStoryReporter.html">DelegatingStoryReporter</a>:
     delegates to any number of reporters as a proxy.</li>
@@ -52,10 +55,7 @@ to a file:</p>
         storyConfiguration.useStoryReporter(new StoryReporterBuilder(new FilePrintStreamFactory(storyPath))
                 .outputTo("target/jbehave-reports").outputAsAbsolute(true) // only required with Ant (cf note below)
                 .withDefaultFormats() // add default formats 
-                .with(CONSOLE)
-                .with(TXT)
-                .with(HTML)
-                .with(XML)
+                .withFormats(CONSOLE, TXT, HTML, XML)
                 .build());
         useConfiguration(storyConfiguration);
 
@@ -179,7 +179,7 @@ default format:</p>
 <pre class="brush: java">
         new StoryReporterBuilder(factory){
                protected StoryReporterBuilder withDefaultFormats() {
-                    return with(Format.STATS).with(Format.TXT);
+                    return withFormats(STATS, TXT);
                }
         }
 </pre>

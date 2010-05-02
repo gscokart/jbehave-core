@@ -46,10 +46,7 @@ public class TraderStories extends JUnitStories {
 			StoryLocation storyLocation = new StoryLocation(storyPath, codeLocationClass);
 			StoryReporter storyReporter = new StoryReporterBuilder(new FilePrintStreamFactory(storyLocation))
             				.withDefaultFormats()
-                            .with(CONSOLE)
-                            .with(TXT)
-                            .with(HTML)
-                            .with(XML)
+                            .withFormats(CONSOLE, TXT, HTML, XML)
                             .build();
             storyConfiguration.addStoryReporter(storyPath, storyReporter);
 
