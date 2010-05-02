@@ -1,19 +1,27 @@
 package org.jbehave.core;
 
-import org.jbehave.core.i18n.LocalizedKeywords;
-import org.jbehave.core.model.Keywords;
-import org.jbehave.core.errors.ErrorStrategy;
-import org.jbehave.core.errors.PendingErrorStrategy;
-import org.jbehave.core.parser.*;
-import org.jbehave.core.reporters.*;
-import org.jbehave.core.steps.DefaultStepdocGenerator;
-import org.jbehave.core.steps.StepCreator;
-import org.jbehave.core.steps.StepdocGenerator;
-import org.jbehave.core.steps.MarkUnmatchedStepsAsPending;
-
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+
+import org.jbehave.core.errors.ErrorStrategy;
+import org.jbehave.core.errors.PendingErrorStrategy;
+import org.jbehave.core.i18n.LocalizedKeywords;
+import org.jbehave.core.model.Keywords;
+import org.jbehave.core.parser.LoadFromClasspath;
+import org.jbehave.core.parser.RegexStoryParser;
+import org.jbehave.core.parser.StoryLoader;
+import org.jbehave.core.parser.StoryParser;
+import org.jbehave.core.parser.StoryPathResolver;
+import org.jbehave.core.parser.UnderscoredCamelCaseResolver;
+import org.jbehave.core.reporters.ConsoleOutput;
+import org.jbehave.core.reporters.PrintStreamStepdocReporter;
+import org.jbehave.core.reporters.StepdocReporter;
+import org.jbehave.core.reporters.StoryReporter;
+import org.jbehave.core.steps.DefaultStepdocGenerator;
+import org.jbehave.core.steps.MarkUnmatchedStepsAsPending;
+import org.jbehave.core.steps.StepCreator;
+import org.jbehave.core.steps.StepdocGenerator;
 
 /**
  * <p>
@@ -50,9 +58,9 @@ public abstract class StoryConfiguration {
      */
     private StoryLoader storyLoader = new LoadFromClasspath();
     /**
-     * Resolves story paths from classes
+     * Resolves story paths from class names using underscored camel case with ".story" extension
      */
-    private StoryPathResolver storyPathResolver = new UnderscoredCamelCaseResolver();
+    private StoryPathResolver storyPathResolver = new UnderscoredCamelCaseResolver(".story");
     /**
      * Handles errors by re-throwing them.
      * <p/>
@@ -72,10 +80,9 @@ public abstract class StoryConfiguration {
      */
     private PendingErrorStrategy pendingErrorStrategy = PendingErrorStrategy.PASSING;
     /**
-     * Reports failing or pending stories to System.out, while silently
-     * passing stories.
+     * Reports stories to console output
      */
-    private StoryReporter storyReporter = new SilentSuccessFilter(new PrintStreamOutput());
+    private StoryReporter storyReporter = new ConsoleOutput();
     /**
      * Collects story reporters by story path 
      */

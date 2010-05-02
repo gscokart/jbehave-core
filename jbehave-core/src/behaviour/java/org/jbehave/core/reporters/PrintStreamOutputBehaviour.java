@@ -36,10 +36,10 @@ import org.junit.Test;
 public class PrintStreamOutputBehaviour {
 
     @Test
-    public void shouldReportEventsToPrintStream() {
+    public void shouldReportEventsToTxtOutput() {
         // Given
         OutputStream out = new ByteArrayOutputStream();
-        StoryReporter reporter = new PrintStreamOutput(new PrintStream(out));
+        StoryReporter reporter = new TxtOutput(new PrintStream(out));
 
         // When
         narrateAnInterestingStory(reporter);
@@ -74,7 +74,7 @@ public class PrintStreamOutputBehaviour {
     }
 
     @Test
-    public void shouldReportEventsToHtmlPrintStream() {
+    public void shouldReportEventsToHtmlOutput() {
         // Given
         final OutputStream out = new ByteArrayOutputStream();
         PrintStreamFactory factory = new PrintStreamFactory() {
@@ -120,7 +120,7 @@ public class PrintStreamOutputBehaviour {
     }
 
     @Test
-    public void shouldReportEventsToHtmlPrintStreamUsingCustomOutputPatterns() {
+    public void shouldReportEventsToHtmlOutputUsingCustomPatterns() {
         // Given
         final OutputStream out = new ByteArrayOutputStream();
         PrintStreamFactory factory = new PrintStreamFactory() {
@@ -168,7 +168,7 @@ public class PrintStreamOutputBehaviour {
     }
 
     @Test
-    public void shouldReportEventsToXmlPrintStream() {
+    public void shouldReportEventsToXmlOutput() {
         // Given
         final OutputStream out = new ByteArrayOutputStream();
         PrintStreamFactory factory = new PrintStreamFactory() {
@@ -253,7 +253,7 @@ public class PrintStreamOutputBehaviour {
         OutputStream stackTrace = new ByteArrayOutputStream();
         exception.printStackTrace(new PrintStream(stackTrace));
         OutputStream out = new ByteArrayOutputStream();
-        StoryReporter reporter = new PrintStreamOutput(new PrintStream(out), new Properties(),
+        StoryReporter reporter = new TxtOutput(new PrintStream(out), new Properties(),
                 new LocalizedKeywords(), true);
 
         // When
@@ -289,7 +289,7 @@ public class PrintStreamOutputBehaviour {
     }
 
     @Test
-    public void shouldReportEventsToPrintStreamWithCustomPatterns() {
+    public void shouldReportEventsToTxtOutputWithCustomPatterns() {
         // Given
         IllegalAccessException exception = new IllegalAccessException("Leave my money alone!");
         OutputStream out = new ByteArrayOutputStream();
@@ -297,7 +297,7 @@ public class PrintStreamOutputBehaviour {
         patterns.setProperty("pending", "{0} - {1} - need to implement me\n");
         patterns.setProperty("failed", "{0} <<< {1}\n");
         patterns.setProperty("notPerformed", "{0} : {1} (because of previous pending)\n");
-        StoryReporter reporter = new PrintStreamOutput(new PrintStream(out), patterns, new LocalizedKeywords(),
+        StoryReporter reporter = new TxtOutput(new PrintStream(out), patterns, new LocalizedKeywords(),
                 true);
 
         // When

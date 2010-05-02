@@ -6,7 +6,7 @@ import org.jbehave.core.model.Keywords;
 
 /**
  * <p>
- * Story reporter that outputs as TXT a console.
+ * Story reporter that outputs as TXT to System.out.
  * </p>
  */
 public class ConsoleOutput extends TxtOutput {
