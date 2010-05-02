@@ -1,11 +1,10 @@
 package org.jbehave.examples.trader.spring;
 
-import org.jbehave.core.RunnableStory;
-import org.jbehave.examples.trader.TraderStory;
 import org.jbehave.core.steps.CandidateSteps;
 import org.jbehave.core.steps.StepsConfiguration;
 import org.jbehave.core.steps.spring.SpringApplicationContextFactory;
 import org.jbehave.core.steps.spring.SpringStepsFactory;
+import org.jbehave.examples.trader.TraderStory;
 import org.springframework.beans.factory.ListableBeanFactory;
 
 public class TraderStoryUsingSpring extends TraderStory {

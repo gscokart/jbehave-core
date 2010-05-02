@@ -5,7 +5,6 @@ import static java.util.Arrays.asList;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jbehave.core.errors.InvalidRunnableStoryException;
 import org.jbehave.core.steps.CandidateSteps;
 
 /**

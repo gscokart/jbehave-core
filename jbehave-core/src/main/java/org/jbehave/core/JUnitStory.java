@@ -1,12 +1,8 @@
 package org.jbehave.core;
 
-import org.jbehave.core.steps.CandidateSteps;
-import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import static java.util.Arrays.asList;
+
+import org.junit.Test;
 
 /**
  * <p>
@@ -15,11 +11,12 @@ import static java.util.Arrays.asList;
  */
 public abstract class JUnitStory extends AbstractStory {
     
-    @Test
+    @SuppressWarnings("unchecked")
+	@Test
     public void run() throws Throwable {
         StoryEmbedder embedder = storyEmbedder();
-        Class<? extends RunnableStory> storyClss = this.getClass();
-        embedder.runStoriesAsClasses(asList(storyClss));
+        Class<? extends RunnableStory> storyClass = this.getClass();
+        embedder.runStoriesAsClasses(asList(storyClass));
     }
 
  

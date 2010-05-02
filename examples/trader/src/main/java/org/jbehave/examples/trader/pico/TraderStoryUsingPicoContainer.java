@@ -1,13 +1,12 @@
 package org.jbehave.examples.trader.pico;
 
-import org.jbehave.core.RunnableStory;
-import org.jbehave.examples.trader.BeforeAfterSteps;
-import org.jbehave.examples.trader.TraderStory;
-import org.jbehave.examples.trader.TraderSteps;
-import org.jbehave.examples.trader.service.TradingService;
 import org.jbehave.core.steps.CandidateSteps;
 import org.jbehave.core.steps.StepsConfiguration;
 import org.jbehave.core.steps.pico.PicoStepsFactory;
+import org.jbehave.examples.trader.BeforeAfterSteps;
+import org.jbehave.examples.trader.TraderSteps;
+import org.jbehave.examples.trader.TraderStory;
+import org.jbehave.examples.trader.service.TradingService;
 import org.picocontainer.Characteristics;
 import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.MutablePicoContainer;

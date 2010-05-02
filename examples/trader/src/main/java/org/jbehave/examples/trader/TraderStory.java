@@ -31,12 +31,13 @@ import org.jbehave.examples.trader.service.TradingService;
 public abstract class TraderStory extends JUnitStory {
 
     public TraderStory() {
-        // start with default story configuration, overriding story definer and reporter
+        // start with default story configuration, overriding story loader and reporter
         StoryConfiguration storyConfiguration = new MostUsefulStoryConfiguration();
         storyConfiguration.useStoryPathResolver(new UnderscoredCamelCaseResolver(".story"));
-        String storyPath = storyConfiguration.storyPathResolver().resolve(this.getClass());
-        storyConfiguration.useStoryLoader(new LoadFromClasspath(this.getClass().getClassLoader()));
-        StoryLocation storyLocation = new StoryLocation(storyPath, this.getClass());
+        Class<? extends TraderStory> storyClass = this.getClass();
+		storyConfiguration.useStoryLoader(new LoadFromClasspath(storyClass.getClassLoader()));
+        String storyPath = storyConfiguration.storyPathResolver().resolve(storyClass);
+        StoryLocation storyLocation = new StoryLocation(storyPath, storyClass);
 		storyConfiguration.useStoryReporter(new StoryReporterBuilder(new FilePrintStreamFactory(storyLocation))
         		//.outputTo("target/jbehave-reports").outputAsAbsolute(true)
         		.withDefaultFormats()
