@@ -5,11 +5,17 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 
+import org.hamcrest.BaseMatcher;
+import org.hamcrest.Description;
 import org.junit.Test;
 
 public class RegexPrefixCapturingPatternParserBehaviour {
 
-    private StepPatternParser parser = new RegexPrefixCapturingPatternParser();
+    protected StepPatternParser parser = createPatternParser();
+
+    protected StepPatternParser createPatternParser() {
+	return new RegexPrefixCapturingPatternParser();
+    }
 
     @Test
     public void shouldMatchStepWithPatterns() {
@@ -49,27 +55,21 @@ public class RegexPrefixCapturingPatternParserBehaviour {
         assertThat(aMatcherWithAllTheRegexPunctuation.parameter(1), equalTo("[]{}?^.*()+\\"));
     }
 
-    private void assertThatPatternMatchesStep(StepPatternParser parser, String pattern, String step,
-            String... parametersNames) {
-        StepMatcher stepMatcher = parser.parseStep(pattern);
-        assertThat(stepMatcher.matches(step), is(true));
-        assertThat(stepMatcher.parameterNames(), equalTo(parametersNames));
-    }
-
+    
     @Test
     public void shouldNotCareSoMuchAboutWhitespace() {
         StepMatcher stepMatcher = parser.parseStep("The grid looks like $grid");
 
         // Given an argument on a new line
-        assertThat(stepMatcher.matches("The grid looks like\n" + "..\n" + "..\n"), is(true));
+        assertThat(stepMatcher , matches("The grid looks like\n" + "..\n" + "..\n"));
         assertThat(stepMatcher.parameter(1), equalTo("..\n" + "..\n"));
 
         // Given an argument on a new line with extra spaces
-        assertThat(stepMatcher.matches("The grid looks like \n" + "..\n" + "..\n"), is(true));
+        assertThat(stepMatcher , matches("The grid looks like \n" + "..\n" + "..\n"));
         assertThat(stepMatcher.parameter(1), equalTo("..\n" + "..\n"));
 
         // Given an argument with extra spaces
-        assertThat(stepMatcher.matches("The grid looks like  ."), is(true));
+        assertThat(stepMatcher , matches("The grid looks like  ."));
         assertThat(stepMatcher.parameter(1), equalTo("."));
     }
 
@@ -81,4 +81,26 @@ public class RegexPrefixCapturingPatternParserBehaviour {
         assertThat(names[1], equalTo("grid"));
     }
 
+    
+    
+    
+    protected void assertThatPatternMatchesStep(StepPatternParser parser, String pattern, String step,
+            String... parametersNames) {
+        StepMatcher stepMatcher = parser.parseStep(pattern);
+        assertThat(stepMatcher.matches(step), is(true));
+        assertThat(stepMatcher.parameterNames(), equalTo(parametersNames));
+    }
+
+    org.hamcrest.Matcher<StepMatcher> matches(final String str) {
+	return new BaseMatcher<StepMatcher>() {
+
+		public boolean matches(Object pattern) {
+			return ((StepMatcher)pattern).matches(str);
+		}
+
+		public void describeTo(Description description) {
+			description.appendText("A StepMatcher matching \"").appendText(str).appendText("\"");
+		}
+	};
+    }
 }
