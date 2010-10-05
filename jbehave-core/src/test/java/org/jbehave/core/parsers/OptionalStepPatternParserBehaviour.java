@@ -7,8 +7,12 @@ import org.junit.Test;
 public class OptionalStepPatternParserBehaviour extends RegexPrefixCapturingPatternParserBehaviour {
 
     @Override
-    protected StepPatternParser createPatternParser() {
-        return new OptionalStepPatternParser();
+    protected RegexPrefixCapturingPatternParser createPatternParser(String prefix) {
+	if (prefix==null) {
+	    return new OptionalStepPatternParser();
+	} else {
+	    return new OptionalStepPatternParser(prefix);
+	}
     }
 
     

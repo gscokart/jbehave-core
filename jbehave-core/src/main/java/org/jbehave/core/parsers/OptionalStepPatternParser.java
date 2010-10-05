@@ -4,8 +4,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * PatternParser which captures arguments starting with $ in a matching step and
- * which support optional blocks placed inside "[]"
+ * PatternParser which captures arguments starting with "$" (or a configurable prefix)
+ * in a matching step and which support optional blocks placed inside "[]"
  */
 
 public class OptionalStepPatternParser extends RegexPrefixCapturingPatternParser implements StepPatternParser {
@@ -14,6 +14,14 @@ public class OptionalStepPatternParser extends RegexPrefixCapturingPatternParser
 	    .compile("\\\\\\[([^\\[\\]]+)\\\\]|\\s+|\\(\\?:[^\\(\\)]+\\)\\?|\\A(?:\\\\\\[)\\z+|\\A(?:\\\\\\])+\\z");
     private static final Pattern OPTIONAL_PATERN = Pattern
 	    .compile("(\\s+)?\\\\\\[([^\\[\\]]+)\\\\](\\s+)?");
+
+
+    public OptionalStepPatternParser() {
+    }
+    
+    public OptionalStepPatternParser(String prefix) {
+	super(prefix);
+    }
 
 
     @Override
