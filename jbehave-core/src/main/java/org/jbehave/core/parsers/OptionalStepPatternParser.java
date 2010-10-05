@@ -1,6 +1,5 @@
 package org.jbehave.core.parsers;
 
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
