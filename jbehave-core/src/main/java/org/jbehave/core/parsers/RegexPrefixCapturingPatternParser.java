@@ -39,28 +39,21 @@ public class RegexPrefixCapturingPatternParser extends RegexPatternParserTemplat
 	return prefix;
     }
 
-
     @Override
-    protected List<Parameter> findParametersToReplace(String matchThisButLeaveBrackets) {
+    protected List<Parameter> findParametersToReplace(String escapedStepPattern) {
 	List<Parameter> parameters = new ArrayList<Parameter>();
-	Matcher findingAllPrefixedWords = findAllPrefixedWords().matcher(matchThisButLeaveBrackets);
+	Matcher findingAllPrefixedWords = findAllPrefixedWords().matcher(escapedStepPattern);
 	while (findingAllPrefixedWords.find()) {
-	    parameters.add(new PrefixParameter(matchThisButLeaveBrackets,
-		    findingAllPrefixedWords.start(), findingAllPrefixedWords.end(),
-		    findingAllPrefixedWords.group(2)));
+	    int start = findingAllPrefixedWords.start();
+	    int end = findingAllPrefixedWords.end();
+	    String whitespaceIfAny = findingAllPrefixedWords.group(2);
+	    String name = escapedStepPattern.substring(start + prefix.length(), end).trim();
+	    parameters.add(new Parameter(start, end,whitespaceIfAny,name));
 	}
 	return parameters;
     }
 
     private Pattern findAllPrefixedWords() {
 	return Pattern.compile("(\\" + prefix + "\\w*)(\\W|\\Z)", Pattern.DOTALL);
-    }
-
-
-    private class PrefixParameter extends Parameter {
-	public PrefixParameter(String pattern, int start, int end, String whitespaceIfAny) {
-	    super(start, end, whitespaceIfAny, pattern.substring(start + prefix.length(), end).trim());
-	}
-
     }
 }
