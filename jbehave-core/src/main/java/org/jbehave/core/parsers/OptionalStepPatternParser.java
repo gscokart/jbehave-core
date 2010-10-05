@@ -7,7 +7,6 @@ import java.util.regex.Pattern;
  * PatternParser which captures arguments starting with "$" (or a configurable prefix)
  * in a matching step and which support optional blocks placed inside "[]"
  */
-
 public class OptionalStepPatternParser extends RegexPrefixCapturingPatternParser implements StepPatternParser {
 
     private static final Pattern EMPTYABLE_PATTERN = Pattern
@@ -25,8 +24,8 @@ public class OptionalStepPatternParser extends RegexPrefixCapturingPatternParser
 
 
     @Override
-    protected String escapeRegexPunctuation(String matchThis) {
-        String result = super.escapeRegexPunctuation(matchThis);
+    protected String stepPatternPreprocessing(String matchThis) {
+        String result = super.stepPatternPreprocessing(matchThis);
         return replaceOptionals(result);
     }
     
