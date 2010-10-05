@@ -36,7 +36,6 @@ public abstract class RegexPatternParserTemplate implements StepPatternParser {
 	return new RegexStepMatcher(pattern, paramNames);
     }
     
-    
     /**
      * Transform the given stepPattern into a valid regex (still containing the parameter reference).</br>
      * Default implementation simply escapes regex special characters.

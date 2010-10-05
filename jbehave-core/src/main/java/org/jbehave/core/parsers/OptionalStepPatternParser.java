@@ -31,7 +31,7 @@ public class OptionalStepPatternParser extends RegexPrefixCapturingPatternParser
     
     private String replaceOptionals(String matchThisButLeaveBrackets) {
 	Matcher matcher = OPTIONAL_PATERN.matcher(matchThisButLeaveBrackets);
-	if (matcher.find()) {
+	while(matcher.find()) {
 	    boolean isPossiblyBegin = isPossiblyEmpty(matchThisButLeaveBrackets
 		    .substring(0, matcher.start()));
 	    boolean isPossiblyEnd = isPossiblyEmpty(matchThisButLeaveBrackets
@@ -46,10 +46,10 @@ public class OptionalStepPatternParser extends RegexPrefixCapturingPatternParser
 	    } else {
 		r = matcher.replaceFirst("(?:$2)?");
 	    }
-	    return replaceOptionals(r);
-	} else {
-	    return matchThisButLeaveBrackets;
-	}
+	    matchThisButLeaveBrackets = r;
+	    matcher = OPTIONAL_PATERN.matcher(matchThisButLeaveBrackets);
+	} 
+	return matchThisButLeaveBrackets;
     }
 
     private boolean isPossiblyEmpty(String substring) {
