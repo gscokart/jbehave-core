@@ -36,17 +36,18 @@ public class OptionalStepPatternParser extends RegexPrefixCapturingPatternParser
 		    .substring(0, matcher.start()));
 	    boolean isPossiblyEnd = isPossiblyEmpty(matchThisButLeaveBrackets
 		    .substring(matcher.end()));
-	    String r;
+	    StringBuffer sb = new StringBuffer();
 	    if (!isPossiblyBegin && !isPossiblyEnd) {
-		r = matcher.replaceFirst("(?:(?:$1$2$3)?|\\\\s+)");
+		matcher.appendReplacement(sb, "(?:(?:$1$2$3)?|\\\\s+)");
 	    } else if (!isPossiblyBegin) {
-		r = matcher.replaceFirst("(?:(?:$1$2\\\\s*)?|\\\\s+)");
+		matcher.appendReplacement(sb, "(?:(?:$1$2\\\\s*)?|\\\\s+)");
 	    } else if (!isPossiblyEnd) {
-		r = matcher.replaceFirst("(?:(?:\\\\s*$2$3)?|\\\\s+)");
+		matcher.appendReplacement(sb, "(?:(?:\\\\s*$2$3)?|\\\\s+)");
 	    } else {
-		r = matcher.replaceFirst("(?:$2)?");
+		matcher.appendReplacement(sb, "(?:$2)?");
 	    }
-	    matchThisButLeaveBrackets = r;
+	    matcher.appendTail(sb);
+	    matchThisButLeaveBrackets = sb.toString();
 	    matcher = OPTIONAL_PATERN.matcher(matchThisButLeaveBrackets);
 	} 
 	return matchThisButLeaveBrackets;
