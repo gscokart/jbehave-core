@@ -11,10 +11,14 @@ import org.junit.Test;
 
 public class RegexPrefixCapturingPatternParserBehaviour {
 
-    protected StepPatternParser parser = createPatternParser();
+    protected StepPatternParser parser = createPatternParser(null);
 
-    protected StepPatternParser createPatternParser() {
-	return new RegexPrefixCapturingPatternParser();
+    protected RegexPrefixCapturingPatternParser createPatternParser(String prefix) {
+	if (prefix==null) {
+	    return new RegexPrefixCapturingPatternParser();
+	} else {
+	    return new RegexPrefixCapturingPatternParser(prefix);
+	}
     }
 
     @Test
@@ -32,7 +36,7 @@ public class RegexPrefixCapturingPatternParserBehaviour {
 
     @Test
     public void shouldMatchStepWithPatternsOfCustomPrefix() {
-        StepPatternParser parser = new RegexPrefixCapturingPatternParser("%");
+        StepPatternParser parser = createPatternParser("%");
         assertThat(((RegexPrefixCapturingPatternParser) parser).getPrefix(), equalTo("%"));
         assertThat(parser.toString(), containsString("prefix=%"));
         assertThatPatternMatchesStep(parser, "a house with %numberOfDoors doors and %some windows",
