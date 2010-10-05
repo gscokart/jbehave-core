@@ -35,7 +35,6 @@ public abstract class RegexPatternParserTemplate implements StepPatternParser {
 	String[] paramNames = names.toArray(new String[names.size()]);
 	return new RegexStepMatcher(pattern, paramNames);
     }
-
     
     
     /**
@@ -45,7 +44,6 @@ public abstract class RegexPatternParserTemplate implements StepPatternParser {
     protected String stepPatternPreprocessing(String stepPattern) {
 	return stepPattern.replaceAll("([\\[\\]\\{\\}\\?\\^\\.\\*\\(\\)\\+\\\\])", "\\\\$1");
     }
-
     
     /**
      * Find all parameters in the escapedStepPattern.
