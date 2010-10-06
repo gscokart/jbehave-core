@@ -62,6 +62,10 @@ public class ParameterConverters {
     }
 
     public Object convert(String value, Type type) {
+	if (value==null) {
+	    //Optionals parameters may be null
+	    return null;
+	}
         // check if any converters accepts type
         for (ParameterConverter converter : converters) {
             if (converter.accept(type)) {

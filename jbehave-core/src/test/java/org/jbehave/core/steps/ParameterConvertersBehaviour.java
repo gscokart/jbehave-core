@@ -3,6 +3,7 @@ package org.jbehave.core.steps;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.Mockito.mock;
 
 import java.beans.IntrospectionException;
@@ -278,6 +279,27 @@ public class ParameterConvertersBehaviour {
         assertThat(row2.get("col2"), equalTo("row22"));
     }
 
+    
+    @Test
+    public void shouldHandleNullValues() {
+	ParameterConverters converter = new ParameterConverters();
+        assertThat(converter.convert(null, Byte.class), nullValue());
+        assertThat(converter.convert(null,byte.class), nullValue());
+        assertThat(converter.convert(null,Short.class), nullValue());
+        assertThat(converter.convert(null,short.class), nullValue());
+        assertThat(converter.convert(null,Integer.class), nullValue());
+        assertThat(converter.convert(null,int.class), nullValue());
+        assertThat(converter.convert(null,Float.class), nullValue());
+        assertThat(converter.convert(null,float.class), nullValue());
+        assertThat(converter.convert(null,Long.class), nullValue());
+        assertThat(converter.convert(null,long.class), nullValue());
+        assertThat(converter.convert(null,Double.class), nullValue());
+        assertThat(converter.convert(null,double.class), nullValue());
+        assertThat(converter.convert(null,BigInteger.class), nullValue());
+        assertThat(converter.convert(null,BigDecimal.class), nullValue());
+        assertThat(converter.convert(null,Number.class), nullValue());
+    }
+    
     @Test(expected = ParameterConvertionFailed.class)
     public void shouldFailToConvertParameterFromFailingMethodReturningValue() throws ParseException,
             IntrospectionException {
