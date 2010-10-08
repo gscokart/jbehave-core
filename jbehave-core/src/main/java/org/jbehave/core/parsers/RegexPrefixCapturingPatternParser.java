@@ -5,9 +5,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
-
 /**
  * A step pattern parser that provides a step matcher which will capture
  * parameters starting with the given prefix in any matching step. Default
@@ -15,105 +12,48 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * 
  * @author Elizabeth Keogh
  */
-public class RegexPrefixCapturingPatternParser implements StepPatternParser {
+public class RegexPrefixCapturingPatternParser extends RegexPatternParserTemplate implements StepPatternParser {
 
     private final String prefix;
 
-	/**
-	 * Creates a parser which captures parameters starting with $ in a matching
-	 * step.
-	 */
-	public RegexPrefixCapturingPatternParser() {
-		this("$");
-	}
-
-	/**
-	 * Creates a parser which captures parameters starting with a given prefix
-	 * in a matching step.
-	 * 
-	 * @param prefix the prefix to use in capturing parameters
-	 */
-	public RegexPrefixCapturingPatternParser(String prefix) {
-		this.prefix = prefix;
-	}
-
-	public String getPrefix(){
-	    return prefix;
-	}
-	
-	public StepMatcher parseStep(String stepPattern) {
-		return new RegexStepMatcher(buildPattern(stepPattern),
-				extractParameterNames(stepPattern));
-	}
-
-	private Pattern buildPattern(String stepPattern) {
-		String matchThisButLeaveBrackets = escapeRegexPunctuation(stepPattern);
-		String patternToMatchAgainst = replaceParametersWithCapture(
-				matchThisButLeaveBrackets, findParametersToReplace(matchThisButLeaveBrackets));
-		String matchThisButIgnoreWhitespace = anyWhitespaceWillDo(patternToMatchAgainst);
-		return Pattern.compile(matchThisButIgnoreWhitespace, Pattern.DOTALL);
-	}
-
-    private String escapeRegexPunctuation(String matchThis) {
-        return matchThis.replaceAll("([\\[\\]\\{\\}\\?\\^\\.\\*\\(\\)\\+\\\\])", "\\\\$1");
+    /**
+     * Creates a parser which captures parameters starting with $ in a matching
+     * step.
+     */
+    public RegexPrefixCapturingPatternParser() {
+	this("$");
     }
 
-	private String anyWhitespaceWillDo(String matchThis) {
-		return matchThis.replaceAll("\\s+", "\\\\s+");
-	}
+    /**
+     * Creates a parser which captures parameters starting with a given prefix
+     * in a matching step.
+     * 
+     * @param prefix
+     *            the prefix to use in capturing parameters
+     */
+    public RegexPrefixCapturingPatternParser(String prefix) {
+	this.prefix = prefix;
+    }
 
-	private String[] extractParameterNames(String stepPattern) {
-		List<String> names = new ArrayList<String>();
-		for (Parameter parameter : findParametersToReplace(stepPattern)) {
-			names.add(parameter.name);
-		}
-		return names.toArray(new String[names.size()]);
-	}
+    public String getPrefix() {
+	return prefix;
+    }
 
-    private List<Parameter> findParametersToReplace(String matchThisButLeaveBrackets) {
-        List<Parameter> parameters = new ArrayList<Parameter>();
-        Matcher findingAllPrefixedWords = findAllPrefixedWords().matcher(matchThisButLeaveBrackets);
-        while (findingAllPrefixedWords.find()) {
-            parameters.add(new Parameter(matchThisButLeaveBrackets, findingAllPrefixedWords.start(),
-                    findingAllPrefixedWords.end(), findingAllPrefixedWords.group(2)));
-        }
-        return parameters;
+    @Override
+    protected List<Parameter> findParametersToReplace(String escapedStepPattern) {
+	List<Parameter> parameters = new ArrayList<Parameter>();
+	Matcher findingAllPrefixedWords = findAllPrefixedWords().matcher(escapedStepPattern);
+	while (findingAllPrefixedWords.find()) {
+	    int start = findingAllPrefixedWords.start();
+	    int end = findingAllPrefixedWords.end();
+	    String whitespaceIfAny = findingAllPrefixedWords.group(2);
+	    String name = escapedStepPattern.substring(start + prefix.length(), end).trim();
+	    parameters.add(new Parameter(start, end,whitespaceIfAny,name));
+	}
+	return parameters;
     }
 
     private Pattern findAllPrefixedWords() {
-        return Pattern.compile("(\\" + prefix + "\\w*)(\\W|\\Z)", Pattern.DOTALL);
-    }
-
-	private String replaceParametersWithCapture(String escapedMatch,
-			List<Parameter> parameters) {
-        String replaced = escapedMatch;
-        for (int i = parameters.size(); i > 0; i--) {
-            String start = replaced.substring(0, parameters.get(i - 1).start);
-            String end = replaced.substring(parameters.get(i - 1).end);
-            String whitespaceIfAny = parameters.get(i - 1).whitespaceIfAny;
-            replaced = start + "(.*)" + whitespaceIfAny + end;
-        }
-        return replaced;
-	}
-
-	private class Parameter {
-		private final int start;
-		private final int end;
-		private final String whitespaceIfAny;
-		private final String name;
-
-		public Parameter(String pattern, int start, int end,
-				String whitespaceIfAny) {
-			this.start = start;
-			this.end = end;
-			this.whitespaceIfAny = whitespaceIfAny;
-			this.name = pattern.substring(start + prefix.length(), end).trim();
-		}
-
-	}
-
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+	return Pattern.compile("(\\" + prefix + "\\w*)(\\W|\\Z)", Pattern.DOTALL);
     }
 }
