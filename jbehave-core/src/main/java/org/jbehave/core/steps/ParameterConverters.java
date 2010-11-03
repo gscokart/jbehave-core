@@ -1,6 +1,6 @@
 package org.jbehave.core.steps;
 
-import static java.util.Arrays.asList;
+import org.jbehave.core.model.ExamplesTable;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.jbehave.core.model.ExamplesTable;
+import static java.util.Arrays.asList;
 
 /**
  * <p>
@@ -162,13 +162,25 @@ public class ParameterConverters {
                 } else if (type == BigInteger.class) {
                     return BigInteger.valueOf(n.longValue());
                 } else if (type == BigDecimal.class) {
-                    return BigDecimal.valueOf(n.doubleValue());
+                    return new BigDecimal(canonicalize(value));
                 } else {
                     return n;
                 }
             } catch (ParseException e) {
                 throw new ParameterConvertionFailed(value, e);
             }
+        }
+
+        private String canonicalize(String value) {
+            char decimalPointSeparator = numberFormat.format(1.01).charAt(1);
+            int decimalPointPosition = value.lastIndexOf(decimalPointSeparator);
+            value = value.trim();
+            if (decimalPointPosition != -1) {
+                String sf = value.substring(0, decimalPointPosition).replace("[^0-9]", "");
+                String dp = value.substring(decimalPointPosition+1);
+                return sf + "." + dp;
+            }
+            return value.replace(' ', ',');
         }
 
     }
@@ -298,7 +310,7 @@ public class ParameterConverters {
                 return dateFormat.parse(value);
             } catch (ParseException e) {
                 throw new ParameterConvertionFailed("Could not convert value " + value + " with date format "
-                        + dateFormat, e);
+                        + (dateFormat instanceof SimpleDateFormat ? ((SimpleDateFormat) dateFormat).toPattern() : dateFormat), e);
             }
         }
 
